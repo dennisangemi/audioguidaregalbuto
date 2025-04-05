@@ -32,4 +32,4 @@ Oltre alla sua importanza storica e artistica, la piazza è il cuore delle tradi
 
 
 ## Credit
-È un progetto di Regalbuto Inside
+È un progetto di Regalbuto Inside. Hanno contribuito: Chiara Adornetto, Alice Pulviternti, Pia Valentina Surbando Licari.
