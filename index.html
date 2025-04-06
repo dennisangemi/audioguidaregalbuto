@@ -5,75 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio guida di Regalbuto</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background: linear-gradient(135deg, #4c1d95, #1e40af);
-            min-height: 100vh;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="text-white">
-    <div class="container mx-auto px-4 py-8 max-w-5xl">
-        <header class="text-center mb-12">
+    <!-- Skip link per accessibilità da tastiera -->
+    <a href="#main-content" class="skip-to-content">Salta al contenuto principale</a>
+    
+    <!-- Contenitore ottimizzato per l'animazione dello sfondo -->
+    <div class="animated-background" aria-hidden="true">
+        <div class="bg-gradient-1"></div>
+        <div class="bg-gradient-2"></div>
+    </div>
+    
+    <div id="main-content" class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="text-center mb-12" role="banner">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Audio guida di Regalbuto</h1>
             <p class="text-xl opacity-80">Esplora la storia e le bellezze della città</p>
         </header>
         
-        <section class="mb-12">
+        <nav class="mb-12" aria-label="Tappe del tour">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 border-b border-white border-opacity-20 pb-2">Le tappe del tour</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Piazza della Repubblica</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Palazzo Comunale</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Chiesa Madre S. Basilio</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Monumento R. Lombardi</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Monumento G. Campione</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Corso G.F. Ingrassia</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Chiesa S.M. La Croce</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Piazza Vittorio Veneto</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Villa Comunale</div>
-                <div class="bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all cursor-pointer">Lago Pozzillo</div>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Piazza della Repubblica</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Palazzo Comunale</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Chiesa Madre S. Basilio</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Monumento R. Lombardi</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Monumento G. Campione</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Corso G.F. Ingrassia</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Chiesa S.M. La Croce</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Piazza Vittorio Veneto</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Villa Comunale</button>
+                <button class="tour-location bg-white bg-opacity-10 p-3 rounded-lg text-center hover:bg-opacity-20 transition-all">Lago Pozzillo</button>
             </div>
-        </section>
+        </nav>
         
-        <div class="space-y-8">
+        <main class="space-y-8">
             <!-- Episodio 0 -->
-            <section class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-lg">
-                <h2 class="text-2xl md:text-3xl font-bold mb-4">Episodio 0</h2>
-                <div class="w-full max-w-3xl mx-auto mb-4">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/5TBo1k8d1i7aWqoyoDxOnG?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <article class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-lg episode-card">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center">
+                    <i class="fas fa-podcast text-indigo-300 mr-3" aria-hidden="true"></i>Episodio 0
+                </h2>
+                <p class="text-gray-200 mb-5">Un'introduzione alla storia e alle tradizioni di Regalbuto.</p>
+                
+                <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/5TBo1k8d1i7aWqoyoDxOnG?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Episodio 0 su Spotify"></iframe>
                 </div>
-            </section>
+                
+                <!-- Tab espandibile per la trascrizione -->
+                <div class="mt-3">
+                    <button class="toggle-transcript w-full flex justify-center p-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
+                        <span class="font-medium mr-2">Mostra trascrizione completa</span>
+                        <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                    </button>
+                    
+                    <div id="transcript-0" class="transcript-container bg-white bg-opacity-5 rounded-lg mt-2" aria-hidden="true">
+                        <div class="space-y-4">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida, nisi id efficitur luctus, nulla ipsum condimentum velit, ut iaculis massa tellus eu leo. Donec volutpat est eu consequat vestibulum. Duis vitae dapibus justo.</p>
+                            
+                            <p>Nulla facilisi. In ut sem augue. Aenean quis laoreet libero. Curabitur laoreet quam id finibus hendrerit. Quisque dignissim dolor id imperdiet tincidunt. Phasellus id feugiat mi, ac convallis mi. Cras nec arcu vel risus imperdiet mattis et id mauris.</p>
+                            
+                            <p>Suspendisse id nisi turpis. Aliquam gravida ligula vel neque accumsan commodo. Morbi non tincidunt lacus, eget volutpat mi. Aliquam erat volutpat. Aenean tristique id nisi ut elementum. Cras sit amet nibh libero.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
             
             <!-- Piazza della Repubblica -->
-            <section class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-lg">
-                <h2 class="text-2xl md:text-3xl font-bold mb-4">Piazza della Repubblica</h2>
-                <div class="space-y-4">
-                    <p>Piazza della Repubblica è il centro storico e sociale di Regalbuto, nonché una delle più grandi della provincia di Enna. Un tempo chiamata Piazza del Re, ha assunto il nome attuale nel 1946 per celebrare la nascita della Repubblica Italiana.</p>
-                    
-                    <p>Intorno si affacciano alcuni degli edifici più significativi della città:</p>
-                    <ul class="list-disc pl-6">
-                        <li>Il Municipio, con la sua imponente architettura</li>
-                        <li>La Chiesa Madre di San Basilio, fulcro della vita religiosa</li>
-                        <li>Gli antichi palazzi nobiliari, testimoni di un passato aristocratico</li>
-                    </ul>
-                    
-                    <p>La piazza ha una forma ovoidale e una pavimentazione unica, realizzata dai maestri marmisti fratelli Lanza. Il disegno geometrico alterna il bianco del calcare ai toni rossi e grigi del granito, creando un raffinato effetto visivo.</p>
-                    
-                    <p>Oltre alla sua importanza storica e artistica, la piazza è il cuore delle tradizioni cittadine, ospitando eventi come il Carnevale, la processione di San Giuseppe e la festa di San Vito, patrono del paese.</p>
-                </div>
+            <article class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-lg episode-card">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center">
+                    <i class="fas fa-map-marker-alt text-red-400 mr-3" aria-hidden="true"></i>Piazza della Repubblica
+                </h2>
+                <p class="text-gray-200 mb-5">Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.</p>
+                
                 <!-- Placeholder per iframe podcast di questo episodio -->
-                <div class="w-full max-w-3xl mx-auto mt-6">
+                <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card">
                     <!-- Qui andrà l'iframe quando sarà disponibile -->
+                    <div class="bg-black bg-opacity-20 rounded-lg p-6 text-center" role="status">
+                        <i class="fas fa-headphones text-3xl mb-2 text-indigo-300" aria-hidden="true"></i>
+                        <p>Audio in arrivo</p>
+                    </div>
                 </div>
-            </section>
+                
+                <!-- Tab espandibile per la trascrizione -->
+                <div class="mt-3">
+                    <button class="toggle-transcript w-full flex justify-center p-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all" data-target="transcript-1" aria-expanded="false" aria-controls="transcript-1">
+                        <span class="font-medium mr-2">Mostra trascrizione completa</span>
+                        <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                    </button>
+                    
+                    <div id="transcript-1" class="transcript-container bg-white bg-opacity-5 rounded-lg mt-2" aria-hidden="true">
+                        <div class="space-y-4">
+                            <p>Piazza della Repubblica è il centro storico e sociale di Regalbuto, nonché una delle più grandi della provincia di Enna. Un tempo chiamata Piazza del Re, ha assunto il nome attuale nel 1946 per celebrare la nascita della Repubblica Italiana.</p>
+                            
+                            <p>Intorno si affacciano alcuni degli edifici più significativi della città:</p>
+                            <ul class="list-disc pl-6">
+                                <li>Il Municipio, con la sua imponente architettura</li>
+                                <li>La Chiesa Madre di San Basilio, fulcro della vita religiosa</li>
+                                <li>Gli antichi palazzi nobiliari, testimoni di un passato aristocratico</li>
+                            </ul>
+                            
+                            <p>La piazza ha una forma ovoidale e una pavimentazione unica, realizzata dai maestri marmisti fratelli Lanza. Il disegno geometrico alterna il bianco del calcare ai toni rossi e grigi del granito, creando un raffinato effetto visivo.</p>
+                            
+                            <p>Oltre alla sua importanza storica e artistica, la piazza è il cuore delle tradizioni cittadine, ospitando eventi come il Carnevale, la processione di San Giuseppe e la festa di San Vito, patrono del paese.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Palazzo Comunale -->
+            <article class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-lg episode-card">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center">
+                    <i class="fas fa-landmark text-yellow-300 mr-3" aria-hidden="true"></i>Palazzo Comunale
+                </h2>
+                <p class="text-gray-200 mb-5">La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.</p>
+                
+                <!-- Placeholder per iframe podcast di questo episodio -->
+                <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card">
+                    <!-- Qui andrà l'iframe quando sarà disponibile -->
+                    <div class="bg-black bg-opacity-20 rounded-lg p-6 text-center" role="status">
+                        <i class="fas fa-headphones text-3xl mb-2 text-indigo-300" aria-hidden="true"></i>
+                        <p>Audio in arrivo</p>
+                    </div>
+                </div>
+                
+                <!-- Tab espandibile per la trascrizione -->
+                <div class="mt-3">
+                    <button class="toggle-transcript w-full flex justify-center p-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all" data-target="transcript-2" aria-expanded="false" aria-controls="transcript-2">
+                        <span class="font-medium mr-2">Mostra trascrizione completa</span>
+                        <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                    </button>
+                    
+                    <div id="transcript-2" class="transcript-container bg-white bg-opacity-5 rounded-lg mt-2" aria-hidden="true">
+                        <div class="space-y-4">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod tincidunt nisi, at fermentum elit interdum ac. Aenean non lacinia ante. Sed in augue at diam ultrices vestibulum. Proin ac dui ut justo finibus tempor.</p>
+                            
+                            <p>Cras nec imperdiet metus. Vivamus commodo volutpat turpis ut tincidunt. Curabitur semper ex et diam rutrum, sit amet convallis magna consequat. Vestibulum eget augue ac metus commodo vehicula vel sed orci. Nulla facilisi.</p>
+                            
+                            <p>Fusce rhoncus aliquam velit, et faucibus justo feugiat et. Proin pharetra nulla eget mollis viverra. Aliquam odio magna, maximus sed varius eget, semper in ligula. Curabitur quam nisi, tincidunt eget ultricies eget, pharetra ac tellus.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Chiesa Madre S. Basilio -->
+            <article class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-lg episode-card">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center">
+                    <i class="fas fa-church text-blue-300 mr-3" aria-hidden="true"></i>Chiesa Madre S. Basilio
+                </h2>
+                <p class="text-gray-200 mb-5">La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.</p>
+                
+                <!-- Placeholder per iframe podcast di questo episodio -->
+                <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card">
+                    <!-- Qui andrà l'iframe quando sarà disponibile -->
+                    <div class="bg-black bg-opacity-20 rounded-lg p-6 text-center" role="status">
+                        <i class="fas fa-headphones text-3xl mb-2 text-indigo-300" aria-hidden="true"></i>
+                        <p>Audio in arrivo</p>
+                    </div>
+                </div>
+                
+                <!-- Tab espandibile per la trascrizione -->
+                <div class="mt-3">
+                    <button class="toggle-transcript w-full flex justify-center p-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all" data-target="transcript-3" aria-expanded="false" aria-controls="transcript-3">
+                        <span class="font-medium mr-2">Mostra trascrizione completa</span>
+                        <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                    </button>
+                    
+                    <div id="transcript-3" class="transcript-container bg-white bg-opacity-5 rounded-lg mt-2" aria-hidden="true">
+                        <div class="space-y-4">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.</p>
+                            
+                            <p>Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+                            
+                            <p>Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
             
             <!-- Placeholder per altri episodi -->
             <!-- Altri episodi possono essere aggiunti seguendo lo stesso schema -->
-        </div>
+        </main>
         
-        <footer class="mt-16 mb-8 text-center text-sm opacity-70">
+        <footer class="mt-16 mb-8 text-center text-sm opacity-70" role="contentinfo">
             <p>© 2023 Audio guida di Regalbuto. Tutti i diritti riservati.</p>
         </footer>
     </div>
+
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

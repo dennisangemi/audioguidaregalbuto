@@ -1,0 +1,204 @@
+body {
+    background: #332b5a; /* Viola scuro più desaturato */
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    line-height: 1.5; /* Miglioramento leggibilità */
+    font-size: 16px; /* Dimensione base del testo per leggibilità */
+}
+
+/* Skip link per accessibilità tastiera */
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #ffffff;
+    color: #332b5a;
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.3s ease;
+    font-weight: bold;
+}
+
+.skip-to-content:focus {
+    top: 0;
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Container per lo sfondo animato, separato dal contenuto */
+.animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Solo due elementi di sfondo per migliorare le performance */
+.bg-gradient-1, 
+.bg-gradient-2 {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0.7; /* Aumentata leggermente l'opacità per colori più visibili */
+    will-change: transform;
+    transition: opacity 1s ease; /* Aggiunta transizione di opacità */
+}
+
+.bg-gradient-1 {
+    background: radial-gradient(circle at 30% 40%, #6b46c1 0%, transparent 70%), /* Viola meno saturo */
+                radial-gradient(circle at 70% 60%, #3b4a9a 0%, transparent 65%); /* Blu più evidente */
+    animation: slowRotate 60s linear infinite;
+    transform-origin: center center;
+}
+
+.bg-gradient-2 {
+    background: radial-gradient(circle at 60% 30%, #5a43a1 0%, transparent 70%), /* Viola-blu meno saturo */
+                radial-gradient(circle at 20% 70%, #0a6e5a 0%, transparent 65%); /* Verde più evidente */
+    animation: slowRotate 90s linear infinite reverse, pulseColors 15s ease-in-out infinite alternate;
+    transform-origin: center center;
+}
+
+/* Terzo gradiente che enfatizzerà il blu/verde */
+.animated-background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 40% 80%, #146670 0%, transparent 60%), /* Turchese-blu */
+                radial-gradient(circle at 80% 30%, #24437c 0%, transparent 60%); /* Blu più profondo */
+    opacity: 0;
+    animation: pulseBlueGreen 20s ease-in-out infinite alternate;
+}
+
+/* Utilizziamo solo la proprietà transform per l'animazione, molto più performante */
+@keyframes slowRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Nuova animazione per pulsare i colori blu/verdi */
+@keyframes pulseBlueGreen {
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.2;
+    }
+    60% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0.4;
+    }
+}
+
+/* Leggera pulsazione per il secondo gradiente */
+@keyframes pulseColors {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
+
+/* Stile per schermi a bassa performance */
+@media (prefers-reduced-motion: reduce) {
+    .bg-gradient-1, .bg-gradient-2, .animated-background::after {
+        animation: none; /* Disabilita completamente le animazioni */
+    }
+    
+    .episode-card:hover {
+        transform: none; /* Rimuove l'animazione al passaggio del mouse */
+    }
+    
+    .toggle-icon {
+        transition: none; /* Rimuove l'animazione dall'icona */
+    }
+    
+    .toggle-transcript, .episode-card {
+        transition: none; /* Rimuove tutte le transizioni */
+    }
+}
+
+/* Stili focus per l'accessibilità da tastiera */
+button:focus-visible,
+a:focus-visible,
+.tour-location:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+/* Migliorare il contrasto per gli elementi interattivi */
+.toggle-transcript:hover,
+.toggle-transcript:focus {
+    color: #ffffff; /* Colore massimo per hover/focus */
+    background-color: rgba(255, 255, 255, 0.2); /* Sfondo leggermente più visibile */
+}
+
+.transcript-container {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+}
+
+.transcript-container.expanded {
+    height: auto;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 1.5rem;
+}
+
+.toggle-transcript {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.toggle-transcript:hover {
+    color: #a5b4fc;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.rotate-icon {
+    transform: rotate(180deg);
+}
+
+.audio-player-card {
+    border-radius: 0.75rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.episode-card {
+    transition: all 0.3s ease;
+}
+
+.episode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Miglioramento della leggibilità del testo */
+p, li {
+    max-width: 70ch; /* Limite larghezza massima per migliorare la leggibilità */
+    margin-left: auto;
+    margin-right: auto;
+}
