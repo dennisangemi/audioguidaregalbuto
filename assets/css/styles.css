@@ -28,31 +28,25 @@ body {
     outline-offset: 2px;
 }
 
-/* Header migliorato con equilibrio di viola, blu e verde */
+/* Header riprogettato per includere l'introduzione */
 .site-header {
     background: linear-gradient(120deg, #6b46c1, #4663b9, #0a6e5a);
     background-size: 300% 100%;
-    animation: headerGradient 25s ease infinite; /* Rallentato da 15s a 25s */
+    animation: headerGradient 25s ease infinite;
     color: white;
-    padding: 3rem 0;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 3rem 0 1.5rem;
     position: relative;
+    overflow: hidden;
 }
 
-@keyframes headerGradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+/* Header espanso con contenuto introduttivo */
+.expanded-header {
+    padding: 3.5rem 0 3rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
-.site-header::before {
+.expanded-header::before {
     content: "";
     position: absolute;
     top: 0;
@@ -60,9 +54,10 @@ body {
     bottom: 0;
     left: 0;
     background-image: 
-        radial-gradient(circle at 20% 70%, rgba(123, 104, 238, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 20% 70%, rgba(139, 92, 246, 0.4) 0%, transparent 70%),
         radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.3) 0%, transparent 70%),
         radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+    z-index: 1;
 }
 
 /* Stile migliorato per la hero section */
@@ -73,69 +68,288 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+}
+
+/* Sezione header con titolo ed icona */
+.hero-header {
+    margin-bottom: 2rem;
 }
 
 /* Contenitore del testo dell'hero */
 .hero-text {
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
 /* Titolo principale */
 .hero-text h1 {
     margin-bottom: 1rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     letter-spacing: -0.02em;
 }
 
 /* Sottotitolo migliorato per leggibilità */
 .hero-subtitle {
-    font-size: 1.25rem;
-    font-weight: 400;
+    font-size: 1.4rem;
+    font-weight: 500;
     color: rgba(255, 255, 255, 0.95);
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 1.5rem;
+    background-color: rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 2rem;
     border-radius: 2rem;
     display: inline-block;
-    margin: 0.5rem auto 0;
-    letter-spacing: 0.02em;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 0.75rem auto 0;
+    letter-spacing: 0.01em;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Stile per il container del titolo con icona */
-.main-title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-}
-
-/* Icona di podcast grande nell'header */
+/* Icona di podcast grande nell'header - migliorata con rotazione */
 .podcast-icon-large {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #8b5cf6, #3b82f6, #10b981);
+    background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #10b981 100%);
     background-size: 300% 100%;
-    animation: iconGradient 20s ease infinite; /* Rallentato da 12s a 20s */
+    animation: iconGradient 20s ease infinite;
     color: white;
     border-radius: 50%;
-    font-size: 2.25rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    margin-bottom: 0.5rem;
+    font-size: 2.75rem;
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 8px rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    margin: 0 auto 1.25rem;
     transition: all 0.3s ease;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 3;
+}
+
+/* Rotazione lenta per l'icona della bussola */
+.podcast-icon-large i {
+    animation: slowSpin 12s linear infinite;
+}
+
+@keyframes slowSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .podcast-icon-large:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+/* Sezione introduttiva integrata nell'hero */
+.intro-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 1rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .intro-section {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .intro-content {
+        flex: 1;
+        padding-right: 2rem;
+    }
+    
+    .intro-player-container {
+        flex: 1;
+    }
+}
+
+/* Descrizione introduttiva */
+.intro-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+/* Features nell'intro */
+.intro-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.intro-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    flex: 1;
+    min-width: 200px;
+    backdrop-filter: blur(5px);
+}
+
+.intro-feature:hover {
+    transform: translateY(-3px);
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.intro-feature i {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.intro-feature span {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Player audio nell'hero */
+.intro-player {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 0.75rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.intro-player:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Container della trascrizione */
+.intro-transcript-container {
+    margin-top: 1rem;
+}
+
+/* Pulsante trascrizione nell'hero */
+.intro-transcript-button {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.2s ease;
+}
+
+.intro-transcript-button:hover,
+.intro-transcript-button:focus {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenitore trascrizione */
+.expanded-header .transcript-container.expanded {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border-radius: 12px;
+}
+
+/* Freccia animata sotto l'hero section */
+.hero-arrow-container {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+}
+
+.hero-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-radius: 50%;
+    animation: bounceArrow 2s ease-in-out infinite;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.1rem;
+}
+
+@keyframes bounceArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* Media query per dispositivi mobili */
+@media (max-width: 768px) {
+    .expanded-header {
+        padding: 2.5rem 0 3.5rem;
+    }
+    
+    .podcast-icon-large {
+        width: 90px;
+        height: 90px;
+        font-size: 2.25rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        padding: 0.4rem 1.5rem;
+    }
+    
+    .intro-description {
+        font-size: 1.1rem;
+    }
+    
+    .intro-feature {
+        min-width: 0;
+        width: 100%;
+    }
+    
+    .hero-arrow-container {
+        bottom: 0.5rem;
+    }
+}
+
+/* Rimozione delle classi vecchie e non più necessarie */
+.welcome-section,
+.welcome-card,
+.enhanced-welcome,
+.welcome-header,
+.welcome-icon,
+.welcome-titles,
+.welcome-subtitle,
+.welcome-title,
+.welcome-content,
+.welcome-features,
+.welcome-feature,
+.welcome-player,
+.welcome-transcript-container,
+.welcome-transcript-button,
+.welcome-tour-start,
+.welcome-arrow {
+    /* Le proprietà specifiche sono state trasferite ai nuovi elementi */
 }
 
 /* Container per le tappe del tour */

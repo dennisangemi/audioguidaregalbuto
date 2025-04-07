@@ -12,90 +12,87 @@
     <!-- Skip link per accessibilità da tastiera -->
     <a href="#main-content" class="skip-to-content">Salta al contenuto principale</a>
     
-    <!-- Header con hero section migliorata -->
-    <header class="site-header" role="banner">
-        <div class="container mx-auto px-4 text-center relative">
+    <!-- Header espanso con introduzione integrata -->
+    <header class="site-header expanded-header" role="banner">
+        <div class="container mx-auto px-4 relative">
             <div class="hero-content">
-                <div class="podcast-icon-large">
-                    <i class="fas fa-podcast" aria-hidden="true"></i>
+                <!-- Icona e titolo principale -->
+                <div class="hero-header text-center mb-6">
+                    <div class="podcast-icon-large">
+                        <i class="fas fa-compass" aria-hidden="true"></i>
+                    </div>
+                    <div class="hero-text">
+                        <h1 class="text-4xl md:text-5xl font-bold">Audio guida di Regalbuto</h1>
+                        <p class="hero-subtitle">Un viaggio sonoro alla scoperta della città</p>
+                    </div>
                 </div>
-                <div class="hero-text">
-                    <h1 class="text-4xl md:text-5xl font-bold">Audio guida di Regalbuto</h1>
-                    <p class="hero-subtitle">Esplora la storia e le bellezze della città</p>
+                
+                <!-- Contenuto introduttivo -->
+                <div class="intro-section">
+                    <div class="intro-content">
+                        <p class="intro-description">
+                            Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. 
+                            Scopri dieci luoghi emblematici raccontati con passione e ricchezza di dettagli.
+                        </p>
+                        
+                        <div class="intro-features">
+                            <div class="intro-feature">
+                                <i class="fas fa-clock" aria-hidden="true"></i>
+                                <span>Durata: 5 minuti</span>
+                            </div>
+                            <div class="intro-feature">
+                                <i class="fas fa-map-signs" aria-hidden="true"></i>
+                                <span>10 tappe da esplorare</span>
+                            </div>
+                            <div class="intro-feature">
+                                <i class="fas fa-headphones-alt" aria-hidden="true"></i>
+                                <span>Audio in alta qualità</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="intro-player-container">
+                        <div class="intro-player">
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/5TBo1k8d1i7aWqoyoDxOnG?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Introduzione a Regalbuto su Spotify"></iframe>
+                        </div>
+                        
+                        <!-- Tab espandibile per la trascrizione -->
+                        <div class="intro-transcript-container">
+                            <button class="toggle-transcript intro-transcript-button" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
+                                <span class="font-medium mr-2">Mostra trascrizione completa</span>
+                                <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                            </button>
+                            
+                            <div id="transcript-0" class="transcript-container rounded-lg" aria-hidden="true">
+                                <div class="space-y-4 text-left">
+                                    <p>Benvenuti all'audio guida di Regalbuto, un viaggio alla scoperta di questo affascinante centro della Sicilia, adagiato sui Monti Erei, in provincia di Enna.</p>
+                                    
+                                    <p>Regalbuto, il cui nome deriva dall'arabo "Rahal-but" (villaggio del frassino), è una cittadina ricca di storia, arte e tradizioni. Fondata in epoca bizantina e sviluppatasi durante la dominazione araba e normanna, oggi conserva un prezioso patrimonio culturale.</p>
+                                    
+                                    <p>In questa audio guida vi accompagneremo attraverso le tappe più significative del centro storico: dalla maestosa Piazza della Repubblica al Palazzo Comunale, dalla Chiesa Madre di San Basilio alle altre bellezze architettoniche e naturalistiche del territorio.</p>
+                                    
+                                    <p>Durante il nostro percorso scoprirete aneddoti, leggende e curiosità legate a ogni luogo, per un'esperienza immersiva nella cultura e nell'identità regalbutese.</p>
+                                    
+                                    <p>L'audio guida è progettata per essere fruita sia seguendo l'itinerario proposto, sia ascoltando liberamente le singole tappe. Vi suggeriamo di tenere un passo lento, per godervi appieno l'atmosfera di questa perla dell'entroterra siciliano.</p>
+                                    
+                                    <p>Siete pronti a partire? Iniziamo il nostro viaggio alla scoperta di Regalbuto!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Freccia indicativa per scorrere verso il tour -->
+        <div class="hero-arrow-container">
+            <div class="hero-arrow">
+                <i class="fas fa-arrow-down"></i>
             </div>
         </div>
     </header>
     
     <div id="main-content" class="container mx-auto px-4 py-4 max-w-5xl">
-        <!-- Sezione introduttiva riprogettata con nuova icona e design migliorato -->
-        <section class="welcome-section mb-10">
-            <div class="welcome-card enhanced-welcome">
-                <div class="welcome-header">
-                    <div class="welcome-icon">
-                        <i class="fas fa-compass" aria-hidden="true"></i>
-                    </div>
-                    <div class="welcome-titles">
-                        <span class="welcome-subtitle">Benvenuti nell'audio guida</span>
-                        <h2 class="welcome-title">Alla scoperta di Regalbuto</h2>
-                    </div>
-                </div>
-                
-                <div class="welcome-content">
-                    <p class="text-gray-700 mb-5 text-lg">Un viaggio sonoro alla scoperta della storia, dell'arte e delle tradizioni di Regalbuto. Questa introduzione ti guiderà attraverso il percorso che esploreremo insieme.</p>
-                    
-                    <div class="welcome-features">
-                        <div class="welcome-feature">
-                            <i class="fas fa-clock text-indigo-600 text-xl"></i>
-                            <span>Durata: 5 minuti</span>
-                        </div>
-                        <div class="welcome-feature">
-                            <i class="fas fa-map-signs text-indigo-600 text-xl"></i>
-                            <span>10 tappe da esplorare</span>
-                        </div>
-                        <div class="welcome-feature">
-                            <i class="fas fa-headphones-alt text-indigo-600 text-xl"></i>
-                            <span>Audio in alta qualità</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="welcome-player">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/5TBo1k8d1i7aWqoyoDxOnG?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Introduzione a Regalbuto su Spotify"></iframe>
-                </div>
-                
-                <!-- Tab espandibile per la trascrizione -->
-                <div class="welcome-transcript-container">
-                    <button class="toggle-transcript welcome-transcript-button" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
-                        <span class="font-medium mr-2">Mostra trascrizione completa</span>
-                        <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
-                    </button>
-                    
-                    <div id="transcript-0" class="transcript-container rounded-lg" aria-hidden="true">
-                        <div class="space-y-4">
-                            <p>Benvenuti all'audio guida di Regalbuto, un viaggio alla scoperta di questo affascinante centro della Sicilia, adagiato sui Monti Erei, in provincia di Enna.</p>
-                            
-                            <p>Regalbuto, il cui nome deriva dall'arabo "Rahal-but" (villaggio del frassino), è una cittadina ricca di storia, arte e tradizioni. Fondata in epoca bizantina e sviluppatasi durante la dominazione araba e normanna, oggi conserva un prezioso patrimonio culturale.</p>
-                            
-                            <p>In questa audio guida vi accompagneremo attraverso le tappe più significative del centro storico: dalla maestosa Piazza della Repubblica al Palazzo Comunale, dalla Chiesa Madre di San Basilio alle altre bellezze architettoniche e naturalistiche del territorio.</p>
-                            
-                            <p>Durante il nostro percorso scoprirete aneddoti, leggende e curiosità legate a ogni luogo, per un'esperienza immersiva nella cultura e nell'identità regalbutese.</p>
-                            
-                            <p>L'audio guida è progettata per essere fruita sia seguendo l'itinerario proposto, sia ascoltando liberamente le singole tappe. Vi suggeriamo di tenere un passo lento, per godervi appieno l'atmosfera di questa perla dell'entroterra siciliano.</p>
-                            
-                            <p>Siete pronti a partire? Iniziamo il nostro viaggio alla scoperta di Regalbuto!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="welcome-tour-start">
-                <div class="welcome-arrow">
-                    <i class="fas fa-arrow-down"></i>
-                </div>
-            </div>
-        </section>
-        
         <!-- Sezione tappe del tour completamente riprogettata -->
         <section class="tour-timeline-section mb-12" aria-labelledby="tour-timeline">
             
