@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Audio guida turistica di Regalbuto: un viaggio sonoro alla scoperta della storia, arte e tradizioni della città siciliana">
     <title>Audio guida di Regalbuto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,16 +14,16 @@
     <a href="#main-content" class="skip-to-content">Salta al contenuto principale</a>
     
     <!-- Header espanso con introduzione integrata -->
-    <header class="site-header expanded-header" role="banner">
+    <header class="site-header expanded-header" role="banner" aria-labelledby="site-title">
         <div class="container mx-auto px-4 relative">
             <div class="hero-content">
                 <!-- Icona e titolo principale -->
                 <div class="hero-header text-center mb-6">
-                    <div class="podcast-icon-large">
+                    <div class="podcast-icon-large" aria-hidden="true">
                         <i class="fas fa-compass" aria-hidden="true"></i>
                     </div>
                     <div class="hero-text">
-                        <h1 class="text-4xl md:text-5xl font-bold">Audio guida di Regalbuto</h1>
+                        <h1 id="site-title" class="text-4xl md:text-5xl font-bold">Audio guida di Regalbuto</h1>
                         <p class="hero-subtitle">Un viaggio sonoro alla scoperta della città</p>
                     </div>
                 </div>
@@ -63,7 +64,7 @@
                                 <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
                             </button>
                             
-                            <div id="transcript-0" class="transcript-container rounded-lg" aria-hidden="true">
+                            <div id="transcript-0" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione dell'introduzione">
                                 <div class="space-y-4 text-left">
                                     <p>Benvenuti all'audio guida di Regalbuto, un viaggio alla scoperta di questo affascinante centro della Sicilia, adagiato sui Monti Erei, in provincia di Enna.</p>
                                     
@@ -86,89 +87,90 @@
         
         <!-- Freccia indicativa per scorrere verso il tour -->
         <div class="hero-arrow-container">
-            <div class="hero-arrow">
-                <i class="fas fa-arrow-down"></i>
-            </div>
+            <a href="#tour-timeline" class="hero-arrow" aria-label="Scorri verso le tappe del tour">
+                <i class="fas fa-arrow-down" aria-hidden="true"></i>
+            </a>
         </div>
     </header>
     
     <div id="main-content" class="container mx-auto px-4 py-4 max-w-5xl">
         <!-- Sezione tappe del tour completamente riprogettata -->
-        <section class="tour-timeline-section mb-12" aria-labelledby="tour-timeline">
+        <section class="tour-timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
+            <h2 id="tour-timeline-title" class="sr-only">Tappe del tour</h2>
             
             <div class="timeline-container">
-                <div class="timeline-track-wrapper">
+                <div class="timeline-track-wrapper" tabindex="0" aria-label="Scorri orizzontalmente per vedere tutte le tappe">
                     <div class="timeline-track">
                         <!-- Linea di connessione -->
-                        <div class="timeline-line"></div>
+                        <div class="timeline-line" aria-hidden="true"></div>
                         
                         <!-- Le tappe del tour -->
                         <nav class="timeline-stops" aria-label="Tappe del tour">
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Piazza della Repubblica">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Piazza della Repubblica</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Palazzo Comunale">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-landmark" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Palazzo Comunale</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa Madre S. Basilio">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-church" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Chiesa Madre S. Basilio</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Monumento R. Lombardi">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-monument" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Monumento R. Lombardi</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Monumento G. Campione">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-monument" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Monumento G. Campione</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Corso G.F. Ingrassia">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-road" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Corso G.F. Ingrassia</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa S.M. La Croce">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-place-of-worship" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Chiesa S.M. La Croce</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Piazza Vittorio Veneto">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-square" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Piazza Vittorio Veneto</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Villa Comunale">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-tree" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Villa Comunale</span>
                             </button>
                             
-                            <button class="timeline-stop">
-                                <div class="timeline-stop-icon">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Lago Pozzillo">
+                                <div class="timeline-stop-icon" aria-hidden="true">
                                     <i class="fas fa-water" aria-hidden="true"></i>
                                 </div>
                                 <span class="timeline-stop-label">Lago Pozzillo</span>
@@ -178,13 +180,13 @@
                 </div>
                 
                 <!-- Controlli di navigazione -->
-                <div class="timeline-controls">
+                <div class="timeline-controls" role="group" aria-label="Controlli di navigazione della timeline">
                     <button class="timeline-control prev" aria-label="Tappe precedenti">
-                        <i class="fas fa-chevron-left"></i>
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <div class="timeline-scroll-indicator">Scorri per vedere altre tappe</div>
+                    <div class="timeline-scroll-indicator" aria-live="polite" aria-hidden="true">Scorri per vedere altre tappe</div>
                     <button class="timeline-control next" aria-label="Tappe successive">
-                        <i class="fas fa-chevron-right"></i>
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -192,20 +194,20 @@
         
         <main class="space-y-8">
             <!-- Piazza della Repubblica - Design unificato senza classe di colore personalizzata -->
-            <article class="episode-card">
+            <article class="episode-card" id="piazza-repubblica" aria-labelledby="title-piazza-repubblica">
                 <div class="episode-content">
                     <div class="episode-title-row">
-                        <div class="episode-icon">
+                        <div class="episode-icon" aria-hidden="true">
                             <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-bold">Piazza della Repubblica</h2>
+                        <h2 id="title-piazza-repubblica" class="text-2xl md:text-3xl font-bold">Piazza della Repubblica</h2>
                     </div>
                     
                     <p class="text-gray-600 mb-5">Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.</p>
                     
                     <!-- Placeholder per iframe podcast di questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="text-center" role="status">
+                        <div class="text-center" role="status" aria-live="polite">
                             <i class="fas fa-headphones text-3xl mb-2 text-indigo-600" aria-hidden="true"></i>
                             <p class="text-gray-600">Audio in arrivo</p>
                         </div>
@@ -218,7 +220,7 @@
                             <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-1" class="transcript-container rounded-lg" aria-hidden="true">
+                        <div id="transcript-1" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione audio Piazza della Repubblica">
                             <div class="space-y-4">
                                 <p>Piazza della Repubblica è il centro storico e sociale di Regalbuto, nonché una delle più grandi della provincia di Enna. Un tempo chiamata Piazza del Re, ha assunto il nome attuale nel 1946 per celebrare la nascita della Repubblica Italiana.</p>
                                 
@@ -239,20 +241,20 @@
             </article>
             
             <!-- Palazzo Comunale - Design unificato -->
-            <article class="episode-card">
+            <article class="episode-card" id="palazzo-comunale" aria-labelledby="title-palazzo-comunale">
                 <div class="episode-content">
                     <div class="episode-title-row">
-                        <div class="episode-icon">
+                        <div class="episode-icon" aria-hidden="true">
                             <i class="fas fa-landmark" aria-hidden="true"></i>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-bold">Palazzo Comunale</h2>
+                        <h2 id="title-palazzo-comunale" class="text-2xl md:text-3xl font-bold">Palazzo Comunale</h2>
                     </div>
                     
                     <p class="text-gray-600 mb-5">La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.</p>
                     
                     <!-- Placeholder per iframe podcast di questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="text-center" role="status">
+                        <div class="text-center" role="status" aria-live="polite">
                             <i class="fas fa-headphones text-3xl mb-2 text-indigo-600" aria-hidden="true"></i>
                             <p class="text-gray-600">Audio in arrivo</p>
                         </div>
@@ -265,7 +267,7 @@
                             <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-2" class="transcript-container rounded-lg" aria-hidden="true">
+                        <div id="transcript-2" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione audio Palazzo Comunale">
                             <div class="space-y-4">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod tincidunt nisi, at fermentum elit interdum ac. Aenean non lacinia ante. Sed in augue at diam ultrices vestibulum. Proin ac dui ut justo finibus tempor.</p>
                                 
@@ -279,20 +281,20 @@
             </article>
             
             <!-- Chiesa Madre S. Basilio - Design unificato -->
-            <article class="episode-card">
+            <article class="episode-card" id="chiesa-madre" aria-labelledby="title-chiesa-madre">
                 <div class="episode-content">
                     <div class="episode-title-row">
-                        <div class="episode-icon">
+                        <div class="episode-icon" aria-hidden="true">
                             <i class="fas fa-church" aria-hidden="true"></i>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-bold">Chiesa Madre S. Basilio</h2>
+                        <h2 id="title-chiesa-madre" class="text-2xl md:text-3xl font-bold">Chiesa Madre S. Basilio</h2>
                     </div>
                     
                     <p class="text-gray-600 mb-5">La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.</p>
                     
                     <!-- Placeholder per iframe podcast di questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="text-center" role="status">
+                        <div class="text-center" role="status" aria-live="polite">
                             <i class="fas fa-headphones text-3xl mb-2 text-indigo-600" aria-hidden="true"></i>
                             <p class="text-gray-600">Audio in arrivo</p>
                         </div>
@@ -305,7 +307,7 @@
                             <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-3" class="transcript-container rounded-lg" aria-hidden="true">
+                        <div id="transcript-3" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione audio Chiesa Madre S. Basilio">
                             <div class="space-y-4">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.</p>
                                 
@@ -323,7 +325,7 @@
         </main>
         
         <footer class="rounded-lg" role="contentinfo">
-            <p>2025 Audio guida di Regalbuto. Un progetto di Regalbuto Inside.</p>
+            <p>2025 Audio guida di Regalbuto. Un progetto di <a href="#" class="footer-link">Regalbuto Inside</a>.</p>
         </footer>
     </div>
 

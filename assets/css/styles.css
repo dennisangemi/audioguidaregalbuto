@@ -9,14 +9,14 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Skip link per accessibilità tastiera */
+/* Skip link per accessibilità tastiera - migliorato */
 .skip-to-content {
     position: absolute;
     top: -40px;
     left: 0;
     background: #6b46c1;
     color: white;
-    padding: 8px;
+    padding: 8px 16px;
     z-index: 100;
     transition: top 0.3s ease;
     font-weight: bold;
@@ -24,8 +24,96 @@ body {
 
 .skip-to-content:focus {
     top: 0;
-    outline: 2px solid #6b46c1;
+    outline: 3px solid #ffffff;
     outline-offset: 2px;
+}
+
+/* Migliori stili per l'accessibilità della tastiera con focus */
+:focus {
+    outline: 3px solid #6b46c1;
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 3px solid #6b46c1;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.25);
+}
+
+/* Stili focus per l'accessibilità da tastiera - migliorati e unificati */
+button:focus-visible,
+a:focus-visible,
+[tabindex="0"]:focus-visible {
+    outline: 3px solid #6b46c1;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.25);
+    /* Non rimuovere questo - è essenziale per l'accessibilità */
+}
+
+/* Aggiunta di un bordo alla timeline quando è focalizzata */
+.timeline-track-wrapper:focus-visible {
+    box-shadow: 0 0 0 3px #6b46c1;
+    border-radius: 18px;
+}
+
+/* Migliora il contrasto dei link nel footer */
+.footer-link {
+    color: #5a2ca0; /* Colore più scuro per maggiore contrasto */
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.footer-link:hover,
+.footer-link:focus {
+    text-decoration: none;
+    color: #4e2582;
+}
+
+/* Nasconde visivamente elementi ma li mantiene accessibili agli screen reader */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Media query per preferenze di riduzione movimento - migliorata */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .podcast-icon-large i,
+    .podcast-icon-large::before,
+    .podcast-icon-large::after,
+    .hero-arrow,
+    .episode-card::before,
+    .timeline-line,
+    .welcome-icon i {
+        animation: none !important;
+    }
+}
+
+/* Miglioramento accessibilità della trascrizione */
+.transcript-container.expanded {
+    height: auto;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    background-color: #f9f9f9; /* Assicura un contrasto adeguato */
+    color: #333; /* Assicura un contrasto adeguato */
 }
 
 /* Header riprogettato per includere l'introduzione */
