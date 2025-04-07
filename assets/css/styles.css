@@ -951,18 +951,19 @@ p, li {
     position: relative;
 }
 
-/* Indicator per la direzione dello scroll */
+/* Indicator per la direzione dello scroll - migliorato per accessibilità */
 .timeline-scroll-indicator {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    background-color: white;
+    background-color: #6b46c1; /* Cambiato sfondo per miglior contrasto */
+    color: white; /* Testo bianco su sfondo viola per alto contrasto */
     border-radius: 10px;
     padding: 0.25rem 1rem;
-    font-size: 0.75rem;
-    color: #6b46c1;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -970,9 +971,9 @@ p, li {
 
 .timeline-scroll-indicator.visible {
     opacity: 1;
-    animation: fadeInOut 1.5s ease-in-out infinite;
 }
 
+/* Rimossa l'animazione fadeInOut che poteva causare problemi di contrasto */
 @keyframes fadeInOut {
     0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }

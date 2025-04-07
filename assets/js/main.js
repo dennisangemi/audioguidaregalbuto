@@ -44,12 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (scrollIndicator) {
             setTimeout(() => {
                 scrollIndicator.classList.add('visible');
-                scrollIndicator.setAttribute('aria-hidden', 'false');
                 
                 // Nasconde l'indicatore dopo alcuni secondi
                 setTimeout(() => {
                     scrollIndicator.classList.remove('visible');
-                    scrollIndicator.setAttribute('aria-hidden', 'true');
                 }, 3000);
             }, 1000);
         }
@@ -69,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (scrollIndicator) {
                 scrollIndicator.classList.remove('visible');
-                scrollIndicator.setAttribute('aria-hidden', 'true');
             }
         });
         
@@ -82,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (scrollIndicator) {
                 scrollIndicator.classList.remove('visible');
-                scrollIndicator.setAttribute('aria-hidden', 'true');
             }
         });
         
