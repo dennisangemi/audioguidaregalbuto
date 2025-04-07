@@ -1,10 +1,12 @@
 body {
-    background: #332b5a; /* Viola scuro più desaturato */
+    background-color: #f8f9fa;
+    color: #333;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    line-height: 1.5; /* Miglioramento leggibilità */
-    font-size: 16px; /* Dimensione base del testo per leggibilità */
+    line-height: 1.5;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Skip link per accessibilità tastiera */
@@ -12,8 +14,8 @@ body {
     position: absolute;
     top: -40px;
     left: 0;
-    background: #ffffff;
-    color: #332b5a;
+    background: #6b46c1;
+    color: white;
     padding: 8px;
     z-index: 100;
     transition: top 0.3s ease;
@@ -22,155 +24,281 @@ body {
 
 .skip-to-content:focus {
     top: 0;
-    outline: 2px solid #ffffff;
+    outline: 2px solid #6b46c1;
     outline-offset: 2px;
 }
 
-/* Container per lo sfondo animato, separato dal contenuto */
-.animated-background {
-    position: fixed;
+/* Header migliorato con equilibrio di viola, blu e verde */
+.site-header {
+    background: linear-gradient(120deg, #6b46c1, #4663b9, #0a6e5a);
+    background-size: 300% 100%;
+    animation: headerGradient 25s ease infinite; /* Rallentato da 15s a 25s */
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+@keyframes headerGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.site-header::before {
+    content: "";
+    position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    z-index: -1;
+    left: 0;
+    background-image: 
+        radial-gradient(circle at 20% 70%, rgba(123, 104, 238, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+}
+
+/* Stile migliorato per la hero section */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+/* Contenitore del testo dell'hero */
+.hero-text {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Titolo principale */
+.hero-text h1 {
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: -0.02em;
+}
+
+/* Sottotitolo migliorato per leggibilità */
+.hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    display: inline-block;
+    margin: 0.5rem auto 0;
+    letter-spacing: 0.02em;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Stile per il container del titolo con icona */
+.main-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Icona di podcast grande nell'header */
+.podcast-icon-large {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6, #10b981);
+    background-size: 300% 100%;
+    animation: iconGradient 20s ease infinite; /* Rallentato da 12s a 20s */
+    color: white;
+    border-radius: 50%;
+    font-size: 2.25rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.podcast-icon-large:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Container per le tappe del tour */
+.tour-stops-container {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Stili per i pulsanti delle tappe */
+.tour-location {
+    border: none;
+    background-color: #f5f7fa;
+    color: #454545;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+    border-left: 3px solid transparent;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.tour-location:hover, 
+.tour-location:focus {
+    background-color: #f0f0ff;
+    border-left: 3px solid #6b46c1;
+    color: #6b46c1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(107, 70, 193, 0.15);
+}
+
+/* Design rinnovato per le card degli episodi con gradiente sottile */
+.episode-card {
+    position: relative;
+    background-color: white;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
+    padding: 0;
+    margin-bottom: 2rem;
+    border-left: none;
+    border-top: 4px solid transparent; /* Prepariamo per il bordo gradiente */
 }
 
-/* Solo due elementi di sfondo per migliorare le performance */
-.bg-gradient-1, 
-.bg-gradient-2 {
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    opacity: 0.7; /* Aumentata leggermente l'opacità per colori più visibili */
-    will-change: transform;
-    transition: opacity 1s ease; /* Aggiunta transizione di opacità */
-}
-
-.bg-gradient-1 {
-    background: radial-gradient(circle at 30% 40%, #6b46c1 0%, transparent 70%), /* Viola meno saturo */
-                radial-gradient(circle at 70% 60%, #3b4a9a 0%, transparent 65%); /* Blu più evidente */
-    animation: slowRotate 60s linear infinite;
-    transform-origin: center center;
-}
-
-.bg-gradient-2 {
-    background: radial-gradient(circle at 60% 30%, #5a43a1 0%, transparent 70%), /* Viola-blu meno saturo */
-                radial-gradient(circle at 20% 70%, #0a6e5a 0%, transparent 65%); /* Verde più evidente */
-    animation: slowRotate 90s linear infinite reverse, pulseColors 15s ease-in-out infinite alternate;
-    transform-origin: center center;
-}
-
-/* Terzo gradiente che enfatizzerà il blu/verde */
-.animated-background::after {
+/* Gradiente animato per le card con più viola e presenza di blu/verde */
+.episode-card::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 40% 80%, #146670 0%, transparent 60%), /* Turchese-blu */
-                radial-gradient(circle at 80% 30%, #24437c 0%, transparent 60%); /* Blu più profondo */
-    opacity: 0;
-    animation: pulseBlueGreen 20s ease-in-out infinite alternate;
+    height: 4px; 
+    background: linear-gradient(to right, #8b5cf6, #3b82f6, #10b981, #7c3aed);
+    background-size: 300% 100%;
+    animation: gradientAnimation 20s ease infinite; /* Rallentato da 10s a 20s */
+    z-index: 1;
 }
 
-/* Utilizziamo solo la proprietà transform per l'animazione, molto più performante */
-@keyframes slowRotate {
+@keyframes gradientAnimation {
     0% {
-        transform: rotate(0deg);
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
     }
     100% {
-        transform: rotate(360deg);
+        background-position: 0% 50%;
     }
 }
 
-/* Nuova animazione per pulsare i colori blu/verdi */
-@keyframes pulseBlueGreen {
+/* Stile per il contenuto della card */
+.episode-content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Riga del titolo con icona */
+.episode-title-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Stile per le icone nelle card - con equilibrio viola/blu/verde */
+.episode-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #7c3aed, #3b82f6, #059669);
+    background-size: 300% 100%;
+    animation: iconGradient 15s ease infinite; /* Rallentato da 8s a 15s */
+    color: white;
+    border-radius: 50%;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes iconGradient {
     0% {
-        opacity: 0;
+        background-position: 0% 50%;
     }
-    40% {
-        opacity: 0.2;
-    }
-    60% {
-        opacity: 0.6;
+    50% {
+        background-position: 100% 50%;
     }
     100% {
-        opacity: 0.4;
+        background-position: 0% 50%;
     }
 }
 
-/* Leggera pulsazione per il secondo gradiente */
-@keyframes pulseColors {
-    0% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 0.7;
-    }
+.episode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
-/* Stile per schermi a bassa performance */
-@media (prefers-reduced-motion: reduce) {
-    .bg-gradient-1, .bg-gradient-2, .animated-background::after {
-        animation: none; /* Disabilita completamente le animazioni */
-    }
-    
-    .episode-card:hover {
-        transform: none; /* Rimuove l'animazione al passaggio del mouse */
-    }
-    
-    .toggle-icon {
-        transition: none; /* Rimuove l'animazione dall'icona */
-    }
-    
-    .toggle-transcript, .episode-card {
-        transition: none; /* Rimuove tutte le transizioni */
-    }
+/* Stile per il player audio */
+.audio-player-card {
+    background-color: #f9f9f9;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 1.5rem 0;
 }
 
-/* Stili focus per l'accessibilità da tastiera */
-button:focus-visible,
-a:focus-visible,
-.tour-location:focus-visible {
-    outline: 2px solid #ffffff;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+/* Stile per i pulsanti delle trascrizioni */
+.toggle-transcript {
+    background-color: #f5f7fa;
+    color: #555;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    margin-top: 1rem;
 }
 
-/* Migliorare il contrasto per gli elementi interattivi */
 .toggle-transcript:hover,
 .toggle-transcript:focus {
-    color: #ffffff; /* Colore massimo per hover/focus */
-    background-color: rgba(255, 255, 255, 0.2); /* Sfondo leggermente più visibile */
+    background-color: #e9ecf1;
+    color: #333;
 }
 
 .transcript-container {
     height: 0;
     overflow: hidden;
     transition: height 0.3s ease;
+    background-color: #f9f9f9;
+    border-radius: 0.5rem;
 }
 
 .transcript-container.expanded {
     height: auto;
     padding: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 1.5rem;
-}
-
-.toggle-transcript {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-}
-
-.toggle-transcript:hover {
-    color: #a5b4fc;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
 }
 
 .toggle-icon {
@@ -181,24 +309,445 @@ a:focus-visible,
     transform: rotate(180deg);
 }
 
-.audio-player-card {
-    border-radius: 0.75rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+/* Stili focus per l'accessibilità da tastiera */
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #6b46c1;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.25);
 }
 
-.episode-card {
-    transition: all 0.3s ease;
+/* Stile per il footer */
+footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    background-color: #f0f0f0;
+    color: #666;
+    text-align: center;
+    font-size: 0.875rem;
 }
 
-.episode-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+/* Media query per preferenze di riduzione movimento */
+@media (prefers-reduced-motion: reduce) {
+    .episode-card::before {
+        animation: none;
+    }
+    
+    .episode-card:hover {
+        transform: none;
+    }
+    
+    .toggle-icon {
+        transition: none;
+    }
+    
+    .toggle-transcript, .episode-card {
+        transition: none;
+    }
+}
+
+/* Media query per dispositivi mobili */
+@media (max-width: 640px) {
+    .hero-content {
+        gap: 1rem;
+    }
+    
+    .podcast-icon-large {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        padding: 0.4rem 1.2rem;
+    }
 }
 
 /* Miglioramento della leggibilità del testo */
 p, li {
-    max-width: 70ch; /* Limite larghezza massima per migliorare la leggibilità */
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 70ch;
+    color: #454545;
+    line-height: 1.6;
+}
+
+/* Sezione cronologica del tour completamente riprogettata e migliorata */
+.tour-timeline-section {
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.tour-timeline-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    background: linear-gradient(180deg, rgba(248,249,250,1) 0%, rgba(248,249,250,0) 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+/* Container principale della timeline con sfondo elegante */
+.timeline-container {
+    position: relative;
+    padding: 1.5rem 0;
+    margin: 2rem 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(5px);
+}
+
+/* Wrapper per la track scorrevole migliorato */
+.timeline-track-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 2rem 0;
+    margin: 0 -1rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+}
+
+.timeline-track-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Track della timeline migliorata */
+.timeline-track {
+    position: relative;
+    display: flex;
+    min-width: min-content;
+    padding: 0 2rem;
+}
+
+/* Linea di connessione tra gli elementi - design migliorato */
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 3rem;
+    right: 3rem;
+    height: 6px;
+    background: linear-gradient(to right, #8b5cf6, #3b82f6, #10b981);
+    transform: translateY(-50%);
+    z-index: 1;
+    border-radius: 3px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    opacity: 0.7;
+}
+
+/* Effetto glowing per la linea della timeline */
+.timeline-line::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    right: 0;
+    height: 14px;
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2));
+    filter: blur(4px);
+    border-radius: 7px;
+    opacity: 0.5;
+}
+
+/* Container delle fermate della timeline */
+.timeline-stops {
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+
+/* Stile per ogni fermata nella timeline - design migliorato */
+.timeline-stop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.5rem;
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 0 0.5rem;
+    scroll-snap-align: center;
+}
+
+/* Icona della fermata - design migliorato */
+.timeline-stop-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: white;
+    margin-bottom: 1rem;
+    border: 3px solid #e5e7eb;
+    color: #6b46c1;
+    font-size: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08), inset 0 -3px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Anello esterno animato per l'icona */
+.timeline-stop-icon::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #8b5cf6, #3b82f6, #10b981, #8b5cf6);
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+/* Etichetta della fermata - design migliorato */
+.timeline-stop-label {
+    max-width: 120px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4b5563;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+}
+
+/* Punto sulla linea temporale - design migliorato */
+.timeline-stop-dot {
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    border: 3px solid white;
+    border-radius: 50%;
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0.7;
+}
+
+/* Effetti hover migliorati per le fermate */
+.timeline-stop:hover .timeline-stop-icon,
+.timeline-stop:focus .timeline-stop-icon {
+    transform: translateY(-10px);
+    border-color: #8b5cf6;
+    background: white;
+    color: #8b5cf6;
+    box-shadow: 0 12px 20px rgba(107, 70, 193, 0.25);
+}
+
+.timeline-stop:hover .timeline-stop-icon::before,
+.timeline-stop:focus .timeline-stop-icon::before {
+    opacity: 1;
+    transform: scale(1);
+    animation: rotateConic 4s linear infinite;
+}
+
+@keyframes rotateConic {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.timeline-stop:hover .timeline-stop-label,
+.timeline-stop:focus .timeline-stop-label {
+    color: #6b46c1;
+    font-weight: 600;
+    transform: translateY(-2px);
+}
+
+.timeline-stop:hover .timeline-stop-dot,
+.timeline-stop:focus .timeline-stop-dot {
+    transform: translateX(-50%) scale(1.4);
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    border-color: white;
+    opacity: 1;
+    box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.2);
+}
+
+/* Fermata attiva - design migliorato */
+.timeline-stop.active .timeline-stop-icon {
+    transform: translateY(-12px);
+    border-color: #8b5cf6;
+    background: white;
+    color: #8b5cf6;
+    box-shadow: 0 16px 30px rgba(107, 70, 193, 0.3), 0 0 0 8px rgba(139, 92, 246, 0.1);
+    animation: pulseActive 2s infinite alternate;
+}
+
+.timeline-stop.active .timeline-stop-icon::before {
+    opacity: 1;
+    transform: scale(1);
+    animation: rotateConic 4s linear infinite;
+}
+
+@keyframes pulseActive {
+    0% {
+        box-shadow: 0 16px 30px rgba(107, 70, 193, 0.3), 0 0 0 4px rgba(139, 92, 246, 0.1);
+    }
+    100% {
+        box-shadow: 0 16px 30px rgba(107, 70, 193, 0.3), 0 0 0 8px rgba(139, 92, 246, 0.2);
+    }
+}
+
+.timeline-stop.active .timeline-stop-label {
+    color: #6b46c1;
+    font-weight: 700;
+    transform: translateY(-4px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-stop.active .timeline-stop-dot {
+    transform: translateX(-50%) scale(1.8);
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    border-color: white;
+    box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.25), 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+/* Controlli di navigazione migliorati */
+.timeline-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 5;
+}
+
+.timeline-control {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #6b46c1;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effetto background per i controlli */
+.timeline-control::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.timeline-control:hover::before,
+.timeline-control:focus::before {
+    opacity: 1;
+}
+
+.timeline-control:hover,
+.timeline-control:focus {
+    color: white;
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(107, 70, 193, 0.3);
+}
+
+.timeline-control:active {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 8px rgba(107, 70, 193, 0.2);
+}
+
+/* Indicator per la direzione dello scroll */
+.timeline-scroll-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 10px;
+    padding: 0.25rem 1rem;
+    font-size: 0.75rem;
+    color: #6b46c1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.timeline-scroll-indicator.visible {
+    opacity: 1;
+    animation: fadeInOut 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* Responsive per schermi diversi */
+@media (max-width: 768px) {
+    .timeline-stop-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 1.25rem;
+    }
+    
+    .timeline-stop {
+        padding: 0 1.2rem;
+    }
+    
+    .timeline-stop-label {
+        max-width: 100px;
+        font-size: 0.8rem;
+    }
+    
+    .timeline-control {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .timeline-track-wrapper {
+        padding: 2.5rem 0;
+    }
+    
+    .timeline-stop {
+        padding: 0 2rem;
+    }
+    
+    .timeline-stop-icon {
+        width: 72px;
+        height: 72px;
+        font-size: 1.75rem;
+    }
+    
+    .timeline-stop-label {
+        max-width: 140px;
+        font-size: 1rem;
+    }
 }
