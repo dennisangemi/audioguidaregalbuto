@@ -690,3 +690,105 @@ p, li {
         font-size: 1rem;
     }
 }
+
+/* Stile specifico per la card di introduzione */
+.introduction-card {
+    border-left: none;
+    border-top: none;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #ffffff, #f9f7ff);
+}
+
+.introduction-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px; 
+    background: linear-gradient(to right, #8b5cf6, #3b82f6, #10b981);
+    z-index: 1;
+}
+
+.introduction-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 180px;
+    height: 180px;
+    background-image: radial-gradient(circle at center, rgba(139, 92, 246, 0.07) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* Icona speciale per l'introduzione */
+.intro-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    animation: pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+}
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+}
+
+.intro-features {
+    transition: all 0.3s ease;
+}
+
+.intro-feature {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.intro-feature:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.1);
+    background-color: rgba(139, 92, 246, 0.08);
+}
+
+/* Miglioramento per il player audio nella sezione introduzione */
+.introduction-card .audio-player-card {
+    background-color: #f5f0ff;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    transition: all 0.3s ease;
+}
+
+.introduction-card .audio-player-card:hover {
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
+}
+
+/* Miglioramento per la trascrizione nell'introduzione */
+.introduction-card .toggle-transcript {
+    background-color: #f5f0ff;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    color: #6b46c1;
+}
+
+.introduction-card .toggle-transcript:hover,
+.introduction-card .toggle-transcript:focus {
+    background-color: #ede9fe;
+    color: #5b21b6;
+}
+
+.introduction-card .transcript-container.expanded {
+    background-color: #f9f7ff;
+    border-top: 1px solid rgba(139, 92, 246, 0.2);
+}
