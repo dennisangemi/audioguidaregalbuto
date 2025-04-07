@@ -220,21 +220,40 @@ body {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Player audio nell'hero */
+/* Player audio nell'hero - versione minimale senza contorni evidenti */
 .intro-player {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 0.75rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 95%;
+    margin: 1.5rem auto;
     transition: all 0.3s ease;
-    margin-bottom: 1rem;
+    /* Rimossi background, border, shadow e padding */
 }
 
 .intro-player:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    /* Rimossa l'ombra sull'hover */
+}
+
+/* Container della trascrizione - allineato con il player */
+.intro-transcript-container {
+    margin-top: 1rem;
+    width: 95%; /* Stessa larghezza del player */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Pulsante trascrizione nell'hero - stessa larghezza dell'iframe */
+.intro-transcript-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.875rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.2s ease;
 }
 
 /* Container della trascrizione */
