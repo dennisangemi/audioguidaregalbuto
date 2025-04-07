@@ -321,17 +321,17 @@ a:focus-visible,
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.25); /* Sfondo più scuro rispetto al precedente rgba(255, 255, 255, 0.2) */
+    background-color: rgba(0, 0, 0, 0.45); /* Sfondo ancora più scuro per massimo contrasto */
     border-radius: 12px;
     padding: 0.75rem 1.25rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Bordo più visibile */
     color: white;
-    font-weight: 500;
+    font-weight: 600; /* Più pesante per miglior contrasto */
     flex: 1;
     min-width: 0;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
 }
 
 .intro-feature i {
@@ -339,22 +339,26 @@ a:focus-visible,
     color: #ffffff; /* Colore solido anziché semitrasparente */
     min-width: 1.25rem;
     text-align: center;
+    /* Aggiunta di ombra per aumentare il contrasto con lo sfondo */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .intro-feature span {
-    font-weight: 500;
-    color: #ffffff; /* Colore solido anziché semitrasparente */
+    font-weight: 600; /* Aumentato per miglior contrasto */
+    color: #ffffff;
+    /* Aggiunta di ombra per aumentare il contrasto con lo sfondo */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .intro-feature:hover {
     transform: translateY(-3px);
-    background-color: rgba(0, 0, 0, 0.35); /* Sfondo più scuro all'hover */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.55); /* Sfondo più scuro all'hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
 /* Player audio nell'hero - versione minimale senza contorni evidenti */
 .intro-player {
-    width: 95%;
+    width: 100%; /* Aumentato da 95% a 100% */
     margin: 1.5rem auto;
     transition: all 0.3s ease;
     /* Rimossi background, border, shadow e padding */
@@ -368,46 +372,37 @@ a:focus-visible,
 /* Container della trascrizione - allineato con il player */
 .intro-transcript-container {
     margin-top: 1rem;
-    width: 95%; /* Stessa larghezza del player */
+    width: 100%; /* Aumentato da 95% a 100% per essere uguale alla larghezza del contenitore */
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Pulsante trascrizione nell'hero - contrasto migliorato */
+/* Pulsante trascrizione nell'hero - stessa larghezza dell'iframe e miglior contrasto */
 .intro-transcript-button {
-    background: rgba(0, 0, 0, 0.25); /* Sfondo più scuro rispetto al precedente */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.875rem;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.4); /* Aumentato ulteriormente l'opacità dello sfondo per miglior contrasto */
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Bordo più visibile */
     backdrop-filter: blur(5px);
     transition: all 0.2s ease;
+    font-weight: 600; /* Testo più in grassetto per miglior contrasto */
 }
 
 .intro-transcript-button:hover,
 .intro-transcript-button:focus {
-    background: rgba(0, 0, 0, 0.35); /* Sfondo più scuro all'hover */
+    background: rgba(0, 0, 0, 0.5); /* Background ancora più scuro all'hover */
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }
 
 /* Container della trascrizione */
 .intro-transcript-container {
     margin-top: 1rem;
-}
-
-/* Pulsante trascrizione nell'hero */
-.intro-transcript-button {
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
-    transition: all 0.2s ease;
-}
-
-.intro-transcript-button:hover,
-.intro-transcript-button:focus {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Contenitore trascrizione */
@@ -1721,17 +1716,17 @@ p, li {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.2); /* Aumentato leggermente il contrasto */
+    background-color: rgba(0, 0, 0, 0.45); /* Aumentato leggermente il contrasto */
     border-radius: 12px;
     padding: 0.75rem 1.25rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     flex: 1;
     min-width: 0; /* Rimosso min-width che causava problemi su mobile */
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
 }
 
 .intro-feature i {
@@ -1739,11 +1734,13 @@ p, li {
     color: rgba(255, 255, 255, 1); /* Aumentato contrasto per accessibilità */
     min-width: 1.25rem; /* Assicura che l'icona mantenga una larghezza minima */
     text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .intro-feature span {
-    font-weight: 500;
+    font-weight: 600;
     color: rgba(255, 255, 255, 1); /* Aumentato contrasto per accessibilità */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Media query per dispositivi mobili - layout migliorato */
