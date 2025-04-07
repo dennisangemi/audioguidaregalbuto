@@ -176,12 +176,12 @@ a:focus-visible,
     letter-spacing: -0.02em;
 }
 
-/* Sottotitolo migliorato per leggibilità */
+/* Sottotitolo migliorato per leggibilità - con contrasto aumentato */
 .hero-subtitle {
     font-size: 1.4rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.95);
-    background-color: rgba(0, 0, 0, 0.15);
+    color: #ffffff; /* Cambiato da rgba(255, 255, 255, 0.95) a bianco solido */
+    background-color: rgba(0, 0, 0, 0.35); /* Aumentato l'opacità dello sfondo da 0.15 a 0.35 */
     padding: 0.5rem 2rem;
     border-radius: 2rem;
     display: inline-block;
@@ -296,14 +296,15 @@ a:focus-visible,
     }
 }
 
-/* Descrizione introduttiva */
+/* Descrizione introduttiva - contrasto migliorato */
 .intro-description {
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff; /* Cambiato da rgba(255, 255, 255, 0.9) a bianco solido */
     font-size: 1.25rem;
     line-height: 1.7;
     margin-bottom: 2rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Ombra più pronunciata per aumentare il contrasto */
     max-width: 600px;
+    font-weight: 400; /* Aggiunto peso del font per migliorare la leggibilità */
 }
 
 /* Features nell'intro */
@@ -315,36 +316,40 @@ a:focus-visible,
     margin-bottom: 1.5rem;
 }
 
+/* Features nell'intro - contrasto migliorato */
 .intro-feature {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.25); /* Sfondo più scuro rispetto al precedente rgba(255, 255, 255, 0.2) */
     border-radius: 12px;
     padding: 0.75rem 1.25rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     transition: all 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
+    font-weight: 500;
     flex: 1;
-    min-width: 200px;
+    min-width: 0;
     backdrop-filter: blur(5px);
-}
-
-.intro-feature:hover {
-    transform: translateY(-3px);
-    background-color: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .intro-feature i {
     font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff; /* Colore solido anziché semitrasparente */
+    min-width: 1.25rem;
+    text-align: center;
 }
 
 .intro-feature span {
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff; /* Colore solido anziché semitrasparente */
+}
+
+.intro-feature:hover {
+    transform: translateY(-3px);
+    background-color: rgba(0, 0, 0, 0.35); /* Sfondo più scuro all'hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Player audio nell'hero - versione minimale senza contorni evidenti */
@@ -368,19 +373,20 @@ a:focus-visible,
     margin-right: auto;
 }
 
-/* Pulsante trascrizione nell'hero - stessa larghezza dell'iframe */
+/* Pulsante trascrizione nell'hero - contrasto migliorato */
 .intro-transcript-button {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.875rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.25); /* Sfondo più scuro rispetto al precedente */
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
     transition: all 0.2s ease;
+}
+
+.intro-transcript-button:hover,
+.intro-transcript-button:focus {
+    background: rgba(0, 0, 0, 0.35); /* Sfondo più scuro all'hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Container della trascrizione */
@@ -411,30 +417,20 @@ a:focus-visible,
     border-radius: 12px;
 }
 
-/* Freccia animata sotto l'hero section */
-.hero-arrow-container {
-    position: absolute;
-    bottom: 1rem;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    z-index: 5;
-}
-
+/* Freccia animata sotto l'hero section - contrasto migliorato */
 .hero-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 45px;
     height: 45px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.35); /* Sfondo più scuro per aumentare il contrasto */
     color: white;
     border-radius: 50%;
     animation: bounceArrow 2s ease-in-out infinite;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 1.1rem;
 }
 
