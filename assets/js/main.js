@@ -132,4 +132,62 @@ document.addEventListener('DOMContentLoaded', function() {
             // Implementazione da aggiungere quando avremo tutti gli episodi
         });
     });
+    
+    // Gestione dell'autoplay per l'iframe di Spotify
+    const setupSpotifyAutoplay = () => {
+        const spotifyIframe = document.querySelector('.intro-player iframe');
+        if (!spotifyIframe) return;
+        
+        // Variabile per tracciare se l'autoplay è già stato tentato
+        let autoplayAttempted = false;
+        
+        // Funzione per tentare l'autoplay
+        const attemptAutoplay = () => {
+            if (autoplayAttempted) return;
+            autoplayAttempted = true;
+            
+            try {
+                // Se l'iframe ha già l'autoplay, assicuriamoci che lo utilizzi
+                if (!spotifyIframe.src.includes('autoplay=1')) {
+                    spotifyIframe.src = spotifyIframe.src.includes('?') 
+                        ? `${spotifyIframe.src}&autoplay=1` 
+                        : `${spotifyIframe.src}?autoplay=1`;
+                }
+                
+                // Proviamo a usare l'API postMessage per dare il focus all'iframe
+                spotifyIframe.contentWindow.postMessage('{"method":"play"}', '*');
+                
+                console.log('Autoplay attempt triggered');
+            } catch (e) {
+                console.warn('Autoplay attempt failed:', e);
+            }
+        };
+        
+        // Tentiamo l'autoplay dopo che l'iframe è caricato
+        spotifyIframe.addEventListener('load', () => {
+            // Su alcuni browser, l'autoplay potrebbe funzionare direttamente
+            setTimeout(() => {
+                console.log('Initial autoplay attempt after iframe load');
+            }, 1000);
+        });
+        
+        // Tentiamo l'autoplay alla prima interazione dell'utente con la pagina
+        const userInteractionEvents = ['click', 'touchstart', 'keydown', 'scroll'];
+        
+        const handleFirstInteraction = () => {
+            attemptAutoplay();
+            // Rimuoviamo tutti i listener dopo il primo tentativo
+            userInteractionEvents.forEach(event => {
+                document.removeEventListener(event, handleFirstInteraction);
+            });
+        };
+        
+        // Aggiungiamo i listener per la prima interazione
+        userInteractionEvents.forEach(event => {
+            document.addEventListener(event, handleFirstInteraction);
+        });
+    };
+    
+    // Inizializziamo l'autoplay di Spotify
+    setupSpotifyAutoplay();
 });
