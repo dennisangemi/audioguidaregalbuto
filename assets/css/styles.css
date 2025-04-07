@@ -478,7 +478,7 @@ p, li {
     scroll-snap-align: center;
 }
 
-/* Icona della fermata - design migliorato */
+/* Icona della fermata - design migliorato con miglior contrasto */
 .timeline-stop-icon {
     width: 64px;
     height: 64px;
@@ -489,7 +489,7 @@ p, li {
     background: white;
     margin-bottom: 1rem;
     border: 3px solid #e5e7eb;
-    color: #6b46c1;
+    color: #6b46c1; /* Colore base viola per l'icona */
     font-size: 1.5rem;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
@@ -497,7 +497,7 @@ p, li {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08), inset 0 -3px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Anello esterno animato per l'icona */
+/* Anello esterno animato per l'icona - migliorato */
 .timeline-stop-icon::before {
     content: '';
     position: absolute;
@@ -543,27 +543,22 @@ p, li {
     opacity: 0.7;
 }
 
-/* Effetti hover migliorati per le fermate */
+/* Effetti hover migliorati per le fermate - corretto contrasto icone */
 .timeline-stop:hover .timeline-stop-icon,
 .timeline-stop:focus .timeline-stop-icon {
     transform: translateY(-10px);
     border-color: #8b5cf6;
-    background: white;
-    color: #8b5cf6;
+    background: #f0f0ff; /* Sfondo più chiaro per miglior contrasto */
+    color: #6b46c1; /* Viola più scuro per miglior contrasto */
     box-shadow: 0 12px 20px rgba(107, 70, 193, 0.25);
+    font-weight: bold; /* Rende l'icona più spessa e visibile */
 }
 
 .timeline-stop:hover .timeline-stop-icon::before,
 .timeline-stop:focus .timeline-stop-icon::before {
-    opacity: 1;
+    opacity: 0.6; /* Ridotta opacità dell'anello per far risaltare l'icona */
     transform: scale(1);
     animation: rotateConic 4s linear infinite;
-}
-
-@keyframes rotateConic {
-    100% {
-        transform: rotate(360deg);
-    }
 }
 
 .timeline-stop:hover .timeline-stop-label,
@@ -582,29 +577,35 @@ p, li {
     box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.2);
 }
 
-/* Fermata attiva - design migliorato */
+/* Fermata attiva - design migliorato con contrasto corretto */
 .timeline-stop.active .timeline-stop-icon {
     transform: translateY(-12px);
     border-color: #8b5cf6;
-    background: white;
-    color: #8b5cf6;
+    background: #f8f7ff; /* Sfondo ancora più chiaro per l'elemento attivo */
+    color: #5a2ca0; /* Viola ancora più scuro per massimo contrasto */
     box-shadow: 0 16px 30px rgba(107, 70, 193, 0.3), 0 0 0 8px rgba(139, 92, 246, 0.1);
     animation: pulseActive 2s infinite alternate;
+    font-weight: bold; /* Rende l'icona più spessa e visibile */
+    font-size: 1.6rem; /* Icona leggermente più grande quando attiva */
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5); /* Ombra chiara per definire meglio l'icona */
 }
 
 .timeline-stop.active .timeline-stop-icon::before {
-    opacity: 1;
+    opacity: 0.5; /* Opacità ridotta per l'anello colorato dell'elemento attivo */
     transform: scale(1);
     animation: rotateConic 4s linear infinite;
 }
 
-@keyframes pulseActive {
-    0% {
-        box-shadow: 0 16px 30px rgba(107, 70, 193, 0.3), 0 0 0 4px rgba(139, 92, 246, 0.1);
-    }
-    100% {
-        box-shadow: 0 16px 30px rgba(107, 70, 193, 0.3), 0 0 0 8px rgba(139, 92, 246, 0.2);
-    }
+/* Aggiunto highlight attorno all'icona per migliorare la visibilità */
+.timeline-stop-icon i {
+    position: relative;
+    z-index: 3;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)); /* Ombra sottile per definire meglio l'icona */
+}
+
+.timeline-stop.active .timeline-stop-icon i,
+.timeline-stop:hover .timeline-stop-icon i {
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2)); /* Ombra più pronunciata per stato hover/active */
 }
 
 .timeline-stop.active .timeline-stop-label {
