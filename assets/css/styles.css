@@ -103,7 +103,7 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Icona di podcast grande nell'header - migliorata con rotazione */
+/* Icona di podcast grande nell'header - migliorata con rotazione e onde audio */
 .podcast-icon-large {
     width: 110px;
     height: 110px;
@@ -126,9 +126,43 @@ body {
     z-index: 3;
 }
 
-/* Rotazione lenta per l'icona della bussola */
+/* Rotazione MOLTO più lenta per l'icona della bussola */
 .podcast-icon-large i {
-    animation: slowSpin 12s linear infinite;
+    animation: slowSpin 40s linear infinite; /* Cambiato da 12s a 40s per una rotazione molto più lenta */
+}
+
+/* Aggiungi le onde audio attorno all'icona con pseudo-elementi */
+.podcast-icon-large::before, 
+.podcast-icon-large::after {
+    content: '';
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: audioWave 3s ease-out infinite;
+}
+
+/* Seconda onda con timing diverso */
+.podcast-icon-large::after {
+    animation-delay: 1s;
+}
+
+/* Animazione onde sonore */
+@keyframes audioWave {
+    0% {
+        width: 110%;
+        height: 110%;
+        opacity: 1;
+        border-width: 3px;
+    }
+    100% {
+        width: 230%;
+        height: 230%;
+        opacity: 0;
+        border-width: 1px;
+    }
 }
 
 @keyframes slowSpin {
@@ -141,6 +175,11 @@ body {
     box-shadow: 
         0 15px 30px rgba(0, 0, 0, 0.3),
         0 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+.podcast-icon-large:hover::before,
+.podcast-icon-large:hover::after {
+    animation-play-state: paused; /* Pausa l'animazione delle onde all'hover */
 }
 
 /* Sezione introduttiva integrata nell'hero */
@@ -576,6 +615,15 @@ footer {
     
     .toggle-transcript, .episode-card {
         transition: none;
+    }
+    
+    .podcast-icon-large i {
+        animation: none; /* Stop della rotazione */
+    }
+    
+    .podcast-icon-large::before,
+    .podcast-icon-large::after {
+        animation: none; /* Stop delle onde audio */
     }
 }
 
