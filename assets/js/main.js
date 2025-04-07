@@ -36,59 +36,147 @@ document.addEventListener('DOMContentLoaded', function() {
     const timelineTrack = document.querySelector('.timeline-track');
     const prevButton = document.querySelector('.timeline-control.prev');
     const nextButton = document.querySelector('.timeline-control.next');
+    const animationControlButton = document.querySelector('.animation-control');
     const timelineStops = document.querySelectorAll('.timeline-stop');
+    const timelineIndicatorsContainer = document.querySelector('.timeline-indicators');
     
-    if (timelineWrapper && timelineTrack && prevButton && nextButton) {
-        // Imposta la prima tappa come attiva inizialmente
-        if (timelineStops.length > 0) {
-            timelineStops[0].classList.add('active');
-            timelineStops[0].setAttribute('aria-current', 'location');
-        }
+    if (timelineWrapper && timelineTrack && prevButton && nextButton && animationControlButton) {
+        // Variabile per gestire lo stato di autoplay e il suo intervallo
+        let autoplayActive = true; // ATTIVO per default
+        let autoplayInterval;
+        let currentStopIndex = 0;
+        const AUTOPLAY_INTERVAL = 4000; // 4 secondi tra ogni transizione
         
-        // Funzione per scorrere a sinistra
-        prevButton.addEventListener('click', function() {
-            timelineWrapper.scrollBy({
-                left: -300,
-                behavior: getScrollBehavior()
-            });
-        });
-        
-        // Funzione per scorrere a destra
-        nextButton.addEventListener('click', function() {
-            timelineWrapper.scrollBy({
-                left: 300,
-                behavior: getScrollBehavior()
-            });
-        });
-        
-        // Gestione click sulle tappe della timeline - migliorata per accessibilità
-        timelineStops.forEach(stop => {
-            stop.addEventListener('click', function() {
-                // Rimuovi la classe active e aria-current da tutti gli elementi
-                timelineStops.forEach(s => {
-                    s.classList.remove('active');
-                    s.removeAttribute('aria-current');
+        // Creiamo i pallini indicatori in base al numero di fermate
+        if (timelineIndicatorsContainer && timelineStops.length > 0) {
+            timelineStops.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('timeline-indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.setAttribute('data-index', index);
+                
+                // Event listener per cliccare sul pallino
+                indicator.addEventListener('click', () => {
+                    goToStop(index);
                 });
                 
-                // Aggiungi la classe active e aria-current all'elemento cliccato
-                this.classList.add('active');
-                this.setAttribute('aria-current', 'location');
+                timelineIndicatorsContainer.appendChild(indicator);
+            });
+        }
+        
+        // Funzione per interrompere l'animazione
+        function stopAnimation() {
+            clearInterval(autoplayInterval);
+            autoplayActive = false;
+            animationControlButton.textContent = "Riprendi animazione";
+            animationControlButton.setAttribute('aria-label', 'Riprendi animazione automatica');
+            announceToScreenReader('Animazione interrotta');
+        }
+        
+        // Funzione per avviare l'animazione
+        function startAnimation() {
+            autoplayActive = true;
+            animationControlButton.textContent = "Interrompi animazione";
+            animationControlButton.setAttribute('aria-label', 'Interrompi animazione automatica');
+            announceToScreenReader('Animazione avviata');
+            
+            autoplayInterval = setInterval(() => {
+                // Passa al prossimo elemento
+                currentStopIndex = (currentStopIndex + 1) % timelineStops.length;
+                goToStop(currentStopIndex);
+            }, AUTOPLAY_INTERVAL);
+        }
+        
+        // Funzione per andare a una specifica fermata
+        function goToStop(index) {
+            if (index >= 0 && index < timelineStops.length) {
+                // Rimuovi le classi active/highlighted da tutti
+                timelineStops.forEach(stop => {
+                    stop.classList.remove('active', 'highlighted');
+                    stop.removeAttribute('aria-current');
+                });
+                
+                // Aggiorna l'indice corrente
+                currentStopIndex = index;
+                const targetStop = timelineStops[index];
+                
+                // Attiva la fermata selezionata
+                targetStop.classList.add('active', 'highlighted');
+                targetStop.setAttribute('aria-current', 'location');
+                
+                // Aggiorna i pallini indicatori
+                const indicators = document.querySelectorAll('.timeline-indicator');
+                indicators.forEach((indicator, i) => {
+                    if (i === index) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+                
+                // Scorri l'elemento nel centro della vista
+                const stopRect = targetStop.getBoundingClientRect();
+                const wrapperRect = timelineWrapper.getBoundingClientRect();
+                const centerPosition = targetStop.offsetLeft - (wrapperRect.width / 2) + (stopRect.width / 2);
+                
+                timelineWrapper.scrollTo({
+                    left: centerPosition,
+                    behavior: getScrollBehavior()
+                });
+                
+                // Se è attivo l'autoplay, resetta l'intervallo per evitare sovrapposizioni
+                if (autoplayActive) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = setInterval(() => {
+                        currentStopIndex = (currentStopIndex + 1) % timelineStops.length;
+                        goToStop(currentStopIndex);
+                    }, AUTOPLAY_INTERVAL);
+                }
+            }
+        }
+        
+        // Toggles the animation state
+        animationControlButton.addEventListener('click', function() {
+            if (autoplayActive) {
+                stopAnimation();
+            } else {
+                startAnimation();
+            }
+        });
+        
+        // Ferma l'autoplay quando l'utente scorre manualmente
+        timelineWrapper.addEventListener('scroll', () => {
+            if (autoplayActive) {
+                stopAnimation();
+            }
+        });
+        
+        // Ferma l'autoplay quando l'utente usa i controlli di navigazione
+        prevButton.addEventListener('click', () => {
+            if (autoplayActive) stopAnimation();
+            
+            currentStopIndex = Math.max(0, currentStopIndex - 1);
+            goToStop(currentStopIndex);
+        });
+        
+        nextButton.addEventListener('click', () => {
+            if (autoplayActive) stopAnimation();
+            
+            currentStopIndex = Math.min(timelineStops.length - 1, currentStopIndex + 1);
+            goToStop(currentStopIndex);
+        });
+        
+        // Ferma l'autoplay quando l'utente clicca su una tappa
+        timelineStops.forEach((stop, index) => {
+            stop.addEventListener('click', function() {
+                if (autoplayActive) stopAnimation();
+                goToStop(index);
                 
                 // Ottieni il nome della location
                 const locationName = this.querySelector('.timeline-stop-label').textContent;
                 
                 // Annuncia il cambio di posizione per gli screenreader
                 announceToScreenReader(`Navigazione a ${locationName}`);
-                
-                // Scorri l'elemento al centro del viewport
-                const stopRect = this.getBoundingClientRect();
-                const wrapperRect = timelineWrapper.getBoundingClientRect();
-                const centerPosition = stopRect.left - wrapperRect.left + (stopRect.width / 2) - (wrapperRect.width / 2);
-                
-                timelineWrapper.scrollBy({
-                    left: centerPosition,
-                    behavior: getScrollBehavior()
-                });
                 
                 // Trova l'episodio corrispondente e scorri ad esso
                 const episodeCards = document.querySelectorAll('.episode-card');
@@ -110,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (heading) {
                                 heading.setAttribute('tabindex', '-1');
                                 heading.focus();
-                                // Rimuovere il tabindex dopo il focus per mantenere un DOM pulito
+                                // Rimuovere il tabindex dopo il focus
                                 setTimeout(() => {
                                     heading.removeAttribute('tabindex');
                                 }, 100);
@@ -147,6 +235,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
             }
         });
+        
+        // Rispetta la preferenza di riduzione movimento
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Disabilita l'autoplay per chi preferisce ridurre il movimento
+            clearInterval(autoplayInterval);
+            autoplayActive = false;
+            animationControlButton.disabled = true;
+            animationControlButton.style.opacity = '0.5';
+            animationControlButton.textContent = "Animazione disabilitata";
+            animationControlButton.setAttribute('aria-disabled', 'true');
+        } else {
+            // Avvia l'animazione automatica all'apertura della pagina
+            startAnimation();
+        }
     }
     
     // Funzione per rispettare preferenze di riduzione movimento
