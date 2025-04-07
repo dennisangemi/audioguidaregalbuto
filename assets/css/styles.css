@@ -1710,3 +1710,111 @@ p, li {
         min-width: 0;
     }
 }
+
+/* Features nell'intro - layout migliorato per mobile */
+.intro-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.intro-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.2); /* Aumentato leggermente il contrasto */
+    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0; /* Rimosso min-width che causava problemi su mobile */
+    backdrop-filter: blur(5px);
+}
+
+.intro-feature i {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 1); /* Aumentato contrasto per accessibilità */
+    min-width: 1.25rem; /* Assicura che l'icona mantenga una larghezza minima */
+    text-align: center;
+}
+
+.intro-feature span {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1); /* Aumentato contrasto per accessibilità */
+}
+
+/* Media query per dispositivi mobili - layout migliorato */
+@media (max-width: 768px) {
+    .intro-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Layout a griglia responsive */
+        gap: 0.5rem;
+    }
+    
+    .intro-feature {
+        padding: 0.6rem 0.75rem;
+        width: 100%;
+        justify-content: flex-start; /* Allinea gli elementi a sinistra */
+    }
+    
+    .intro-feature i {
+        font-size: 1rem;
+    }
+    
+    .intro-feature span {
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+}
+
+/* Media query per dispositivi molto piccoli */
+@media (max-width: 360px) {
+    .intro-features {
+        grid-template-columns: 1fr; /* Layout a singola colonna */
+    }
+    
+    .intro-feature {
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Miglioramento della sezione introduttiva per mobile */
+@media (max-width: 768px) {
+    .intro-section {
+        gap: 1rem;
+    }
+    
+    .intro-content {
+        order: 1; /* Spostato sotto il player su mobile */
+    }
+    
+    .intro-player-container {
+        order: 0; /* Spostato sopra il contenuto su mobile */
+        margin-bottom: 1rem;
+    }
+    
+    .intro-description {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    /* Container speciale per ridisporre la sezione intro su mobile */
+    .intro-features-container {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .intro-features {
+        max-width: 450px; /* Limita la larghezza per mantenere la leggibilità */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
