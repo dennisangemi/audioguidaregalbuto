@@ -68,7 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
         function stopAnimation() {
             clearInterval(autoplayInterval);
             autoplayActive = false;
-            animationControlButton.textContent = "Riprendi animazione";
+            const controlIcon = animationControlButton.querySelector('.control-icon i');
+            const controlText = animationControlButton.querySelector('.control-text');
+            
+            controlIcon.className = 'fas fa-play';
+            controlText.textContent = "Riprendi animazione";
             animationControlButton.setAttribute('aria-label', 'Riprendi animazione automatica');
             announceToScreenReader('Animazione interrotta');
         }
@@ -76,7 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Funzione per avviare l'animazione
         function startAnimation() {
             autoplayActive = true;
-            animationControlButton.textContent = "Interrompi animazione";
+            const controlIcon = animationControlButton.querySelector('.control-icon i');
+            const controlText = animationControlButton.querySelector('.control-text');
+            
+            controlIcon.className = 'fas fa-pause';
+            controlText.textContent = "Interrompi animazione";
             animationControlButton.setAttribute('aria-label', 'Interrompi animazione automatica');
             announceToScreenReader('Animazione avviata');
             
@@ -241,9 +249,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Disabilita l'autoplay per chi preferisce ridurre il movimento
             clearInterval(autoplayInterval);
             autoplayActive = false;
+            
+            const controlIcon = animationControlButton.querySelector('.control-icon i');
+            const controlText = animationControlButton.querySelector('.control-text');
+            
+            controlIcon.className = 'fas fa-ban';
+            controlText.textContent = "Animazione disabilitata";
+            
             animationControlButton.disabled = true;
             animationControlButton.style.opacity = '0.5';
-            animationControlButton.textContent = "Animazione disabilitata";
             animationControlButton.setAttribute('aria-disabled', 'true');
         } else {
             // Avvia l'animazione automatica all'apertura della pagina
