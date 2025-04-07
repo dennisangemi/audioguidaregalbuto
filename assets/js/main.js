@@ -37,21 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevButton = document.querySelector('.timeline-control.prev');
     const nextButton = document.querySelector('.timeline-control.next');
     const timelineStops = document.querySelectorAll('.timeline-stop');
-    const scrollIndicator = document.querySelector('.timeline-scroll-indicator');
     
     if (timelineWrapper && timelineTrack && prevButton && nextButton) {
-        // Mostra l'indicatore di scroll inizialmente
-        if (scrollIndicator) {
-            setTimeout(() => {
-                scrollIndicator.classList.add('visible');
-                
-                // Nasconde l'indicatore dopo alcuni secondi
-                setTimeout(() => {
-                    scrollIndicator.classList.remove('visible');
-                }, 3000);
-            }, 1000);
-        }
-        
         // Imposta la prima tappa come attiva inizialmente
         if (timelineStops.length > 0) {
             timelineStops[0].classList.add('active');
@@ -64,10 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 left: -300,
                 behavior: getScrollBehavior()
             });
-            
-            if (scrollIndicator) {
-                scrollIndicator.classList.remove('visible');
-            }
         });
         
         // Funzione per scorrere a destra
@@ -76,10 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 left: 300,
                 behavior: getScrollBehavior()
             });
-            
-            if (scrollIndicator) {
-                scrollIndicator.classList.remove('visible');
-            }
         });
         
         // Gestione click sulle tappe della timeline - migliorata per accessibilità

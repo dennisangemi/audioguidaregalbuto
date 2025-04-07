@@ -942,34 +942,6 @@ p, li {
     position: relative;
 }
 
-/* Indicator per la direzione dello scroll - migliorato per accessibilità */
-.timeline-scroll-indicator {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #6b46c1; /* Cambiato sfondo per miglior contrasto */
-    color: white; /* Testo bianco su sfondo viola per alto contrasto */
-    border-radius: 10px;
-    padding: 0.25rem 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.timeline-scroll-indicator.visible {
-    opacity: 1;
-}
-
-/* Rimossa l'animazione fadeInOut che poteva causare problemi di contrasto */
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
 /* Responsive per schermi diversi */
 @media (max-width: 768px) {
     .timeline-stop-icon {
