@@ -973,8 +973,8 @@ p, li {
 .timeline-indicators {
     display: flex;
     justify-content: center;
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem; /* Ridotto il margine superiore */
+    margin-bottom: 1.25rem; /* Aumentato il margine inferiore */
     gap: 0.5rem;
     flex-wrap: wrap;
 }
@@ -999,6 +999,32 @@ p, li {
 .timeline-indicator:hover {
     background-color: #d5c5ff;
     transform: scale(1.2);
+}
+
+/* Pulsante migliorato per controllare l'animazione - centrato sopra gli indicatori */
+.animation-control-wrapper {
+    text-align: center;
+    margin: 1rem auto 0.75rem; /* Margine modificato per posizionarlo sopra gli indicatori */
+    position: relative;
+    z-index: 10; /* Assicura che il pulsante sia sopra altri elementi */
+}
+
+.animation-control {
+    display: inline-flex; /* Modificato da flex a inline-flex per centrare meglio */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #f0e6ff;
+    color: #5a2ca0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(107, 70, 193, 0.2);
+    box-shadow: 0 2px 4px rgba(107, 70, 193, 0.1);
+    margin: 0 auto; /* Aggiunto per centrare il pulsante */
 }
 
 /* Pulsante discreto per fermare l'animazione */
