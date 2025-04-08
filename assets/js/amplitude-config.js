@@ -257,17 +257,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Gestisci il completamento della riproduzione
-    Amplitude.events.on('ended', function() {
-        console.log('Riproduzione completata');
-        // Reimposta lo stato dopo che la traccia è terminata
-        if (audioState.currentPlayer) {
-            const currentPlayerElement = document.getElementById(audioState.currentPlayer);
-            if (currentPlayerElement) {
-                currentPlayerElement.classList.remove('amplitude-playing');
-                currentPlayerElement.classList.add('amplitude-paused');
+    // Aggiunto controllo di sicurezza per evitare errore "Cannot read properties of undefined"
+    if (typeof Amplitude !== 'undefined' && Amplitude.events) {
+        Amplitude.events.on('ended', function() {
+            console.log('Riproduzione completata');
+            // Reimposta lo stato dopo che la traccia è terminata
+            if (audioState.currentPlayer) {
+                const currentPlayerElement = document.getElementById(audioState.currentPlayer);
+                if (currentPlayerElement) {
+                    currentPlayerElement.classList.remove('amplitude-playing');
+                    currentPlayerElement.classList.add('amplitude-paused');
+                }
             }
-        }
-        audioState.isPlaying = false;
-        audioState.pausedPlayer = null; // La traccia è finita, quindi non c'è più un player in pausa
-    });
+            audioState.isPlaying = false;
+            audioState.pausedPlayer = null; // La traccia è finita, quindi non c'è più un player in pausa
+        });
+    } else {
+        console.warn('Amplitude non è inizializzato correttamente o non ha il metodo events.on');
+    }
 });

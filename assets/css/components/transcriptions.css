@@ -1,0 +1,82 @@
+/* Stile per i componenti di trascrizione */
+
+/* Container per le trascrizioni */
+.transcript-container {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    background-color: #f9f9f9;
+    border-radius: 0.5rem;
+}
+
+.transcript-container.expanded {
+    height: auto;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+}
+
+/* Stile per il bottone di toggle */
+.toggle-transcript {
+    background-color: #f5f7fa;
+    color: #555;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.toggle-transcript:hover,
+.toggle-transcript:focus {
+    background-color: #e9ecf1;
+    color: #333;
+}
+
+/* Rotazione icona */
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.rotate-icon {
+    transform: rotate(180deg);
+}
+
+/* Stili per il caricamento */
+.transcript-container .fa-spinner {
+    color: #6b46c1;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+}
+
+/* Stile per errori */
+.transcript-container .text-red-600 {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+/* Animazione di caricamento */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Media query per preferenze di riduzione movimento */
+@media (prefers-reduced-motion: reduce) {
+    .transcript-container {
+        transition: none;
+    }
+    
+    .toggle-icon {
+        transition: none;
+    }
+    
+    .fa-spin {
+        animation: none;
+    }
+}

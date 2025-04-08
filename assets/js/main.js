@@ -2,6 +2,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gestione migliorata delle trascrizioni
     const toggleButtons = document.querySelectorAll('.toggle-transcript');
     
+    // Mappa per associare ogni container di trascrizione al suo file
+    const transcriptFiles = {
+        'transcript-0': 'assets/transcription/it/0_intro.txt',
+        'transcript-1': 'assets/transcription/it/1_piazza_repubblica.txt',
+        'transcript-2': 'assets/transcription/it/2_palazzo_comunale.txt',
+        'transcript-3': 'assets/transcription/it/2_palazzo_comunale.txt' // Aggiunto per compatibilità
+    };
+    
+    // Flag per tenere traccia dei file già caricati
+    const loadedTranscripts = {};
+    
     // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
     document.querySelectorAll('.transcript-container').forEach(container => {
         // Assicuriamo che tutti i contenitori partano nascosti
@@ -38,6 +49,73 @@ document.addEventListener('DOMContentLoaded', function() {
             // Aggiorna lo stato ARIA e l'aspetto del pulsante
             updateButtonState(this, willExpand);
             transcriptContainer.setAttribute('aria-hidden', !willExpand);
+            
+            // Se stiamo espandendo e non abbiamo ancora caricato il contenuto
+            if (willExpand && !loadedTranscripts[targetId]) {
+                // Ottieni il percorso del file
+                const filePath = transcriptFiles[targetId];
+                
+                if (!filePath) {
+                    console.error(`Nessun file di trascrizione mappato per l'ID: ${targetId}`);
+                    return;
+                }
+                
+                // Trova il contenitore del contenuto
+                const contentDiv = transcriptContainer.querySelector('.space-y-4');
+                if (!contentDiv) {
+                    console.error(`Contenitore del contenuto (.space-y-4) non trovato in: ${targetId}`);
+                    return;
+                }
+                
+                // Mostra indicatore di caricamento
+                contentDiv.innerHTML = '<p class="text-center"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Caricamento trascrizione...</p>';
+                
+                console.log(`Caricamento trascrizione da: ${filePath}`);
+                
+                // Carica il file di trascrizione
+                fetch(filePath)
+                    .then(response => {
+                        console.log(`Risposta ricevuta con stato: ${response.status}`);
+                        if (!response.ok) {
+                            throw new Error(`Errore nel caricamento (${response.status}: ${response.statusText})`);
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        console.log(`Contenuto caricato (${text.length} caratteri)`);
+                        
+                        if (!text || text.trim().length === 0) {
+                            throw new Error('Il file di trascrizione è vuoto');
+                        }
+                        
+                        // Formatta il testo con paragrafi
+                        let paragraphs;
+                        if (text.includes('\n\n')) {
+                            // Se ci sono paragrafi separati da doppi a capo
+                            paragraphs = text.split(/\r?\n\r?\n/)
+                                .filter(p => p.trim() !== '')
+                                .map(p => `<p>${p.trim().replace(/\r?\n/g, '<br>')}</p>`)
+                                .join('');
+                        } else {
+                            // Altrimenti dividi per singoli a capo
+                            paragraphs = text.split(/\r?\n/)
+                                .filter(p => p.trim() !== '')
+                                .map(p => `<p>${p.trim()}</p>`)
+                                .join('');
+                        }
+                        
+                        contentDiv.innerHTML = paragraphs;
+                        loadedTranscripts[targetId] = true;
+                        
+                        // Annuncia che il caricamento è completo per gli screen reader
+                        announceToScreenReader('Trascrizione caricata');
+                    })
+                    .catch(error => {
+                        console.error('Errore nel caricamento della trascrizione:', error);
+                        contentDiv.innerHTML = `<p class="text-red-600">Impossibile caricare la trascrizione: ${error.message}</p>
+                                               <p>Percorso: ${filePath}</p>`;
+                    });
+            }
             
             // Focus e accessibilità
             if (willExpand) {
@@ -165,6 +243,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentStopIndex = index;
                 const targetStop = timelineStops[index];
                 
+                // Estrai il nome della location dal targetStop - AGGIUNTO PER FIX
+                const locationName = targetStop.querySelector('.timeline-stop-label').textContent;
+                
                 // Attiva la fermata selezionata
                 targetStop.classList.add('active', 'highlighted');
                 targetStop.setAttribute('aria-current', 'location');
@@ -226,14 +307,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                             // Riprodurre l'audio corrispondente se AmplitudeJS è disponibile
                             if (typeof Amplitude !== 'undefined') {
-                                // Pausa qualsiasi traccia in riproduzione
-                                if (Amplitude.getPlayerState() === 'playing') {
-                                    Amplitude.pause();
-                                }
-                                
-                                // Avvia la riproduzione della traccia corrispondente
-                                if (index < Amplitude.getPlaylistSongs("episodi").length) {
-                                    Amplitude.playPlaylistSongAtIndex(index, "episodi");
+                                try {
+                                    // Pausa qualsiasi traccia in riproduzione
+                                    if (Amplitude.getPlayerState && Amplitude.getPlayerState() === 'playing') {
+                                        Amplitude.pause();
+                                    }
+                                    
+                                    // Avvia la riproduzione della traccia corrispondente
+                                    if (index < Amplitude.getPlaylistSongs && Amplitude.getPlaylistSongs("episodi") && 
+                                        Amplitude.getPlaylistSongs("episodi").length > index && Amplitude.playPlaylistSongAtIndex) {
+                                        Amplitude.playPlaylistSongAtIndex(index, "episodi");
+                                    }
+                                } catch (e) {
+                                    console.error('Errore durante l\'interazione con Amplitude:', e);
                                 }
                             }
                         }, 300);
@@ -313,14 +399,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                             // Riprodurre l'audio corrispondente se AmplitudeJS è disponibile
                             if (typeof Amplitude !== 'undefined') {
-                                // Pausa qualsiasi traccia in riproduzione
-                                if (Amplitude.getPlayerState() === 'playing') {
-                                    Amplitude.pause();
-                                }
-                                
-                                // Avvia la riproduzione della traccia corrispondente
-                                if (index < Amplitude.getPlaylistSongs("episodi").length) {
-                                    Amplitude.playPlaylistSongAtIndex(index, "episodi");
+                                try {
+                                    // Pausa qualsiasi traccia in riproduzione
+                                    if (Amplitude.getPlayerState && Amplitude.getPlayerState() === 'playing') {
+                                        Amplitude.pause();
+                                    }
+                                    
+                                    // Avvia la riproduzione della traccia corrispondente
+                                    if (index < Amplitude.getPlaylistSongs && Amplitude.getPlaylistSongs("episodi") && 
+                                        Amplitude.getPlaylistSongs("episodi").length > index && Amplitude.playPlaylistSongAtIndex) {
+                                        Amplitude.playPlaylistSongAtIndex(index, "episodi");
+                                    }
+                                } catch (e) {
+                                    console.error('Errore durante l\'interazione con Amplitude:', e);
                                 }
                             }
                         }, 300);
