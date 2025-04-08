@@ -58,6 +58,7 @@
     opacity: 0.8;
     background: transparent; /* Rimosso gradiente di sfondo */
     box-shadow: none; /* Rimosso ombra */
+    animation: minimal-pulse 6s infinite ease-in-out;
 }
 
 /* Rimozione dell'overlay con gradiente per un design più pulito */
@@ -70,10 +71,6 @@
     0% { opacity: 0.75; }
     50% { opacity: 0.9; }
     100% { opacity: 0.75; }
-}
-
-.intro-player .amplitude-visualization {
-    animation: minimal-pulse 6s infinite ease-in-out;
 }
 
 /* Pulsante play minimalista e pulito */
@@ -91,6 +88,7 @@
     position: relative;
     transform: translateY(0);
     border-radius: 50%; /* Mantiene la forma circolare */
+    animation: minimal-glow 5s infinite ease-in-out;
 }
 
 .intro-player .amplitude-play-pause:hover {
@@ -104,10 +102,6 @@
     0% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
     50% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); }
     100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
-}
-
-.intro-player .amplitude-play-pause {
-    animation: minimal-glow 5s infinite ease-in-out;
 }
 
 /* Titolo audio minimale e moderno */
@@ -202,6 +196,15 @@
         padding: 0.4rem 1rem;
         bottom: 10%;
     }
+    
+    /* Rallentamento delle animazioni su mobile */
+    .intro-player .amplitude-visualization {
+        animation-duration: 9s; /* Rallentato da 6s a 9s */
+    }
+    
+    .intro-player .amplitude-play-pause {
+        animation-duration: 7s; /* Rallentato da 5s a 7s */
+    }
 }
 
 @media (max-width: 480px) {
@@ -224,6 +227,15 @@
     
     .intro-transcript-container {
         max-width: 180px;
+    }
+    
+    /* Rallentamento ulteriore delle animazioni su mobile piccoli */
+    .intro-player .amplitude-visualization {
+        animation-duration: 12s; /* Rallentato ulteriormente a 12s */
+    }
+    
+    .intro-player .amplitude-play-pause {
+        animation-duration: 8s; /* Rallentato ulteriormente a 8s */
     }
 }
 
