@@ -7,54 +7,100 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mappa ID -> chiave del JSON
     const transcriptMap = {
-        'transcript-0': 'intro',
-        'transcript-1': 'piazza_repubblica', 
-        'transcript-2': 'palazzo_comunale',
-        'transcript-3': 'chiesa_madre'
+        'transcript-0': 'introduction',
+        'transcript-1': 'stops.0', 
+        'transcript-2': 'stops.1',
+        'transcript-3': 'stops.2'
     };
     
     // Variabili per tenere traccia dei dati e dello stato di caricamento
-    let transcriptData = null;
+    let tourData = null;
     let dataLoaded = false;
     const loadedIds = {};
     
-    // Precarica il file JSON con tutte le trascrizioni
-    fetch('assets/data/trascrizioni.json')
+    // Precarica il file JSON con tutte le informazioni dell'audioguida
+    fetch('assets/data/audioguide-data.json')
         .then(response => {
-            console.log(`Risposta ricevuta con stato: ${response.status} per il file principale delle trascrizioni`);
+            console.log(`Risposta ricevuta con stato: ${response.status} per il file dell'audioguida`);
             if (!response.ok) {
                 throw new Error(`Errore nel caricamento (${response.status}: ${response.statusText})`);
             }
             return response.json();
         })
         .then(data => {
-            console.log('Dati delle trascrizioni caricati correttamente', data);
-            transcriptData = data;
+            console.log('Dati dell\'audioguida caricati correttamente', data);
+            tourData = data;
             dataLoaded = true;
+            
+            // Quando i dati sono caricati, inizializziamo anche l'interfaccia
+            initializeInterface();
+            
+            // Notifica ad amplitude-config.js che i dati sono pronti
+            const audioguideDataEvent = new CustomEvent('audioguideDataLoaded', {
+                detail: { tourData: data }
+            });
+            document.dispatchEvent(audioguideDataEvent);
         })
         .catch(error => {
-            console.error('Errore nel caricamento delle trascrizioni:', error);
+            console.error('Errore nel caricamento dei dati dell\'audioguida:', error);
         });
+    
+    // Funzione per popolare l'interfaccia con i dati dal JSON
+    function initializeInterface() {
+        if (!tourData || !tourData.tour) return;
+        
+        // Aggiorna titolo e descrizione dell'introduzione
+        document.querySelectorAll('.amplitude-track-title[data-amplitude-main-song-info="true"]').forEach(el => {
+            el.textContent = tourData.tour.introduction.title;
+        });
+        
+        document.querySelectorAll('.amplitude-track-author[data-amplitude-main-song-info="true"]').forEach(el => {
+            el.textContent = tourData.tour.introduction.author;
+        });
+        
+        // Aggiorna le informazioni per ogni fermata del tour
+        tourData.tour.stops.forEach((stop, index) => {
+            const articleId = stop.id;
+            const article = document.getElementById(articleId);
+            
+            if (article) {
+                // Aggiorna titolo e descrizione
+                const titleEl = article.querySelector(`#title-${articleId}`);
+                const descEl = article.querySelector('.text-gray-600');
+                const iconEl = article.querySelector('.episode-icon i');
+                
+                if (titleEl) titleEl.textContent = stop.title;
+                if (descEl) descEl.textContent = stop.description;
+                if (iconEl && stop.icon) {
+                    iconEl.className = '';
+                    iconEl.classList.add('fas', stop.icon);
+                }
+                
+                // Aggiorna le informazioni nel player
+                const trackTitleEl = article.querySelector(`.amplitude-track-title[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
+                const trackAuthorEl = article.querySelector(`.amplitude-track-author[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
+                
+                if (trackTitleEl) trackTitleEl.textContent = stop.title;
+                if (trackAuthorEl) trackAuthorEl.textContent = stop.author;
+            }
+        });
+    }
         
     // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
     document.querySelectorAll('.transcript-container').forEach(container => {
-        // Assicuriamo che tutti i contenitori partano nascosti
         container.classList.remove('expanded');
         container.setAttribute('aria-hidden', 'true');
         
-        // Impostiamo esplicitamente gli stili invece di affidarci solo alle classi
         container.style.display = 'none';
         container.style.opacity = '0';
     });
     
     toggleButtons.forEach(button => {
-        // Verifica iniziale dello stato
         const targetId = button.getAttribute('data-target');
         const transcriptContainer = document.getElementById(targetId);
         
         console.log(`Inizializzazione pulsante per ${targetId}: ${transcriptContainer ? 'container trovato' : 'container NON trovato'}`);
         
-        // Se la trascrizione è già espansa (raro, ma possibile dopo reload)
         if (transcriptContainer && transcriptContainer.classList.contains('expanded')) {
             updateButtonState(button, true);
             transcriptContainer.style.display = 'block';
@@ -67,25 +113,19 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log(`Click sul pulsante trascrizione per ${targetId}`);
             
-            // Verifica che l'elemento target esista
             if (!transcriptContainer) {
                 console.error('Target transcript container not found:', targetId);
                 return;
             }
             
-            // Determina il nuovo stato (opposto dello stato corrente)
             const willExpand = !transcriptContainer.classList.contains('expanded');
             console.log(`Stato trascrizione: ${willExpand ? 'espandere' : 'contrarre'}`);
             
-            // Toggle della classe expanded
             transcriptContainer.classList.toggle('expanded');
             
-            // Imposta esplicitamente lo stile di visualizzazione - questo è il cambiamento principale
             if (willExpand) {
-                // Impostiamo display:block prima di tutto per assicurare che l'elemento sia presente
                 transcriptContainer.style.display = 'block';
                 
-                // Diamo al browser un momento per riconoscere l'elemento nel DOM
                 setTimeout(() => {
                     transcriptContainer.style.opacity = '1';
                     transcriptContainer.style.maxHeight = '500px';
@@ -98,7 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 transcriptContainer.style.maxHeight = '0';
                 transcriptContainer.style.padding = '0';
                 
-                // Nascondiamo l'elemento dopo che la transizione è completa
                 setTimeout(() => {
                     transcriptContainer.style.display = 'none';
                 }, 500);
@@ -106,81 +145,92 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(`Contrazione di ${targetId}`);
             }
             
-            // Aggiorna lo stato ARIA e l'aspetto del pulsante
             updateButtonState(this, willExpand);
             transcriptContainer.setAttribute('aria-hidden', !willExpand);
             
-            // Se stiamo espandendo e non abbiamo ancora caricato il contenuto
             if (willExpand && !loadedIds[targetId]) {
-                // Ottieni la chiave corrispondente
-                const transcriptKey = transcriptMap[targetId];
+                const jsonPath = transcriptMap[targetId];
                 
-                console.log(`Tentativo di recuperare contenuto per la chiave: ${transcriptKey}`);
+                console.log(`Tentativo di recuperare contenuto per il percorso: ${jsonPath}`);
                 
-                if (!transcriptKey) {
+                if (!jsonPath) {
                     console.error(`Nessuna trascrizione mappata per l'ID: ${targetId}`);
                     return;
                 }
                 
-                // Trova il contenitore del contenuto
                 const contentDiv = transcriptContainer.querySelector('.space-y-4');
                 if (!contentDiv) {
                     console.error(`Contenitore del contenuto (.space-y-4) non trovato in: ${targetId}`);
                     return;
                 }
                 
-                // Mostra indicatore di caricamento
                 contentDiv.innerHTML = '<p class="text-center"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Caricamento trascrizione...</p>';
                 
-                // Funzione di rendering della trascrizione
                 function renderTranscription() {
-                    if (!dataLoaded || !transcriptData || !transcriptData.transcriptions) {
-                        contentDiv.innerHTML = '<p class="text-red-600">I dati delle trascrizioni non sono disponibili.</p>';
+                    if (!dataLoaded || !tourData || !tourData.tour) {
+                        contentDiv.innerHTML = '<p class="text-red-600">I dati dell\'audioguida non sono disponibili.</p>';
                         return;
                     }
                     
-                    const transcription = transcriptData.transcriptions[transcriptKey];
+                    let transcription;
+                    if (jsonPath === 'introduction') {
+                        transcription = tourData.tour.introduction.transcription;
+                    } else if (jsonPath.startsWith('stops.')) {
+                        const index = parseInt(jsonPath.split('.')[1]);
+                        if (index >= 0 && index < tourData.tour.stops.length) {
+                            transcription = tourData.tour.stops[index].transcription;
+                        }
+                    }
                     
                     if (!transcription || !transcription.paragraphs || transcription.paragraphs.length === 0) {
                         contentDiv.innerHTML = '<p class="text-red-600">Trascrizione non trovata o formato errato.</p>';
                         return;
                     }
                     
-                    // Genera i paragrafi HTML dal JSON
                     const paragraphs = transcription.paragraphs
                         .map(p => `<p>${p}</p>`)
                         .join('');
                     
                     contentDiv.innerHTML = paragraphs;
                     
-                    // Se sono presenti metadati, li mostriamo
-                    if (transcription.metadata) {
-                        if (transcription.metadata.title) {
+                    if (jsonPath.startsWith('stops.')) {
+                        const index = parseInt(jsonPath.split('.')[1]);
+                        const stop = tourData.tour.stops[index];
+                        
+                        if (stop) {
                             const titleEl = document.createElement('h3');
                             titleEl.className = 'text-lg font-bold mb-3';
-                            titleEl.textContent = transcription.metadata.title;
+                            titleEl.textContent = stop.title;
                             contentDiv.prepend(titleEl);
-                        }
-                        
-                        if (transcription.metadata.duration) {
-                            const durationNote = document.createElement('p');
-                            durationNote.className = 'text-sm text-gray-500 mt-4';
-                            durationNote.textContent = `Durata: ${transcription.metadata.duration}`;
-                            contentDiv.appendChild(durationNote);
+                            
+                            const footerEl = document.createElement('div');
+                            footerEl.className = 'mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500';
+                            
+                            if (stop.duration) {
+                                const durationEl = document.createElement('p');
+                                durationEl.innerHTML = `<i class="fas fa-clock mr-2"></i>Durata: ${stop.duration}`;
+                                footerEl.appendChild(durationEl);
+                            }
+                            
+                            if (stop.googleMapsUrl) {
+                                const mapLinkEl = document.createElement('p');
+                                mapLinkEl.className = 'mt-1';
+                                mapLinkEl.innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i><a href="${stop.googleMapsUrl}" target="_blank" class="text-blue-600 hover:underline">Visualizza su Google Maps</a>`;
+                                footerEl.appendChild(mapLinkEl);
+                            }
+                            
+                            contentDiv.appendChild(footerEl);
                         }
                     }
                     
                     loadedIds[targetId] = true;
                     
-                    // Annuncia che il caricamento è completo per gli screen reader
                     announceToScreenReader('Trascrizione caricata');
                 }
                 
-                // Se i dati sono già caricati, mostra subito la trascrizione
                 if (dataLoaded) {
                     renderTranscription();
                 } else {
-                    // Altrimenti aspetta il caricamento
                     const checkInterval = setInterval(() => {
                         if (dataLoaded) {
                             clearInterval(checkInterval);
@@ -188,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, 100);
                     
-                    // Timeout di sicurezza dopo 5 secondi
                     setTimeout(() => {
                         clearInterval(checkInterval);
                         if (!dataLoaded) {
@@ -200,17 +249,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Funzione per aggiornare lo stato visivo del pulsante
     function updateButtonState(button, isExpanded) {
         const toggleIcon = button.querySelector('.toggle-icon');
         const buttonText = button.querySelector('span');
         
         console.log(`Aggiornamento stato pulsante: ${isExpanded ? 'espanso' : 'contratto'}`);
         
-        // Aggiorna l'attributo ARIA
         button.setAttribute('aria-expanded', isExpanded);
         
-        // Aggiorna l'icona se presente
         if (toggleIcon) {
             if (isExpanded) {
                 toggleIcon.classList.add('rotate-icon');
@@ -219,15 +265,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Aggiorna il testo se presente
         if (buttonText) {
             buttonText.textContent = isExpanded ? 'Nascondi trascrizione' : 'Mostra trascrizione completa';
         }
     }
     
-    // Funzione per annunciare messaggi agli screen reader
     function announceToScreenReader(message) {
-        // Cerca un live region esistente o ne crea uno nuovo
         let announcer = document.getElementById('sr-announcer');
         if (!announcer) {
             announcer = document.createElement('div');
@@ -238,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(announcer);
         }
         
-        // Imposta il messaggio e lo ripulisce dopo un po'
         announcer.textContent = message;
         setTimeout(() => {
             announcer.textContent = '';

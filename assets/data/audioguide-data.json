@@ -1,0 +1,155 @@
+{
+  "tour": {
+    "title": "Audio guida di Regalbuto",
+    "description": "Un viaggio sonoro alla scoperta della città",
+    "totalDuration": "45:00",
+    "totalStops": 10,
+    "introduction": {
+      "id": "intro",
+      "title": "Introduzione all'audioguida",
+      "description": "Benvenuti all'esperienza audio di Regalbuto",
+      "duration": "2:30",
+      "author": "Audio guida di Regalbuto",
+      "date": "2023-08-01",
+      "audioPath": "assets/audio/it/0_intro.mp3",
+      "transcription": {
+        "paragraphs": [
+          "Immerso nel cuore della Sicilia, tra le dolci colline dell'ennese e le acque scintillanti del Lago Pozzillo, Regalbuto è un borgo ricco di storia, tradizioni e panorami mozzafiato. Questo piccolo gioiello ha visto il passaggio di arabi, normanni e spagnoli, che hanno lasciato il segno nel suo patrimonio artistico e culturale.",
+          "Quest'esperienza audio vi guiderà attraverso i luoghi più significativi e affascinanti della nostra città.",
+          "Durante la nostra passeggiata tra le sue stradine, scopriremo antiche chiese, palazzi nobiliari e scorci che raccontano secoli di storia. Ma Regalbuto non è solo passato: qui troveremo un'atmosfera autentica, fatta di ospitalità siciliana, sapori genuini e feste popolari coinvolgenti.",
+          "Preparatevi a un viaggio tra arte, natura e tradizioni: vi accompagneremo alla scoperta di Regalbuto, un angolo di Sicilia tutto da esplorare."
+        ]
+      }
+    },
+    "stops": [
+      {
+        "id": "piazza_repubblica",
+        "order": 1,
+        "title": "Piazza della Repubblica",
+        "shortTitle": "Piazza della Repubblica",
+        "description": "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
+        "location": "Centro storico di Regalbuto",
+        "coordinates": {
+          "lat": 37.6462,
+          "lng": 14.6359
+        },
+        "googleMapsUrl": "https://maps.app.goo.gl/jLDsKjz52cBapDHt9",
+        "duration": "3:45",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15",
+        "audioPath": "assets/audio/it/1_piazza_repubblica.mp3",
+        "icon": "fa-map-marker-alt",
+        "transcription": {
+          "paragraphs": [
+            "Benvenuti in Piazza della Repubblica, il cuore pulsante di Regalbuto e una delle piazze più grandi della provincia di Enna.",
+            "Questa piazza ha vissuto i cambiamenti della storia italiana: in origine si chiamava Piazza del Re, in onore della monarchia, ma con la nascita della Repubblica nel 1946, venne rinominata per celebrare i valori di libertà e democrazia.",
+            "La piazza ha una forma ovoidale e una pavimentazione unica, realizzata dai fratelli Lanza maestri artigiani marmisti di Regalbuto.",
+            "Il disegno geometrico si distingue per l'uso di diversi materiali lapidei: il bianco del calcare si alterna ai toni rossi e grigi del granito, creando un effetto di grande eleganza.",
+            "Attorno a voi si ergono alcuni dei monumenti più rappresentativi della città:Il Municipio, con la sua IMPONENTE architettura; La Chiesa Madre di San Basilio, punto di riferimento spirituale; Gli antichi palazzi nobiliari, testimoni di un passato aristocratico.",
+            "Oltre ad essere il centro storico e amministrativo del paese, Piazza della Repubblica è anche il fulcro delle tradizioni popolari. Qui si svolgono le più importanti manifestazioni culturali e religiose di Regalbuto:come il Carnevale e la festa di San Vito, patrono del paese.",
+            "Passeggiando per questa piazza, non state solo attraversando il cuore della città, ma anche un luogo che riflette la storia e l’identità di Regalbuto.",
+            "Adesso proseguiamo il nostro percorso. "
+          ]
+        }
+      },
+      {
+        "id": "palazzo_comunale",
+        "order": 2,
+        "title": "Paaaalazzo Comunale",
+        "shortTitle": "Paaaalazzo Comunale",
+        "description": "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
+        "location": "Piazza centrale di Regalbuto",
+        "coordinates": {
+          "lat": 37.6463,
+          "lng": 14.6360
+        },
+        "googleMapsUrl": "https://maps.app.goo.gl/xLDsKjz52cBcbgfd8",
+        "duration": "3:15",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15",
+        "audioPath": "assets/audio/it/2_palazzo_comunale.mp3",
+        "icon": "fa-landmark",
+        "transcription": {
+          "paragraphs": [
+            "Attraversiamo la piazza e ci addentriamo in uno dei luoghi simbolo della città: il Palazzo Comunale. Questo elegante edificio con il suo prospetto barocco, si inserisce in perfetta armonia con gli edifici storici che lo circondano. ",
+            "La facciata è scandita da tre fasce verticali, delimitate da robusti costoni in pietra, mentre nella parte superiore tre eleganti balconi si affacciano sulla piazza, in corrispondenza delle porte del pianoterra. L’edificio ha subito diversi restauri nel corso dei secoli, tra cui quello del 1930, voluto dal commendatore Ranalli, che ne ha preservato l’eleganza e il valore storico.",
+            "Attraversando la porta centrale, si accede all’atrio, dove, durante gli ultimi restauri, sono stati collocati due calchi in gesso: uno raffigurante il celebre medico Giovanni Filippo Ingrassia e l’altro, giunto erroneamente dalla fonderia, dedicato a un personaggio Gian Filippo D’Alì.",
+            "Superata la prima sala, si apre davanti a noi una maestosa scalinata in pietra lavica, segno della solida tradizione costruttiva siciliana. Ai lati della scala, due imponenti leoni scolpiti vegliano sull’ingresso del piano superiore: simboli di forza e vitalità, sembrano quasi fare da guardiani alla storia racchiusa in questo palazzo. ",
+            "Salendo, si giunge al cuore istituzionale dell’edificio: la sala consiliare, un ambiente di grande pregio artistico, con soffitti decorati da raffinati stucchi e un pavimento impreziosito da un elegante mosaico raffigurante lo stemma di Regalbuto.",
+            "Lo stemma fu ufficialmente riconosciuto con decreto del Consiglio dei Ministri il 29 dicembre 1953. Esso raffigura un'aquila coronata dal volo abbassato; e la Madonna del Soccorso, coronata d'oro. In quanto parte dell’araldica civica, lo stemma di Regalbuto rispetta le disposizioni tecniche stabilite dallo Stato.",
+            "Esso è costituito da uno scudo, sormontato da una corona, elemento che indica il grado di appartenenza dell'Ente. Essendo Regalbuto un Comune, lo stemma è sovrastato dalla corona propria dei comuni: un cerchio aperto da quattro pusterle (tre visibili), con due cordonate a muro sui margini, sostenente una cinta aperta da sedici porte (nove visibili), ciascuna sormontata da una merlatura a coda di rondine, il tutto d’argento e murato di nero."
+          ]
+        }
+      },
+      {
+        "id": "chiesa_madre",
+        "order": 3,
+        "title": "Chiesa Madre S. Basilio",
+        "shortTitle": "Chiesa S. Basilio",
+        "description": "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
+        "location": "Centro storico di Regalbuto",
+        "coordinates": {
+          "lat": 37.6465,
+          "lng": 14.6358
+        },
+        "googleMapsUrl": "https://maps.app.goo.gl/wRtFvbn46RkoLzwi7",
+        "duration": "4:00",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15",
+        "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
+        "icon": "fa-church",
+        "transcription": {
+          "paragraphs": [
+            "..."
+          ]
+        }
+      },
+      {
+        "id": "villa_comunale",
+        "order": 4,
+        "title": "Villa Comunale",
+        "shortTitle": "Villa Comunale",
+        "description": "Un incantevole spazio verde nel cuore della città, con una vista panoramica.",
+        "location": "Villa Comunale di Regalbuto",
+        "coordinates": {
+          "lat": 37.6470,
+          "lng": 14.6365
+        },
+        "googleMapsUrl": "https://maps.app.goo.gl/iRnvByhZ72XnH8Jw8",
+        "duration": "4:30",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15",
+        "audioPath": "assets/audio/it/4_villa_comunale.mp3",
+        "icon": "fa-tree",
+        "transcription": {
+          "paragraphs": [
+            "..."
+          ]
+        }
+      },
+      {
+        "id": "lago_pozzillo",
+        "order": 5,
+        "title": "Lago Pozzillo",
+        "shortTitle": "Lago Pozzillo",
+        "description": "Il bacino artificiale più grande della Sicilia con un panorama mozzafiato.",
+        "location": "Pochi km fuori Regalbuto",
+        "coordinates": {
+          "lat": 37.6312,
+          "lng": 14.6408
+        },
+        "googleMapsUrl": "https://maps.app.goo.gl/m3DcoF4JrXvp9RGd9",
+        "duration": "3:00",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15",
+        "audioPath": "assets/audio/it/5_lago_pozzillo.mp3",
+        "icon": "fa-water",
+        "transcription": {
+          "paragraphs": [
+            "..."
+          ]
+        }
+      }
+    ]
+  }
+}

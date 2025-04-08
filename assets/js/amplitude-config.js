@@ -1,53 +1,63 @@
 /**
- * Configurazione di AmplitudeJS per l'audio guida di Regalbuto
+ * Utility di configurazione di AmplitudeJS per l'audio guida di Regalbuto
  */
-document.addEventListener('DOMContentLoaded', function() {
+const AudioPlayerManager = (function() {
     // Oggetto per tenere traccia dello stato di riproduzione
     const audioState = {
         currentPlayer: null,
         isPlaying: false,
-        pausedPlayer: null,       // Memorizza quale player è stato messo in pausa
-        needsRestart: false       // Indica se occorre riavviare dall'inizio o riprendere
+        pausedPlayer: null,
+        needsRestart: false
     };
     
-    // Configurazione base di Amplitude
-    Amplitude.init({
-        "songs": [
-            {
-                "name": "Introduzione a Regalbuto",
-                "artist": "Audio guida di Regalbuto",
-                "url": "assets/audio/it/0_intro.mp3"
-            }
-        ],
-        "playlists": {
-            "episodi": {
-                "songs": [
-                    {
-                        "name": "Piazza della Repubblica",
-                        "artist": "Audio guida di Regalbuto",
-                        "url": "assets/audio/it/1_piazza_repubblica.mp3"
-                    },
-                    {
-                        "name": "Palazzo Comunale",
-                        "artist": "Audio guida di Regalbuto",
-                        "url": "assets/audio/it/1_piazza_repubblica.mp3"
-                    },
-                    {
-                        "name": "Chiesa Madre S. Basilio",
-                        "artist": "Audio guida di Regalbuto", 
-                        "url": "assets/audio/it/1_piazza_repubblica.mp3"
-                    }
-                ]
-            }
-        },
-        "volume": 75,
-        "callbacks": {
-            'initialized': function() {
-                // Inizializza i player dopo che Amplitude è pronto
-                initializePlayers();
-            }
+    // Espone un metodo di inizializzazione che verrà chiamato da main.js dopo il caricamento dei dati
+    function initialize(tourData) {
+        if (!tourData || !tourData.tour) {
+            console.error('Dati del tour non validi per l\'inizializzazione di Amplitude');
+            return;
         }
-    });
+        
+        console.log('Inizializzazione di Amplitude con i dati dal JSON', tourData);
+        
+        // Configurazione di Amplitude basata sui dati JSON
+        const config = {
+            "songs": [
+                {
+                    "name": tourData.tour.introduction.title,
+                    "artist": tourData.tour.introduction.author,
+                    "url": tourData.tour.introduction.audioPath
+                }
+            ],
+            "playlists": {
+                "episodi": {
+                    "songs": tourData.tour.stops.map(stop => ({
+                        "name": stop.title,
+                        "artist": stop.author,
+                        "url": stop.audioPath
+                    }))
+                }
+            },
+            "volume": 75,
+            "callbacks": {
+                'initialized': function() {
+                    // Inizializza i player dopo che Amplitude è pronto
+                    initializePlayers();
+                }
+            }
+        };
+        
+        // Inizializza Amplitude con la configurazione generata
+        if (typeof Amplitude !== 'undefined') {
+            try {
+                Amplitude.init(config);
+                console.log("AmplitudeJS inizializzato con successo");
+            } catch (e) {
+                console.error("Errore nell'inizializzazione di AmplitudeJS:", e);
+            }
+        } else {
+            console.error('Libreria AmplitudeJS non trovata');
+        }
+    }
     
     /**
      * Inizializza tutti i player audio con gestione degli eventi personalizzata
@@ -216,63 +226,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Aggiungi eventi per gestire i cambi di stato da controlli esterni (es. timeline)
-    document.querySelectorAll('.timeline-stop').forEach((stop, index) => {
-        stop.addEventListener('click', function() {
-            if (index < Amplitude.getPlaylistSongs("episodi").length) {
-                // Prima ferma qualsiasi riproduzione in corso
-                if (audioState.isPlaying) {
-                    // Resetta lo stato visivo del player precedente
-                    if (audioState.currentPlayer) {
-                        const prevPlayer = document.getElementById(audioState.currentPlayer);
-                        if (prevPlayer) {
-                            prevPlayer.classList.remove('amplitude-playing');
-                            prevPlayer.classList.add('amplitude-paused');
-                        }
-                    }
-                    
-                    Amplitude.pause();
-                }
-                
-                audioState.pausedPlayer = null; // Resetta il player in pausa
-                
-                // Avvia la traccia selezionata
-                setTimeout(() => {
-                    Amplitude.playPlaylistSongAtIndex(index, "episodi");
-                    
-                    // Aggiorna lo stato
-                    const targetPlayer = document.querySelector(`[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
-                    if (targetPlayer) {
-                        const playerContainer = targetPlayer.closest('.amplitude-player');
-                        audioState.currentPlayer = playerContainer.id;
-                        audioState.isPlaying = true;
-                        
-                        // Aggiorna l'UI
-                        playerContainer.classList.add('amplitude-playing');
-                        playerContainer.classList.remove('amplitude-paused');
-                    }
-                }, 50);
-            }
-        });
-    });
-    
-    // Gestisci il completamento della riproduzione
-    // Aggiunto controllo di sicurezza per evitare errore "Cannot read properties of undefined"
-    if (typeof Amplitude !== 'undefined' && Amplitude.events) {
-        Amplitude.events.on('ended', function() {
-            console.log('Riproduzione completata');
-            // Reimposta lo stato dopo che la traccia è terminata
-            if (audioState.currentPlayer) {
-                const currentPlayerElement = document.getElementById(audioState.currentPlayer);
-                if (currentPlayerElement) {
-                    currentPlayerElement.classList.remove('amplitude-playing');
-                    currentPlayerElement.classList.add('amplitude-paused');
-                }
-            }
-            audioState.isPlaying = false;
-            audioState.pausedPlayer = null; // La traccia è finita, quindi non c'è più un player in pausa
-        });
+    // Espone le funzioni necessarie come API pubblica
+    return {
+        initialize: initialize,
+        getAudioState: function() { return audioState; }
+    };
+})();
+
+// Ascoltiamo un evento personalizzato che sarà emesso da main.js quando i dati sono pronti
+document.addEventListener('audioguideDataLoaded', function(event) {
+    if (event.detail && event.detail.tourData) {
+        AudioPlayerManager.initialize(event.detail.tourData);
     } else {
-        console.warn('Amplitude non è inizializzato correttamente o non ha il metodo events.on');
+        console.error('Evento audioguideDataLoaded ricevuto senza dati validi');
     }
 });

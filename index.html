@@ -409,10 +409,10 @@
     <!-- Script per la visualizzazione delle onde audio -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.4/wavesurfer.min.js"></script>
     
-    <!-- Script principale -->
-    <script src="assets/js/main.js"></script>
-    
-    <!-- Script di configurazione AmplitudeJS -->
+    <!-- Carica prima amplitude-config.js come utility library -->
     <script src="assets/js/amplitude-config.js"></script>
+    
+    <!-- Poi carica il main.js che utilizzerà le utility -->
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
