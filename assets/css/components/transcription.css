@@ -1,89 +1,184 @@
-/* Transcription component styles */
+/* Styles for transcription components */
 
-/* Transcription container */
+/* Base transcript container styles */
 .transcript-container {
-    height: 0;
+    max-height: 0;
     overflow: hidden;
-    transition: height 0.3s ease;
-    background-color: #f9f9f9;
-    border-radius: var(--border-radius-md);
+    transition: max-height 0.5s ease, padding 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    background-color: #f9f7ff;
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
 }
 
-/* Expanded transcription */
+/* Expanded state */
 .transcript-container.expanded {
-    height: auto;
-    padding: 1.5rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    margin-top: 1rem;
-    background-color: #f9f9f9;
-    color: var(--text-dark);
+    max-height: 500px;
+    padding: 1.25rem;
+    opacity: 1;
+    overflow-y: auto;
 }
 
-/* Toggle button for transcription */
+/* Toggle button styles - completely redesigned */
 .toggle-transcript {
-    background-color: #f5f7fa;
-    color: #555;
-    border: none;
-    border-radius: var(--border-radius-md);
-    padding: 0.75rem;
-    transition: all 0.2s ease;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    background-color: #f5f3ff;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid rgba(139, 92, 246, 0.2);
     margin-top: 1rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
 }
 
-.toggle-transcript:hover,
+/* Hover state with enhanced visual feedback */
+.toggle-transcript:hover {
+    background-color: #ede9fe;
+    border-color: rgba(139, 92, 246, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.15);
+}
+
+/* Active/focus state for better accessibility */
+.toggle-transcript:active, 
 .toggle-transcript:focus {
-    background-color: #e9ecf1;
-    color: var(--text-dark);
+    background-color: #e4d8fd;
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+    outline: none;
 }
 
-/* Icon rotation */
+/* Toggle icon enhancements */
 .toggle-icon {
-    transition: transform 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    margin-left: 0.5rem;
+    background-color: rgba(139, 92, 246, 0.15);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--color-primary);
 }
 
+/* Improved rotation animation */
 .rotate-icon {
     transform: rotate(180deg);
+    background-color: rgba(139, 92, 246, 0.3);
 }
 
-/* Special styling for intro transcript button */
+/* When transcript is expanded - change button appearance */
+.toggle-transcript[aria-expanded="true"] {
+    background-color: #ede9fe;
+    border-color: rgba(139, 92, 246, 0.4);
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* Subtle gradient background effect on hover */
+.toggle-transcript:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(139, 92, 246, 0.05), rgba(139, 92, 246, 0.1));
+    z-index: -1;
+}
+
+/* Special styling for the intro transcript button */
 .intro-transcript-button {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.875rem;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.4);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(5px);
-    transition: all 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-primary-dark);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
     font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(4px);
 }
 
-.intro-transcript-button:hover,
-.intro-transcript-button:focus {
-    background: rgba(0, 0, 0, 0.5);
+.intro-transcript-button:hover {
+    background-color: white;
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }
 
-/* Special styling for transcript in header */
-.expanded-header .transcript-container.expanded {
+/* Intro transcript container */
+.intro-transcript-container {
+    margin-top: 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+.intro-transcript-container .transcript-container {
     background-color: rgba(255, 255, 255, 0.95);
-    color: var(--text-dark);
-    border-radius: 12px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin-top: 0.75rem;
+    max-height: 0;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
+.intro-transcript-container .transcript-container.expanded {
+    max-height: 500px;
+    padding: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
     .toggle-transcript {
-        padding: 0.6rem;
-        margin-top: 0.75rem;
+        padding: 0.6rem 1rem;
     }
     
-    .transcript-container.expanded {
+    .intro-transcript-button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+    }
+    
+    .intro-transcript-container .transcript-container.expanded {
         padding: 1.25rem;
     }
+}
+
+/* Loading animation for transcript expansion */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.transcript-container.expanded .space-y-4 {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Visual indicator showing transcript is expandable */
+.toggle-transcript::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.toggle-transcript:hover::after {
+    opacity: 1;
 }

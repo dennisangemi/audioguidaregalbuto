@@ -74,3 +74,54 @@
     50% { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(107, 70, 193, 0.2); }
     100% { transform: translateY(0); }
 }
+
+/* Background rotation animation */
+@keyframes rotateBg {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.05); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Background pulse animation */
+@keyframes pulseBg {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* Welcome icon pulse animation */
+@keyframes welcome-pulse {
+    0% {
+        box-shadow: 
+            0 10px 25px rgba(107, 70, 193, 0.3),
+            0 0 0 5px rgba(139, 92, 246, 0.12),
+            0 0 0 15px rgba(139, 92, 246, 0.05);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 
+            0 15px 30px rgba(107, 70, 193, 0.4),
+            0 0 0 10px rgba(139, 92, 246, 0.15),
+            0 0 0 25px rgba(139, 92, 246, 0.08);
+        transform: scale(1.05);
+    }
+    100% {
+        box-shadow: 
+            0 10px 25px rgba(107, 70, 193, 0.3),
+            0 0 0 5px rgba(139, 92, 246, 0.12),
+            0 0 0 15px rgba(139, 92, 246, 0.05);
+        transform: scale(1);
+    }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+}

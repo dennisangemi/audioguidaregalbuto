@@ -1,35 +1,92 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestione delle trascrizioni - migliorata per accessibilità
+    // Gestione migliorata delle trascrizioni
     const toggleButtons = document.querySelectorAll('.toggle-transcript');
     
+    // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
+    document.querySelectorAll('.transcript-container').forEach(container => {
+        // Assicuriamo che tutti i contenitori partano nascosti
+        container.classList.remove('expanded');
+        container.setAttribute('aria-hidden', 'true');
+    });
+    
     toggleButtons.forEach(button => {
+        // Verifica iniziale dello stato
+        const targetId = button.getAttribute('data-target');
+        const transcriptContainer = document.getElementById(targetId);
+        
+        // Se la trascrizione è già espansa (raro, ma possibile dopo reload)
+        if (transcriptContainer && transcriptContainer.classList.contains('expanded')) {
+            updateButtonState(button, true);
+        }
+        
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
             const transcriptContainer = document.getElementById(targetId);
-            const toggleIcon = this.querySelector('.toggle-icon');
+            
+            // Verifica che l'elemento target esista
+            if (!transcriptContainer) {
+                console.error('Target transcript container not found:', targetId);
+                return;
+            }
+            
+            // Determina il nuovo stato (opposto dello stato corrente)
+            const willExpand = !transcriptContainer.classList.contains('expanded');
             
             // Toggle della classe expanded
             transcriptContainer.classList.toggle('expanded');
-            toggleIcon.classList.toggle('rotate-icon');
             
-            // Aggiorniamo ARIA attributes per l'accessibilità
-            const isExpanded = transcriptContainer.classList.contains('expanded');
-            this.setAttribute('aria-expanded', isExpanded);
-            transcriptContainer.setAttribute('aria-hidden', !isExpanded);
+            // Aggiorna lo stato ARIA e l'aspetto del pulsante
+            updateButtonState(this, willExpand);
+            transcriptContainer.setAttribute('aria-hidden', !willExpand);
             
-            // Cambiamo il testo del pulsante in base allo stato
-            const buttonText = this.querySelector('span');
-            if (isExpanded) {
-                buttonText.textContent = 'Nascondi trascrizione';
-                // Focus sul contenitore della trascrizione per gli screen reader
-                transcriptContainer.setAttribute('tabindex', '-1');
-                transcriptContainer.focus();
+            // Focus e accessibilità
+            if (willExpand) {
+                // Aggiungiamo un breve ritardo prima del focus per dare tempo all'animazione
+                setTimeout(() => {
+                    transcriptContainer.setAttribute('tabindex', '-1');
+                    transcriptContainer.focus();
+                    
+                    // Aggiunta di un feedback audio molto sottile per screenreader
+                    announceToScreenReader('Trascrizione espansa');
+                }, 300);
             } else {
-                buttonText.textContent = 'Mostra trascrizione completa';
                 transcriptContainer.removeAttribute('tabindex');
+            }
+            
+            // Feedback visivo con un flash sottile del bordo
+            if (willExpand) {
+                const originalBorderColor = window.getComputedStyle(transcriptContainer).borderColor;
+                transcriptContainer.style.borderColor = 'rgba(139, 92, 246, 0.6)';
+                
+                setTimeout(() => {
+                    transcriptContainer.style.borderColor = originalBorderColor;
+                }, 600);
             }
         });
     });
+    
+    // Funzione per aggiornare lo stato visivo del pulsante
+    function updateButtonState(button, isExpanded) {
+        const toggleIcon = button.querySelector('.toggle-icon');
+        const buttonText = button.querySelector('span');
+        
+        // Aggiorna l'attributo ARIA
+        button.setAttribute('aria-expanded', isExpanded);
+        
+        // Aggiorna l'icona se presente
+        if (toggleIcon) {
+            if (isExpanded) {
+                toggleIcon.classList.add('rotate-icon');
+            } else {
+                toggleIcon.classList.remove('rotate-icon');
+            }
+        }
+        
+        // Aggiorna il testo se presente
+        if (buttonText) {
+            buttonText.textContent = isExpanded ? 'Nascondi trascrizione' : 'Mostra trascrizione completa';
+        }
+    }
     
     // Funzionalità per la timeline scorrevole - migliorata per accessibilità
     const timelineWrapper = document.querySelector('.timeline-track-wrapper');

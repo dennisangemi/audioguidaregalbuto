@@ -1,6 +1,13 @@
 /* Timeline component styles */
 
-/* Timeline container with elegant background */
+/* Sezione cronologica del tour */
+.tour-timeline-section {
+    margin: 1.5rem 0 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Container principale della timeline con sfondo elegante */
 .timeline-container {
     position: relative;
     padding: 1rem 0 1.5rem;
@@ -11,7 +18,7 @@
     backdrop-filter: blur(5px);
 }
 
-/* Wrapper for scrollable track */
+/* Wrapper per la track scorrevole */
 .timeline-track-wrapper {
     overflow-x: auto;
     overflow-y: hidden;
@@ -28,7 +35,7 @@
     display: none;
 }
 
-/* Timeline track */
+/* Track della timeline */
 .timeline-track {
     position: relative;
     display: flex;
@@ -36,28 +43,28 @@
     padding: 0 2rem;
 }
 
-/* Connection line between elements */
+/* Linea di connessione tra gli elementi - design migliorato */
 .timeline-line {
     position: absolute;
     top: 32px;
     left: 2rem;
     right: 2rem;
     height: 4px;
-    background: var(--gradient-primary);
+    background: linear-gradient(to right, var(--color-primary-light), var(--color-secondary), var(--color-accent));
     transform: translateY(-50%);
     z-index: 1;
     border-radius: 2px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Timeline stops container */
+/* Container delle fermate della timeline */
 .timeline-stops {
     display: flex;
     position: relative;
     z-index: 2;
 }
 
-/* Style for each timeline stop */
+/* Stile per ogni fermata nella timeline - design migliorato */
 .timeline-stop {
     display: flex;
     flex-direction: column;
@@ -72,7 +79,7 @@
     scroll-snap-align: center;
 }
 
-/* Timeline stop icon */
+/* Icona della fermata - dimensioni aumentate e design migliorato */
 .timeline-stop-icon {
     width: 64px;
     height: 64px;
@@ -91,7 +98,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* Outer ring for the icon */
+/* Anello esterno per l'icona */
 .timeline-stop-icon::before {
     content: '';
     position: absolute;
@@ -107,7 +114,7 @@
     transition: all 0.3s ease;
 }
 
-/* Timeline stop label */
+/* Etichetta della fermata */
 .timeline-stop-label {
     max-width: 120px;
     text-align: center;
@@ -120,7 +127,7 @@
     line-height: 1.4;
 }
 
-/* Hover effects for timeline stops */
+/* Effetti hover per le fermate */
 .timeline-stop:hover .timeline-stop-icon,
 .timeline-stop:focus .timeline-stop-icon {
     transform: translateY(-5px);
@@ -143,7 +150,7 @@
     transform: translateY(-2px);
 }
 
-/* Active timeline stop */
+/* Fermata attiva */
 .timeline-stop.active .timeline-stop-icon {
     transform: translateY(-8px) scale(1.1);
     border-color: var(--color-primary-light);
@@ -165,7 +172,7 @@
     transform: translateY(-4px);
 }
 
-/* Highlighted stop during animation */
+/* Stile migliorato per gli elementi attivi durante l'animazione */
 .timeline-stop.highlighted .timeline-stop-icon {
     transform: translateY(-10px) scale(1.15);
     border-color: var(--color-primary);
@@ -182,7 +189,7 @@
     transform: translateY(-5px);
 }
 
-/* Navigation controls */
+/* Controlli di navigazione più minimali con pulsante di autoplay */
 .timeline-controls {
     display: flex;
     justify-content: space-between;
@@ -209,7 +216,7 @@
     position: relative;
 }
 
-/* Autoplay button */
+/* Pulsante di autoplay/pausa per la timeline */
 .timeline-control.autoplay {
     background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     color: white;
@@ -230,13 +237,13 @@
     box-shadow: 0 6px 12px rgba(107, 70, 193, 0.15);
 }
 
-/* Active autoplay indicator */
+/* Indicatore per lo stato di autoplay */
 .timeline-control.autoplay.active {
     background: linear-gradient(135deg, #4e2d89, #2563eb);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(107, 70, 193, 0.25);
 }
 
-/* Timeline indicators/dots for navigation */
+/* Pallini indicatori sotto la timeline */
 .timeline-indicators {
     display: flex;
     justify-content: center;
@@ -268,7 +275,7 @@
     transform: scale(1.2);
 }
 
-/* Animation control button */
+/* Pulsante per controllare l'animazione */
 .animation-control-wrapper {
     text-align: center;
     margin: 1rem auto 0.75rem;
@@ -313,12 +320,32 @@
     transform: translateY(-1px);
 }
 
-/* Responsive timeline */
+/* Aggiungiamo le animazioni per la timeline */
+@keyframes bounceArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes highlightCard {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(107, 70, 193, 0.2); }
+    100% { transform: translateY(0); }
+}
+
+.highlight-card {
+    animation: highlightCard 1.5s ease;
+}
+
+/* Responsive updates for timeline controls */
 @media (max-width: 768px) {
     .timeline-stop-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 1.25rem;
+        width: 56px;
+        height: 56px;
+        font-size: 1.3rem;
     }
     
     .timeline-stop {
@@ -333,7 +360,10 @@
     .timeline-control {
         width: 40px;
         height: 40px;
-        font-size: 1rem;
+    }
+    
+    .timeline-track-wrapper {
+        padding: 3rem 0 1rem;
     }
     
     .timeline-line {
@@ -343,17 +373,17 @@
 
 @media (min-width: 1024px) {
     .timeline-track-wrapper {
-        padding: 2.5rem 0;
+        padding: 3.5rem 0 1.5rem;
     }
     
     .timeline-stop {
-        padding: 0 2rem;
+        padding: 0 1.8rem;
     }
     
     .timeline-stop-icon {
-        width: 72px;
-        height: 72px;
-        font-size: 1.75rem;
+        width: 76px;
+        height: 76px;
+        font-size: 1.8rem;
     }
     
     .timeline-stop-label {
@@ -393,7 +423,6 @@
         padding: 0.75rem 0 1.25rem;
     }
     
-    /* Vertical alignment for timeline labels on mobile */
     .timeline-stop-label {
         font-size: 0.8rem;
         line-height: 1.3;

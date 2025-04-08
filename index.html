@@ -131,78 +131,86 @@
     
     <div id="main-content" class="container mx-auto px-4 py-4 max-w-5xl">
         <!-- Sezione tappe del tour completamente riprogettata -->
-        <section class="timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
-            <nav class="timeline-stops" aria-label="Tappe del tour">
-                <button class="timeline-stop" aria-label="Vai alla tappa: Monumento R. Lombardi">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-monument" aria-hidden="true"></i>
+        <section class="tour-timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
+            <div class="timeline-container">
+                <div class="timeline-track-wrapper" tabindex="0" aria-label="Timeline orizzontale scorrevole, usa frecce sinistra e destra per navigare">
+                    <div class="timeline-track">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-stops">
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Monumento R. Lombardi">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-monument" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Monumento R. Lombardi</span>
+                            </button>
+                            
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Monumento G. Campione">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-monument" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Monumento G. Campione</span>
+                            </button>
+                            
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Corso G.F. Ingrassia">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-road" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Corso G.F. Ingrassia</span>
+                            </button>
+                            
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa S.M. La Croce">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-place-of-worship" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Chiesa S.M. La Croce</span>
+                            </button>
+                            
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Piazza Vittorio Veneto">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Piazza Vittorio Veneto</span>
+                            </button>
+                            
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Villa Comunale">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-tree" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Villa Comunale</span>
+                            </button>
+                            
+                            <button class="timeline-stop" aria-label="Vai alla tappa: Lago Pozzillo">
+                                <div class="timeline-stop-icon" aria-hidden="true">
+                                    <i class="fas fa-water" aria-hidden="true"></i>
+                                </div>
+                                <span class="timeline-stop-label">Lago Pozzillo</span>
+                            </button>
+                        </div>
                     </div>
-                    <span class="timeline-stop-label">Monumento R. Lombardi</span>
-                </button>
+                </div>
                 
-                <button class="timeline-stop" aria-label="Vai alla tappa: Monumento G. Campione">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-monument" aria-hidden="true"></i>
-                    </div>
-                    <span class="timeline-stop-label">Monumento G. Campione</span>
-                </button>
+                <!-- Controlli di navigazione -->
+                <div class="timeline-controls" role="group" aria-label="Controlli di navigazione della timeline">
+                    <button class="timeline-control prev" aria-label="Tappe precedenti">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button class="timeline-control next" aria-label="Tappe successive">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
                 
-                <button class="timeline-stop" aria-label="Vai alla tappa: Corso G.F. Ingrassia">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-road" aria-hidden="true"></i>
-                    </div>
-                    <span class="timeline-stop-label">Corso G.F. Ingrassia</span>
-                </button>
+                <!-- Pulsante migliorato per controllare l'animazione - spostato sopra gli indicatori -->
+                <div class="animation-control-wrapper">
+                    <button class="animation-control" aria-label="Interrompi animazione automatica">
+                        <span class="control-icon"><i class="fas fa-pause" aria-hidden="true"></i></span>
+                        <span class="control-text">Interrompi animazione</span>
+                    </button>
+                </div>
                 
-                <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa S.M. La Croce">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-place-of-worship" aria-hidden="true"></i>
-                    </div>
-                    <span class="timeline-stop-label">Chiesa S.M. La Croce</span>
-                </button>
-                
-                <button class="timeline-stop" aria-label="Vai alla tappa: Piazza Vittorio Veneto">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-square" aria-hidden="true"></i>
-                    </div>
-                    <span class="timeline-stop-label">Piazza Vittorio Veneto</span>
-                </button>
-                
-                <button class="timeline-stop" aria-label="Vai alla tappa: Villa Comunale">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-tree" aria-hidden="true"></i>
-                    </div>
-                    <span class="timeline-stop-label">Villa Comunale</span>
-                </button>
-                
-                <button class="timeline-stop" aria-label="Vai alla tappa: Lago Pozzillo">
-                    <div class="timeline-stop-icon" aria-hidden="true">
-                        <i class="fas fa-water" aria-hidden="true"></i>
-                    </div>
-                    <span class="timeline-stop-label">Lago Pozzillo</span>
-                </button>
-            </nav>
-            
-            <!-- Controlli di navigazione -->
-            <div class="timeline-controls" role="group" aria-label="Controlli di navigazione della timeline">
-                <button class="timeline-control prev" aria-label="Tappe precedenti">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <button class="timeline-control next" aria-label="Tappe successive">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
+                <!-- Pallini indicatori per la timeline - spostati sotto il pulsante di controllo -->
+                <div class="timeline-indicators" aria-hidden="true"></div>
             </div>
-            
-            <!-- Pulsante migliorato per controllare l'animazione - spostato sopra gli indicatori -->
-            <div class="animation-control-wrapper">
-                <button class="animation-control" aria-label="Interrompi animazione automatica">
-                    <span class="control-icon"><i class="fas fa-pause" aria-hidden="true"></i></span>
-                    <span class="control-text">Interrompi animazione</span>
-                </button>
-            </div>
-            
-            <!-- Pallini indicatori per la timeline - spostati sotto il pulsante di controllo -->
-            <div class="timeline-indicators" aria-hidden="true"></div>
         </section>
         
         <main class="space-y-8">
