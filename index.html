@@ -63,35 +63,31 @@
                             <div class="amplitude-player intro-amplitude" id="intro-player">
                                 <div class="amplitude-visualization-container">
                                     <div class="amplitude-visualization" id="intro-visualization"></div>
-                                    <div class="amplitude-play-pause amplitude-playing amplitude-paused" amplitude-song-index="0">
-                                        <div class="amplitude-play-icon">
-                                            <i class="fas fa-play" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="amplitude-pause-icon">
-                                            <i class="fas fa-pause" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
+                                    <button class="amplitude-play-pause" data-amplitude-main-play-pause="true">
+                                        <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                        <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                                 <div class="amplitude-track-info">
-                                    <div class="amplitude-track-title" amplitude-song-info="name" amplitude-main-song-info="true">
+                                    <div class="amplitude-track-title" data-amplitude-song-info="name" data-amplitude-main-song-info="true">
                                         Introduzione a Regalbuto
                                     </div>
-                                    <div class="amplitude-track-author" amplitude-song-info="artist" amplitude-main-song-info="true">
+                                    <div class="amplitude-track-author" data-amplitude-song-info="artist" data-amplitude-main-song-info="true">
                                         Audio guida di Regalbuto
                                     </div>
                                 </div>
                                 <div class="amplitude-controls-container">
                                     <div class="amplitude-time-container">
-                                        <span class="amplitude-current-time" amplitude-main-current-time="true">0:00</span>
+                                        <span class="amplitude-current-time" data-amplitude-main-current-time="true">0:00</span>
                                         <div class="amplitude-time-progress">
-                                            <input type="range" class="amplitude-song-slider" amplitude-main-song-slider="true"/>
-                                            <progress id="song-played-progress-intro" class="amplitude-song-played-progress" amplitude-main-song-played-progress="true"></progress>
+                                            <input type="range" class="amplitude-song-slider" data-amplitude-main-song-slider="true"/>
+                                            <progress id="song-played-progress-intro" class="amplitude-song-played-progress" data-amplitude-main-song-played-progress="true"></progress>
                                         </div>
-                                        <span class="amplitude-duration-time" amplitude-main-duration-time="true">0:00</span>
+                                        <span class="amplitude-duration-time" data-amplitude-main-duration-time="true">0:00</span>
                                     </div>
                                     <div class="amplitude-volume-container">
                                         <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
-                                        <input type="range" class="amplitude-volume-slider" amplitude-main-volume-slider="true"/>
+                                        <input type="range" class="amplitude-volume-slider" data-amplitude-main-volume-slider="true"/>
                                     </div>
                                 </div>
                             </div>
@@ -225,17 +221,13 @@
                     
                     <!-- Player AmplitudeJS per questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="amplitude-player episode-amplitude" id="episode-piazza" data-amplitude-playlist-index="0" data-amplitude-song-index="0">
+                        <div class="amplitude-player episode-amplitude" id="episode-piazza">
                             <div class="amplitude-visualization-container">
                                 <div class="amplitude-visualization" id="piazza-visualization"></div>
-                                <div class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="0">
-                                    <div class="amplitude-play-icon">
-                                        <i class="fas fa-play" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amplitude-pause-icon">
-                                        <i class="fas fa-pause" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                                <button class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="0" data-player-id="episode-piazza">
+                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                </button>
                             </div>
                             <div class="amplitude-track-info">
                                 <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="0">
@@ -303,17 +295,13 @@
                     
                     <!-- Player AmplitudeJS per questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="amplitude-player episode-amplitude" id="episode-palazzo" data-amplitude-playlist-index="0" data-amplitude-song-index="1">
+                        <div class="amplitude-player episode-amplitude" id="episode-palazzo">
                             <div class="amplitude-visualization-container">
                                 <div class="amplitude-visualization" id="palazzo-visualization"></div>
-                                <div class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="1">
-                                    <div class="amplitude-play-icon">
-                                        <i class="fas fa-play" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amplitude-pause-icon">
-                                        <i class="fas fa-pause" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                                <button class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="1" data-player-id="episode-palazzo">
+                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                </button>
                             </div>
                             <div class="amplitude-track-info">
                                 <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="1">
@@ -374,17 +362,13 @@
                     
                     <!-- Player AmplitudeJS per questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="amplitude-player episode-amplitude" id="episode-chiesa" data-amplitude-playlist-index="0" data-amplitude-song-index="2">
+                        <div class="amplitude-player episode-amplitude" id="episode-chiesa">
                             <div class="amplitude-visualization-container">
                                 <div class="amplitude-visualization" id="chiesa-visualization"></div>
-                                <div class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="2">
-                                    <div class="amplitude-play-icon">
-                                        <i class="fas fa-play" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="amplitude-pause-icon">
-                                        <i class="fas fa-pause" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                                <button class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="2" data-player-id="episode-chiesa">
+                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                </button>
                             </div>
                             <div class="amplitude-track-info">
                                 <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="2">

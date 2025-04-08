@@ -5,15 +5,82 @@
     display: flex;
     flex-direction: column;
     background-color: white;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius-md, 0.75rem);
+    box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.1));
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0.5rem;
+}
+
+/* Stato iniziale del player - mostra solo il play */
+.amplitude-player {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: var(--border-radius-md, 0.75rem);
+    box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.1));
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0.5rem;
+}
+
+/* REGOLE SEMPLIFICATE E PULITE per il controllo play/pause */
+/* Stato predefinito - mostra play, nascondi pause */
+.amplitude-player .amplitude-play {
+    display: inline-block !important;
+}
+
+.amplitude-player .amplitude-pause {
+    display: none !important;
+}
+
+/* Quando in riproduzione - nascondi play, mostra pause */
+.amplitude-player.amplitude-playing .amplitude-play {
+    display: none !important;
+}
+
+.amplitude-player.amplitude-playing .amplitude-pause {
+    display: inline-block !important;
+}
+
+/* Stile speciale per il pulsante quando il player è in riproduzione */
+.amplitude-player.amplitude-playing .amplitude-play-pause {
+    background-color: #4a6cf7;
+    color: white;
+    box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.3);
+}
+
+/* Animazione per migliorare il feedback visivo del cambio stato */
+.amplitude-player .amplitude-play,
+.amplitude-player .amplitude-pause {
+    transition: all 0.2s ease;
+}
+
+/* Styling più evidente per il player attivo */
+.amplitude-player.amplitude-playing .amplitude-visualization-container {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Animazione per il cambio di stato */
+@keyframes pulsePlay {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.amplitude-player.amplitude-playing .amplitude-play-pause {
+    animation: pulsePlay 2s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .amplitude-player.amplitude-playing .amplitude-play-pause {
+        animation: none;
+    }
 }
 
 /* Versione intro player con sfondo più scuro */
 .intro-amplitude {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     color: white;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -21,24 +88,23 @@
     backdrop-filter: blur(10px);
 }
 
-/* Container per visualizzazione audio */
+/* Container per visualizzazione audio - Design moderno e minimalista */
 .amplitude-visualization-container {
     position: relative;
-    height: 100px;
-    margin-bottom: 1rem;
+    height: 80px;
+    margin-bottom: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
-    background-size: 300% 100%;
-    animation: iconGradient 20s ease infinite;
-    border-radius: 8px;
+    background: linear-gradient(135deg, #4a6cf7 0%, #2651e8 50%, #1a3fd9 100%);
+    border-radius: 12px;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .intro-amplitude .amplitude-visualization-container {
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Visualizzazione audio */
@@ -53,58 +119,106 @@
     height: 100%;
 }
 
-/* Pulsante Play/Pause */
+/* Pulsante Play/Pause - Design corretto per la funzionalità */
 .amplitude-play-pause {
     position: relative;
     z-index: 5;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.9);
-    color: var(--color-primary);
+    background-color: white;
+    color: #4a6cf7;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
     transition: all 0.2s ease;
 }
 
 .intro-amplitude .amplitude-play-pause {
     background-color: white;
+    color: #333;
 }
 
 .amplitude-play-pause:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.amplitude-playing .amplitude-play-icon {
+/* Icone play e pause correttamente configurate */
+.amplitude-play {
+    display: inline-block;
+    font-size: 1.25rem;
+}
+
+.amplitude-pause {
+    display: none;
+    font-size: 1.25rem;
+}
+
+/* Quando è in riproduzione, nascondi play e mostra pause */
+.amplitude-playing .amplitude-play {
     display: none;
 }
 
-.amplitude-paused .amplitude-pause-icon {
-    display: none;
+.amplitude-playing .amplitude-pause {
+    display: inline-block;
 }
 
-/* Informazioni sulla traccia */
+/* Classe specifica per pausa - assicura che lo stato sia visualizzato correttamente */
+.amplitude-paused .amplitude-play {
+    display: inline-block !important;
+}
+
+.amplitude-paused .amplitude-pause {
+    display: none !important;
+}
+
+/* Classe specifica per riproduzione - assicura che lo stato sia visualizzato correttamente */
+.amplitude-playing .amplitude-play {
+    display: none !important;
+}
+
+.amplitude-playing .amplitude-pause {
+    display: inline-block !important;
+}
+
+/* Migliora il feedback visivo per i pulsanti attivi */
+.amplitude-playing .amplitude-play-pause {
+    background-color: #4a6cf7;
+    color: white;
+    box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.3);
+}
+
+.intro-amplitude.amplitude-playing .amplitude-play-pause {
+    background-color: #4a6cf7;
+    color: white;
+}
+
+/* Informazioni sulla traccia - Layout più compatto */
 .amplitude-track-info {
-    padding: 0.5rem 0;
+    padding: 0.25rem 0 0.5rem;
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .amplitude-track-title {
     font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .amplitude-track-author {
-    font-size: 0.9rem;
-    color: var(--text-light);
+    font-size: 0.85rem;
+    color: var(--text-light, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .intro-amplitude .amplitude-track-author {
@@ -115,9 +229,9 @@
     color: white;
 }
 
-/* Container dei controlli */
+/* Container dei controlli - Più compatto */
 .amplitude-controls-container {
-    padding: 0 1rem 1rem;
+    padding: 0 0.5rem 0.5rem;
 }
 
 /* Container della timeline */
@@ -125,8 +239,8 @@
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-light);
+    font-size: 0.75rem;
+    color: var(--text-light, #666);
 }
 
 .intro-amplitude .amplitude-time-container {
@@ -135,16 +249,16 @@
 
 .amplitude-current-time, 
 .amplitude-duration-time {
-    min-width: 40px;
+    min-width: 36px;
     font-variant-numeric: tabular-nums;
 }
 
-/* Barra di progresso */
+/* Barra di progresso - Design migliorato */
 .amplitude-time-progress {
     flex-grow: 1;
     position: relative;
     margin: 0 0.5rem;
-    height: 10px;
+    height: 8px;
 }
 
 .amplitude-song-slider {
@@ -152,7 +266,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 10px;
+    height: 8px;
     margin: 0;
     opacity: 0;
     z-index: 5;
@@ -164,35 +278,35 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 6px;
+    height: 4px;
     margin: 2px 0;
-    border-radius: 3px;
+    border-radius: 4px;
     overflow: hidden;
 }
 
-/* Styling per progress element */
+/* Styling per progress element - Design moderno */
 progress {
     appearance: none;
     -webkit-appearance: none;
     background: #e5e7eb;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 progress::-webkit-progress-bar {
     background: #e5e7eb;
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 progress::-webkit-progress-value {
-    background: var(--color-primary);
-    border-radius: 3px;
+    background: #4a6cf7;
+    border-radius: 4px;
     transition: width 0.1s ease;
 }
 
 progress::-moz-progress-bar {
-    background: var(--color-primary);
-    border-radius: 3px;
+    background: #4a6cf7;
+    border-radius: 4px;
     transition: width 0.1s ease;
 }
 
@@ -208,17 +322,17 @@ progress::-moz-progress-bar {
     background: white;
 }
 
-/* Container del volume */
+/* Container del volume - Layout più compatto */
 .amplitude-volume-container {
     display: flex;
     align-items: center;
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .amplitude-volume-icon {
-    font-size: 1rem;
-    margin-right: 1rem;
-    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-right: 0.75rem;
+    color: var(--text-light, #666);
 }
 
 .intro-amplitude .amplitude-volume-icon {
@@ -227,31 +341,31 @@ progress::-moz-progress-bar {
 
 .amplitude-volume-slider {
     flex-grow: 1;
-    height: 6px;
+    height: 4px;
     appearance: none;
     -webkit-appearance: none;
     background: #e5e7eb;
-    border-radius: 3px;
+    border-radius: 4px;
     outline: none;
 }
 
 .amplitude-volume-slider::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: #4a6cf7;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .amplitude-volume-slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: #4a6cf7;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -271,20 +385,20 @@ progress::-moz-progress-bar {
     border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive */
+/* Ottimizzazioni responsive */
 @media (max-width: 640px) {
     .amplitude-visualization-container {
-        height: 80px;
+        height: 70px;
     }
     
     .amplitude-play-pause {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
     }
     
     .amplitude-track-title {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     
     .amplitude-track-author {
@@ -292,13 +406,13 @@ progress::-moz-progress-bar {
     }
     
     .amplitude-controls-container {
-        padding: 0 0.75rem 0.75rem;
+        padding: 0 0.5rem 0.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .amplitude-visualization-container {
-        height: 70px;
+        height: 60px;
     }
     
     .amplitude-play-pause {
@@ -317,6 +431,21 @@ progress::-moz-progress-bar {
     }
 }
 
+/* Classe per audio player card ottimizzata */
+.audio-player-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.audio-player-card:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
 /* Versione per prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
     .amplitude-visualization-container {
@@ -324,6 +453,10 @@ progress::-moz-progress-bar {
     }
     
     .amplitude-play-pause:hover {
+        transform: none;
+    }
+    
+    .audio-player-card:hover {
         transform: none;
     }
 }

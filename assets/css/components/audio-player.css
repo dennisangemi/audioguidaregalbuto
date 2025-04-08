@@ -2,38 +2,154 @@
 
 /* Audio player card */
 .audio-player-card {
-    background-color: #f9f9f9;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    margin: 1.5rem 0;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+    padding: 1rem;
+    margin: 1.25rem 0;
+    transition: all 0.3s ease;
+}
+
+.audio-player-card:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
 }
 
 /* Audio player in the hero intro section */
 .intro-player {
     width: 100%;
-    margin: 1.5rem auto;
+    max-width: 500px;
+    margin: 1.25rem auto;
     transition: all 0.3s ease;
 }
 
-.intro-player:hover {
-    transform: translateY(-2px);
-}
-
 .intro-player-container {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 /* Container for the transcription */
 .intro-transcript-container {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     width: 100%;
+    max-width: 500px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* Transcript button styling */
+.toggle-transcript {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: rgba(74, 108, 247, 0.1);
+    color: #4a6cf7;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-transcript:hover {
+    background-color: rgba(74, 108, 247, 0.15);
+}
+
+/* Transcript container */
+.transcript-container {
+    display: none;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid #e9ecef;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* When transcript is shown */
+.transcript-container.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Episode content styling */
+.episode-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Episode title row */
+.episode-title-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.episode-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(74, 108, 247, 0.1);
+    color: #4a6cf7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
 /* Responsive adjustments */
+@media (max-width: 640px) {
+    .audio-player-card {
+        padding: 0.75rem;
+    }
+    
+    .episode-title-row {
+        margin-bottom: 0.5rem;
+    }
+    
+    .episode-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+        margin-right: 0.75rem;
+    }
+}
+
 @media (max-width: 480px) {
     .audio-player-card {
-        padding: 0.75rem !important;
+        padding: 0.5rem !important;
+        border-radius: 12px;
+    }
+    
+    .episode-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+    }
+    
+    .toggle-transcript {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+}
+
+/* Prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .audio-player-card:hover,
+    .intro-player:hover {
+        transform: none;
+    }
+    
+    .transcript-container.show {
+        animation: none;
     }
 }
