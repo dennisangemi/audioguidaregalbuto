@@ -1,0 +1,68 @@
+/* Responsive utilities */
+
+/* Media queries for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .podcast-icon-large i,
+    .podcast-icon-large::before,
+    .podcast-icon-large::after,
+    .hero-arrow,
+    .episode-card::before,
+    .timeline-line,
+    .welcome-icon i {
+        animation: none !important;
+    }
+    
+    .episode-card::before {
+        animation: none;
+    }
+    
+    .episode-card:hover {
+        transform: none;
+    }
+    
+    .toggle-icon {
+        transition: none;
+    }
+    
+    .toggle-transcript, .episode-card {
+        transition: none;
+    }
+    
+    .podcast-icon-large i {
+        animation: none;
+    }
+    
+    .podcast-icon-large::before,
+    .podcast-icon-large::after {
+        animation: none;
+    }
+}
+
+/* Helper for JavaScript to choose smooth or instant scrolling */
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+.no-smooth-scroll {
+    scroll-behavior: auto;
+}
+
+/* Screen reader only class - visual hidden but accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

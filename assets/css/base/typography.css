@@ -1,0 +1,29 @@
+/* Typography styles */
+
+/* Global typography */
+p, li {
+    max-width: 70ch;
+    color: var(--text-medium);
+    line-height: 1.6;
+}
+
+/* Links in footer */
+.footer-link {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.footer-link:hover,
+.footer-link:focus {
+    text-decoration: none;
+    color: var(--color-primary-dark);
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+    p, li {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+}

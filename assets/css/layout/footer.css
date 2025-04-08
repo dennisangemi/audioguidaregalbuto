@@ -1,0 +1,11 @@
+/* Footer styles */
+
+footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    background-color: #f0f0f0;
+    color: var(--text-light);
+    text-align: center;
+    font-size: 0.875rem;
+    border-radius: var(--border-radius-lg);
+}

@@ -1,0 +1,24 @@
+/* Main CSS file that imports all modules */
+
+/* Base styles */
+@import 'base/variables.css';
+@import 'base/reset.css';
+@import 'base/typography.css';
+@import 'base/accessibility.css';
+
+/* Layout styles */
+@import 'layout/header.css';
+@import 'layout/container.css';
+@import 'layout/footer.css';
+
+/* Component styles */
+@import 'components/timeline.css';
+@import 'components/episode-card.css';
+@import 'components/transcription.css';
+@import 'components/audio-player.css';
+@import 'components/hero.css';
+@import 'components/intro-section.css';
+
+/* Utility styles */
+@import 'utilities/animations.css';
+@import 'utilities/responsive.css';

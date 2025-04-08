@@ -1,0 +1,147 @@
+/* Header styles */
+
+/* Header redesigned to include introduction */
+.site-header {
+    background: var(--gradient-header);
+    background-size: 300% 100%;
+    animation: headerGradient 25s ease infinite;
+    color: white;
+    padding: 3rem 0 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Expanded header with intro content */
+.expanded-header {
+    padding: 3.5rem 0 3rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.expanded-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: 
+        radial-gradient(circle at 20% 70%, rgba(139, 92, 246, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+    z-index: 1;
+}
+
+/* Improved style for hero section */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Header section with title and icon */
+.hero-header {
+    margin-bottom: 2rem;
+}
+
+/* Hero text container */
+.hero-text {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Main title */
+.hero-text h1 {
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.02em;
+}
+
+/* Improved subtitle for readability - increased contrast */
+.hero-subtitle {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--text-white);
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 0.5rem 2rem;
+    border-radius: 2rem;
+    display: inline-block;
+    margin: 0.75rem auto 0;
+    letter-spacing: 0.01em;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Animated arrow below hero section - improved contrast */
+.hero-arrow-container {
+    text-align: center;
+    position: relative;
+    bottom: -10px;
+    z-index: 5;
+}
+
+.hero-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+    border-radius: 50%;
+    animation: bounceArrow 2s ease-in-out infinite;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 1.1rem;
+    margin: 0 auto;
+}
+
+/* Header animations */
+@keyframes headerGradient {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes bounceArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* Responsive header adjustments */
+@media (max-width: 768px) {
+    .expanded-header {
+        padding: 2.5rem 0 3.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        padding: 0.4rem 1.5rem;
+    }
+    
+    .hero-arrow-container {
+        bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-content {
+        gap: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        padding: 0.4rem 1.2rem;
+    }
+}

@@ -1,0 +1,89 @@
+/* Transcription component styles */
+
+/* Transcription container */
+.transcript-container {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius-md);
+}
+
+/* Expanded transcription */
+.transcript-container.expanded {
+    height: auto;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    background-color: #f9f9f9;
+    color: var(--text-dark);
+}
+
+/* Toggle button for transcription */
+.toggle-transcript {
+    background-color: #f5f7fa;
+    color: #555;
+    border: none;
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.toggle-transcript:hover,
+.toggle-transcript:focus {
+    background-color: #e9ecf1;
+    color: var(--text-dark);
+}
+
+/* Icon rotation */
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.rotate-icon {
+    transform: rotate(180deg);
+}
+
+/* Special styling for intro transcript button */
+.intro-transcript-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.875rem;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.intro-transcript-button:hover,
+.intro-transcript-button:focus {
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Special styling for transcript in header */
+.expanded-header .transcript-container.expanded {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--text-dark);
+    border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .toggle-transcript {
+        padding: 0.6rem;
+        margin-top: 0.75rem;
+    }
+    
+    .transcript-container.expanded {
+        padding: 1.25rem;
+    }
+}

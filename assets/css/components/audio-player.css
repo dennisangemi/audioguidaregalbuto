@@ -1,0 +1,39 @@
+/* Audio player component styles */
+
+/* Audio player card */
+.audio-player-card {
+    background-color: #f9f9f9;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 1.5rem 0;
+}
+
+/* Audio player in the hero intro section */
+.intro-player {
+    width: 100%;
+    margin: 1.5rem auto;
+    transition: all 0.3s ease;
+}
+
+.intro-player:hover {
+    transform: translateY(-2px);
+}
+
+.intro-player-container {
+    margin-top: 1rem;
+}
+
+/* Container for the transcription */
+.intro-transcript-container {
+    margin-top: 1rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .audio-player-card {
+        padding: 0.75rem !important;
+    }
+}

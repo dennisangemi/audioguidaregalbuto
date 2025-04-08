@@ -1,0 +1,46 @@
+/* Accessibility styles */
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .podcast-icon-large i,
+    .podcast-icon-large::before,
+    .podcast-icon-large::after,
+    .hero-arrow,
+    .episode-card::before,
+    .timeline-line,
+    .welcome-icon i {
+        animation: none !important;
+    }
+    
+    .episode-card::before {
+        animation: none;
+    }
+    
+    .episode-card:hover {
+        transform: none;
+    }
+    
+    .toggle-icon {
+        transition: none;
+    }
+    
+    .toggle-transcript, .episode-card {
+        transition: none;
+    }
+    
+    .podcast-icon-large i {
+        animation: none; /* Stop rotation */
+    }
+    
+    .podcast-icon-large::before,
+    .podcast-icon-large::after {
+        animation: none; /* Stop audio waves */
+    }
+}

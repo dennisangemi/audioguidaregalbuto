@@ -1,0 +1,153 @@
+/* Introduction section styles */
+
+/* Main intro section layout */
+.intro-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 1rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Intro description text */
+.intro-description {
+    color: var(--text-white);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    font-weight: 400;
+}
+
+/* Features in intro section */
+.intro-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.intro-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    font-weight: 600;
+    flex: 1;
+    min-width: 0;
+    backdrop-filter: blur(10px);
+}
+
+.intro-feature i {
+    font-size: 1.25rem;
+    color: var(--text-white);
+    min-width: 1.25rem;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.intro-feature span {
+    font-weight: 600;
+    color: var(--text-white);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.intro-feature:hover {
+    transform: translateY(-3px);
+    background-color: rgba(0, 0, 0, 0.55);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive layout */
+@media (min-width: 1024px) {
+    .intro-section {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .intro-content {
+        flex: 1;
+        padding-right: 2rem;
+    }
+    
+    .intro-player-container {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .intro-description {
+        font-size: 1rem;
+    }
+    
+    .intro-section {
+        gap: 1rem;
+    }
+    
+    .intro-content {
+        order: 1;
+    }
+    
+    .intro-player-container {
+        order: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .intro-description {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .intro-features-container {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .intro-features {
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .intro-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.5rem;
+    }
+    
+    .intro-feature {
+        padding: 0.6rem 0.75rem;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .intro-feature i {
+        font-size: 1rem;
+    }
+    
+    .intro-feature span {
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+}
+
+@media (max-width: 360px) {
+    .intro-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .intro-feature {
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+    }
+}

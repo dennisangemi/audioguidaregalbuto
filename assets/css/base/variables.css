@@ -1,0 +1,59 @@
+/* CSS Variables */
+:root {
+  /* Color palette */
+  --color-primary: #6b46c1;
+  --color-primary-light: #8b5cf6;
+  --color-primary-dark: #5a2ca0;
+  --color-secondary: #3b82f6;
+  --color-accent: #10b981;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary), var(--color-accent));
+  --gradient-header: linear-gradient(120deg, var(--color-primary), var(--color-secondary), #0a6e5a);
+  
+  /* Text colors */
+  --text-dark: #333;
+  --text-medium: #454545;
+  --text-light: #666;
+  --text-white: #fff;
+  
+  /* Background colors */
+  --bg-light: #f8f9fa;
+  --bg-white: #fff;
+  --bg-gray-light: #f5f7fa;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Border radius */
+  --border-radius-sm: 0.5rem;
+  --border-radius-md: 0.75rem;
+  --border-radius-lg: 1rem;
+  --border-radius-xl: 1.5rem;
+  --border-radius-round: 50%;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Font sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+}

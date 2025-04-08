@@ -1,0 +1,98 @@
+/* Hero components including podcast icon */
+
+/* Large podcast icon in header with rotation and audio waves */
+.podcast-icon-large {
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
+    background-size: 300% 100%;
+    animation: iconGradient 20s ease infinite;
+    color: white;
+    border-radius: 50%;
+    font-size: 2.75rem;
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 8px rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    margin: 0 auto 1.25rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 3;
+}
+
+/* Very slow rotation for compass icon */
+.podcast-icon-large i {
+    animation: slowSpin 40s linear infinite;
+}
+
+/* Audio waves around the icon */
+.podcast-icon-large::before, 
+.podcast-icon-large::after {
+    content: '';
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: audioWave 3s ease-out infinite;
+}
+
+/* Second wave with different timing */
+.podcast-icon-large::after {
+    animation-delay: 1s;
+}
+
+/* Hover effects */
+.podcast-icon-large:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+.podcast-icon-large:hover::before,
+.podcast-icon-large:hover::after {
+    animation-play-state: paused;
+}
+
+/* Animations for icon effects */
+@keyframes audioWave {
+    0% {
+        width: 110%;
+        height: 110%;
+        opacity: 1;
+        border-width: 3px;
+    }
+    100% {
+        width: 230%;
+        height: 230%;
+        opacity: 0;
+        border-width: 1px;
+    }
+}
+
+@keyframes slowSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .podcast-icon-large {
+        width: 90px;
+        height: 90px;
+        font-size: 2.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .podcast-icon-large {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+}

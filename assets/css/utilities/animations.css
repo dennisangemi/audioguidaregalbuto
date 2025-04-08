@@ -1,0 +1,76 @@
+/* Animation utilities */
+
+/* Header gradient animation */
+@keyframes headerGradient {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Bounce arrow animation */
+@keyframes bounceArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* Gradient animation for cards */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Icon gradient animation */
+@keyframes iconGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Audio wave animation */
+@keyframes audioWave {
+    0% {
+        width: 110%;
+        height: 110%;
+        opacity: 1;
+        border-width: 3px;
+    }
+    100% {
+        width: 230%;
+        height: 230%;
+        opacity: 0;
+        border-width: 1px;
+    }
+}
+
+/* Slow spin animation */
+@keyframes slowSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Card highlight animation */
+@keyframes highlightCard {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(107, 70, 193, 0.2); }
+    100% { transform: translateY(0); }
+}

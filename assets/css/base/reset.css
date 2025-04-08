@@ -1,0 +1,75 @@
+/* Base reset and normalize styles */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    line-height: 1.5;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Skip link for keyboard accessibility - improved */
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    z-index: 100;
+    transition: top var(--transition-normal);
+    font-weight: bold;
+}
+
+.skip-to-content:focus {
+    top: 0;
+    outline: 3px solid var(--text-white);
+    outline-offset: 2px;
+}
+
+/* Improved keyboard focus styles */
+:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.25);
+}
+
+/* Keyboard focus styles - improved and unified */
+button:focus-visible,
+a:focus-visible,
+[tabindex="0"]:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.25);
+    /* Don't remove this - essential for accessibility */
+}
+
+/* Added border to timeline when focused */
+.timeline-track-wrapper:focus-visible {
+    box-shadow: 0 0 0 3px var(--color-primary);
+    border-radius: 18px;
+}
+
+/* Screen reader only class */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
