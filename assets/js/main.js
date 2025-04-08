@@ -140,6 +140,48 @@ document.addEventListener('DOMContentLoaded', function() {
                         goToStop(currentStopIndex);
                     }, AUTOPLAY_INTERVAL);
                 }
+                
+                // Trova l'episodio corrispondente e scorri ad esso
+                const episodeCards = document.querySelectorAll('.episode-card');
+                episodeCards.forEach(card => {
+                    const cardTitle = card.querySelector('h2').textContent.trim();
+                    if (cardTitle.includes(locationName)) {
+                        setTimeout(() => {
+                            card.scrollIntoView({ 
+                                behavior: getScrollBehavior(), 
+                                block: 'center' 
+                            });
+                            card.classList.add('highlight-card');
+                            setTimeout(() => {
+                                card.classList.remove('highlight-card');
+                            }, 2000);
+                            
+                            // Focus al contenuto per accessibilità
+                            const heading = card.querySelector('h2');
+                            if (heading) {
+                                heading.setAttribute('tabindex', '-1');
+                                heading.focus();
+                                // Rimuovere il tabindex dopo il focus
+                                setTimeout(() => {
+                                    heading.removeAttribute('tabindex');
+                                }, 100);
+                            }
+                            
+                            // Riprodurre l'audio corrispondente se AmplitudeJS è disponibile
+                            if (typeof Amplitude !== 'undefined') {
+                                // Pausa qualsiasi traccia in riproduzione
+                                if (Amplitude.getPlayerState() === 'playing') {
+                                    Amplitude.pause();
+                                }
+                                
+                                // Avvia la riproduzione della traccia corrispondente
+                                if (index < Amplitude.getPlaylistSongs("episodi").length) {
+                                    Amplitude.playPlaylistSongAtIndex(index, "episodi");
+                                }
+                            }
+                        }, 300);
+                    }
+                });
             }
         }
         
@@ -211,19 +253,32 @@ document.addEventListener('DOMContentLoaded', function() {
                                     heading.removeAttribute('tabindex');
                                 }, 100);
                             }
+                            
+                            // Riprodurre l'audio corrispondente se AmplitudeJS è disponibile
+                            if (typeof Amplitude !== 'undefined') {
+                                // Pausa qualsiasi traccia in riproduzione
+                                if (Amplitude.getPlayerState() === 'playing') {
+                                    Amplitude.pause();
+                                }
+                                
+                                // Avvia la riproduzione della traccia corrispondente
+                                if (index < Amplitude.getPlaylistSongs("episodi").length) {
+                                    Amplitude.playPlaylistSongAtIndex(index, "episodi");
+                                }
+                            }
                         }, 300);
                     }
                 });
-            });
-            
-            // Supporto per la navigazione da tastiera
-            stop.addEventListener('keydown', function(e) {
-                // Navigazione con freccia sinistra/destra
-                if (e.key === 'ArrowRight' && this.nextElementSibling) {
-                    this.nextElementSibling.focus();
-                } else if (e.key === 'ArrowLeft' && this.previousElementSibling) {
-                    this.previousElementSibling.focus();
-                }
+                
+                // Supporto per la navigazione da tastiera
+                stop.addEventListener('keydown', function(e) {
+                    // Navigazione con freccia sinistra/destra
+                    if (e.key === 'ArrowRight' && this.nextElementSibling) {
+                        this.nextElementSibling.focus();
+                    } else if (e.key === 'ArrowLeft' && this.previousElementSibling) {
+                        this.previousElementSibling.focus();
+                    }
+                });
             });
         });
         
@@ -302,62 +357,4 @@ document.addEventListener('DOMContentLoaded', function() {
             // Implementazione da aggiungere quando avremo tutti gli episodi
         });
     });
-    
-    // Gestione dell'autoplay per l'iframe di Spotify
-    const setupSpotifyAutoplay = () => {
-        const spotifyIframe = document.querySelector('.intro-player iframe');
-        if (!spotifyIframe) return;
-        
-        // Variabile per tracciare se l'autoplay è già stato tentato
-        let autoplayAttempted = false;
-        
-        // Funzione per tentare l'autoplay
-        const attemptAutoplay = () => {
-            if (autoplayAttempted) return;
-            autoplayAttempted = true;
-            
-            try {
-                // Se l'iframe ha già l'autoplay, assicuriamoci che lo utilizzi
-                if (!spotifyIframe.src.includes('autoplay=1')) {
-                    spotifyIframe.src = spotifyIframe.src.includes('?') 
-                        ? `${spotifyIframe.src}&autoplay=1` 
-                        : `${spotifyIframe.src}?autoplay=1`;
-                }
-                
-                // Proviamo a usare l'API postMessage per dare il focus all'iframe
-                spotifyIframe.contentWindow.postMessage('{"method":"play"}', '*');
-                
-                console.log('Autoplay attempt triggered');
-            } catch (e) {
-                console.warn('Autoplay attempt failed:', e);
-            }
-        };
-        
-        // Tentiamo l'autoplay dopo che l'iframe è caricato
-        spotifyIframe.addEventListener('load', () => {
-            // Su alcuni browser, l'autoplay potrebbe funzionare direttamente
-            setTimeout(() => {
-                console.log('Initial autoplay attempt after iframe load');
-            }, 1000);
-        });
-        
-        // Tentiamo l'autoplay alla prima interazione dell'utente con la pagina
-        const userInteractionEvents = ['click', 'touchstart', 'keydown', 'scroll'];
-        
-        const handleFirstInteraction = () => {
-            attemptAutoplay();
-            // Rimuoviamo tutti i listener dopo il primo tentativo
-            userInteractionEvents.forEach(event => {
-                document.removeEventListener(event, handleFirstInteraction);
-            });
-        };
-        
-        // Aggiungiamo i listener per la prima interazione
-        userInteractionEvents.forEach(event => {
-            document.addEventListener(event, handleFirstInteraction);
-        });
-    };
-    
-    // Inizializziamo l'autoplay di Spotify
-    setupSpotifyAutoplay();
 });

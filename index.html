@@ -7,7 +7,10 @@
     <title>Audio guida di Regalbuto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AmplitudeJS CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.css"/>
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components/audio-amplitude.css">
 </head>
 <body>
     <!-- Skip link per accessibilità da tastiera -->
@@ -56,7 +59,42 @@
                     
                     <div class="intro-player-container">
                         <div class="intro-player">
-                            <iframe id="spotify-intro" style="border-radius:12px" src="https://open.spotify.com/embed/episode/5TBo1k8d1i7aWqoyoDxOnG?utm_source=generator&autoplay=1" width="100%" height="240" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Introduzione a Regalbuto su Spotify"></iframe>
+                            <!-- Player AmplitudeJS per l'introduzione -->
+                            <div class="amplitude-player intro-amplitude" id="intro-player">
+                                <div class="amplitude-visualization-container">
+                                    <div class="amplitude-visualization" id="intro-visualization"></div>
+                                    <div class="amplitude-play-pause amplitude-playing amplitude-paused" amplitude-song-index="0">
+                                        <div class="amplitude-play-icon">
+                                            <i class="fas fa-play" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="amplitude-pause-icon">
+                                            <i class="fas fa-pause" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="amplitude-track-info">
+                                    <div class="amplitude-track-title" amplitude-song-info="name" amplitude-main-song-info="true">
+                                        Introduzione a Regalbuto
+                                    </div>
+                                    <div class="amplitude-track-author" amplitude-song-info="artist" amplitude-main-song-info="true">
+                                        Audio guida di Regalbuto
+                                    </div>
+                                </div>
+                                <div class="amplitude-controls-container">
+                                    <div class="amplitude-time-container">
+                                        <span class="amplitude-current-time" amplitude-main-current-time="true">0:00</span>
+                                        <div class="amplitude-time-progress">
+                                            <input type="range" class="amplitude-song-slider" amplitude-main-song-slider="true"/>
+                                            <progress id="song-played-progress-intro" class="amplitude-song-played-progress" amplitude-main-song-played-progress="true"></progress>
+                                        </div>
+                                        <span class="amplitude-duration-time" amplitude-main-duration-time="true">0:00</span>
+                                    </div>
+                                    <div class="amplitude-volume-container">
+                                        <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
+                                        <input type="range" class="amplitude-volume-slider" amplitude-main-volume-slider="true"/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Tab espandibile per la trascrizione -->
@@ -97,111 +135,79 @@
     
     <div id="main-content" class="container mx-auto px-4 py-4 max-w-5xl">
         <!-- Sezione tappe del tour completamente riprogettata -->
-        <section class="tour-timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
-            <h2 id="tour-timeline-title" class="sr-only">Tappe del tour</h2>
-            
-            <div class="timeline-container">
-                <div class="timeline-track-wrapper" tabindex="0" aria-label="Scorri orizzontalmente per vedere tutte le tappe">
-                    <div class="timeline-track">
-                        <!-- Linea di connessione -->
-                        <div class="timeline-line" aria-hidden="true"></div>
-                        
-                        <!-- Le tappe del tour -->
-                        <nav class="timeline-stops" aria-label="Tappe del tour">
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Piazza della Repubblica">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Piazza della Repubblica</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Palazzo Comunale">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-landmark" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Palazzo Comunale</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa Madre S. Basilio">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-church" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Chiesa Madre S. Basilio</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Monumento R. Lombardi">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-monument" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Monumento R. Lombardi</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Monumento G. Campione">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-monument" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Monumento G. Campione</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Corso G.F. Ingrassia">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-road" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Corso G.F. Ingrassia</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa S.M. La Croce">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-place-of-worship" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Chiesa S.M. La Croce</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Piazza Vittorio Veneto">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-square" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Piazza Vittorio Veneto</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Villa Comunale">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-tree" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Villa Comunale</span>
-                            </button>
-                            
-                            <button class="timeline-stop" aria-label="Vai alla tappa: Lago Pozzillo">
-                                <div class="timeline-stop-icon" aria-hidden="true">
-                                    <i class="fas fa-water" aria-hidden="true"></i>
-                                </div>
-                                <span class="timeline-stop-label">Lago Pozzillo</span>
-                            </button>
-                        </nav>
+        <section class="timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
+            <h2 id="tour-timeline-title" class="text-3xl md:text-4xl font-bold mb-6">Tappe del tour</h2>
+            <nav class="timeline-stops" aria-label="Tappe del tour">
+                <button class="timeline-stop" aria-label="Vai alla tappa: Monumento R. Lombardi">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-monument" aria-hidden="true"></i>
                     </div>
-                </div>
+                    <span class="timeline-stop-label">Monumento R. Lombardi</span>
+                </button>
                 
-                <!-- Controlli di navigazione -->
-                <div class="timeline-controls" role="group" aria-label="Controlli di navigazione della timeline">
-                    <button class="timeline-control prev" aria-label="Tappe precedenti">
-                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                    </button>
-                    <button class="timeline-control next" aria-label="Tappe successive">
-                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                    </button>
-                </div>
+                <button class="timeline-stop" aria-label="Vai alla tappa: Monumento G. Campione">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-monument" aria-hidden="true"></i>
+                    </div>
+                    <span class="timeline-stop-label">Monumento G. Campione</span>
+                </button>
                 
-                <!-- Pulsante migliorato per controllare l'animazione - spostato sopra gli indicatori -->
-                <div class="animation-control-wrapper">
-                    <button class="animation-control" aria-label="Interrompi animazione automatica">
-                        <span class="control-icon"><i class="fas fa-pause" aria-hidden="true"></i></span>
-                        <span class="control-text">Interrompi animazione</span>
-                    </button>
-                </div>
+                <button class="timeline-stop" aria-label="Vai alla tappa: Corso G.F. Ingrassia">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-road" aria-hidden="true"></i>
+                    </div>
+                    <span class="timeline-stop-label">Corso G.F. Ingrassia</span>
+                </button>
                 
-                <!-- Pallini indicatori per la timeline - spostati sotto il pulsante di controllo -->
-                <div class="timeline-indicators" aria-hidden="true"></div>
+                <button class="timeline-stop" aria-label="Vai alla tappa: Chiesa S.M. La Croce">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-place-of-worship" aria-hidden="true"></i>
+                    </div>
+                    <span class="timeline-stop-label">Chiesa S.M. La Croce</span>
+                </button>
+                
+                <button class="timeline-stop" aria-label="Vai alla tappa: Piazza Vittorio Veneto">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-square" aria-hidden="true"></i>
+                    </div>
+                    <span class="timeline-stop-label">Piazza Vittorio Veneto</span>
+                </button>
+                
+                <button class="timeline-stop" aria-label="Vai alla tappa: Villa Comunale">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-tree" aria-hidden="true"></i>
+                    </div>
+                    <span class="timeline-stop-label">Villa Comunale</span>
+                </button>
+                
+                <button class="timeline-stop" aria-label="Vai alla tappa: Lago Pozzillo">
+                    <div class="timeline-stop-icon" aria-hidden="true">
+                        <i class="fas fa-water" aria-hidden="true"></i>
+                    </div>
+                    <span class="timeline-stop-label">Lago Pozzillo</span>
+                </button>
+            </nav>
+            
+            <!-- Controlli di navigazione -->
+            <div class="timeline-controls" role="group" aria-label="Controlli di navigazione della timeline">
+                <button class="timeline-control prev" aria-label="Tappe precedenti">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <button class="timeline-control next" aria-label="Tappe successive">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
             </div>
+            
+            <!-- Pulsante migliorato per controllare l'animazione - spostato sopra gli indicatori -->
+            <div class="animation-control-wrapper">
+                <button class="animation-control" aria-label="Interrompi animazione automatica">
+                    <span class="control-icon"><i class="fas fa-pause" aria-hidden="true"></i></span>
+                    <span class="control-text">Interrompi animazione</span>
+                </button>
+            </div>
+            
+            <!-- Pallini indicatori per la timeline - spostati sotto il pulsante di controllo -->
+            <div class="timeline-indicators" aria-hidden="true"></div>
         </section>
         
         <main class="space-y-8">
@@ -217,11 +223,42 @@
                     
                     <p class="text-gray-600 mb-5">Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.</p>
                     
-                    <!-- Placeholder per iframe podcast di questo episodio -->
+                    <!-- Player AmplitudeJS per questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="text-center" role="status" aria-live="polite">
-                            <i class="fas fa-headphones text-3xl mb-2 text-indigo-600" aria-hidden="true"></i>
-                            <p class="text-gray-600">Audio in arrivo</p>
+                        <div class="amplitude-player episode-amplitude" id="episode-piazza" data-amplitude-playlist-index="0" data-amplitude-song-index="0">
+                            <div class="amplitude-visualization-container">
+                                <div class="amplitude-visualization" id="piazza-visualization"></div>
+                                <div class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="0">
+                                    <div class="amplitude-play-icon">
+                                        <i class="fas fa-play" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="amplitude-pause-icon">
+                                        <i class="fas fa-pause" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="amplitude-track-info">
+                                <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="0">
+                                    Piazza della Repubblica
+                                </div>
+                                <div class="amplitude-track-author" data-amplitude-playlist="episodi" data-amplitude-song-info="artist" data-amplitude-song-index="0">
+                                    Audio guida di Regalbuto
+                                </div>
+                            </div>
+                            <div class="amplitude-controls-container">
+                                <div class="amplitude-time-container">
+                                    <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="0">0:00</span>
+                                    <div class="amplitude-time-progress">
+                                        <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="0"/>
+                                        <progress class="amplitude-song-played-progress" data-amplitude-playlist="episodi" data-amplitude-song-index="0"></progress>
+                                    </div>
+                                    <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="0">0:00</span>
+                                </div>
+                                <div class="amplitude-volume-container">
+                                    <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
+                                    <input type="range" class="amplitude-volume-slider"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -264,11 +301,42 @@
                     
                     <p class="text-gray-600 mb-5">La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.</p>
                     
-                    <!-- Placeholder per iframe podcast di questo episodio -->
+                    <!-- Player AmplitudeJS per questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="text-center" role="status" aria-live="polite">
-                            <i class="fas fa-headphones text-3xl mb-2 text-indigo-600" aria-hidden="true"></i>
-                            <p class="text-gray-600">Audio in arrivo</p>
+                        <div class="amplitude-player episode-amplitude" id="episode-palazzo" data-amplitude-playlist-index="0" data-amplitude-song-index="1">
+                            <div class="amplitude-visualization-container">
+                                <div class="amplitude-visualization" id="palazzo-visualization"></div>
+                                <div class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="1">
+                                    <div class="amplitude-play-icon">
+                                        <i class="fas fa-play" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="amplitude-pause-icon">
+                                        <i class="fas fa-pause" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="amplitude-track-info">
+                                <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="1">
+                                    Palazzo Comunale
+                                </div>
+                                <div class="amplitude-track-author" data-amplitude-playlist="episodi" data-amplitude-song-info="artist" data-amplitude-song-index="1">
+                                    Audio guida di Regalbuto
+                                </div>
+                            </div>
+                            <div class="amplitude-controls-container">
+                                <div class="amplitude-time-container">
+                                    <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="1">0:00</span>
+                                    <div class="amplitude-time-progress">
+                                        <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="1"/>
+                                        <progress class="amplitude-song-played-progress" data-amplitude-playlist="episodi" data-amplitude-song-index="1"></progress>
+                                    </div>
+                                    <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="1">0:00</span>
+                                </div>
+                                <div class="amplitude-volume-container">
+                                    <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
+                                    <input type="range" class="amplitude-volume-slider"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -304,11 +372,42 @@
                     
                     <p class="text-gray-600 mb-5">La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.</p>
                     
-                    <!-- Placeholder per iframe podcast di questo episodio -->
+                    <!-- Player AmplitudeJS per questo episodio -->
                     <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="text-center" role="status" aria-live="polite">
-                            <i class="fas fa-headphones text-3xl mb-2 text-indigo-600" aria-hidden="true"></i>
-                            <p class="text-gray-600">Audio in arrivo</p>
+                        <div class="amplitude-player episode-amplitude" id="episode-chiesa" data-amplitude-playlist-index="0" data-amplitude-song-index="2">
+                            <div class="amplitude-visualization-container">
+                                <div class="amplitude-visualization" id="chiesa-visualization"></div>
+                                <div class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="2">
+                                    <div class="amplitude-play-icon">
+                                        <i class="fas fa-play" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="amplitude-pause-icon">
+                                        <i class="fas fa-pause" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="amplitude-track-info">
+                                <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="2">
+                                    Chiesa Madre S. Basilio
+                                </div>
+                                <div class="amplitude-track-author" data-amplitude-playlist="episodi" data-amplitude-song-info="artist" data-amplitude-song-index="2">
+                                    Audio guida di Regalbuto
+                                </div>
+                            </div>
+                            <div class="amplitude-controls-container">
+                                <div class="amplitude-time-container">
+                                    <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="2">0:00</span>
+                                    <div class="amplitude-time-progress">
+                                        <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="2"/>
+                                        <progress class="amplitude-song-played-progress" data-amplitude-playlist="episodi" data-amplitude-song-index="2"></progress>
+                                    </div>
+                                    <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="2">0:00</span>
+                                </div>
+                                <div class="amplitude-volume-container">
+                                    <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
+                                    <input type="range" class="amplitude-volume-slider"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -341,6 +440,16 @@
         </footer>
     </div>
 
+    <!-- AmplitudeJS Script -->
+    <script src="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.js"></script>
+    
+    <!-- Script per la visualizzazione delle onde audio -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.4/wavesurfer.min.js"></script>
+    
+    <!-- Script principale -->
     <script src="assets/js/main.js"></script>
+    
+    <!-- Script di configurazione AmplitudeJS -->
+    <script src="assets/js/amplitude-config.js"></script>
 </body>
 </html>
