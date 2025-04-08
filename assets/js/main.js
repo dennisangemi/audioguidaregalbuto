@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleButtons = document.querySelectorAll('.toggle-transcript');
     console.log(`Trovati ${toggleButtons.length} pulsanti di trascrizione`);
     
-    // Mappa per associare ogni container di trascrizione al suo file
+    // Mappa per associare ogni container di trascrizione al suo file JSON
     const transcriptFiles = {
-        'transcript-0': 'assets/transcription/it/0_intro.txt',
-        'transcript-1': 'assets/transcription/it/1_piazza_repubblica.txt',
-        'transcript-2': 'assets/transcription/it/2_palazzo_comunale.txt',
-        'transcript-3': 'assets/transcription/it/2_palazzo_comunale.txt' // Aggiunto per compatibilità
+        'transcript-0': 'assets/transcription/it/0_intro.json',
+        'transcript-1': 'assets/transcription/it/1_piazza_repubblica.json',
+        'transcript-2': 'assets/transcription/it/2_palazzo_comunale.json',
+        'transcript-3': 'assets/transcription/it/2_palazzo_comunale.json' // Aggiunto per compatibilità
     };
     
     // Flag per tenere traccia dei file già caricati
@@ -112,57 +112,70 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Mostra indicatore di caricamento
                 contentDiv.innerHTML = '<p class="text-center"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Caricamento trascrizione...</p>';
                 
-                // Carica il file di trascrizione
+                // Carica il file di trascrizione JSON
                 fetch(filePath)
                     .then(response => {
-                        console.log(`Risposta ricevuta con stato: ${response.status}`);
+                        console.log(`Risposta ricevuta con stato: ${response.status} per ${filePath}`);
                         if (!response.ok) {
                             throw new Error(`Errore nel caricamento (${response.status}: ${response.statusText})`);
                         }
-                        return response.text();
+                        return response.json(); // Modificato da .text() a .json()
                     })
-                    .then(text => {
-                        console.log(`Contenuto caricato (${text.length} caratteri)`);
+                    .then(data => {
+                        console.log(`Contenuto JSON caricato da ${filePath}`, data);
                         
-                        if (!text || text.trim().length === 0) {
-                            throw new Error('Il file di trascrizione è vuoto');
+                        if (!data || !data.paragraphs || data.paragraphs.length === 0) {
+                            throw new Error('Il file di trascrizione non contiene testo o è in formato errato');
                         }
                         
-                        // Formatta il testo con paragrafi
-                        let paragraphs;
-                        if (text.includes('\n\n')) {
-                            // Se ci sono paragrafi separati da doppi a capo
-                            paragraphs = text.split(/\r?\n\r?\n/)
-                                .filter(p => p.trim() !== '')
-                                .map(p => `<p>${p.trim().replace(/\r?\n/g, '<br>')}</p>`)
-                                .join('');
-                        } else {
-                            // Altrimenti dividi per singoli a capo
-                            paragraphs = text.split(/\r?\n/)
-                                .filter(p => p.trim() !== '')
-                                .map(p => `<p>${p.trim()}</p>`)
-                                .join('');
-                        }
+                        // Genera i paragrafi HTML dal JSON
+                        const paragraphs = data.paragraphs
+                            .map(p => `<p>${p}</p>`)
+                            .join('');
                         
                         contentDiv.innerHTML = paragraphs;
+                        
+                        // Se nel JSON sono presenti metadati, possiamo mostrarli
+                        if (data.metadata) {
+                            if (data.metadata.title) {
+                                const titleEl = document.createElement('h3');
+                                titleEl.className = 'text-lg font-bold mb-3';
+                                titleEl.textContent = data.metadata.title;
+                                contentDiv.prepend(titleEl);
+                            }
+                            
+                            if (data.metadata.duration) {
+                                const durationNote = document.createElement('p');
+                                durationNote.className = 'text-sm text-gray-500 mt-4';
+                                durationNote.textContent = `Durata: ${data.metadata.duration}`;
+                                contentDiv.appendChild(durationNote);
+                            }
+                        }
+                        
                         loadedTranscripts[targetId] = true;
                         
                         // Annuncia che il caricamento è completo per gli screen reader
                         announceToScreenReader('Trascrizione caricata');
                     })
                     .catch(error => {
-                        console.error('Errore nel caricamento della trascrizione:', error);
+                        console.error(`Errore nel caricamento della trascrizione JSON da ${filePath}:`, error);
                         
-                        // Fallback: se il file non può essere caricato, mostro un testo statico per test
-                        contentDiv.innerHTML = `
-                            <p>Non è stato possibile caricare il file di trascrizione. Ecco un testo di esempio.</p>
-                            <p>Questo è un paragrafo di esempio per mostrare che la trascrizione funziona correttamente.</p>
-                            <p>Errore: ${error.message}</p>
-                            <p>Percorso: ${filePath}</p>
-                        `;
-                        
-                        // Comunque consideriamo caricato per evitare tentativi ripetuti
-                        loadedTranscripts[targetId] = true;
+                        // Fallback per piazza repubblica se il caricamento fallisce
+                        if (targetId === 'transcript-1') {
+                            console.log('Utilizzo contenuto fallback per Piazza Repubblica');
+                            const fallbackContent = `
+                                <p>Benvenuti a Piazza della Repubblica, il cuore pulsante di Regalbuto.</p>
+                                <p>Questa storica piazza rappresenta il centro sociale e culturale della città, con la sua caratteristica pavimentazione in pietra locale che risale all'inizio del XX secolo.</p>
+                                <p>Intorno alla piazza si possono ammirare diversi edifici storici che raccontano la storia di Regalbuto.</p>
+                                <p>La piazza è stata testimone di numerosi eventi storici nel corso dei secoli.</p>
+                                <p>Prendetevi qualche minuto per osservare la vita che anima questo spazio.</p>
+                            `;
+                            contentDiv.innerHTML = fallbackContent;
+                            loadedTranscripts[targetId] = true;
+                        } else {
+                            contentDiv.innerHTML = `<p class="text-red-600">Impossibile caricare la trascrizione: ${error.message}</p>
+                                                   <p>Percorso: ${filePath}</p>`;
+                        }
                     });
             }
         });
