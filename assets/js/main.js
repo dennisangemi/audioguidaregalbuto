@@ -5,17 +5,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleButtons = document.querySelectorAll('.toggle-transcript');
     console.log(`Trovati ${toggleButtons.length} pulsanti di trascrizione`);
     
-    // Mappa per associare ogni container di trascrizione al suo file JSON
-    const transcriptFiles = {
-        'transcript-0': 'assets/transcription/it/0_intro.json',
-        'transcript-1': 'assets/transcription/it/1_piazza_repubblica.json',
-        'transcript-2': 'assets/transcription/it/2_palazzo_comunale.json',
-        'transcript-3': 'assets/transcription/it/2_palazzo_comunale.json' // Aggiunto per compatibilità
+    // Mappa ID -> chiave del JSON
+    const transcriptMap = {
+        'transcript-0': 'intro',
+        'transcript-1': 'piazza_repubblica', 
+        'transcript-2': 'palazzo_comunale',
+        'transcript-3': 'chiesa_madre'
     };
     
-    // Flag per tenere traccia dei file già caricati
-    const loadedTranscripts = {};
+    // Variabili per tenere traccia dei dati e dello stato di caricamento
+    let transcriptData = null;
+    let dataLoaded = false;
+    const loadedIds = {};
     
+    // Precarica il file JSON con tutte le trascrizioni
+    fetch('assets/data/trascrizioni.json')
+        .then(response => {
+            console.log(`Risposta ricevuta con stato: ${response.status} per il file principale delle trascrizioni`);
+            if (!response.ok) {
+                throw new Error(`Errore nel caricamento (${response.status}: ${response.statusText})`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Dati delle trascrizioni caricati correttamente', data);
+            transcriptData = data;
+            dataLoaded = true;
+        })
+        .catch(error => {
+            console.error('Errore nel caricamento delle trascrizioni:', error);
+        });
+        
     // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
     document.querySelectorAll('.transcript-container').forEach(container => {
         // Assicuriamo che tutti i contenitori partano nascosti
@@ -91,14 +111,14 @@ document.addEventListener('DOMContentLoaded', function() {
             transcriptContainer.setAttribute('aria-hidden', !willExpand);
             
             // Se stiamo espandendo e non abbiamo ancora caricato il contenuto
-            if (willExpand && !loadedTranscripts[targetId]) {
-                // Ottieni il percorso del file
-                const filePath = transcriptFiles[targetId];
+            if (willExpand && !loadedIds[targetId]) {
+                // Ottieni la chiave corrispondente
+                const transcriptKey = transcriptMap[targetId];
                 
-                console.log(`Tentativo di caricare contenuto da: ${filePath}`);
+                console.log(`Tentativo di recuperare contenuto per la chiave: ${transcriptKey}`);
                 
-                if (!filePath) {
-                    console.error(`Nessun file di trascrizione mappato per l'ID: ${targetId}`);
+                if (!transcriptKey) {
+                    console.error(`Nessuna trascrizione mappata per l'ID: ${targetId}`);
                     return;
                 }
                 
@@ -112,71 +132,70 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Mostra indicatore di caricamento
                 contentDiv.innerHTML = '<p class="text-center"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Caricamento trascrizione...</p>';
                 
-                // Carica il file di trascrizione JSON
-                fetch(filePath)
-                    .then(response => {
-                        console.log(`Risposta ricevuta con stato: ${response.status} per ${filePath}`);
-                        if (!response.ok) {
-                            throw new Error(`Errore nel caricamento (${response.status}: ${response.statusText})`);
-                        }
-                        return response.json(); // Modificato da .text() a .json()
-                    })
-                    .then(data => {
-                        console.log(`Contenuto JSON caricato da ${filePath}`, data);
-                        
-                        if (!data || !data.paragraphs || data.paragraphs.length === 0) {
-                            throw new Error('Il file di trascrizione non contiene testo o è in formato errato');
-                        }
-                        
-                        // Genera i paragrafi HTML dal JSON
-                        const paragraphs = data.paragraphs
-                            .map(p => `<p>${p}</p>`)
-                            .join('');
-                        
-                        contentDiv.innerHTML = paragraphs;
-                        
-                        // Se nel JSON sono presenti metadati, possiamo mostrarli
-                        if (data.metadata) {
-                            if (data.metadata.title) {
-                                const titleEl = document.createElement('h3');
-                                titleEl.className = 'text-lg font-bold mb-3';
-                                titleEl.textContent = data.metadata.title;
-                                contentDiv.prepend(titleEl);
-                            }
-                            
-                            if (data.metadata.duration) {
-                                const durationNote = document.createElement('p');
-                                durationNote.className = 'text-sm text-gray-500 mt-4';
-                                durationNote.textContent = `Durata: ${data.metadata.duration}`;
-                                contentDiv.appendChild(durationNote);
-                            }
+                // Funzione di rendering della trascrizione
+                function renderTranscription() {
+                    if (!dataLoaded || !transcriptData || !transcriptData.transcriptions) {
+                        contentDiv.innerHTML = '<p class="text-red-600">I dati delle trascrizioni non sono disponibili.</p>';
+                        return;
+                    }
+                    
+                    const transcription = transcriptData.transcriptions[transcriptKey];
+                    
+                    if (!transcription || !transcription.paragraphs || transcription.paragraphs.length === 0) {
+                        contentDiv.innerHTML = '<p class="text-red-600">Trascrizione non trovata o formato errato.</p>';
+                        return;
+                    }
+                    
+                    // Genera i paragrafi HTML dal JSON
+                    const paragraphs = transcription.paragraphs
+                        .map(p => `<p>${p}</p>`)
+                        .join('');
+                    
+                    contentDiv.innerHTML = paragraphs;
+                    
+                    // Se sono presenti metadati, li mostriamo
+                    if (transcription.metadata) {
+                        if (transcription.metadata.title) {
+                            const titleEl = document.createElement('h3');
+                            titleEl.className = 'text-lg font-bold mb-3';
+                            titleEl.textContent = transcription.metadata.title;
+                            contentDiv.prepend(titleEl);
                         }
                         
-                        loadedTranscripts[targetId] = true;
-                        
-                        // Annuncia che il caricamento è completo per gli screen reader
-                        announceToScreenReader('Trascrizione caricata');
-                    })
-                    .catch(error => {
-                        console.error(`Errore nel caricamento della trascrizione JSON da ${filePath}:`, error);
-                        
-                        // Fallback per piazza repubblica se il caricamento fallisce
-                        if (targetId === 'transcript-1') {
-                            console.log('Utilizzo contenuto fallback per Piazza Repubblica');
-                            const fallbackContent = `
-                                <p>Benvenuti a Piazza della Repubblica, il cuore pulsante di Regalbuto.</p>
-                                <p>Questa storica piazza rappresenta il centro sociale e culturale della città, con la sua caratteristica pavimentazione in pietra locale che risale all'inizio del XX secolo.</p>
-                                <p>Intorno alla piazza si possono ammirare diversi edifici storici che raccontano la storia di Regalbuto.</p>
-                                <p>La piazza è stata testimone di numerosi eventi storici nel corso dei secoli.</p>
-                                <p>Prendetevi qualche minuto per osservare la vita che anima questo spazio.</p>
-                            `;
-                            contentDiv.innerHTML = fallbackContent;
-                            loadedTranscripts[targetId] = true;
-                        } else {
-                            contentDiv.innerHTML = `<p class="text-red-600">Impossibile caricare la trascrizione: ${error.message}</p>
-                                                   <p>Percorso: ${filePath}</p>`;
+                        if (transcription.metadata.duration) {
+                            const durationNote = document.createElement('p');
+                            durationNote.className = 'text-sm text-gray-500 mt-4';
+                            durationNote.textContent = `Durata: ${transcription.metadata.duration}`;
+                            contentDiv.appendChild(durationNote);
                         }
-                    });
+                    }
+                    
+                    loadedIds[targetId] = true;
+                    
+                    // Annuncia che il caricamento è completo per gli screen reader
+                    announceToScreenReader('Trascrizione caricata');
+                }
+                
+                // Se i dati sono già caricati, mostra subito la trascrizione
+                if (dataLoaded) {
+                    renderTranscription();
+                } else {
+                    // Altrimenti aspetta il caricamento
+                    const checkInterval = setInterval(() => {
+                        if (dataLoaded) {
+                            clearInterval(checkInterval);
+                            renderTranscription();
+                        }
+                    }, 100);
+                    
+                    // Timeout di sicurezza dopo 5 secondi
+                    setTimeout(() => {
+                        clearInterval(checkInterval);
+                        if (!dataLoaded) {
+                            contentDiv.innerHTML = '<p class="text-red-600">Timeout nel caricamento dei dati.</p>';
+                        }
+                    }, 5000);
+                }
             }
         });
     });
@@ -204,11 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (buttonText) {
             buttonText.textContent = isExpanded ? 'Nascondi trascrizione' : 'Mostra trascrizione completa';
         }
-    }
-    
-    // Funzione per rispettare preferenze di riduzione movimento
-    function getScrollBehavior() {
-        return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
     }
     
     // Funzione per annunciare messaggi agli screen reader

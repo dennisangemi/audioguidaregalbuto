@@ -1,0 +1,86 @@
+{
+  "transcriptions": {
+    "intro": {
+      "metadata": {
+        "title": "Introduzione all'audioguida",
+        "duration": "2:30",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-01"
+      },
+      "paragraphs": [
+        "Benvenuti all'audioguida di Regalbuto!",
+        "Quest'esperienza audio vi guiderà attraverso i luoghi più significativi e affascinanti della nostra città.",
+        "Scoprirete la storia, l'arte e le tradizioni che caratterizzano Regalbuto, attraverso racconti dettagliati e coinvolgenti.",
+        "Potete seguire il percorso nell'ordine suggerito oppure visitare i luoghi che più vi incuriosiscono in qualsiasi sequenza preferiate.",
+        "Per ogni tappa, troverete un'audioguida dedicata e una trascrizione completa che potrete consultare per approfondire.",
+        "Siete pronti a partire per questo viaggio sonoro? Premete play e lasciatevi trasportare!"
+      ]
+    },
+    "piazza_repubblica": {
+      "metadata": {
+        "title": "Piazza della Repubblica",
+        "location": "Centro storico di Regalbuto",
+        "duration": "3:45",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15"
+      },
+      "paragraphs": [
+        "Benvenuti a Piazza della Repubblica, il cuore pulsante di Regalbuto.",
+        "Questa storica piazza rappresenta il centro sociale e culturale della città, con la sua caratteristica pavimentazione in pietra locale che risale all'inizio del XX secolo. Osservate come la disposizione delle pietre crei motivi geometrici che si irradiano dal centro.",
+        "Intorno alla piazza si possono ammirare diversi edifici storici che raccontano la storia di Regalbuto. Sulla destra potete vedere il Palazzo Comunale, con la sua facciata elegante e il caratteristico orologio centrale.",
+        "La piazza è stata testimone di numerosi eventi storici nel corso dei secoli, dalle celebrazioni religiose alle manifestazioni culturali, dai mercati settimanali alle feste patronali.",
+        "Al centro della piazza noterete la fontana circolare, aggiunta negli anni '50 del secolo scorso ma diventata ormai un punto di riferimento per i cittadini e i visitatori.",
+        "Prendetevi qualche minuto per osservare la vita che anima questo spazio: è il luogo dove gli abitanti di Regalbuto si incontrano, conversano e condividono momenti di vita quotidiana, mantenendo viva una tradizione secolare di socialità all'aperto."
+      ]
+    },
+    "palazzo_comunale": {
+      "metadata": {
+        "title": "Palazzo Comunale",
+        "location": "Piazza centrale di Regalbuto",
+        "duration": "3:15",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15"
+      },
+      "paragraphs": [
+        "Attraversiamo la piazza e ci addentriamo in uno dei luoghi simbolo della città: il Palazzo Comunale.",
+        "Questo elegante edificio con il suo prospetto barocco, si inserisce in perfetta armonia con gli edifici storici che lo circondano.",
+        "La facciata è scandita da tre fasce verticali, delimitate da robusti costoni in pietra, mentre nella parte superiore tre eleganti balconi si affacciano sulla piazza, in corrispondenza delle porte del pianoterra.",
+        "L'edificio ha subito diversi restauri nel corso dei secoli, tra cui quello del 1930, voluto dal commendatore Ranalli, che ne ha preservato l'eleganza e il valore storico.",
+        "Attraversando la porta centrale, si accede all'atrio, dove, durante gli ultimi restauri, sono stati collocati due calchi in gesso: uno raffigurante il celebre medico Giovanni Filippo Ingrassia e l'altro dedicato a Gian Filippo D'Alì.",
+        "Superata la prima sala, si apre una maestosa scalinata in pietra lavica, segno della solida tradizione costruttiva siciliana."
+      ]
+    },
+    "chiesa_madre": {
+      "metadata": {
+        "title": "Chiesa Madre S. Basilio",
+        "location": "Centro storico di Regalbuto",
+        "duration": "4:00",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15"
+      },
+      "paragraphs": [
+        "Siamo ora davanti alla Chiesa Madre dedicata a San Basilio, il principale luogo di culto di Regalbuto.",
+        "Questa imponente chiesa, con la sua facciata che si affaccia sulla piazza principale, rappresenta il cuore spirituale della comunità da secoli. L'edificio attuale risale principalmente al XVIII secolo, ma sorge su strutture precedenti di origine medievale.",
+        "All'interno, potrete ammirare pregevoli opere d'arte sacra: dipinti, sculture e arredi liturgici che testimoniano la ricca tradizione religiosa e artistica della città. Di particolare interesse è il grande crocifisso ligneo di scuola siciliana e l'altare maggiore in marmi policromi.",
+        "Le ampie navate accolgono i fedeli per le celebrazioni liturgiche e le festività più importanti del calendario religioso locale, in particolare durante la festa del patrono.",
+        "Non dimenticate di osservare il campanile che si erge accanto alla chiesa, con il suo caratteristico orologio e le campane che scandiscono i momenti della giornata con i loro rintocchi."
+      ]
+    },
+    "villa_comunale": {
+      "metadata": {
+        "title": "Villa Comunale",
+        "location": "Villa Comunale di Regalbuto",
+        "duration": "4:30",
+        "author": "Audio guida di Regalbuto",
+        "date": "2023-08-15"
+      },
+      "paragraphs": [
+        "Benvenuti alla Villa Comunale di Regalbuto, uno dei luoghi più amati e frequentati dalla comunità.",
+        "Questo spazio verde non è solo un punto di incontro e svago, ma anche un luogo di memoria. Al centro della villa si erge la statua dedicata a Vincenzo Gamiddo, un giovane partigiano nato proprio qui, a Regalbuto, il 14 aprile del 1924.",
+        "Vincenzo cadde il 23 novembre del 1944, durante un pattugliamento nei pressi di Asti, nella località di Variglie. Aveva solo 20 anni, ma sacrificò la propria vita per contribuire alla liberazione dell'Italia dall'oppressione nazifascista.",
+        "Un tempo, la villa era curata con grande attenzione da una figura oggi quasi dimenticata: il villiere. Questo custode si occupava ogni giorno della pulizia e della manutenzione del parco, ma tra i suoi compiti c'era anche qualcosa di davvero speciale: comporre quotidianamente la data con fiori e foglie.",
+        "Dal balconcino alle spalle della statua di Gamiddo, potete godere di una vista panoramica che comprende il Monte San Giorgio e il Monte San Calogero, testimoni silenziosi della storia millenaria di Regalbuto."
+      ]
+    }
+  }
+}
