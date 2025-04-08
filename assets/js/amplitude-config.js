@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 "name": "Introduzione a Regalbuto",
                 "artist": "Audio guida di Regalbuto",
-                "url": "assets/audio/test1.mp3"
+                "url": "assets/audio/it/0_intro.mp3"
             }
         ],
         "playlists": {
@@ -25,17 +25,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     {
                         "name": "Piazza della Repubblica",
                         "artist": "Audio guida di Regalbuto",
-                        "url": "assets/audio/test1.mp3"
+                        "url": "assets/audio/it/1_piazza_repubblica.mp3"
                     },
                     {
                         "name": "Palazzo Comunale",
                         "artist": "Audio guida di Regalbuto",
-                        "url": "assets/audio/test1.mp3"
+                        "url": "assets/audio/it/1_piazza_repubblica.mp3"
                     },
                     {
                         "name": "Chiesa Madre S. Basilio",
                         "artist": "Audio guida di Regalbuto", 
-                        "url": "assets/audio/test1.mp3"
+                        "url": "assets/audio/it/1_piazza_repubblica.mp3"
                     }
                 ]
             }
