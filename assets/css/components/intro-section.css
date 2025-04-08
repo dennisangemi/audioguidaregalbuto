@@ -1,92 +1,129 @@
 /* Introduction section styles */
 
-/* Main intro section layout */
+/* Main intro section layout - flusso verticale ottimizzato */
 .intro-section {
     width: 100%;
-    max-width: 1000px;
-    margin: 1rem auto 0;
+    max-width: 1100px;
+    margin: 1rem auto 0; /* Ridotto da 2rem */
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem; /* Ridotto da 2rem */
+    position: relative;
+    align-items: center;
 }
 
-/* Intro description text */
+/* Intro description text - più discreto */
 .intro-description {
     color: var(--text-white);
-    font-size: 1.25rem;
-    line-height: 1.7;
-    margin-bottom: 2rem;
+    font-size: 1.1rem; /* Ridotto da 1.4rem */
+    line-height: 1.6; /* Ridotto da 1.7 */
+    margin-bottom: 1rem; /* Ridotto da 2rem */
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    max-width: 600px;
+    max-width: 600px; /* Ridotto da 650px */
     font-weight: 400;
+    letter-spacing: 0.01em;
+    text-align: center;
+    opacity: 0.95;
 }
 
-/* Features in intro section */
+/* Features in intro section - ancora meno prominenti */
 .intro-features {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    justify-content: center;
+    gap: 0.5rem; /* Ridotto da 0.75rem */
+    margin-top: 0.5rem; /* Ridotto da 1rem */
+    margin-bottom: 0.5rem; /* Ridotto da 1rem */
 }
 
 .intro-feature {
-    display: flex;
+    display: inline-flex; /* Cambiato da flex a inline-flex */
     align-items: center;
-    gap: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.45);
-    border-radius: 12px;
-    padding: 0.75rem 1.25rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    gap: 0.5rem; /* Ridotto da 0.75rem */
+    background-color: rgba(0, 0, 0, 0.2); /* Ridotto da 0.25 */
+    border-radius: 10px; /* Ridotto da 12px */
+    padding: 0.5rem 0.9rem; /* Ridotto da 0.65rem 1.1rem */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Ridotto */
     transition: all 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Ridotto da 0.2 */
     color: white;
-    font-weight: 600;
-    flex: 1;
+    font-weight: 400; /* Ridotto da 500 */
+    flex: 0 1 auto;
     min-width: 0;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    font-size: 0.85rem; /* Ridotto da 0.9rem */
+    margin: 0 0.25rem;
 }
 
 .intro-feature i {
-    font-size: 1.25rem;
+    font-size: 1rem; /* Ridotto da 1.1rem */
     color: var(--text-white);
-    min-width: 1.25rem;
+    min-width: 1rem; /* Ridotto da 1.1rem */
     text-align: center;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Ridotto */
+    opacity: 0.9;
 }
 
 .intro-feature span {
-    font-weight: 600;
+    font-weight: 400; /* Ridotto da 500 */
     color: var(--text-white);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Ridotto */
+    letter-spacing: 0.01em;
+    opacity: 0.9;
 }
 
 .intro-feature:hover {
-    transform: translateY(-3px);
-    background-color: rgba(0, 0, 0, 0.55);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px); /* Ridotto da -2px */
+    background-color: rgba(0, 0, 0, 0.25); /* Ridotto da 0.3 */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Ridotto */
 }
 
-/* Responsive layout */
+/* Container del player nell'introduzione - massima enfasi */
+.intro-player-container {
+    width: 100%;
+    max-width: 750px; /* Aumentato da 450px */
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Container della trascrizione */
+.intro-transcript-container {
+    margin-top: 1rem; /* Aumentato da 0.75rem */
+    width: 100%;
+    max-width: 450px; /* Ridotto leggermente da 500px */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Pulsante trascrizione */
+.intro-transcript-button {
+    background-color: rgba(0, 0, 0, 0.3); /* Colore di sfondo leggermente più scuro */
+    border-color: rgba(255, 255, 255, 0.3);
+    font-weight: 500; /* Leggermente meno bold */
+}
+
+/* Player fissato al centro su tutti i dispositivi */
 @media (min-width: 1024px) {
     .intro-section {
-        flex-direction: row;
-        align-items: flex-start;
+        flex-direction: column; /* Garantisce layout verticale anche su desktop */
     }
     
     .intro-content {
-        flex: 1;
-        padding-right: 2rem;
+        margin-top: -0.5rem; /* Avvicina il contenuto al player */
     }
     
     .intro-player-container {
-        flex: 1;
+        max-width: 750px; /* Mantiene il player grande su desktop */
     }
 }
 
 @media (max-width: 768px) {
     .intro-description {
         font-size: 1rem;
+        margin-bottom: 0.75rem;
     }
     
     .intro-section {
@@ -104,7 +141,7 @@
     
     .intro-description {
         font-size: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         text-align: center;
     }
     
@@ -122,11 +159,11 @@
     .intro-features {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 0.5rem;
+        gap: 0.75rem; /* Aumentato da 0.5rem */
     }
     
     .intro-feature {
-        padding: 0.6rem 0.75rem;
+        padding: 0.7rem 0.85rem; /* Aumentato da 0.6rem 0.75rem */
         width: 100%;
         justify-content: flex-start;
     }
@@ -139,6 +176,12 @@
         font-size: 0.9rem;
         line-height: 1.2;
     }
+    
+    /* Migliora layout per dispositivi mobili */
+    .intro-transcript-container {
+        margin-top: 0.75rem;
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 360px) {
@@ -148,6 +191,6 @@
     
     .intro-feature {
         text-align: left;
-        padding: 0.5rem 0.75rem;
+        padding: 0.6rem 0.85rem; /* Leggermente aumentato da 0.5rem 0.75rem */
     }
 }

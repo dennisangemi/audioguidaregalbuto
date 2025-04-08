@@ -71,7 +71,7 @@
 @media (max-width: 768px) {
     /* Header */
     .expanded-header {
-        padding: 2.5rem 0 3.5rem;
+        padding: 2.5rem 0 3rem;
     }
     
     .podcast-icon-large {
@@ -86,12 +86,27 @@
     }
     
     .intro-description {
-        font-size: 1.1rem;
+        font-size: 1rem; /* Ridotto da 1.1rem */
+        text-align: center;
+        margin-bottom: 1rem; /* Ridotto */
+    }
+    
+    .intro-section {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .intro-features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem; /* Ridotto */
     }
     
     .intro-feature {
+        font-size: 0.85rem; /* Ridotto */
+        padding: 0.5rem 0.9rem; /* Ridotto */
         min-width: 0;
-        width: 100%;
     }
     
     /* Timeline */
@@ -131,6 +146,29 @@
     .hero-subtitle {
         font-size: 1rem;
         padding: 0.4rem 1.2rem;
+    }
+    
+    /* Migliora la disposizione delle feature per dispositivi più piccoli */
+    .intro-features {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .intro-feature {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        flex: 0 1 auto;
+    }
+    
+    .intro-feature i {
+        font-size: 0.9rem;
+        min-width: 1rem;
+    }
+    
+    /* Migliora la griglia di feature per dispositivi più piccoli */
+    .intro-features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
     }
     
     /* Card content */

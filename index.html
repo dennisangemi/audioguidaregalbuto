@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/components/audio-amplitude.css">
     <link rel="stylesheet" href="assets/css/components/transcription.css">
+    <!-- Nuovo CSS per il player dell'hero -->
+    <link rel="stylesheet" href="assets/css/components/hero-player.css">
 </head>
 <body>
     <!-- Skip link per accessibilità da tastiera -->
@@ -28,13 +30,14 @@
                     </div>
                     <div class="hero-text">
                         <h1 id="site-title" class="text-4xl md:text-5xl font-bold">Audio guida di Regalbuto</h1>
-                        <p class="hero-subtitle">Un viaggio sonoro alla scoperta della città</p>
+                        <div class="hero-tagline">Scopri la storia, l'arte e le tradizioni</div>
                     </div>
                 </div>
                 
                 <!-- Contenuto introduttivo -->
                 <div class="intro-section">
-                    <div class="intro-content">
+                    <!-- Descrizione spostata prima del player -->
+                    <div class="intro-content order-1">
                         <p class="intro-description">
                             Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. 
                             Scopri dieci luoghi emblematici raccontati con passione e ricchezza di dettagli.
@@ -58,46 +61,29 @@
                         </div>
                     </div>
                     
-                    <div class="intro-player-container">
-                        <div class="intro-player">
-                            <!-- Player AmplitudeJS per l'introduzione -->
+                    <!-- Player dopo la descrizione - design modernizzato -->
+                    <div class="intro-player-container order-2">
+                        <div class="intro-player hero-audio-player">
+                            <!-- Player AmplitudeJS per l'introduzione - semplificato -->
                             <div class="amplitude-player intro-amplitude" id="intro-player">
                                 <div class="amplitude-visualization-container">
                                     <div class="amplitude-visualization" id="intro-visualization"></div>
-                                    <button class="amplitude-play-pause" data-amplitude-main-play-pause="true">
+                                    <button class="amplitude-play-pause" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
                                         <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
                                         <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
                                     </button>
-                                </div>
-                                <div class="amplitude-track-info">
                                     <div class="amplitude-track-title" data-amplitude-song-info="name" data-amplitude-main-song-info="true">
                                         Introduzione a Regalbuto
                                     </div>
-                                    <div class="amplitude-track-author" data-amplitude-song-info="artist" data-amplitude-main-song-info="true">
-                                        Audio guida di Regalbuto
-                                    </div>
                                 </div>
-                                <div class="amplitude-controls-container">
-                                    <div class="amplitude-time-container">
-                                        <span class="amplitude-current-time" data-amplitude-main-current-time="true">0:00</span>
-                                        <div class="amplitude-time-progress">
-                                            <input type="range" class="amplitude-song-slider" data-amplitude-main-song-slider="true"/>
-                                            <progress id="song-played-progress-intro" class="amplitude-song-played-progress" data-amplitude-main-song-played-progress="true"></progress>
-                                        </div>
-                                        <span class="amplitude-duration-time" data-amplitude-main-duration-time="true">0:00</span>
-                                    </div>
-                                    <div class="amplitude-volume-container">
-                                        <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
-                                        <input type="range" class="amplitude-volume-slider" data-amplitude-main-volume-slider="true"/>
-                                    </div>
-                                </div>
+                                <!-- Rimossi i controlli di durata -->
                             </div>
                         </div>
                         
-                        <!-- Tab espandibile per la trascrizione -->
+                        <!-- Tab espandibile per la trascrizione - ridotta importanza -->
                         <div class="intro-transcript-container">
-                            <button class="toggle-transcript intro-transcript-button" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
-                                <span class="font-medium mr-2">Mostra trascrizione completa</span>
+                            <button class="toggle-transcript intro-transcript-button compact" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
+                                <span class="mr-2">Trascrizione</span>
                                 <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
                             </button>
                             

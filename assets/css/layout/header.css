@@ -1,19 +1,20 @@
-/* Header styles */
+/* Header and Hero components */
 
+/* ===== HEADER STRUCTURE ===== */
 /* Header redesigned to include introduction */
 .site-header {
     background: var(--gradient-header);
     background-size: 300% 100%;
     animation: headerGradient 25s ease infinite;
     color: white;
-    padding: 3rem 0 1.5rem;
+    padding: 3.5rem 0 2rem;
     position: relative;
     overflow: hidden;
 }
 
 /* Expanded header with intro content */
 .expanded-header {
-    padding: 3.5rem 0 3rem;
+    padding: 4rem 0 4rem;
     margin-bottom: 1.5rem;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
@@ -26,9 +27,9 @@
     bottom: 0;
     left: 0;
     background-image: 
-        radial-gradient(circle at 20% 70%, rgba(139, 92, 246, 0.4) 0%, transparent 70%),
-        radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+        radial-gradient(circle at 20% 70%, rgba(139, 92, 246, 0.5) 0%, transparent 70%),
+        radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.3) 0%, transparent 60%);
     z-index: 1;
 }
 
@@ -40,13 +41,93 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Header section with title and icon */
 .hero-header {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    width: 100%;
+    position: relative;
 }
 
+.hero-header::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 150px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+}
+
+/* ===== PODCAST ICON ===== */
+/* Large podcast icon in header with rotation and audio waves */
+.podcast-icon-large {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
+    background-size: 300% 100%;
+    animation: iconGradient 20s ease infinite;
+    color: white;
+    border-radius: 50%;
+    font-size: 3rem;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 0 10px rgba(255, 255, 255, 0.15);
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 3;
+}
+
+/* Very slow rotation for compass icon */
+.podcast-icon-large i {
+    animation: slowSpin 40s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Audio waves around the icon */
+.podcast-icon-large::before, 
+.podcast-icon-large::after {
+    content: '';
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: audioWave 3s ease-out infinite;
+}
+
+/* Second wave with different timing */
+.podcast-icon-large::after {
+    animation-delay: 1s;
+}
+
+/* Hover effects */
+.podcast-icon-large:hover {
+    transform: scale(1.08) translateY(-8px);
+    box-shadow: 
+        0 20px 35px rgba(0, 0, 0, 0.4),
+        0 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.podcast-icon-large:hover::before,
+.podcast-icon-large:hover::after {
+    animation-play-state: paused;
+    opacity: 0.7;
+}
+
+/* ===== HERO TEXT & CONTENT ===== */
 /* Hero text container */
 .hero-text {
     max-width: 800px;
@@ -55,32 +136,93 @@
 
 /* Main title */
 .hero-text h1 {
-    margin-bottom: 1rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.01em;
+    font-size: 3.5rem;
+    line-height: 1.2;
 }
 
-/* Improved subtitle for readability - increased contrast */
-.hero-subtitle {
-    font-size: 1.4rem;
+/* Nuovo stile per il tagline che sostituisce il sottotitolo precedente */
+.hero-tagline {
+    font-size: 1.5rem;
     font-weight: 500;
     color: var(--text-white);
-    background-color: rgba(0, 0, 0, 0.35);
-    padding: 0.5rem 2rem;
-    border-radius: 2rem;
+    margin: 0.5rem auto 0;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
     display: inline-block;
-    margin: 0.75rem auto 0;
-    letter-spacing: 0.01em;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    padding-bottom: 5px;
 }
 
-/* Animated arrow below hero section - improved contrast */
+/* ===== INTRO SECTION ===== */
+/* Layout verticale ottimizzato per la sezione intro */
+.intro-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+/* Contenitore della descrizione - prima del player */
+.intro-content {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    order: 1;
+}
+
+/* Descrizione introduttiva - stile migliorato */
+.intro-description {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-weight: 400;
+    color: var(--text-white);
+    text-align: center;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.01em;
+}
+
+/* Contenitore del player - dopo la descrizione */
+.intro-player-container {
+    width: 100%;
+    max-width: 700px;
+    order: 2;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Features minimaliste e compatte */
+.intro-features-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.intro-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ===== HERO ARROW ===== */
+/* Freccia più visibile e centrale */
 .hero-arrow-container {
     text-align: center;
     position: relative;
-    bottom: -10px;
+    bottom: -15px;
     z-index: 5;
+    margin-top: 2rem;
 }
 
 .hero-arrow {
@@ -100,6 +242,7 @@
     margin: 0 auto;
 }
 
+/* ===== ANIMATIONS ===== */
 /* Header animations */
 @keyframes headerGradient {
     0%, 100% {
@@ -108,6 +251,38 @@
     50% {
         background-position: 100% 50%;
     }
+}
+
+@keyframes iconGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes audioWave {
+    0% {
+        width: 110%;
+        height: 110%;
+        opacity: 1;
+        border-width: 3px;
+    }
+    100% {
+        width: 250%;
+        height: 250%;
+        opacity: 0;
+        border-width: 1px;
+    }
+}
+
+@keyframes slowSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @keyframes bounceArrow {
@@ -119,15 +294,71 @@
     }
 }
 
+/* ===== RESPONSIVE ===== */
 /* Responsive header adjustments */
-@media (max-width: 768px) {
-    .expanded-header {
-        padding: 2.5rem 0 3.5rem;
+@media (min-width: 1024px) {
+    .hero-text h1 {
+        font-size: 4rem;
     }
     
-    .hero-subtitle {
-        font-size: 1.1rem;
-        padding: 0.4rem 1.5rem;
+    .hero-tagline {
+        font-size: 1.6rem;
+    }
+
+    .intro-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem;
+    }
+    
+    .intro-player-container {
+        max-width: 750px;
+        margin-bottom: 1rem;
+    }
+    
+    .intro-content {
+        margin-top: -1.5rem;
+        padding: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .intro-section {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .expanded-header {
+        padding: 3rem 0 3.5rem;
+    }
+    
+    .hero-text h1 {
+        font-size: 2.8rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.3rem;
+    }
+    
+    .podcast-icon-large {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+    }
+    
+    .intro-section {
+        gap: 1.5rem;
+    }
+    
+    .intro-description {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .intro-feature {
+        min-width: 0;
+        width: 100%;
     }
     
     .hero-arrow-container {
@@ -140,8 +371,27 @@
         gap: 1rem;
     }
     
-    .hero-subtitle {
-        font-size: 1rem;
-        padding: 0.4rem 1.2rem;
+    .hero-text h1 {
+        font-size: 2.4rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.2rem;
+    }
+    
+    .podcast-icon-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .intro-features {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-features {
+        grid-template-columns: 1fr;
     }
 }

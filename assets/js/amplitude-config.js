@@ -193,7 +193,8 @@ const AudioPlayerManager = (function() {
     }
     
     /**
-     * Crea una semplice visualizzazione a forma d'onda
+     * Crea una visualizzazione a forma d'onda migliorata e più accattivante
+     * Il design è più avanzato per il player dell'hero
      */
     function createSimpleWaveform(containerId) {
         const container = document.getElementById(containerId);
@@ -207,23 +208,129 @@ const AudioPlayerManager = (function() {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
         
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        // Determina se questo è il player dell'hero
+        const isHero = containerId === 'intro-visualization';
         
-        // Crea una forma d'onda estetica
-        const barCount = Math.floor(canvas.width / 5);
-        const barWidth = 2;
-        const gap = 3;
-        
-        for (let i = 0; i < barCount; i++) {
-            let heightRatio = Math.sin((i / barCount) * Math.PI * 5) * 0.5 + 0.5;
-            heightRatio = Math.min(Math.max(0.1, heightRatio + (Math.random() * 0.3 - 0.15)), 0.95);
+        // Personalizzazione speciale per il player dell'hero
+        if (isHero) {
+            // Crea un effetto di onde sonore dinamico e più moderno
+            const drawHeroWaveform = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Gradiente per le onde
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.3)');
+                ctx.fillStyle = gradient;
+                
+                const time = Date.now() * 0.001; // tempo in secondi per l'animazione
+                const barCount = Math.floor(canvas.width / 3);
+                const barWidth = 2;
+                const gap = 1;
+                
+                for (let i = 0; i < barCount; i++) {
+                    // Crea onde con effetto sinusoide multiplo
+                    const x = i * (barWidth + gap);
+                    let amplitude = 0;
+                    
+                    // Somma di più onde sinusoidali con frequenze diverse
+                    amplitude += Math.sin((i / barCount * 5) + time) * 0.3;
+                    amplitude += Math.sin((i / barCount * 3) + time * 0.7) * 0.2;
+                    amplitude += Math.sin((i / barCount * 7) + time * 1.3) * 0.1;
+                    amplitude /= 0.6; // normalizza
+                    
+                    // Aggiungi variazione casuale ma uniforme
+                    amplitude *= (0.8 + Math.sin(i * 0.2) * 0.2);
+                    
+                    // Limitare l'ampiezza
+                    amplitude = Math.min(Math.max(0.2, amplitude + 0.5), 0.9);
+                    
+                    const height = amplitude * canvas.height * 0.8;
+                    const y = (canvas.height - height) / 2;
+                    
+                    // Disegno delle barre con bordi arrotondati
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barWidth, height, 1);
+                    ctx.fill();
+                }
+                
+                // Continua l'animazione
+                requestAnimationFrame(drawHeroWaveform);
+            };
             
-            const height = heightRatio * canvas.height * 0.8;
-            const x = i * (barWidth + gap);
-            const y = (canvas.height - height) / 2;
+            // Avvia l'animazione solo per il player dell'hero
+            drawHeroWaveform();
             
-            ctx.fillRect(x, y, barWidth, height);
+            // Aggiunta di effetto particellare in background
+            addBackgroundParticles(canvas, ctx);
+        } else {
+            // Visualizzazione standard per gli altri player
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            
+            // Crea una forma d'onda estetica standard
+            const barCount = Math.floor(canvas.width / 5);
+            const barWidth = 2;
+            const gap = 3;
+            
+            for (let i = 0; i < barCount; i++) {
+                let heightRatio = Math.sin((i / barCount) * Math.PI * 5) * 0.5 + 0.5;
+                heightRatio = Math.min(Math.max(0.1, heightRatio + (Math.random() * 0.3 - 0.15)), 0.95);
+                
+                const height = heightRatio * canvas.height * 0.8;
+                const x = i * (barWidth + gap);
+                const y = (canvas.height - height) / 2;
+                
+                ctx.fillRect(x, y, barWidth, height);
+            }
         }
+    }
+    
+    /**
+     * Aggiunge effetto particellare al background del player hero
+     */
+    function addBackgroundParticles(canvas, ctx) {
+        const particles = [];
+        const particleCount = 30;
+        
+        // Crea particelle
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.3,
+                speedY: (Math.random() - 0.5) * 0.3,
+                opacity: Math.random() * 0.5 + 0.2
+            });
+        }
+        
+        // Funzione di animazione
+        const animateParticles = () => {
+            // Overlay semitrasparente per creare effetto trail
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Disegna e aggiorna ogni particella
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                ctx.fill();
+                
+                // Aggiorna posizione
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                // Bounce sulle pareti
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            });
+            
+            requestAnimationFrame(animateParticles);
+        };
+        
+        // Avvia animazione
+        animateParticles();
     }
     
     // Espone le funzioni necessarie come API pubblica
