@@ -194,7 +194,7 @@ const AudioPlayerManager = (function() {
     
     /**
      * Crea una visualizzazione a forma d'onda migliorata e più accattivante
-     * Il design è più avanzato per il player dell'hero
+     * Il design è più minimalista per il player dell'hero
      */
     function createSimpleWaveform(containerId) {
         const container = document.getElementById(containerId);
@@ -211,46 +211,54 @@ const AudioPlayerManager = (function() {
         // Determina se questo è il player dell'hero
         const isHero = containerId === 'intro-visualization';
         
+        // Ottieni la larghezza della viewport per adattare le onde audio in base alle dimensioni dello schermo
+        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        const isMobile = viewportWidth <= 768;
+        const isSmallMobile = viewportWidth <= 480;
+        
         // Personalizzazione speciale per il player dell'hero
         if (isHero) {
-            // Crea un effetto di onde sonore dinamico e più moderno
+            // Crea un effetto di onde sonore minimalista
             const drawHeroWaveform = () => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
-                // Gradiente per le onde
+                // Gradiente più leggero e minimal per le onde
                 const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.3)');
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.75)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.25)');
                 ctx.fillStyle = gradient;
                 
                 const time = Date.now() * 0.001; // tempo in secondi per l'animazione
-                const barCount = Math.floor(canvas.width / 3);
-                const barWidth = 2;
-                const gap = 1;
+                
+                // Adatta la densità delle onde in base alla dimensione dello schermo
+                let barWidth = 3;
+                let gap = isSmallMobile ? 12 : (isMobile ? 10 : 9);
+                
+                // Onde più distanziate su mobile per un design pulito
+                const barCount = Math.floor(canvas.width / (barWidth + gap));
                 
                 for (let i = 0; i < barCount; i++) {
-                    // Crea onde con effetto sinusoide multiplo
+                    // Crea onde più semplici
                     const x = i * (barWidth + gap);
                     let amplitude = 0;
                     
-                    // Somma di più onde sinusoidali con frequenze diverse
-                    amplitude += Math.sin((i / barCount * 5) + time) * 0.3;
-                    amplitude += Math.sin((i / barCount * 3) + time * 0.7) * 0.2;
-                    amplitude += Math.sin((i / barCount * 7) + time * 1.3) * 0.1;
+                    // Usa meno onde sinusoidali per un aspetto più pulito
+                    amplitude += Math.sin((i / barCount * 3) + time * 0.5) * 0.4;
+                    amplitude += Math.sin((i / barCount * 1.5) + time * 0.3) * 0.2;
                     amplitude /= 0.6; // normalizza
                     
-                    // Aggiungi variazione casuale ma uniforme
-                    amplitude *= (0.8 + Math.sin(i * 0.2) * 0.2);
+                    // Meno variazione casuale per un aspetto più ordinato
+                    amplitude *= (0.9 + Math.sin(i * 0.1) * 0.1);
                     
                     // Limitare l'ampiezza
-                    amplitude = Math.min(Math.max(0.2, amplitude + 0.5), 0.9);
+                    amplitude = Math.min(Math.max(0.15, amplitude + 0.5), 0.85);
                     
-                    const height = amplitude * canvas.height * 0.8;
+                    const height = amplitude * canvas.height * 0.75;
                     const y = (canvas.height - height) / 2;
                     
-                    // Disegno delle barre con bordi arrotondati
+                    // Disegno delle barre con bordi completamente arrotondati per un aspetto più morbido
                     ctx.beginPath();
-                    ctx.roundRect(x, y, barWidth, height, 1);
+                    ctx.roundRect(x, y, barWidth, height, barWidth / 2);
                     ctx.fill();
                 }
                 
@@ -260,9 +268,6 @@ const AudioPlayerManager = (function() {
             
             // Avvia l'animazione solo per il player dell'hero
             drawHeroWaveform();
-            
-            // Aggiunta di effetto particellare in background
-            addBackgroundParticles(canvas, ctx);
         } else {
             // Visualizzazione standard per gli altri player
             ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
@@ -287,6 +292,7 @@ const AudioPlayerManager = (function() {
     
     /**
      * Aggiunge effetto particellare al background del player hero
+     * Nota: funzione mantenuta ma non utilizzata per design minimal
      */
     function addBackgroundParticles(canvas, ctx) {
         const particles = [];

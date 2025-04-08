@@ -1,0 +1,259 @@
+/* Hero Audio Player - Design minimalista e moderno */
+
+/* Container principale del player - completamente privo di bordi */
+.intro-player {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    position: relative;
+    z-index: 5;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    padding: 0;
+    border-radius: 0;
+    overflow: hidden;
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+}
+
+/* Player AmplitudeJS con layout minimalista */
+.intro-player .amplitude-player {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0;
+    overflow: visible;
+    position: relative;
+}
+
+/* Visualizzazione audio espansa a schermo intero */
+.intro-player .amplitude-visualization-container {
+    background: transparent;
+    height: 30vh;
+    min-height: 250px;
+    max-height: 400px;
+    margin: 0;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+/* Visualizzazione onde audio - stile minimal */
+.intro-player .amplitude-visualization {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.8;
+    background: transparent; /* Rimosso gradiente di sfondo */
+    box-shadow: none; /* Rimosso ombra */
+}
+
+/* Rimozione dell'overlay con gradiente per un design più pulito */
+.intro-player .amplitude-visualization::before {
+    display: none; /* Nascosto invece di usare content: '' */
+}
+
+/* Semplificato l'effetto di pulsazione */
+@keyframes minimal-pulse {
+    0% { opacity: 0.75; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0.75; }
+}
+
+.intro-player .amplitude-visualization {
+    animation: minimal-pulse 6s infinite ease-in-out;
+}
+
+/* Pulsante play minimalista e pulito */
+.intro-player .amplitude-play-pause {
+    width: 100px;
+    height: 100px;
+    border: none;
+    background: rgba(255, 255, 255, 0.12); /* Leggermente trasparente */
+    backdrop-filter: blur(10px);
+    color: white;
+    font-size: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Ombra più leggera */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10;
+    position: relative;
+    transform: translateY(0);
+    border-radius: 50%; /* Mantiene la forma circolare */
+}
+
+.intro-player .amplitude-play-pause:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Semplificato effetto pulsazione */
+@keyframes minimal-glow {
+    0% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+    50% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); }
+    100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+}
+
+.intro-player .amplitude-play-pause {
+    animation: minimal-glow 5s infinite ease-in-out;
+}
+
+/* Titolo audio minimale e moderno */
+.intro-player .amplitude-track-title {
+    color: white;
+    font-weight: 500; /* Ridotto da 600 */
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.02em;
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2); /* Più leggero */
+    backdrop-filter: blur(5px);
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    white-space: nowrap;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 10;
+    border: none; /* Rimosso bordo */
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+.intro-player:hover .amplitude-track-title {
+    opacity: 1;
+}
+
+/* Info traccia e controlli - nascosti */
+.intro-player .amplitude-controls-container,
+.intro-player .amplitude-track-info {
+    display: none;
+}
+
+/* Trascrizione ridotta ulteriormente */
+.intro-transcript-container {
+    margin-top: 0.5rem;
+    width: 100%;
+    max-width: 200px; /* Ridotto da 250px */
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.7; /* Ulteriormente ridotta l'opacità */
+    transition: opacity 0.3s ease;
+}
+
+.intro-transcript-container:hover {
+    opacity: 1;
+}
+
+/* Pulsante trascrizione ancora più discreto */
+.intro-transcript-button.compact {
+    background-color: rgba(0, 0, 0, 0.15); /* Più leggero */
+    border-color: transparent; /* Rimosso bordo */
+    font-weight: 400;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+
+.intro-transcript-button.compact:hover {
+    opacity: 0.9;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+/* Stili specifici per quando il player è in riproduzione */
+.intro-player .amplitude-playing .amplitude-play-pause {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Design responsivo con adattamenti specifici */
+@media (max-width: 768px) {
+    .intro-player .amplitude-visualization-container {
+        height: 25vh;
+        min-height: 180px;
+        max-height: 280px;
+    }
+    
+    .intro-player .amplitude-play-pause {
+        width: 90px;
+        height: 90px;
+        font-size: 1.8rem;
+    }
+    
+    .intro-player .amplitude-track-title {
+        font-size: 1rem;
+        padding: 0.4rem 1rem;
+        bottom: 10%;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-player .amplitude-visualization-container {
+        height: 22vh;
+        min-height: 150px;
+    }
+    
+    .intro-player .amplitude-play-pause {
+        width: 70px;
+        height: 70px;
+        font-size: 1.4rem;
+    }
+    
+    .intro-player .amplitude-track-title {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+        max-width: 90%;
+    }
+    
+    .intro-transcript-container {
+        max-width: 180px;
+    }
+}
+
+/* Per dispositivi molto piccoli */
+@media (max-width: 360px) {
+    .intro-player .amplitude-visualization-container {
+        height: 20vh;
+        min-height: 130px;
+    }
+    
+    .intro-player .amplitude-play-pause {
+        width: 60px;
+        height: 60px;
+        font-size: 1.2rem;
+    }
+    
+    .intro-transcript-button.compact {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+    }
+}
+
+/* Per utenti che preferiscono ridurre le animazioni */
+@media (prefers-reduced-motion: reduce) {
+    .intro-player .amplitude-visualization,
+    .intro-player .amplitude-play-pause {
+        animation: none;
+    }
+    
+    .intro-player .amplitude-play-pause:hover {
+        transform: scale(1.05);
+    }
+}

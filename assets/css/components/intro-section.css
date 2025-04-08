@@ -184,13 +184,60 @@
     }
 }
 
-@media (max-width: 360px) {
-    .intro-features {
-        grid-template-columns: 1fr;
+@media (max-width: 480px) {
+    .intro-description {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
     }
     
     .intro-feature {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .intro-feature i {
+        font-size: 0.9rem;
+        min-width: 0.9rem;
+    }
+    
+    .intro-feature span {
+        font-size: 0.85rem;
+    }
+    
+    .intro-transcript-container {
+        max-width: 90%; /* Consenti al container di adattarsi meglio */
+    }
+    
+    .intro-player-container {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Per dispositivi molto piccoli */
+@media (max-width: 360px) {
+    .intro-description {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .intro-features {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+    
+    .intro-feature {
+        padding: 0.4rem 0.7rem;
         text-align: left;
-        padding: 0.6rem 0.85rem; /* Leggermente aumentato da 0.5rem 0.75rem */
+    }
+    
+    .intro-feature i {
+        font-size: 0.85rem;
+    }
+    
+    .intro-feature span {
+        font-size: 0.8rem;
+    }
+    
+    .intro-section {
+        gap: 1rem;
     }
 }
