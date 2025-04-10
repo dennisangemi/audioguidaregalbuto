@@ -38,6 +38,30 @@ const AudioPlayerManager = (function() {
         
         console.log('Percorso audio intro:', introData.audioPath);
         
+        // Verifica e prepara correttamente i dati degli episodi della playlist
+        let episodiSongs = [];
+        if (Array.isArray(langData.stops)) {
+            console.log(`Trovate ${langData.stops.length} tappe per il tour`);
+            
+            episodiSongs = langData.stops.map((stop, index) => {
+                if (!stop.audioPath) {
+                    console.warn(`Tappa ${index + 1} (${stop.title}) non ha un percorso audio valido`);
+                }
+                
+                console.log(`Tappa ${index + 1}: ${stop.title} - Audio: ${stop.audioPath}`);
+                
+                return {
+                    "name": stop.title || `Tappa ${index + 1}`,
+                    "artist": "Audio guida di Regalbuto",
+                    "url": stop.audioPath,
+                    "visual_id": `episode-${index}`,
+                    "index": index
+                };
+            }).filter(song => song.url); // Filtra episodi senza URL audio
+        } else {
+            console.error('Dati delle tappe non trovati o non validi nel JSON');
+        }
+        
         // Configurazione di Amplitude basata sui dati JSON
         const config = {
             "songs": [
@@ -49,25 +73,37 @@ const AudioPlayerManager = (function() {
             ],
             "playlists": {
                 "episodi": {
-                    "songs": Array.isArray(langData.stops) ? langData.stops.map(stop => ({
-                        "name": stop.title,
-                        "artist": "Audio guida di Regalbuto",
-                        "url": stop.audioPath
-                    })) : []
+                    "songs": episodiSongs
                 }
             },
             "volume": 75,
+            "debug": true, // Abilita il debug per aiutare l'identificazione dei problemi
             "callbacks": {
                 'initialized': function() {
                     console.log("AmplitudeJS ha completato l'inizializzazione");
+                    
+                    // Annuncio che Amplitude è pronto per altri componenti
+                    document.dispatchEvent(new CustomEvent('amplitude-ready'));
+                    
                     // Inizializza i player dopo che Amplitude è pronto
                     initializePlayers();
                     console.log("Percorso audio introduzione caricato:", introData.audioPath);
+                },
+                'play': function() {
+                    console.log('Amplitude: Evento PLAY');
+                },
+                'pause': function() {
+                    console.log('Amplitude: Evento PAUSE');
+                },
+                'timeupdate': function() {
+                    // Aggiorna la UI per il player attivo
                 }
             }
         };
         
         // Verifica se il file audio esiste realmente prima di inizializzare
+        console.log('Verifico esistenza del file audio intro:', introData.audioPath);
+        
         fetch(introData.audioPath, { method: 'HEAD' })
             .then(response => {
                 if (response.ok) {
@@ -123,6 +159,8 @@ const AudioPlayerManager = (function() {
             player.classList.add('amplitude-paused');
             player.classList.remove('amplitude-playing');
         });
+        
+        console.log('Players inizializzati');
     }
     
     /**
@@ -139,85 +177,125 @@ const AudioPlayerManager = (function() {
         }
         
         // Gestisci i player della playlist
-        document.querySelectorAll('[data-amplitude-playlist]').forEach(button => {
+        document.querySelectorAll('.amplitude-play-pause[data-amplitude-playlist]').forEach(button => {
             const playlist = button.getAttribute('data-amplitude-playlist');
             const songIndex = parseInt(button.getAttribute('data-amplitude-song-index'));
-            setupPlayerButton(button, playlist, songIndex);
+            
+            if (!isNaN(songIndex)) {
+                console.log(`Configuro pulsante player: playlist=${playlist}, songIndex=${songIndex}`);
+                setupPlayerButton(button, playlist, songIndex);
+            } else {
+                console.error(`Indice canzone non valido nel pulsante: ${button.outerHTML}`);
+            }
         });
+        
+        console.log('Controlli audio configurati');
     }
     
     /**
      * Configura un singolo pulsante player
      */
     function setupPlayerButton(button, playlist, index) {
-        const playerContainer = button.closest('.amplitude-player');
-        const playerId = playerContainer.id;
+        const playerId = button.getAttribute('data-player-id') || 
+                       (button.closest('.amplitude-player') ? button.closest('.amplitude-player').id : 'unknown-player');
         
-        button.addEventListener('click', function() {
-            console.log(`Click su player: ${playerId}, stato corrente: isPlaying=${audioState.isPlaying}, currentPlayer=${audioState.currentPlayer}, pausedPlayer=${audioState.pausedPlayer}`);
+        button.addEventListener('click', function(e) {
+            e.stopPropagation(); // Impedisci la propagazione dell'evento
             
-            // Se questo player è attualmente in riproduzione
-            if (audioState.currentPlayer === playerId && audioState.isPlaying) {
-                // Metti in pausa la riproduzione
-                Amplitude.pause();
-                audioState.isPlaying = false;
-                audioState.pausedPlayer = playerId; // Memorizza quale player è stato messo in pausa
-                
-                playerContainer.classList.remove('amplitude-playing');
-                playerContainer.classList.add('amplitude-paused');
-                console.log(`Player messo in pausa: ${playerId}`);
-            } 
-            // Se è lo stesso player che era stato messo in pausa
-            else if (playerId === audioState.pausedPlayer) {
-                // Riprendi la riproduzione da dove era stata interrotta
-                Amplitude.play();
-                audioState.isPlaying = true;
-                audioState.currentPlayer = playerId;
-                
-                playerContainer.classList.add('amplitude-playing');
-                playerContainer.classList.remove('amplitude-paused');
-                console.log(`Player ripreso da pausa: ${playerId}`);
-            }
-            // Se è un player diverso o il primo avvio
-            else {
-                // Se un altro player è in riproduzione, fermalo prima
-                if (audioState.isPlaying) {
+            console.log(`Click su player: ${playerId}, stato corrente: isPlaying=${audioState.isPlaying}, currentPlayer=${audioState.currentPlayer}, pausedPlayer=${audioState.pausedPlayer}, playlist=${playlist}, index=${index}`);
+            
+            try {
+                // Se questo player è attualmente in riproduzione
+                if (audioState.currentPlayer === playerId && audioState.isPlaying) {
+                    // Metti in pausa la riproduzione
                     Amplitude.pause();
-                    // Trova il player precedente e resetta il suo stato visivo
-                    if (audioState.currentPlayer) {
-                        const prevPlayer = document.getElementById(audioState.currentPlayer);
-                        if (prevPlayer) {
-                            prevPlayer.classList.remove('amplitude-playing');
-                            prevPlayer.classList.add('amplitude-paused');
+                    audioState.isPlaying = false;
+                    audioState.pausedPlayer = playerId; // Memorizza quale player è stato messo in pausa
+                    
+                    updatePlayerVisualState(button, false);
+                    console.log(`Player messo in pausa: ${playerId}`);
+                } 
+                // Se è lo stesso player che era stato messo in pausa
+                else if (playerId === audioState.pausedPlayer) {
+                    // Riprendi la riproduzione da dove era stata interrotta
+                    Amplitude.play();
+                    audioState.isPlaying = true;
+                    audioState.currentPlayer = playerId;
+                    
+                    updatePlayerVisualState(button, true);
+                    console.log(`Player ripreso da pausa: ${playerId}`);
+                }
+                // Se è un player diverso o il primo avvio
+                else {
+                    // Se un altro player è in riproduzione, fermalo prima
+                    if (audioState.isPlaying) {
+                        Amplitude.pause();
+                        
+                        // Trova il player precedente e resetta il suo stato visivo
+                        if (audioState.currentPlayer) {
+                            const prevPlayerButton = document.querySelector(`[data-player-id="${audioState.currentPlayer}"]`);
+                            if (prevPlayerButton) {
+                                updatePlayerVisualState(prevPlayerButton, false);
+                            }
                         }
                     }
-                }
-                
-                // Avvia questo player dall'inizio
-                if (playlist === null) {
-                    // Player principale
-                    Amplitude.stop(); // Ferma completamente prima di riavviare
-                    setTimeout(() => {
+                    
+                    // Avvia questo player dall'inizio
+                    if (playlist === null) {
+                        // Player principale
+                        console.log('Avvio player principale');
                         Amplitude.play();
-                    }, 50);
-                } else {
-                    // Player della playlist
-                    Amplitude.stop(); // Ferma completamente prima di riavviare
-                    setTimeout(() => {
+                    } else {
+                        // Player della playlist
+                        console.log(`Avvio episodio: playlist=${playlist}, index=${index}`);
                         Amplitude.playPlaylistSongAtIndex(index, playlist);
-                    }, 50);
+                    }
+                    
+                    // Aggiorna lo stato
+                    audioState.currentPlayer = playerId;
+                    audioState.isPlaying = true;
+                    audioState.pausedPlayer = null; // Resetta il player in pausa
+                    
+                    updatePlayerVisualState(button, true);
+                    console.log(`Nuovo player avviato: ${playerId}`);
                 }
-                
-                // Aggiorna lo stato
-                audioState.currentPlayer = playerId;
-                audioState.isPlaying = true;
-                audioState.pausedPlayer = null; // Resetta il player in pausa
-                
-                playerContainer.classList.add('amplitude-playing');
-                playerContainer.classList.remove('amplitude-paused');
-                console.log(`Nuovo player avviato: ${playerId}`);
+            } catch (error) {
+                console.error(`Errore nella gestione del player ${playerId}:`, error);
             }
         });
+        
+        console.log(`Pulsante player configurato: ${playerId}`);
+    }
+    
+    /**
+     * Aggiorna lo stato visivo del player
+     */
+    function updatePlayerVisualState(button, isPlaying) {
+        const playerContainer = button.closest('.amplitude-player') || button.closest('.modern-audio-player');
+        
+        if (playerContainer) {
+            if (isPlaying) {
+                playerContainer.classList.add('amplitude-playing');
+                playerContainer.classList.remove('amplitude-paused');
+            } else {
+                playerContainer.classList.remove('amplitude-playing');
+                playerContainer.classList.add('amplitude-paused');
+            }
+        }
+        
+        // Aggiorna le icone all'interno del pulsante
+        const playIcon = button.querySelector('.amplitude-play');
+        const pauseIcon = button.querySelector('.amplitude-pause');
+        
+        if (playIcon && pauseIcon) {
+            if (isPlaying) {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'inline-block';
+            } else {
+                playIcon.style.display = 'inline-block';
+                pauseIcon.style.display = 'none';
+            }
+        }
     }
     
     /**
@@ -339,64 +417,19 @@ const AudioPlayerManager = (function() {
         }
     }
     
-    /**
-     * Aggiunge effetto particellare al background del player hero
-     * Nota: funzione mantenuta ma non utilizzata per design minimal
-     */
-    function addBackgroundParticles(canvas, ctx) {
-        const particles = [];
-        const particleCount = 30;
-        
-        // Crea particelle
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.3,
-                speedY: (Math.random() - 0.5) * 0.3,
-                opacity: Math.random() * 0.5 + 0.2
-            });
-        }
-        
-        // Funzione di animazione
-        const animateParticles = () => {
-            // Overlay semitrasparente per creare effetto trail
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Disegna e aggiorna ogni particella
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-                ctx.fill();
-                
-                // Aggiorna posizione
-                p.x += p.speedX;
-                p.y += p.speedY;
-                
-                // Bounce sulle pareti
-                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-            });
-            
-            requestAnimationFrame(animateParticles);
-        };
-        
-        // Avvia animazione
-        animateParticles();
-    }
-    
     // Espone le funzioni necessarie come API pubblica
     return {
         initialize: initialize,
-        getAudioState: function() { return audioState; }
+        getAudioState: function() { return audioState; },
+        setupPlayerButton: setupPlayerButton, // Espone questa funzione per permettere di configurare nuovi pulsanti dinamicamente
+        updatePlayerVisualState: updatePlayerVisualState // Espone questa funzione per aggiornare lo stato visivo
     };
 })();
 
 // Ascoltiamo un evento personalizzato che sarà emesso da main.js quando i dati sono pronti
 document.addEventListener('audioguideDataLoaded', function(event) {
+    console.log('Evento audioguideDataLoaded ricevuto');
+    
     if (event.detail && event.detail.tourData) {
         AudioPlayerManager.initialize(event.detail.tourData);
     } else {

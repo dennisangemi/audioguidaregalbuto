@@ -346,6 +346,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const forwardButtons = document.querySelectorAll('.forward-15');
         const backwardButtons = document.querySelectorAll('.backward-15');
         
+        console.log(`Trovati ${forwardButtons.length} pulsanti +15s e ${backwardButtons.length} pulsanti -15s`);
+        
         // Avanti di 15 secondi
         forwardButtons.forEach(button => {
             button.addEventListener('click', function(e) {
@@ -354,21 +356,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 const songIndex = this.getAttribute('data-amplitude-song-index');
                 const playlist = this.getAttribute('data-amplitude-playlist');
                 
-                // Ottieni la posizione attuale in secondi
-                let currentSeconds = 0;
+                console.log(`Avanti +15s: playlist=${playlist}, song=${songIndex}`);
                 
-                if (playlist) {
-                    currentSeconds = Amplitude.getPlaylistSongPlayedSeconds(playlist, songIndex);
-                    const duration = Amplitude.getPlaylistSongDuration(playlist, songIndex);
-                    
-                    // Calcola la nuova posizione (avanti di 15 secondi, ma non oltre la durata)
-                    const newPosition = Math.min(currentSeconds + 15, duration);
-                    
-                    // Imposta la nuova posizione
-                    Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, (newPosition / duration) * 100);
-                    
-                    // Aggiorna la posizione visiva del cursore
-                    updateProgressUI(playlist, songIndex, (newPosition / duration) * 100);
+                if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
+                    try {
+                        // Ottieni la posizione attuale in secondi
+                        const currentSeconds = Amplitude.getPlaylistSongPlayedSeconds(playlist, songIndex);
+                        const duration = Amplitude.getPlaylistSongDuration(playlist, songIndex);
+                        
+                        console.log(`Posizione attuale: ${currentSeconds}s, durata: ${duration}s`);
+                        
+                        if (!isNaN(currentSeconds) && !isNaN(duration) && duration > 0) {
+                            // Calcola la nuova posizione (avanti di 15 secondi, ma non oltre la durata)
+                            const newPosition = Math.min(currentSeconds + 15, duration);
+                            const newPercentage = (newPosition / duration) * 100;
+                            
+                            console.log(`Nuova posizione: ${newPosition}s (${newPercentage.toFixed(2)}%)`);
+                            
+                            // Imposta la nuova posizione
+                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, newPercentage);
+                            
+                            // Aggiorna la posizione visiva del cursore
+                            updateProgressUI(playlist, songIndex, newPercentage);
+                        } else {
+                            console.warn('Impossibile determinare la durata o posizione corrente');
+                        }
+                    } catch (error) {
+                        console.error('Errore nell\'avanzamento di 15 secondi:', error);
+                    }
                 }
             });
         });
@@ -381,21 +396,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 const songIndex = this.getAttribute('data-amplitude-song-index');
                 const playlist = this.getAttribute('data-amplitude-playlist');
                 
-                // Ottieni la posizione attuale in secondi
-                let currentSeconds = 0;
+                console.log(`Indietro -15s: playlist=${playlist}, song=${songIndex}`);
                 
-                if (playlist) {
-                    currentSeconds = Amplitude.getPlaylistSongPlayedSeconds(playlist, songIndex);
-                    const duration = Amplitude.getPlaylistSongDuration(playlist, songIndex);
-                    
-                    // Calcola la nuova posizione (indietro di 15 secondi, ma non sotto zero)
-                    const newPosition = Math.max(currentSeconds - 15, 0);
-                    
-                    // Imposta la nuova posizione
-                    Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, (newPosition / duration) * 100);
-                    
-                    // Aggiorna la posizione visiva del cursore
-                    updateProgressUI(playlist, songIndex, (newPosition / duration) * 100);
+                if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
+                    try {
+                        // Ottieni la posizione attuale in secondi
+                        const currentSeconds = Amplitude.getPlaylistSongPlayedSeconds(playlist, songIndex);
+                        const duration = Amplitude.getPlaylistSongDuration(playlist, songIndex);
+                        
+                        console.log(`Posizione attuale: ${currentSeconds}s, durata: ${duration}s`);
+                        
+                        if (!isNaN(currentSeconds) && !isNaN(duration) && duration > 0) {
+                            // Calcola la nuova posizione (indietro di 15 secondi, ma non sotto zero)
+                            const newPosition = Math.max(currentSeconds - 15, 0);
+                            const newPercentage = (newPosition / duration) * 100;
+                            
+                            console.log(`Nuova posizione: ${newPosition}s (${newPercentage.toFixed(2)}%)`);
+                            
+                            // Imposta la nuova posizione
+                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, newPercentage);
+                            
+                            // Aggiorna la posizione visiva del cursore
+                            updateProgressUI(playlist, songIndex, newPercentage);
+                        } else {
+                            console.warn('Impossibile determinare la durata o posizione corrente');
+                        }
+                    } catch (error) {
+                        console.error('Errore nel riavvolgimento di 15 secondi:', error);
+                    }
                 }
             });
         });
@@ -417,21 +445,32 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Aggiorna la posizione del cursore
             handle.style.left = percentage + '%';
+            
+            // Aggiorna anche il valore dell'input range
+            rangeInput.value = percentage;
         }
     }
     
     // Funzione per sincronizzare il progress bar con lo stato di Amplitude
     function setupProgressSync() {
         // Ascolta gli eventi di aggiornamento del tempo di Amplitude
-        Amplitude.bind('time_update', function() {
-            const currentPlaylist = Amplitude.getActivePlaylist();
-            if (currentPlaylist) {
-                const currentSong = Amplitude.getActiveIndexInPlaylist(currentPlaylist);
-                const percentage = Amplitude.getSongPlayedPercentage();
-                
-                updateProgressUI(currentPlaylist, currentSong, percentage);
-            }
-        });
+        if (typeof Amplitude !== 'undefined') {
+            Amplitude.bind('time_update', function() {
+                try {
+                    const currentPlaylist = Amplitude.getActivePlaylist();
+                    if (currentPlaylist) {
+                        const currentSong = Amplitude.getActiveIndexInPlaylist(currentPlaylist);
+                        const percentage = Amplitude.getSongPlayedPercentage();
+                        
+                        if (currentSong !== null && !isNaN(percentage)) {
+                            updateProgressUI(currentPlaylist, currentSong, percentage);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Errore nell\'aggiornamento del progresso:', error);
+                }
+            });
+        }
         
         // Configura gli slider per essere interattivi
         document.querySelectorAll('.player-progress-container').forEach(container => {
@@ -450,20 +489,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     const playlist = slider.getAttribute('data-amplitude-playlist');
                     const songIndex = slider.getAttribute('data-amplitude-song-index');
                     
-                    if (playlist && songIndex !== null) {
-                        Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, percentage);
-                        updateProgressUI(playlist, songIndex, percentage);
+                    if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
+                        try {
+                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, percentage);
+                            updateProgressUI(playlist, songIndex, percentage);
+                        } catch (error) {
+                            console.error('Errore nell\'impostare la posizione dell\'audio:', error);
+                        }
                     }
                 });
                 
                 // Quando l'utente trascina lo slider
                 slider.addEventListener('input', function() {
                     const percentage = this.value;
-                    const playlist = this.getAttribute('data-amplitude-playlist');
-                    const songIndex = this.getAttribute('data-amplitude-song-index');
                     
-                    progressBar.style.width = percentage + '%';
-                    handle.style.left = percentage + '%';
+                    if (progressBar && handle) {
+                        progressBar.style.width = percentage + '%';
+                        handle.style.left = percentage + '%';
+                    }
                 });
                 
                 // Quando l'utente rilascia lo slider
@@ -472,8 +515,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     const playlist = this.getAttribute('data-amplitude-playlist');
                     const songIndex = this.getAttribute('data-amplitude-song-index');
                     
-                    if (playlist && songIndex !== null) {
-                        Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, percentage);
+                    if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
+                        try {
+                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, percentage);
+                        } catch (error) {
+                            console.error('Errore nell\'impostare la posizione dell\'audio:', error);
+                        }
                     }
                 });
             }
@@ -483,40 +530,69 @@ document.addEventListener('DOMContentLoaded', function() {
     // Imposta un intervallo per aggiornare tutte le progress bar periodicamente (per sicurezza)
     function setupProgressInterval() {
         setInterval(function() {
-            const currentPlaylist = Amplitude.getActivePlaylist();
-            
-            if (currentPlaylist) {
-                const currentSong = Amplitude.getActiveIndexInPlaylist(currentPlaylist);
-                const percentage = Amplitude.getSongPlayedPercentage();
-                
-                updateProgressUI(currentPlaylist, currentSong, percentage);
+            if (typeof Amplitude !== 'undefined') {
+                try {
+                    const currentPlaylist = Amplitude.getActivePlaylist();
+                    
+                    if (currentPlaylist) {
+                        const currentSong = Amplitude.getActiveIndexInPlaylist(currentPlaylist);
+                        const percentage = Amplitude.getSongPlayedPercentage();
+                        
+                        if (currentSong !== null && !isNaN(percentage)) {
+                            updateProgressUI(currentPlaylist, currentSong, percentage);
+                        }
+                    }
+                } catch (error) {
+                    // Ignoriamo gli errori nel polling, è solo un backup
+                }
             }
         }, 1000);
     }
     
     // Inizializza i controlli dopo che Amplitude è stato completamente caricato
-    document.addEventListener('amplitude-ready', function() {
-        console.log('Amplitude pronto, inizializzo i controlli avanzati');
+    function initializeAudioControls() {
+        console.log('Inizializzazione controlli audio...');
         setupTimeControls();
         setupProgressSync();
         setupProgressInterval();
-    });
+    }
     
-    // Emettere un evento personalizzato quando Amplitude è pronto
-    if (typeof Amplitude !== 'undefined') {
-        document.dispatchEvent(new Event('amplitude-ready'));
+    // Verifica se Amplitude è già pronto
+    if (typeof Amplitude !== 'undefined' && Amplitude.getConfig && Amplitude.getConfig()) {
+        console.log('Amplitude già disponibile, inizializzo subito i controlli');
+        initializeAudioControls();
     } else {
-        // Attendere che Amplitude sia disponibile e poi emettere l'evento
+        console.log('In attesa che Amplitude sia pronto...');
+        
+        // Ascolta l'evento personalizzato quando Amplitude è pronto
+        document.addEventListener('amplitude-ready', function() {
+            console.log('Evento amplitude-ready ricevuto, inizializzo i controlli');
+            initializeAudioControls();
+        });
+        
+        // Continua a controllare se Amplitude è disponibile come fallback
         let checkAmplitude = setInterval(function() {
-            if (typeof Amplitude !== 'undefined') {
+            if (typeof Amplitude !== 'undefined' && Amplitude.getConfig && Amplitude.getConfig()) {
                 clearInterval(checkAmplitude);
-                document.dispatchEvent(new Event('amplitude-ready'));
+                console.log('Amplitude rilevato, inizializzo i controlli');
+                initializeAudioControls();
+                
+                // Emetti l'evento amplitude-ready per sicurezza
+                if (!window.amplitudeReadyFired) {
+                    document.dispatchEvent(new Event('amplitude-ready'));
+                    window.amplitudeReadyFired = true;
+                }
             }
-        }, 100);
+        }, 500);
         
         // Timeout di sicurezza
         setTimeout(function() {
             clearInterval(checkAmplitude);
+            if (typeof Amplitude !== 'undefined' && !window.amplitudeReadyFired) {
+                console.log('Timeout raggiunto, ma Amplitude è disponibile. Inizializzo i controlli.');
+                initializeAudioControls();
+                window.amplitudeReadyFired = true;
+            }
         }, 10000);
     }
 });
