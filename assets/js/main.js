@@ -186,19 +186,90 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Funzione per generare le card degli episodi dinamicamente
+    // Funzione per generare le card degli episodi dinamicamente con il nuovo design Tailwind
     function generateEpisodeCards(stops, staticStops) {
-        const mainContainer = document.querySelector('main.space-y-8');
+        const mainContainer = document.querySelector('main.space-y-12');
         if (!mainContainer || !stops || !Array.isArray(stops)) {
             console.error('Container principale o dati delle tappe non trovati');
             return;
         }
         
-        // Salva il primo episodio se esiste (per usarlo come riferimento)
-        const firstEpisodeCard = mainContainer.querySelector('.episode-card');
-        
         // Svuota il contenitore attuale
         mainContainer.innerHTML = '';
+        
+        // Array di colori per alternare tra i vari stili
+        const colorSchemes = [
+            {
+                gradientFrom: 'from-primary/80', 
+                gradientVia: 'via-primary/40',
+                badge: 'bg-primary/60',
+                buttonBg: 'from-primary to-primary-light',
+                buttonBorder: 'border-primary/20',
+                buttonText: 'text-primary',
+                buttonHover: 'hover:bg-primary/5',
+                progressBg: 'from-primary to-secondary',
+                borderColor: 'border-primary',
+                hoverText: 'hover:text-primary',
+                hoverBorder: 'hover:border-primary/20',
+                hoverBg: 'hover:bg-primary/5'
+            },
+            {
+                gradientFrom: 'from-primary/80', 
+                gradientVia: 'via-secondary/30',
+                badge: 'bg-primary/60',
+                buttonBg: 'from-primary to-primary-light',
+                buttonBorder: 'border-primary/20',
+                buttonText: 'text-primary',
+                buttonHover: 'hover:bg-primary/5',
+                progressBg: 'from-primary to-secondary',
+                borderColor: 'border-primary',
+                hoverText: 'hover:text-primary',
+                hoverBorder: 'hover:border-primary/20',
+                hoverBg: 'hover:bg-primary/5'
+            },
+            {
+                gradientFrom: 'from-secondary/80', 
+                gradientVia: 'via-primary/40',
+                badge: 'bg-secondary/60',
+                buttonBg: 'from-secondary to-primary',
+                buttonBorder: 'border-secondary/20',
+                buttonText: 'text-secondary',
+                buttonHover: 'hover:bg-secondary/5',
+                progressBg: 'from-secondary to-primary',
+                borderColor: 'border-secondary',
+                hoverText: 'hover:text-secondary',
+                hoverBorder: 'hover:border-secondary/20',
+                hoverBg: 'hover:bg-secondary/5'
+            },
+            {
+                gradientFrom: 'from-accent/80', 
+                gradientVia: 'via-accent/30',
+                badge: 'bg-accent/60',
+                buttonBg: 'from-accent to-secondary',
+                buttonBorder: 'border-accent/20',
+                buttonText: 'text-accent',
+                buttonHover: 'hover:bg-accent/5',
+                progressBg: 'from-accent to-secondary',
+                borderColor: 'border-accent',
+                hoverText: 'hover:text-accent',
+                hoverBorder: 'hover:border-accent/20',
+                hoverBg: 'hover:bg-accent/5'
+            },
+            {
+                gradientFrom: 'from-secondary/80', 
+                gradientVia: 'via-accent/30',
+                badge: 'bg-secondary/60',
+                buttonBg: 'from-secondary to-accent',
+                buttonBorder: 'border-secondary/20',
+                buttonText: 'text-secondary',
+                buttonHover: 'hover:bg-secondary/5',
+                progressBg: 'from-secondary to-accent',
+                borderColor: 'border-secondary',
+                hoverText: 'hover:text-secondary',
+                hoverBorder: 'hover:border-secondary/20',
+                hoverBg: 'hover:bg-secondary/5'
+            }
+        ];
         
         // Crea card per ogni tappa
         stops.forEach((stop, index) => {
@@ -211,71 +282,83 @@ document.addEventListener('DOMContentLoaded', function() {
             const imagePath = staticStop.imagePath || stop.imagePath || 'assets/img/illustration-2.png';
             const audioPath = stop.audioPath || '#';
             
+            // Scegli un schema di colori basato sull'indice (ciclico)
+            const colorScheme = colorSchemes[index % colorSchemes.length];
+            
             // Converti ID con underscore in ID con trattino per il DOM
             const elementId = stop.id.replace(/_/g, '-');
             
-            // Crea l'elemento article
+            // Crea l'elemento article con il nuovo design Tailwind
             const articleEl = document.createElement('article');
-            articleEl.className = 'episode-card';
+            articleEl.className = 'bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl border border-gray-100 transform hover:-translate-y-1';
             articleEl.id = elementId;
             articleEl.setAttribute('aria-labelledby', `title-${elementId}`);
             
-            // Crea la struttura HTML per la card
+            // Ordine della tappa (da dati statici oppure indice + 1)
+            const order = staticStop.order || (index + 1);
+            
+            // Crea la struttura HTML per la card con il nuovo design Tailwind
             articleEl.innerHTML = `
-                <div class="episode-content">
-                    <!-- Immagine con overlay del titolo -->
-                    <div class="episode-image-container">
-                        <img src="${imagePath}" alt="${stop.title}" class="episode-image">
-                        <div class="episode-image-overlay">
-                            <h2 id="title-${elementId}" class="episode-title">${stop.title}</h2>
+                <div class="flex flex-col md:flex-row">
+                    <div class="relative md:w-2/5 h-60 md:h-auto overflow-hidden">
+                        <img src="${imagePath}" alt="${stop.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t ${colorScheme.gradientFrom} ${colorScheme.gradientVia} to-transparent opacity-80"></div>
+                        
+                        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                            <span class="inline-block px-3 py-1 ${colorScheme.badge} backdrop-blur-sm rounded-full text-xs font-medium mb-2">Tappa ${order}</span>
+                            <h2 id="title-${elementId}" class="text-2xl md:text-3xl font-bold tracking-tight leading-tight">
+                                ${stop.title}
+                            </h2>
+                            <div class="h-1 w-16 bg-gradient-to-r from-white to-white/20 mt-3"></div>
                         </div>
                     </div>
                     
-                    <div class="episode-body">
-                        <p class="episode-description">${stop.description || ''}</p>
+                    <div class="flex-1 p-6 md:p-8">
+                        <p class="text-gray-600 mb-6">${stop.description || 'Nessuna descrizione disponibile'}</p>
                         
-                        <!-- Player audio modernizzato -->
-                        <div class="modern-audio-player">
-                            <div class="player-controls">
-                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" data-player-id="episode-${stop.id}" aria-label="Riproduci o metti in pausa">
-                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
-                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                        <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
+                            <div class="flex items-center gap-4 mb-4">
+                                <button class="amplitude-play-pause w-14 h-14 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
+                                    <i class="fa fa-play amplitude-play text-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause text-lg" aria-hidden="true"></i>
                                 </button>
                                 
-                                <div class="player-time-controls">
-                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Indietro di 15 secondi">
-                                        <i class="fas fa-undo-alt"></i>
-                                        <span class="time-control-label">15s</span>
-                                    </button>
-                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Avanti di 15 secondi">
-                                        <i class="fas fa-redo-alt"></i>
-                                        <span class="time-control-label">15s</span>
-                                    </button>
+                                <div class="flex items-center gap-3">
+                                    <div class="flex flex-col items-center">
+                                        <button class="backward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                            <i class="fas fa-undo-alt text-sm"></i>
+                                        </button>
+                                        <span class="text-xs font-medium text-gray-500">-30s</span>
+                                    </div>
+                                    
+                                    <div class="flex flex-col items-center">
+                                        <button class="forward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                            <i class="fas fa-redo-alt text-sm"></i>
+                                        </button>
+                                        <span class="text-xs font-medium text-gray-500">+30s</span>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <!-- Progress bar -->
-                            <div class="player-progress-container">
-                                <div class="player-progress" style="width: 0%"></div>
-                                <div class="player-progress-handle" style="left: 0%"></div>
-                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
+                            <div class="player-progress-container relative h-2 bg-gray-200 rounded-full mb-2">
+                                <div class="player-progress absolute top-0 left-0 h-full bg-gradient-to-r ${colorScheme.progressBg} rounded-full" style="width: 0%"></div>
+                                <div class="player-progress-handle absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 ${colorScheme.borderColor} shadow-md" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider w-full absolute inset-0 opacity-0 cursor-pointer" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
                             </div>
                             
-                            <!-- Time display -->
-                            <div class="player-time-display">
+                            <div class="flex justify-between text-xs font-medium text-gray-500">
                                 <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
                                 <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
                             </div>
                         </div>
                         
-                        <!-- Bottone trascrizione -->
-                        <button class="transcript-toggle toggle-transcript" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
+                        <button class="toggle-transcript mt-5 w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
                             <span>Mostra trascrizione</span>
-                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
+                            <i class="fas fa-chevron-down transcript-toggle-icon transition-transform" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-${index + 1}" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
-                            <div class="space-y-4">
+                        <div id="transcript-${index + 1}" class="hidden mt-4 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
+                            <div class="p-5 space-y-4 text-gray-700">
                                 <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
                             </div>
                         </div>
