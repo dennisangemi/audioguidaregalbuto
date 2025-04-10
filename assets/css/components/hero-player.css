@@ -178,19 +178,8 @@
 }
 
 .intro-transcript-button.compact:hover {
-    opacity: 1;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     transform: translateY(-1px);
-}
-
-.intro-transcript-button.compact .toggle-icon {
-    transition: transform 0.3s ease;
-    font-size: 0.75rem;
-    margin-left: 0.25rem;
-}
-
-.intro-transcript-button.compact[aria-expanded="true"] .toggle-icon {
-    transform: rotate(180deg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Contenitore trascrizione */
@@ -205,6 +194,107 @@
     max-height: 500px;
     opacity: 1;
     margin-top: 1rem;
+}
+
+/* Stile del pulsante principale - completamente riprogettato e senza rettangolo */
+.amplitude-play-pause-hero {
+    position: relative;
+    z-index: 20;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.amplitude-play-pause-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(59, 130, 246, 0.1));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.amplitude-play-pause-hero:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(107, 70, 193, 0.2);
+}
+
+.amplitude-play-pause-hero:hover::before {
+    opacity: 1;
+}
+
+.amplitude-play-pause-hero:active {
+    transform: scale(0.98) translateY(0);
+}
+
+/* Animazione delle icone play/pause */
+.amplitude-play-pause-hero .amplitude-play,
+.amplitude-play-pause-hero .amplitude-pause {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.amplitude-play-pause-hero .amplitude-play {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.amplitude-play-pause-hero.amplitude-playing .amplitude-play {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.amplitude-play-pause-hero.amplitude-playing .amplitude-pause {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Visualizzatore audio a tutto schermo */
+#amplitude-visualizer-container {
+    display: flex !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+#amplitude-visualizer-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#amplitude-visualizer-container:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Animazione dell'onda audio nel visualizzatore */
+.amplitude-visualization {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#close-visualizer {
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#close-visualizer:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Stili specifici per quando il player è in riproduzione */
@@ -254,6 +344,28 @@
         height: 72px;
         font-size: 1.7rem;
     }
+    
+    .amplitude-play-pause-hero {
+        font-size: 0.9rem;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    .amplitude-play-pause-hero .relative {
+        width: 6px !important;
+        height: 6px !important;
+        margin-right: 6px;
+    }
+}
+
+@media (max-width: 640px) {
+    .amplitude-play-pause-hero span {
+        font-size: 0.8rem;
+    }
+    
+    .intro-transcript-button.compact {
+        font-size: 0.7rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -298,13 +410,215 @@
 @media (prefers-reduced-motion: reduce) {
     .intro-player .amplitude-visualization,
     .intro-player .amplitude-play-pause,
-    .amplitude-playing ~ .amplitude-visualization {
+    .amplitude-playing ~ .amplitude-visualization,
+    .amplitude-play-pause-hero,
+    .amplitude-play-pause-hero .amplitude-play,
+    .amplitude-play-pause-hero .amplitude-pause,
+    #amplitude-visualizer-container {
         animation: none;
         transform: none;
         transition: none;
     }
     
     .intro-player .amplitude-play-pause:hover {
+        transform: none;
+    }
+}
+
+/* Hero Audio Player - Design integrato con illustrazione */
+
+/* Container per l'illustrazione con player sovrapposto */
+.audio-illustration-wrapper {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -15px rgba(107, 70, 193, 0.3);
+}
+
+/* Stile per l'immagine di sfondo */
+.illustration-bg-container {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.illustration-bg {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    bottom: 0; /* Mostra la parte bassa dell'immagine invece della parte alta */
+    left: 0;
+    object-fit: cover;
+    object-position: center bottom; /* Enfatizza la parte bassa dell'immagine */
+    transform: scale(1.05);
+}
+
+/* Visualizzazione onde audio sovrapposte all'illustrazione */
+.intro-amplitude .amplitude-visualization {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.7;
+    mix-blend-mode: overlay;
+    filter: brightness(1.5) contrast(1.1);
+    z-index: 2;
+}
+
+/* Stile per le onde audio nel player dell'introduzione - rese meno fitte */
+.amplitude-visualization#intro-visualization canvas {
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0.65;
+    filter: blur(1px);
+}
+
+/* Onde audio meno fitte - più spazio tra le linee e meno linee totali */
+.amplitude-visualization#intro-visualization {
+    --wave-spacing: 14px; /* Aumentato lo spazio tra le onde */
+    --wave-count: 30; /* Ridotto il numero di onde */
+    background-size: var(--wave-spacing) 100%;
+    opacity: 0.7;
+}
+
+/* Pulsante play centrale per l'introduzione */
+.intro-amplitude .amplitude-play-pause {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.intro-amplitude .amplitude-play-pause:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.05);
+}
+
+.intro-amplitude .amplitude-play,
+.intro-amplitude .amplitude-pause {
+    font-size: 28px;
+    color: white;
+}
+
+/* Pulsante trascrizione */
+.intro-transcript-button.compact {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+}
+
+.intro-transcript-button.compact:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Animazione onde audio durante riproduzione */
+@keyframes wave-animation {
+    0% { transform: scaleY(0.92); }
+    50% { transform: scaleY(1.08); }
+    100% { transform: scaleY(0.92); }
+}
+
+.amplitude-playing ~ .amplitude-visualization {
+    opacity: 0.85;
+    filter: brightness(1.4) contrast(1.2);
+    animation: wave-animation 2s infinite ease-in-out;
+}
+
+/* Effetto pulsante riproduzione */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(255, 255, 255, 0.2); }
+    50% { box-shadow: 0 10px 35px rgba(107, 70, 193, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.4); }
+    100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(255, 255, 255, 0.2); }
+}
+
+/* Animazione sottile per i pulsanti sull'illustrazione */
+.intro-amplitude .amplitude-play-pause,
+.intro-transcript-button {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: subtle-float 3s infinite alternate ease-in-out;
+}
+
+@keyframes subtle-float {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Assicura che le onde audio si adattino correttamente al loro contenitore */
+#intro-visualization {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Design responsivo */
+@media (max-width: 1024px) {
+    .audio-illustration-wrapper {
+        max-width: 90%;
+    }
+    
+    .intro-amplitude .amplitude-play-pause {
+        width: 70px;
+        height: 70px;
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .audio-illustration-wrapper {
+        aspect-ratio: 16/10;
+    }
+    
+    .intro-amplitude .amplitude-play-pause {
+        width: 60px;
+        height: 60px;
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .intro-amplitude .amplitude-play-pause {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .audio-illustration-wrapper {
+        border-radius: 1rem;
+    }
+}
+
+/* Per utenti che preferiscono ridurre le animazioni */
+@media (prefers-reduced-motion: reduce) {
+    .audio-illustration-wrapper,
+    .illustration-bg,
+    .intro-amplitude .amplitude-play-pause,
+    .intro-amplitude .amplitude-visualization,
+    .amplitude-playing ~ .amplitude-visualization {
+        transition: none;
+        animation: none;
+        transform: none;
+    }
+    
+    .intro-amplitude .amplitude-play-pause:hover,
+    .intro-amplitude .amplitude-play-pause:hover:before {
         transform: none;
     }
 }

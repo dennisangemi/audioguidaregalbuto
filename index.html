@@ -55,15 +55,48 @@
                     <a href="#tour-timeline" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Tappe</a>
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
+                    
+                    <!-- Selettore lingua spostato nell'header -->
+                    <div class="language-selector relative">
+                        <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary transition-all focus:outline-none" aria-expanded="false" aria-haspopup="true">
+                            <i class="fas fa-language mr-1.5"></i>
+                            <span class="current-language">Italiano</span>
+                            <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="language-arrow"></i>
+                        </button>
+                        
+                        <div id="language-dropdown" class="language-dropdown absolute right-0 mt-2 py-2 w-36 bg-white rounded-lg shadow-lg border border-gray-100 hidden z-50" role="menu">
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="it">
+                                <span class="w-4 mr-2">🇮🇹</span> Italiano
+                            </a>
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="en">
+                                <span class="w-4 mr-2">🇬🇧</span> English
+                            </a>
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="de">
+                                <span class="w-4 mr-2">🇩🇪</span> Deutsch
+                            </a>
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="es">
+                                <span class="w-4 mr-2">🇪🇸</span> Español
+                            </a>
+                        </div>
+                    </div>
+                    
                     <button class="tour-button bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg flex items-center">
                         <i class="fas fa-play mr-2 text-xs"></i>
                         Inizia il tour
                     </button>
                 </div>
                 
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
-                    <i class="fas fa-bars text-xl menu-icon"></i>
-                </button>
+                <div class="flex items-center gap-4 md:hidden">
+                    <!-- Selettore lingua mobile -->
+                    <button id="mobile-language-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Cambia lingua">
+                        <i class="fas fa-language text-xl"></i>
+                    </button>
+                    
+                    <!-- Menu mobile button -->
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
+                        <i class="fas fa-bars text-xl menu-icon"></i>
+                    </button>
+                </div>
             </nav>
         </div>
         
@@ -72,6 +105,15 @@
             <a href="#tour-timeline" class="nav-link text-gray-700 hover:text-primary transition-colors">Tappe</a>
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
+            
+            <!-- Opzioni lingua mobile -->
+            <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="it" aria-label="Italiano">🇮🇹</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="en" aria-label="English">🇬🇧</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="es" aria-label="Español">🇪🇸</button>
+            </div>
+            
             <a href="#" class="tour-button mt-4 bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
                 <i class="fas fa-play mr-2 text-xs"></i>
                 Inizia il tour
@@ -79,11 +121,11 @@
         </div>
     </header>
     
-    <!-- Hero section principale con player in evidenza e design minimal - margini aumentati -->
+    <!-- Hero section principale con illustrazione e player integrati -->
     <section class="pt-16 md:pt-20 relative bg-gradient-to-br from-primary-light/10 via-white to-accent/10" aria-labelledby="hero-title">
         <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl relative">
-            <!-- Hero content con player prominente e più spazio sui lati -->
-            <div class="flex flex-col lg:flex-row lg:items-center pt-12 pb-6 md:pt-20 md:pb-12 lg:pt-24 lg:pb-16">
+            <!-- Hero content con illustrazione -->
+            <div class="flex flex-col lg:flex-row lg:items-center pt-12 pb-6 md:pt-20 md:pb-12 lg:pt-28 lg:pb-16">
                 <!-- Colonna sinistra: testo introduttivo -->
                 <div class="lg:w-1/2 lg:pr-12 xl:pr-16 mb-10 lg:mb-0">
                     <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-dark leading-tight mb-4">
@@ -119,71 +161,88 @@
                     </div>
                 </div>
                 
-                <!-- Colonna destra: player dell'introduzione minimalista come CTA principale con migliore visibilità -->
-                <div class="lg:w-1/2 lg:pl-6 xl:pl-10">
-                    <!-- Player con design minimalista e aperto - migliore contrasto -->
-                    <div class="relative overflow-visible">
-                        <!-- Cerchi decorativi di sfondo per migliorare visibilità -->
-                        <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/20 opacity-70 blur-3xl"></div>
-                        <div class="absolute top-10 -left-10 w-48 h-48 rounded-full bg-gradient-radial from-primary/30 to-transparent opacity-40 blur-2xl"></div>
+                <!-- Colonna destra: illustrazione con player audio integrato -->
+                <div class="lg:w-1/2 lg:pl-6 xl:pl-10 relative">
+                    <div class="illustration-player-container relative">
+                        <!-- Sfondo luminoso dietro l'illustrazione -->
+                        <div class="absolute -top-20 -right-10 w-72 h-72 rounded-full bg-gradient-to-br from-primary/25 via-secondary/20 to-accent/15 opacity-70 blur-3xl"></div>
                         
-                        <!-- Player integrato come CTA principale - design minimale con migliore contrasto -->
-                        <div class="intro-player hero-audio-player relative">
-                            <!-- Player AmplitudeJS per l'introduzione - design aperto ma più visibile -->
-                            <div class="amplitude-player intro-amplitude" id="intro-player">
-                                <div class="amplitude-visualization-container rounded-3xl overflow-hidden shadow-xl">
-                                    <div class="amplitude-visualization" id="intro-visualization"></div>
-                                    <button class="amplitude-play-pause" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
-                                        <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
-                                        <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                                
-                                <!-- Pulsante trascrizione posizionato nell'angolo inferiore -->
-                                <div class="absolute bottom-4 right-4 z-10">
-                                    <button class="toggle-transcript intro-transcript-button compact text-white rounded-full px-4 py-1.5 text-sm transition-all flex items-center" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
-                                        <i class="fas fa-align-left mr-1" aria-hidden="true"></i>
-                                        <span>Trascrizione</span>
-                                    </button>
+                        <!-- Container per illustrazione arrotondata con player sovrapposto -->
+                        <div class="relative audio-illustration-wrapper rounded-3xl overflow-hidden shadow-xl mx-auto max-w-md lg:max-w-lg">
+                            <!-- Illustrazione come sfondo -->
+                            <img src="assets/img/illustration-1.png" alt="Illustrazione di Regalbuto" class="w-full h-auto illustration-bg">
+                            
+                            <!-- Overlay sfumato per migliorare leggibilità delle onde audio -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/30 to-transparent"></div>
+                            
+                            <!-- Player AmplitudeJS integrato sull'illustrazione -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="amplitude-player intro-amplitude w-full h-full" id="intro-player">
+                                    <!-- Visualizzazione onde audio sovrapposte all'illustrazione -->
+                                    <div class="amplitude-visualization w-full h-full absolute top-0 left-0" id="intro-visualization"></div>
+                                    
+                                    <!-- Pulsante centrale play/pause -->
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <button class="amplitude-play-pause z-10" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
+                                            <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                            <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Etichetta "Ascolta l'introduzione" -->
+                                    <div class="absolute bottom-10 left-0 right-0 flex justify-center">
+                                        <span class="bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-medium shadow-md inline-flex items-center">
+                                            <i class="fas fa-headphones mr-2"></i>
+                                            Ascolta l'introduzione
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Pulsante trascrizione posizionato nell'angolo inferiore destro -->
+                                    <div class="absolute bottom-4 right-4 z-10">
+                                        <button class="toggle-transcript intro-transcript-button compact bg-white/30 hover:bg-white/40 backdrop-blur-md text-white rounded-full px-3 py-1.5 text-xs transition-all flex items-center" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
+                                            <i class="fas fa-align-left mr-1" aria-hidden="true"></i>
+                                            <span>Trascrizione</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <!-- Contenitore per la trascrizione -->
-                            <div id="transcript-0" class="transcript-container mt-4 rounded-lg bg-white/90 backdrop-blur-md shadow-lg p-4 hidden" aria-hidden="true" role="region" aria-label="Trascrizione dell'introduzione">
-                                <div class="text-gray-700 text-sm">
-                                    <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
-                                    <p>La trascrizione verrà caricata qui...</p>
+                            <!-- Badge info lingua -->
+                            <div class="absolute top-4 right-4">
+                                <div class="flex items-center bg-white/30 backdrop-blur-md rounded-full px-3 py-1 text-white text-xs">
+                                    <i class="fas fa-language mr-2"></i>
+                                    <span class="font-medium">Italiano</span>
+                                    <i class="fas fa-chevron-down text-xs ml-2"></i>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Badge info lingua - ottimizzato per mobile -->
-                        <div class="mt-4 flex justify-end">
-                            <div class="flex items-center bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm border border-gray-100">
-                                <i class="fas fa-language text-gray-400 mr-2"></i>
-                                <span class="text-xs font-medium">Italiano</span>
-                                <i class="fas fa-chevron-down text-xs text-gray-400 ml-2"></i>
+                        <!-- Contenitore per la trascrizione -->
+                        <div id="transcript-0" class="transcript-container mt-4 rounded-lg bg-white/90 backdrop-blur-md shadow-lg p-4 hidden" aria-hidden="true" role="region" aria-label="Trascrizione dell'introduzione">
+                            <div class="text-gray-700 text-sm">
+                                <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
+                                <p>La trascrizione verrà caricata qui...</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Indicatore per scorrere verso le tappe - migliorato padding -->
-        <div class="hidden md:flex justify-center pb-8">
-            <a href="#tour-timeline" class="flex flex-col items-center text-gray-500 hover:text-primary transition-colors" aria-label="Scorri verso le tappe del tour">
-                <span class="text-sm font-medium mb-2">Scopri le tappe</span>
-                <i class="fas fa-chevron-down animate-bounce"></i>
-            </a>
-        </div>
-        
-        <!-- Navigazione rapida su mobile -->
-        <div class="flex md:hidden justify-center pb-6 pt-2">
-            <a href="#tour-timeline" class="bg-white/80 shadow-sm rounded-full px-4 py-2 text-sm font-medium text-primary inline-flex items-center">
-                Vai alle tappe 
-                <i class="fas fa-chevron-down ml-2"></i>
-            </a>
+            
+            <!-- Indicatore per scorrere verso le tappe -->
+            <div class="hidden md:flex justify-center pb-8 mt-4">
+                <a href="#tour-timeline" class="flex flex-col items-center text-gray-500 hover:text-primary transition-colors" aria-label="Scorri verso le tappe del tour">
+                    <span class="text-sm font-medium mb-2">Scopri le tappe</span>
+                    <i class="fas fa-chevron-down animate-bounce"></i>
+                </a>
+            </div>
+            
+            <!-- Navigazione rapida su mobile -->
+            <div class="flex md:hidden justify-center pb-6 pt-2">
+                <a href="#tour-timeline" class="bg-white/80 shadow-sm rounded-full px-4 py-2 text-sm font-medium text-primary inline-flex items-center">
+                    Vai alle tappe 
+                    <i class="fas fa-chevron-down ml-2"></i>
+                </a>
+            </div>
         </div>
     </section>
     
@@ -482,7 +541,7 @@
     <!-- Poi carica il main.js che utilizzerà le utility -->
     <script src="assets/js/main.js"></script>
     
-    <!-- Script per l'header e il menu mobile - migliorato per mobile -->
+    <!-- Script per l'header, menu mobile e selettore lingua -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Menu mobile
@@ -608,6 +667,85 @@
             
             setVHProperty();
             window.addEventListener('resize', setVHProperty);
+            
+            // Gestione selettore lingua
+            const languageButton = document.getElementById('language-button');
+            const languageDropdown = document.getElementById('language-dropdown');
+            const languageArrow = document.getElementById('language-arrow');
+            const languageOptions = document.querySelectorAll('.language-option');
+            const currentLanguageElement = document.querySelector('.current-language');
+            const mobileLanguageButton = document.getElementById('mobile-language-button');
+            const mobileLanguageOptions = document.querySelectorAll('.language-option-mobile');
+            
+            // Toggle del dropdown delle lingue
+            if (languageButton && languageDropdown) {
+                languageButton.addEventListener('click', function() {
+                    const isExpanded = languageButton.getAttribute('aria-expanded') === 'true';
+                    
+                    languageButton.setAttribute('aria-expanded', !isExpanded);
+                    languageDropdown.classList.toggle('hidden');
+                    languageArrow.style.transform = isExpanded ? '' : 'rotate(180deg)';
+                    
+                    // Chiudi il dropdown quando si clicca fuori
+                    if (!isExpanded) {
+                        document.addEventListener('click', closeLanguageDropdown);
+                    }
+                });
+                
+                // Funzione per chiudere il dropdown
+                function closeLanguageDropdown(e) {
+                    if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
+                        languageDropdown.classList.add('hidden');
+                        languageButton.setAttribute('aria-expanded', 'false');
+                        languageArrow.style.transform = '';
+                        document.removeEventListener('click', closeLanguageDropdown);
+                    }
+                }
+                
+                // Gestione cambio lingua
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const lang = this.getAttribute('data-lang');
+                        const langText = this.textContent.trim();
+                        
+                        // Aggiorna testo lingua corrente
+                        currentLanguageElement.textContent = langText;
+                        
+                        // Chiudi dropdown
+                        languageDropdown.classList.add('hidden');
+                        languageButton.setAttribute('aria-expanded', 'false');
+                        languageArrow.style.transform = '';
+                        
+                        // TODO: Implementare cambio lingua reale (caricamento file audio diversi, ecc.)
+                        console.log('Cambiata lingua a:', lang);
+                    });
+                });
+            }
+            
+            // Gestione cambio lingua su mobile
+            if (mobileLanguageButton) {
+                mobileLanguageButton.addEventListener('click', function() {
+                    if (!mobileMenu.classList.contains('open')) {
+                        // Apri il menu mobile che contiene le opzioni di lingua
+                        mobileMenuButton.click();
+                    }
+                });
+                
+                // Gestione opzioni lingua mobile
+                mobileLanguageOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const lang = this.getAttribute('data-lang');
+                        
+                        // Rimuovi selezione attuale e seleziona la nuova lingua
+                        mobileLanguageOptions.forEach(opt => opt.classList.remove('border-primary', 'bg-primary/10'));
+                        this.classList.add('border-primary', 'bg-primary/10');
+                        
+                        // TODO: Implementare cambio lingua reale
+                        console.log('Cambiata lingua su mobile a:', lang);
+                    });
+                });
+            }
         });
     </script>
 </body>
