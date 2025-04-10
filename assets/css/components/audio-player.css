@@ -153,3 +153,309 @@
         animation: none;
     }
 }
+
+/* Player Audio - Modern & Minimal 2025 */
+
+/* Layout principale del player */
+.audio-player {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.audio-player:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+}
+
+/* Striscia decorativa laterale */
+.audio-player::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(to bottom, #6b46c1 0%, #8b5cf6 100%);
+    opacity: 0.8;
+}
+
+/* Header del player */
+.player-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.player-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.player-subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Container controlli principale con layout avanzato */
+.player-controls-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Bottone principale grande e accattivante */
+.main-play-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.main-play-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.25) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+}
+
+.main-play-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(107, 70, 193, 0.4);
+}
+
+.main-play-button:hover::after {
+    opacity: 1;
+}
+
+.main-play-button:active {
+    transform: scale(0.95);
+}
+
+.main-play-button i {
+    font-size: 1.8rem;
+}
+
+/* Pulsanti secondari */
+.player-button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(107, 70, 193, 0.1);
+    color: #6b46c1;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.player-button:hover {
+    background-color: rgba(107, 70, 193, 0.2);
+    transform: scale(1.05);
+}
+
+.player-button:active {
+    transform: scale(0.95);
+}
+
+/* Controlli secondari */
+.secondary-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Progress bar principale elegante */
+.progress-container {
+    flex-grow: 1;
+}
+
+.player-progress-bar {
+    position: relative;
+    height: 8px;
+    background-color: rgba(229, 231, 235, 0.8);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+}
+
+.player-progress-fill {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, #6b46c1 0%, #8b5cf6 100%);
+    border-radius: 8px;
+    transition: width 0.1s linear;
+}
+
+.player-progress-handle {
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: #ffffff;
+    border: 2px solid #6b46c1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.player-progress-bar:hover .player-progress-handle {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Container tempi */
+.player-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #6b7280;
+    font-variant-numeric: tabular-nums;
+}
+
+.time-current {
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.time-total {
+    color: #6b7280;
+}
+
+/* Container informazioni delle tracce */
+.track-info {
+    flex-grow: 1;
+    padding-right: 1rem;
+}
+
+/* Layout mobile ottimizzato */
+@media (max-width: 767px) {
+    .audio-player {
+        padding: 1.5rem;
+    }
+    
+    .player-controls-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .main-play-button {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .main-play-button i {
+        font-size: 1.6rem;
+    }
+    
+    .player-title {
+        font-size: 1.3rem;
+    }
+    
+    .secondary-controls {
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Per dispositivi più grandi */
+@media (min-width: 768px) {
+    .player-controls-row {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+    
+    .progress-container {
+        margin: 0 1rem;
+    }
+}
+
+/* Layout di lusso per schermi molto grandi */
+@media (min-width: 1280px) {
+    .audio-player {
+        padding: 2.5rem;
+    }
+    
+    .player-title {
+        font-size: 1.5rem;
+    }
+    
+    .main-play-button {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .main-play-button i {
+        font-size: 2rem;
+    }
+}
+
+/* Animazioni speciali */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(107, 70, 193, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(107, 70, 193, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(107, 70, 193, 0);
+    }
+}
+
+.main-play-button.playing {
+    animation: pulse 2s infinite;
+}
+
+/* Accessibilità */
+@media (prefers-reduced-motion: reduce) {
+    .audio-player,
+    .main-play-button,
+    .player-button,
+    .player-progress-handle {
+        transition: none;
+    }
+    
+    .audio-player:hover {
+        transform: none;
+    }
+    
+    .main-play-button.playing {
+        animation: none;
+    }
+}
