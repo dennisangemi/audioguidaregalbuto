@@ -24,7 +24,7 @@
                 "title": "Piazza della Repubblica",
                 "description": "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
                 "duration": "00:00",
-                "audioPath": "assets/audio/it/1_piazza_repubblica.mp3",
+                "audioPath": "assets/audio/it/raw/1_piazza_repubblica.mp3",
                 "transcription": {
                     "paragraphs":[
                         "Benvenuti in Piazza della Repubblica, il cuore pulsante di Regalbuto e una delle piazze più grandi della provincia di Enna.",
@@ -43,7 +43,7 @@
                 "title": "Paaaalazzo Comunale",
                 "description": "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
                 "duration": "00:00",
-                "audioPath": "assets/audio/it/2_palazzo_comunale.mp3",
+                "audioPath": "assets/audio/it/raw/2_palazzo_comunale.mp3",
                 "transcription": {
                     "paragraphs": [
                         "Attraversiamo la piazza e ci addentriamo in uno dei luoghi simbolo della città: il Palazzo Comunale. Questo elegante edificio con il suo prospetto barocco, si inserisce in perfetta armonia con gli edifici storici che lo circondano. ",
@@ -61,7 +61,7 @@
                 "title": "Chiesa Madre di San Basilio",
                 "description": "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
                 "duration": "00:00",
-                "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
+                "audioPath": "#",
                 "imagePath": "assets/img/illustration-2.png",
                 "transcription": {
                     "paragraphs": [
@@ -70,11 +70,71 @@
                 }
             },
             {
-                "id": "villa_comunale",
-                "title": "Villa Comunale",
-                "description": "Un incantevole spazio verde nel cuore della città, con una vista panoramica.",
+                "id": "lombardi",
+                "title": "Riccardo Lombardi",
+                "description": "...",
                 "duration": "0:00",
-                "audioPath": "assets/audio/it/4_villa_comunale.mp3",
+                "audioPath": "assets/audio/it/raw/4_lombardi.mp3",
+                "transcription": {
+                    "paragraphs": [
+                        "..."
+                    ]
+                }
+            },
+            {
+                "id": "campione",
+                "title": "Don Giuseppe Campione",
+                "description": "...",
+                "duration": "0:00",
+                "audioPath": "assets/audio/it/raw/5_campione.mp3",
+                "transcription": {
+                    "paragraphs": [
+                        "..."
+                    ]
+                }
+            },
+            {
+                "id": "corso",
+                "title": "Corso Gian Filippo Ingrassia",
+                "description": "...",
+                "duration": "0:00",
+                "audioPath": "assets/audio/it/raw/6_corso.mp3",
+                "transcription": {
+                    "paragraphs": [
+                        "..."
+                    ]
+                }
+            },
+            {
+                "id": "santa_maria",
+                "title": "Chiesa Santa Maria La Croce",
+                "description": "...",
+                "duration": "0:00",
+                "audioPath": "assets/audio/it/raw/7_santa_maria.mp3",
+                "transcription": {
+                    "paragraphs": [
+                        "..."
+                    ]
+                }
+            },
+            {
+                "id": "piano",
+                "title": "Piazza Vittorio Veneto",
+                "description": "...",
+                "duration": "0:00",
+                "audioPath": "assets/audio/it/raw/8_piano.mp3",
+                "transcription": {
+                    "paragraphs": [
+                        "..."
+                    ]
+                }
+            },
+            {
+                "id": "villa",
+                "title": "Villa Comunale",
+                "description": "...",
+                "duration": "00:00",
+                "audioPath": "assets/audio/it/raw/9_villa.mp3",
                 "transcription": {
                     "paragraphs": [
                         "..."
@@ -86,7 +146,7 @@
                 "title": "Lago Pozzillo",
                 "description": "Il bacino artificiale più grande della Sicilia con un panorama mozzafiato.",
                 "duration": "00:00",
-                "audioPath": "assets/audio/it/5_lago_pozzillo.mp3",
+                "audioPath": "assets/audio/it/raw/10_lago_pozzillo.mp3",
                 "transcription": {
                     "paragraphs": [
                         "..."
@@ -173,14 +233,14 @@
                 "imagePath": "assets/img/illustration-2.png"
             },
             {
-                "id": "riccardo_lombardi",
+                "id": "lombardi",
                 "order": 4,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
                 "imagePath": "assets/img/illustration-2.png"
             },
             {
-                "id": "giuseppe_campione",
+                "id": "campione",
                 "order": 5,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
@@ -208,14 +268,14 @@
                 "imagePath": "assets/img/illustration-2.png"
             },
             {
-                "id": "villa_comunale",
+                "id": "villa",
                 "order": 9,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
                 "imagePath": "assets/img/illustration-2.png"
             },
             {
-                "id": "lago_pozzillo",
+                "id": "lago",
                 "order": 10,
                 "googleMapsUrl": "#",
                 "icon": "fa-water",
