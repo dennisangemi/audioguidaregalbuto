@@ -237,20 +237,14 @@ const AudioPlayerManager = (function() {
                 // Onde più distanziate su mobile per un design pulito
                 const barCount = Math.floor(canvas.width / (barWidth + gap));
                 
-                // Fattore di rallentamento per l'animazione su mobile
-                const slowDownFactor = isMobile ? 0.3 : 0.5;
-                const mobileSlowDownFactor = isSmallMobile ? 0.2 : 0.3;
-                const finalSpeed = isMobile ? mobileSlowDownFactor : slowDownFactor;
-                
                 for (let i = 0; i < barCount; i++) {
                     // Crea onde più semplici
                     const x = i * (barWidth + gap);
                     let amplitude = 0;
                     
                     // Usa meno onde sinusoidali per un aspetto più pulito
-                    // Rallentamento dell'animazione modificando il coefficiente di tempo
-                    amplitude += Math.sin((i / barCount * 3) + time * finalSpeed) * 0.4;
-                    amplitude += Math.sin((i / barCount * 1.5) + time * (finalSpeed * 0.6)) * 0.2;
+                    amplitude += Math.sin((i / barCount * 3) + time * 0.5) * 0.4;
+                    amplitude += Math.sin((i / barCount * 1.5) + time * 0.3) * 0.2;
                     amplitude /= 0.6; // normalizza
                     
                     // Meno variazione casuale per un aspetto più ordinato
