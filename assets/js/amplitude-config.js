@@ -19,44 +19,90 @@ const AudioPlayerManager = (function() {
         
         console.log('Inizializzazione di Amplitude con i dati dal JSON', tourData);
         
+        // Determina la lingua attualmente selezionata (default: italiano)
+        const currentLang = 'it'; // In futuro può essere gestito dinamicamente in base alla selezione dell'utente
+        
+        // Ottieni i dati specifici della lingua
+        const langData = tourData.tour.content[currentLang];
+        if (!langData) {
+            console.error(`Dati per la lingua "${currentLang}" non trovati`);
+            return;
+        }
+        
+        // Recupera i dati dell'introduzione dalla lingua corrente
+        const introData = langData.introduction;
+        if (!introData || !introData.audioPath) {
+            console.error('Dati dell\'introduzione non validi o percorso audio mancante');
+            return;
+        }
+        
+        console.log('Percorso audio intro:', introData.audioPath);
+        
         // Configurazione di Amplitude basata sui dati JSON
         const config = {
             "songs": [
                 {
-                    "name": tourData.tour.introduction.title,
-                    "artist": tourData.tour.introduction.author,
-                    "url": tourData.tour.introduction.audioPath
+                    "name": langData.title || "Introduzione",
+                    "artist": "Audio guida di Regalbuto",
+                    "url": introData.audioPath // Usa direttamente il percorso specificato nel JSON: "assets/audio/it/0_intro.mp3"
                 }
             ],
             "playlists": {
                 "episodi": {
-                    "songs": tourData.tour.stops.map(stop => ({
+                    "songs": Array.isArray(langData.stops) ? langData.stops.map(stop => ({
                         "name": stop.title,
-                        "artist": stop.author,
+                        "artist": "Audio guida di Regalbuto",
                         "url": stop.audioPath
-                    }))
+                    })) : []
                 }
             },
             "volume": 75,
             "callbacks": {
                 'initialized': function() {
+                    console.log("AmplitudeJS ha completato l'inizializzazione");
                     // Inizializza i player dopo che Amplitude è pronto
                     initializePlayers();
+                    console.log("Percorso audio introduzione caricato:", introData.audioPath);
                 }
             }
         };
         
-        // Inizializza Amplitude con la configurazione generata
-        if (typeof Amplitude !== 'undefined') {
-            try {
-                Amplitude.init(config);
-                console.log("AmplitudeJS inizializzato con successo");
-            } catch (e) {
-                console.error("Errore nell'inizializzazione di AmplitudeJS:", e);
-            }
-        } else {
-            console.error('Libreria AmplitudeJS non trovata');
-        }
+        // Verifica se il file audio esiste realmente prima di inizializzare
+        fetch(introData.audioPath, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`File audio dell'intro trovato: ${introData.audioPath}`);
+                } else {
+                    console.warn(`File audio dell'intro non trovato: ${introData.audioPath}. Utilizzare comunque.`);
+                }
+                
+                // Inizializza Amplitude con la configurazione generata
+                if (typeof Amplitude !== 'undefined') {
+                    try {
+                        Amplitude.init(config);
+                        console.log("AmplitudeJS inizializzato con successo");
+                    } catch (e) {
+                        console.error("Errore nell'inizializzazione di AmplitudeJS:", e);
+                    }
+                } else {
+                    console.error('Libreria AmplitudeJS non trovata');
+                }
+            })
+            .catch(error => {
+                console.warn(`Errore nella verifica del file audio: ${error}. Tento comunque l'inizializzazione.`);
+                
+                // Inizializza comunque
+                if (typeof Amplitude !== 'undefined') {
+                    try {
+                        Amplitude.init(config);
+                        console.log("AmplitudeJS inizializzato con successo");
+                    } catch (e) {
+                        console.error("Errore nell'inizializzazione di AmplitudeJS:", e);
+                    }
+                } else {
+                    console.error('Libreria AmplitudeJS non trovata');
+                }
+            });
     }
     
     /**
@@ -86,7 +132,10 @@ const AudioPlayerManager = (function() {
         // Gestisci il player principale
         const mainButton = document.querySelector('[data-amplitude-main-play-pause="true"]');
         if (mainButton) {
+            console.log('Configuro il pulsante principale del player');
             setupPlayerButton(mainButton, null, null);
+        } else {
+            console.error('Pulsante principale non trovato');
         }
         
         // Gestisci i player della playlist

@@ -15,11 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Variabili per tenere traccia dei dati e dello stato di caricamento
     let tourData = null;
+    let currentLang = 'it'; // Lingua predefinita
     let dataLoaded = false;
     const loadedIds = {};
     
     // Precarica il file JSON con tutte le informazioni dell'audioguida
-    fetch('assets/data/audioguide-data.json')
+    fetch('assets/data/audioguide.json')
         .then(response => {
             console.log(`Risposta ricevuta con stato: ${response.status} per il file dell'audioguida`);
             if (!response.ok) {
@@ -47,43 +48,71 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Funzione per popolare l'interfaccia con i dati dal JSON
     function initializeInterface() {
-        if (!tourData || !tourData.tour) return;
+        if (!tourData || !tourData.tour || !tourData.tour.content || !tourData.tour.content[currentLang]) {
+            console.error('Dati non validi o struttura JSON non corretta');
+            return;
+        }
+        
+        // Accediamo ai dati della lingua corretta
+        const langData = tourData.tour.content[currentLang];
+        const introData = langData.introduction;
         
         // Aggiorna titolo e descrizione dell'introduzione
         document.querySelectorAll('.amplitude-track-title[data-amplitude-main-song-info="true"]').forEach(el => {
-            el.textContent = tourData.tour.introduction.title;
+            el.textContent = langData.title || 'Introduzione';
         });
         
         document.querySelectorAll('.amplitude-track-author[data-amplitude-main-song-info="true"]').forEach(el => {
-            el.textContent = tourData.tour.introduction.author;
+            el.textContent = 'Audio guida di Regalbuto';
         });
         
         // Aggiorna le informazioni per ogni fermata del tour
-        tourData.tour.stops.forEach((stop, index) => {
-            const articleId = stop.id;
-            const article = document.getElementById(articleId);
-            
-            if (article) {
-                // Aggiorna titolo e descrizione
-                const titleEl = article.querySelector(`#title-${articleId}`);
-                const descEl = article.querySelector('.text-gray-600');
-                const iconEl = article.querySelector('.episode-icon i');
+        if (langData.stops && Array.isArray(langData.stops)) {
+            langData.stops.forEach((stop, index) => {
+                if (!stop || !stop.id) return;
                 
-                if (titleEl) titleEl.textContent = stop.title;
-                if (descEl) descEl.textContent = stop.description;
-                if (iconEl && stop.icon) {
-                    iconEl.className = '';
-                    iconEl.classList.add('fas', stop.icon);
+                // Converti l'ID con underscore in ID con trattino per il DOM
+                const articleId = stop.id.replace('_', '-');
+                const article = document.getElementById(articleId);
+                
+                if (article) {
+                    // Aggiorna titolo e descrizione
+                    const titleEl = article.querySelector(`#title-${articleId}`);
+                    const descEl = article.querySelector('.text-gray-600');
+                    
+                    if (titleEl) titleEl.textContent = stop.title;
+                    if (descEl) descEl.textContent = stop.description;
+                    
+                    // Aggiorna icona se disponibile tramite staticData
+                    const iconEl = article.querySelector('.episode-icon i');
+                    if (iconEl && tourData.tour.staticData && tourData.tour.staticData.stops) {
+                        const staticStop = tourData.tour.staticData.stops.find(s => s.id === stop.id);
+                        if (staticStop && staticStop.icon) {
+                            iconEl.className = '';
+                            iconEl.classList.add('fas', staticStop.icon);
+                        }
+                    }
+                    
+                    // Aggiorna le informazioni nel player
+                    const trackTitleEl = article.querySelector(`.amplitude-track-title[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
+                    const trackAuthorEl = article.querySelector(`.amplitude-track-author[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
+                    
+                    if (trackTitleEl) trackTitleEl.textContent = stop.title;
+                    if (trackAuthorEl) trackAuthorEl.textContent = 'Audio guida di Regalbuto';
                 }
-                
-                // Aggiorna le informazioni nel player
-                const trackTitleEl = article.querySelector(`.amplitude-track-title[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
-                const trackAuthorEl = article.querySelector(`.amplitude-track-author[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
-                
-                if (trackTitleEl) trackTitleEl.textContent = stop.title;
-                if (trackAuthorEl) trackAuthorEl.textContent = stop.author;
+            });
+        }
+        
+        // Aggiorna il contenuto della trascrizione dell'introduzione
+        const introTranscriptEl = document.getElementById('transcript-0');
+        if (introTranscriptEl && introData && introData.transcription) {
+            const contentDiv = introTranscriptEl.querySelector('.text-gray-700');
+            if (contentDiv && introData.transcription.paragraphs) {
+                contentDiv.innerHTML = introData.transcription.paragraphs
+                    .map(p => `<p>${p}</p>`)
+                    .join('');
             }
-        });
+        }
     }
         
     // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
