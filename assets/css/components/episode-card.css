@@ -1,207 +1,263 @@
-/* Episode cards styling */
-
-/* Card container */
+/* Episode Card Design - Minimal & Modern */
 .episode-card {
-    position: relative;
-    background-color: white;
-    color: var(--text-dark);
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-    padding: 0;
-    margin-bottom: 2rem;
-    border-left: none;
-    border-top: 4px solid transparent;
+  margin-bottom: 4rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
 }
 
-/* Gradient animated border for cards */
-.episode-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(to right, var(--color-primary-light), var(--color-secondary), var(--color-accent), var(--color-primary-light));
-    background-size: 300% 100%;
-    animation: gradientAnimation 20s ease infinite;
-    z-index: 1;
-}
-
-/* Card content */
+/* Card layout with image */
 .episode-content {
-    padding: 1.5rem;
-    position: relative;
-    z-index: 2;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Title row with icon */
-.episode-title-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #f0f0f0;
-    flex-wrap: nowrap;
+/* Episode image container */
+.episode-image-container {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  max-height: 380px;
 }
 
-/* FIX: Improved icon visibility with better contrast and definition */
-.episode-icon {
-    min-width: 48px;
-    width: 48px;
-    height: 48px;
-    display: flex;
+.episode-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.episode-image:hover {
+  transform: scale(1.02);
+}
+
+/* Image overlay with gradient */
+.episode-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem 2rem 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  color: #fff;
+}
+
+/* Episode title styling */
+.episode-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+/* Episode body content */
+.episode-body {
+  padding: 1.5rem;
+}
+
+.episode-description {
+  font-size: 1rem;
+  color: #4B5563;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Modern minimal player */
+.modern-audio-player {
+  display: flex;
+  flex-direction: column;
+  background-color: #F9FAFB;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.player-main-button {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #6b46c1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.player-main-button:hover {
+  background-color: #5a2ca0;
+  transform: scale(1.05);
+}
+
+.player-main-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.3);
+}
+
+.player-time-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.player-time-button {
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #4B5563;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+}
+
+.player-time-button:hover {
+  background-color: #F3F4F6;
+  color: #1F2937;
+}
+
+.player-time-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(107, 70, 193, 0.2);
+}
+
+.player-progress-container {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #E5E7EB;
+  border-radius: 2px;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+.player-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #6b46c1;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.player-progress-handle {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #6b46c1;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.player-time-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin-top: 0.5rem;
+}
+
+/* Transcript styling */
+.transcript-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0;
+  color: #6b46c1;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid #F3F4F6;
+  margin-top: 0.5rem;
+}
+
+.transcript-toggle:hover {
+  color: #5a2ca0;
+}
+
+.transcript-toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.transcript-toggle[aria-expanded="true"] .transcript-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.transcript-container {
+  background-color: #F9FAFB;
+  border-radius: 0.75rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+}
+
+.transcript-container.active {
+  max-height: 500px;
+  padding: 1.25rem;
+}
+
+/* Mobile responsive */
+@media (min-width: 768px) {
+  .episode-image-container {
+    aspect-ratio: 21/9;
+  }
+  
+  .episode-title {
+    font-size: 2rem;
+  }
+  
+  .modern-audio-player {
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary), var(--color-accent));
-    background-size: 300% 100%;
-    animation: iconGradient 15s ease infinite;
-    color: white;
-    border-radius: 50%;
-    margin-right: 1rem;
-    font-size: 1.25rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .player-controls {
+    margin-bottom: 0;
+    flex-grow: 1;
+    max-width: 220px;
+  }
+  
+  .player-progress-container {
+    margin: 0 1rem;
+    flex-grow: 1;
+  }
+  
+  .player-time-display {
+    margin-top: 0;
+    width: 130px;
     flex-shrink: 0;
+  }
 }
 
-/* Hover effect */
-.episode-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* Highlight animation */
-@keyframes highlightCard {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(107, 70, 193, 0.2); }
-    100% { transform: translateY(0); }
-}
-
-.highlight-card {
-    animation: highlightCard 1.5s ease;
-}
-
-/* Gradient animation */
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* Icon gradient animation */
-@keyframes iconGradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* Responsive styles */
-@media (max-width: 640px) {
-    .episode-content {
-        padding: 1.25rem;
-    }
-    
-    .episode-title-row {
-        margin-bottom: 0.75rem;
-        padding-bottom: 0.5rem;
-    }
-    
-    .episode-title-row h2 {
-        font-size: 1.4rem;
-        line-height: 1.3;
-    }
-    
-    /* FIX: Adjust icon size but keep it visible on mobile */
-    .episode-icon {
-        width: 42px;
-        height: 42px;
-        min-width: 42px;
-        font-size: 1.1rem;
-        margin-right: 0.75rem;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    }
-    
-    .episode-card {
-        margin-bottom: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .audio-player-card {
-        padding: 0.75rem !important;
-    }
-}
-
-/* Specific style for the introduction card */
-.introduction-card {
-    border-left: none;
-    border-top: none;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(to bottom right, var(--bg-white), #f9f7ff);
-}
-
-.introduction-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(to right, var(--color-primary-light), var(--color-secondary), var(--color-accent));
-    z-index: 1;
-}
-
-.introduction-card::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 180px;
-    height: 180px;
-    background-image: radial-gradient(circle at center, rgba(139, 92, 246, 0.07) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: 0;
-}
-
-/* FIX: Special icon for introduction with better visibility */
-.intro-icon {
-    width: 64px;
-    height: 64px;
-    font-size: 1.5rem;
-    background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary));
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 16px rgba(107, 70, 193, 0.25);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    animation: pulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
-    }
+/* Hover effects */
+@media (hover: hover) {
+  .episode-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  }
 }

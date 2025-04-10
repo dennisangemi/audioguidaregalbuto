@@ -322,61 +322,61 @@
         </section>
         
         <main class="space-y-8">
-            <!-- Piazza della Repubblica - Rimosso il contenuto hardcoded -->
+            <!-- Piazza della Repubblica -->
             <article class="episode-card" id="piazza-repubblica" aria-labelledby="title-piazza-repubblica">
                 <div class="episode-content">
-                    <div class="episode-title-row">
-                        <div class="episode-icon" aria-hidden="true">
-                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                    <!-- Immagine con overlay del titolo -->
+                    <div class="episode-image-container">
+                        <img src="assets/img/illustration-2.png" alt="Piazza della Repubblica" class="episode-image">
+                        <div class="episode-image-overlay">
+                            <h2 id="title-piazza-repubblica" class="episode-title">Piazza della Repubblica</h2>
                         </div>
-                        <h2 id="title-piazza-repubblica" class="text-2xl md:text-3xl font-bold">Piazza della Repubblica</h2>
                     </div>
                     
-                    <p class="text-gray-600 mb-5">Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.</p>
-                    
-                    <!-- Player AmplitudeJS per questo episodio -->
-                    <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="amplitude-player episode-amplitude" id="episode-piazza">
-                            <div class="amplitude-visualization-container">
-                                <div class="amplitude-visualization" id="piazza-visualization"></div>
-                                <button class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="0" data-player-id="episode-piazza">
+                    <div class="episode-body">
+                        <p class="episode-description">Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.</p>
+                        
+                        <!-- Player audio modernizzato -->
+                        <div class="modern-audio-player">
+                            <div class="player-controls">
+                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="0" data-player-id="episode-piazza" aria-label="Riproduci o metti in pausa">
                                     <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
                                     <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
                                 </button>
+                                
+                                <div class="player-time-controls">
+                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="0" aria-label="Indietro di 15 secondi">
+                                        <i class="fas fa-backward"></i>
+                                        <span class="sr-only">-15s</span>
+                                    </button>
+                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="0" aria-label="Avanti di 15 secondi">
+                                        <i class="fas fa-forward"></i>
+                                        <span class="sr-only">+15s</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="amplitude-track-info">
-                                <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="0">
-                                    Piazza della Repubblica
-                                </div>
-                                <div class="amplitude-track-author" data-amplitude-playlist="episodi" data-amplitude-song-info="artist" data-amplitude-song-index="0">
-                                    Audio guida di Regalbuto
-                                </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="player-progress-container">
+                                <div class="player-progress" style="width: 0%"></div>
+                                <div class="player-progress-handle" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="0" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
                             </div>
-                            <div class="amplitude-controls-container">
-                                <div class="amplitude-time-container">
-                                    <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="0">0:00</span>
-                                    <div class="amplitude-time-progress">
-                                        <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="0"/>
-                                        <progress class="amplitude-song-played-progress" data-amplitude-playlist="episodi" data-amplitude-song-index="0"></progress>
-                                    </div>
-                                    <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="0">0:00</span>
-                                </div>
-                                <div class="amplitude-volume-container">
-                                    <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
-                                    <input type="range" class="amplitude-volume-slider"/>
-                                </div>
+                            
+                            <!-- Time display -->
+                            <div class="player-time-display">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="0">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="0">0:00</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Tab espandibile per la trascrizione - contenuto caricato dinamicamente -->
-                    <div>
-                        <button class="toggle-transcript w-full flex justify-center p-2 rounded-lg transition-all" data-target="transcript-1" aria-expanded="false" aria-controls="transcript-1">
-                            <span class="font-medium mr-2">Mostra trascrizione completa</span>
-                            <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                        
+                        <!-- Bottone trascrizione -->
+                        <button class="transcript-toggle toggle-transcript" data-target="transcript-1" aria-expanded="false" aria-controls="transcript-1">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-1" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione audio Piazza della Repubblica">
+                        <div id="transcript-1" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio Piazza della Repubblica">
                             <div class="space-y-4">
                                 <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
                             </div>
@@ -385,61 +385,61 @@
                 </div>
             </article>
             
-            <!-- Palazzo Comunale - Rimosso il contenuto hardcoded -->
+            <!-- Palazzo Comunale -->
             <article class="episode-card" id="palazzo-comunale" aria-labelledby="title-palazzo-comunale">
                 <div class="episode-content">
-                    <div class="episode-title-row">
-                        <div class="episode-icon" aria-hidden="true">
-                            <i class="fas fa-landmark" aria-hidden="true"></i>
+                    <!-- Immagine con overlay del titolo -->
+                    <div class="episode-image-container">
+                        <img src="assets/img/illustration-2.png" alt="Palazzo Comunale" class="episode-image">
+                        <div class="episode-image-overlay">
+                            <h2 id="title-palazzo-comunale" class="episode-title">Palazzo Comunale</h2>
                         </div>
-                        <h2 id="title-palazzo-comunale" class="text-2xl md:text-3xl font-bold">Palazzo Comunale</h2>
                     </div>
                     
-                    <p class="text-gray-600 mb-5">La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.</p>
-                    
-                    <!-- Player AmplitudeJS per questo episodio -->
-                    <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="amplitude-player episode-amplitude" id="episode-palazzo">
-                            <div class="amplitude-visualization-container">
-                                <div class="amplitude-visualization" id="palazzo-visualization"></div>
-                                <button class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="1" data-player-id="episode-palazzo">
+                    <div class="episode-body">
+                        <p class="episode-description">La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.</p>
+                        
+                        <!-- Player audio modernizzato -->
+                        <div class="modern-audio-player">
+                            <div class="player-controls">
+                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="1" data-player-id="episode-palazzo" aria-label="Riproduci o metti in pausa">
                                     <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
                                     <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
                                 </button>
+                                
+                                <div class="player-time-controls">
+                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="1" aria-label="Indietro di 15 secondi">
+                                        <i class="fas fa-backward"></i>
+                                        <span class="sr-only">-15s</span>
+                                    </button>
+                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="1" aria-label="Avanti di 15 secondi">
+                                        <i class="fas fa-forward"></i>
+                                        <span class="sr-only">+15s</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="amplitude-track-info">
-                                <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="1">
-                                    Palazzo Comunale
-                                </div>
-                                <div class="amplitude-track-author" data-amplitude-playlist="episodi" data-amplitude-song-info="artist" data-amplitude-song-index="1">
-                                    Audio guida di Regalbuto
-                                </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="player-progress-container">
+                                <div class="player-progress" style="width: 0%"></div>
+                                <div class="player-progress-handle" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="1" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
                             </div>
-                            <div class="amplitude-controls-container">
-                                <div class="amplitude-time-container">
-                                    <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="1">0:00</span>
-                                    <div class="amplitude-time-progress">
-                                        <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="1"/>
-                                        <progress class="amplitude-song-played-progress" data-amplitude-playlist="episodi" data-amplitude-song-index="1"></progress>
-                                    </div>
-                                    <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="1">0:00</span>
-                                </div>
-                                <div class="amplitude-volume-container">
-                                    <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
-                                    <input type="range" class="amplitude-volume-slider"/>
-                                </div>
+                            
+                            <!-- Time display -->
+                            <div class="player-time-display">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="1">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="1">0:00</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Tab espandibile per la trascrizione - contenuto caricato dinamicamente -->
-                    <div>
-                        <button class="toggle-transcript w-full flex justify-center p-2 rounded-lg transition-all" data-target="transcript-2" aria-expanded="false" aria-controls="transcript-2">
-                            <span class="font-medium mr-2">Mostra trascrizione completa</span>
-                            <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                        
+                        <!-- Bottone trascrizione -->
+                        <button class="transcript-toggle toggle-transcript" data-target="transcript-2" aria-expanded="false" aria-controls="transcript-2">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-2" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione audio Palazzo Comunale">
+                        <div id="transcript-2" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio Palazzo Comunale">
                             <div class="space-y-4">
                                 <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
                             </div>
@@ -448,61 +448,61 @@
                 </div>
             </article>
             
-            <!-- Chiesa Madre S. Basilio - Rimosso il contenuto hardcoded -->
+            <!-- Chiesa Madre di San Basilio -->
             <article class="episode-card" id="chiesa-madre" aria-labelledby="title-chiesa-madre">
                 <div class="episode-content">
-                    <div class="episode-title-row">
-                        <div class="episode-icon" aria-hidden="true">
-                            <i class="fas fa-church" aria-hidden="true"></i>
+                    <!-- Immagine con overlay del titolo -->
+                    <div class="episode-image-container">
+                        <img src="assets/img/illustration-2.png" alt="Chiesa Madre di San Basilio" class="episode-image">
+                        <div class="episode-image-overlay">
+                            <h2 id="title-chiesa-madre" class="episode-title">Chiesa Madre di San Basilio</h2>
                         </div>
-                        <h2 id="title-chiesa-madre" class="text-2xl md:text-3xl font-bold">Chiesa Madre S. Basilio</h2>
                     </div>
                     
-                    <p class="text-gray-600 mb-5">La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.</p>
-                    
-                    <!-- Player AmplitudeJS per questo episodio -->
-                    <div class="w-full max-w-3xl mx-auto mb-4 audio-player-card p-6">
-                        <div class="amplitude-player episode-amplitude" id="episode-chiesa">
-                            <div class="amplitude-visualization-container">
-                                <div class="amplitude-visualization" id="chiesa-visualization"></div>
-                                <button class="amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="2" data-player-id="episode-chiesa">
+                    <div class="episode-body">
+                        <p class="episode-description">La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.</p>
+                        
+                        <!-- Player audio modernizzato -->
+                        <div class="modern-audio-player">
+                            <div class="player-controls">
+                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="2" data-player-id="episode-chiesa" aria-label="Riproduci o metti in pausa">
                                     <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
                                     <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
                                 </button>
+                                
+                                <div class="player-time-controls">
+                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="2" aria-label="Indietro di 15 secondi">
+                                        <i class="fas fa-backward"></i>
+                                        <span class="sr-only">-15s</span>
+                                    </button>
+                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="2" aria-label="Avanti di 15 secondi">
+                                        <i class="fas fa-forward"></i>
+                                        <span class="sr-only">+15s</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="amplitude-track-info">
-                                <div class="amplitude-track-title" data-amplitude-playlist="episodi" data-amplitude-song-info="name" data-amplitude-song-index="2">
-                                    Chiesa Madre S. Basilio
-                                </div>
-                                <div class="amplitude-track-author" data-amplitude-playlist="episodi" data-amplitude-song-info="artist" data-amplitude-song-index="2">
-                                    Audio guida di Regalbuto
-                                </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="player-progress-container">
+                                <div class="player-progress" style="width: 0%"></div>
+                                <div class="player-progress-handle" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="2" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
                             </div>
-                            <div class="amplitude-controls-container">
-                                <div class="amplitude-time-container">
-                                    <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="2">0:00</span>
-                                    <div class="amplitude-time-progress">
-                                        <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="2"/>
-                                        <progress class="amplitude-song-played-progress" data-amplitude-playlist="episodi" data-amplitude-song-index="2"></progress>
-                                    </div>
-                                    <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="2">0:00</span>
-                                </div>
-                                <div class="amplitude-volume-container">
-                                    <i class="fas fa-volume-up amplitude-volume-icon" aria-hidden="true"></i>
-                                    <input type="range" class="amplitude-volume-slider"/>
-                                </div>
+                            
+                            <!-- Time display -->
+                            <div class="player-time-display">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="2">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="2">0:00</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Tab espandibile per la trascrizione - contenuto caricato dinamicamente -->
-                    <div>
-                        <button class="toggle-transcript w-full flex justify-center p-2 rounded-lg transition-all" data-target="transcript-3" aria-expanded="false" aria-controls="transcript-3">
-                            <span class="font-medium mr-2">Mostra trascrizione completa</span>
-                            <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
+                        
+                        <!-- Bottone trascrizione -->
+                        <button class="transcript-toggle toggle-transcript" data-target="transcript-3" aria-expanded="false" aria-controls="transcript-3">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="transcript-3" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione audio Chiesa Madre S. Basilio">
+                        <div id="transcript-3" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio Chiesa Madre di San Basilio">
                             <div class="space-y-4">
                                 <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
                             </div>
@@ -511,8 +511,131 @@
                 </div>
             </article>
             
-            <!-- Placeholder per altri episodi -->
-            <!-- Altri episodi possono essere aggiunti seguendo lo stesso schema -->
+            <!-- Villa Comunale -->
+            <article class="episode-card" id="villa-comunale" aria-labelledby="title-villa-comunale">
+                <div class="episode-content">
+                    <!-- Immagine con overlay del titolo -->
+                    <div class="episode-image-container">
+                        <img src="assets/img/illustration-2.png" alt="Villa Comunale" class="episode-image">
+                        <div class="episode-image-overlay">
+                            <h2 id="title-villa-comunale" class="episode-title">Villa Comunale</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-body">
+                        <p class="episode-description">Un incantevole spazio verde nel cuore della città, con una vista panoramica.</p>
+                        
+                        <!-- Player audio modernizzato -->
+                        <div class="modern-audio-player">
+                            <div class="player-controls">
+                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="3" data-player-id="episode-villa" aria-label="Riproduci o metti in pausa">
+                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                </button>
+                                
+                                <div class="player-time-controls">
+                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="3" aria-label="Indietro di 15 secondi">
+                                        <i class="fas fa-backward"></i>
+                                        <span class="sr-only">-15s</span>
+                                    </button>
+                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="3" aria-label="Avanti di 15 secondi">
+                                        <i class="fas fa-forward"></i>
+                                        <span class="sr-only">+15s</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="player-progress-container">
+                                <div class="player-progress" style="width: 0%"></div>
+                                <div class="player-progress-handle" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="3" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
+                            </div>
+                            
+                            <!-- Time display -->
+                            <div class="player-time-display">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="3">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="3">0:00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Bottone trascrizione -->
+                        <button class="transcript-toggle toggle-transcript" data-target="transcript-4" aria-expanded="false" aria-controls="transcript-4">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
+                        </button>
+                        
+                        <div id="transcript-4" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio Villa Comunale">
+                            <div class="space-y-4">
+                                <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Lago Pozzillo -->
+            <article class="episode-card" id="lago-pozzillo" aria-labelledby="title-lago-pozzillo">
+                <div class="episode-content">
+                    <!-- Immagine con overlay del titolo -->
+                    <div class="episode-image-container">
+                        <img src="assets/img/illustration-2.png" alt="Lago Pozzillo" class="episode-image">
+                        <div class="episode-image-overlay">
+                            <h2 id="title-lago-pozzillo" class="episode-title">Lago Pozzillo</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-body">
+                        <p class="episode-description">Il bacino artificiale più grande della Sicilia con un panorama mozzafiato.</p>
+                        
+                        <!-- Player audio modernizzato -->
+                        <div class="modern-audio-player">
+                            <div class="player-controls">
+                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="4" data-player-id="episode-lago" aria-label="Riproduci o metti in pausa">
+                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                </button>
+                                
+                                <div class="player-time-controls">
+                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="4" aria-label="Indietro di 15 secondi">
+                                        <i class="fas fa-backward"></i>
+                                        <span class="sr-only">-15s</span>
+                                    </button>
+                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="4" aria-label="Avanti di 15 secondi">
+                                        <i class="fas fa-forward"></i>
+                                        <span class="sr-only">+15s</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="player-progress-container">
+                                <div class="player-progress" style="width: 0%"></div>
+                                <div class="player-progress-handle" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="4" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
+                            </div>
+                            
+                            <!-- Time display -->
+                            <div class="player-time-display">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="4">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="4">0:00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Bottone trascrizione -->
+                        <button class="transcript-toggle toggle-transcript" data-target="transcript-5" aria-expanded="false" aria-controls="transcript-5">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
+                        </button>
+                        
+                        <div id="transcript-5" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio Lago Pozzillo">
+                            <div class="space-y-4">
+                                <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </main>
         
         <footer class="rounded-lg" role="contentinfo">
