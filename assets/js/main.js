@@ -73,42 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
             el.textContent = 'Audio guida di Regalbuto';
         });
         
-        // Aggiorna le informazioni per ogni fermata del tour
-        if (langData.stops && Array.isArray(langData.stops)) {
-            langData.stops.forEach((stop, index) => {
-                if (!stop || !stop.id) return;
-                
-                // Converti l'ID con underscore in ID con trattino per il DOM
-                const articleId = stop.id.replace('_', '-');
-                const article = document.getElementById(articleId);
-                
-                if (article) {
-                    // Aggiorna titolo e descrizione
-                    const titleEl = article.querySelector(`#title-${articleId}`);
-                    const descEl = article.querySelector('.text-gray-600');
-                    
-                    if (titleEl) titleEl.textContent = stop.title;
-                    if (descEl) descEl.textContent = stop.description;
-                    
-                    // Aggiorna icona se disponibile tramite staticData
-                    const iconEl = article.querySelector('.episode-icon i');
-                    if (iconEl && tourData.tour.staticData && tourData.tour.staticData.stops) {
-                        const staticStop = tourData.tour.staticData.stops.find(s => s.id === stop.id);
-                        if (staticStop && staticStop.icon) {
-                            iconEl.className = '';
-                            iconEl.classList.add('fas', staticStop.icon);
-                        }
-                    }
-                    
-                    // Aggiorna le informazioni nel player
-                    const trackTitleEl = article.querySelector(`.amplitude-track-title[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
-                    const trackAuthorEl = article.querySelector(`.amplitude-track-author[data-amplitude-playlist="episodi"][data-amplitude-song-index="${index}"]`);
-                    
-                    if (trackTitleEl) trackTitleEl.textContent = stop.title;
-                    if (trackAuthorEl) trackAuthorEl.textContent = 'Audio guida di Regalbuto';
-                }
-            });
-        }
+        // Generiamo dinamicamente la timeline
+        generateTimelineStops(langData.stops, tourData.tour.staticData?.stops);
+        
+        // Aggiorniamo il contenitore principale con gli episodi
+        generateEpisodeCards(langData.stops, tourData.tour.staticData?.stops);
         
         // Aggiorna il contenuto della trascrizione dell'introduzione
         const introTranscriptEl = document.getElementById('transcript-0');
@@ -121,184 +90,390 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-        
-    // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
-    document.querySelectorAll('.transcript-container').forEach(container => {
-        container.classList.remove('expanded');
-        container.setAttribute('aria-hidden', 'true');
-        
-        container.style.display = 'none';
-        container.style.opacity = '0';
-    });
     
-    toggleButtons.forEach(button => {
-        const targetId = button.getAttribute('data-target');
-        const transcriptContainer = document.getElementById(targetId);
-        
-        console.log(`Inizializzazione pulsante per ${targetId}: ${transcriptContainer ? 'container trovato' : 'container NON trovato'}`);
-        
-        if (transcriptContainer && transcriptContainer.classList.contains('expanded')) {
-            updateButtonState(button, true);
-            transcriptContainer.style.display = 'block';
-            transcriptContainer.style.opacity = '1';
+    // Funzione per generare la timeline dinamicamente
+    function generateTimelineStops(stops, staticStops) {
+        const timelineContainer = document.querySelector('.timeline-stops');
+        if (!timelineContainer || !stops || !Array.isArray(stops)) {
+            console.error('Container timeline o dati delle tappe non trovati');
+            return;
         }
         
-        button.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
+        // Svuota il contenitore attuale
+        timelineContainer.innerHTML = '';
+        
+        // Crea elementi per ogni tappa
+        stops.forEach((stop, index) => {
+            if (!stop || !stop.id) return;
+            
+            // Cerca i dati statici per questa tappa
+            const staticStop = staticStops?.find(s => s.id === stop.id) || {};
+            
+            // Determina l'icona da usare
+            const icon = staticStop.icon || 'fa-map-marker-alt';
+            const order = staticStop.order || (index + 1);
+            
+            // Converte ID con underscore in ID con trattino per il DOM
+            const elementId = stop.id.replace(/_/g, '-');
+            
+            // Crea il pulsante della timeline
+            const buttonEl = document.createElement('button');
+            buttonEl.className = 'timeline-stop';
+            buttonEl.setAttribute('aria-label', `Vai alla tappa: ${stop.title}`);
+            buttonEl.dataset.targetId = elementId;
+            
+            buttonEl.innerHTML = `
+                <div class="timeline-stop-icon" aria-hidden="true">
+                    <i class="fas ${icon}" aria-hidden="true"></i>
+                </div>
+                <span class="timeline-stop-label">${stop.title}</span>
+            `;
+            
+            // Aggiungi evento click per scrollare all'episodio
+            buttonEl.addEventListener('click', function() {
+                const targetElement = document.getElementById(elementId);
+                if (targetElement) {
+                    const headerHeight = document.getElementById('site-header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    
+                    window.scrollTo({
+                        top: targetPosition - headerHeight - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            timelineContainer.appendChild(buttonEl);
+        });
+        
+        // Inizializza gli indicatori della timeline
+        initializeTimelineIndicators(stops.length);
+    }
+    
+    // Funzione per inizializzare gli indicatori della timeline
+    function initializeTimelineIndicators(stopCount) {
+        const indicatorsContainer = document.querySelector('.timeline-indicators');
+        if (!indicatorsContainer) return;
+        
+        indicatorsContainer.innerHTML = '';
+        
+        // Crea un indicatore per ogni tappa
+        for (let i = 0; i < stopCount; i++) {
+            const indicator = document.createElement('div');
+            indicator.className = 'timeline-indicator';
+            indicator.setAttribute('aria-hidden', 'true');
+            indicatorsContainer.appendChild(indicator);
+        }
+        
+        // Imposta il primo indicatore come attivo
+        if (indicatorsContainer.firstChild) {
+            indicatorsContainer.firstChild.classList.add('active');
+        }
+        
+        // Aggiungi eventi ai controlli di navigazione
+        const prevButton = document.querySelector('.timeline-control.prev');
+        const nextButton = document.querySelector('.timeline-control.next');
+        const timelineTrack = document.querySelector('.timeline-track');
+        
+        if (prevButton && nextButton && timelineTrack) {
+            prevButton.addEventListener('click', () => {
+                timelineTrack.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+            
+            nextButton.addEventListener('click', () => {
+                timelineTrack.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+        }
+    }
+    
+    // Funzione per generare le card degli episodi dinamicamente
+    function generateEpisodeCards(stops, staticStops) {
+        const mainContainer = document.querySelector('main.space-y-8');
+        if (!mainContainer || !stops || !Array.isArray(stops)) {
+            console.error('Container principale o dati delle tappe non trovati');
+            return;
+        }
+        
+        // Salva il primo episodio se esiste (per usarlo come riferimento)
+        const firstEpisodeCard = mainContainer.querySelector('.episode-card');
+        
+        // Svuota il contenitore attuale
+        mainContainer.innerHTML = '';
+        
+        // Crea card per ogni tappa
+        stops.forEach((stop, index) => {
+            if (!stop || !stop.id) return;
+            
+            // Cerca i dati statici per questa tappa
+            const staticStop = staticStops?.find(s => s.id === stop.id) || {};
+            
+            // Determina l'immagine, l'icona e il percorso del file audio
+            const imagePath = staticStop.imagePath || stop.imagePath || 'assets/img/illustration-2.png';
+            const icon = staticStop.icon || 'fa-map-marker-alt';
+            const audioPath = stop.audioPath || '#';
+            
+            // Converti ID con underscore in ID con trattino per il DOM
+            const elementId = stop.id.replace(/_/g, '-');
+            
+            // Crea l'elemento article
+            const articleEl = document.createElement('article');
+            articleEl.className = 'episode-card';
+            articleEl.id = elementId;
+            articleEl.setAttribute('aria-labelledby', `title-${elementId}`);
+            
+            // Crea la struttura HTML per la card
+            articleEl.innerHTML = `
+                <div class="episode-content">
+                    <!-- Immagine con overlay del titolo e icona -->
+                    <div class="episode-image-container">
+                        <img src="${imagePath}" alt="${stop.title}" class="episode-image">
+                        <div class="episode-icon">
+                            <i class="fas ${icon}" aria-hidden="true"></i>
+                        </div>
+                        <div class="episode-image-overlay">
+                            <h2 id="title-${elementId}" class="episode-title">${stop.title}</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-body">
+                        <p class="episode-description">${stop.description || ''}</p>
+                        
+                        <!-- Player audio modernizzato -->
+                        <div class="modern-audio-player">
+                            <div class="player-controls">
+                                <button class="player-main-button amplitude-play-pause" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" data-player-id="episode-${stop.id}" aria-label="Riproduci o metti in pausa">
+                                    <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
+                                    <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
+                                </button>
+                                
+                                <div class="player-time-controls">
+                                    <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Indietro di 15 secondi">
+                                        <i class="fas fa-backward"></i>
+                                        <span class="sr-only">-15s</span>
+                                    </button>
+                                    <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Avanti di 15 secondi">
+                                        <i class="fas fa-forward"></i>
+                                        <span class="sr-only">+15s</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="player-progress-container">
+                                <div class="player-progress" style="width: 0%"></div>
+                                <div class="player-progress-handle" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
+                            </div>
+                            
+                            <!-- Time display -->
+                            <div class="player-time-display">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Bottone trascrizione -->
+                        <button class="transcript-toggle toggle-transcript" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon" aria-hidden="true"></i>
+                        </button>
+                        
+                        <div id="transcript-${index + 1}" class="transcript-container" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
+                            <div class="space-y-4">
+                                <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            mainContainer.appendChild(articleEl);
+        });
+        
+        // Riconfigura i gestori di eventi per le trascrizioni
+        setupTranscriptToggles();
+    }
+        
+    // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout
+    function setupTranscriptToggles() {
+        const toggleButtons = document.querySelectorAll('.toggle-transcript');
+        
+        document.querySelectorAll('.transcript-container').forEach(container => {
+            container.classList.remove('expanded');
+            container.setAttribute('aria-hidden', 'true');
+            
+            container.style.display = 'none';
+            container.style.opacity = '0';
+        });
+        
+        toggleButtons.forEach(button => {
+            const targetId = button.getAttribute('data-target');
             const transcriptContainer = document.getElementById(targetId);
             
-            console.log(`Click sul pulsante trascrizione per ${targetId}`);
+            console.log(`Inizializzazione pulsante per ${targetId}: ${transcriptContainer ? 'container trovato' : 'container NON trovato'}`);
             
-            if (!transcriptContainer) {
-                console.error('Target transcript container not found:', targetId);
-                return;
-            }
-            
-            const willExpand = !transcriptContainer.classList.contains('expanded');
-            console.log(`Stato trascrizione: ${willExpand ? 'espandere' : 'contrarre'}`);
-            
-            transcriptContainer.classList.toggle('expanded');
-            
-            if (willExpand) {
+            if (transcriptContainer && transcriptContainer.classList.contains('expanded')) {
+                updateButtonState(button, true);
                 transcriptContainer.style.display = 'block';
-                
-                setTimeout(() => {
-                    transcriptContainer.style.opacity = '1';
-                    transcriptContainer.style.maxHeight = '500px';
-                    transcriptContainer.style.padding = '1.25rem';
-                }, 10); 
-                
-                console.log(`Espansione di ${targetId} - display: ${transcriptContainer.style.display}`);
-            } else {
-                transcriptContainer.style.opacity = '0';
-                transcriptContainer.style.maxHeight = '0';
-                transcriptContainer.style.padding = '0';
-                
-                setTimeout(() => {
-                    transcriptContainer.style.display = 'none';
-                }, 500);
-                
-                console.log(`Contrazione di ${targetId}`);
+                transcriptContainer.style.opacity = '1';
             }
             
-            updateButtonState(this, willExpand);
-            transcriptContainer.setAttribute('aria-hidden', !willExpand);
-            
-            if (willExpand && !loadedIds[targetId]) {
-                const jsonPath = transcriptMap[targetId];
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const transcriptContainer = document.getElementById(targetId);
                 
-                console.log(`Tentativo di recuperare contenuto per il percorso: ${jsonPath}`);
+                console.log(`Click sul pulsante trascrizione per ${targetId}`);
                 
-                if (!jsonPath) {
-                    console.error(`Nessuna trascrizione mappata per l'ID: ${targetId}`);
+                if (!transcriptContainer) {
+                    console.error('Target transcript container not found:', targetId);
                     return;
                 }
                 
-                const contentDiv = transcriptContainer.querySelector('.space-y-4');
-                if (!contentDiv) {
-                    console.error(`Contenitore del contenuto (.space-y-4) non trovato in: ${targetId}`);
-                    return;
-                }
+                const willExpand = !transcriptContainer.classList.contains('expanded');
+                console.log(`Stato trascrizione: ${willExpand ? 'espandere' : 'contrarre'}`);
                 
-                contentDiv.innerHTML = '<p class="text-center"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Caricamento trascrizione...</p>';
+                transcriptContainer.classList.toggle('expanded');
                 
-                function renderTranscription() {
-                    if (!dataLoaded || !tourData || !tourData.tour) {
-                        contentDiv.innerHTML = '<p class="text-red-600">I dati dell\'audioguida non sono disponibili.</p>';
-                        return;
-                    }
+                if (willExpand) {
+                    transcriptContainer.style.display = 'block';
+                    setTimeout(() => {
+                        transcriptContainer.style.opacity = '1';
+                        transcriptContainer.style.maxHeight = '500px';
+                        transcriptContainer.style.padding = '1.25rem';
+                    }, 10); 
                     
-                    // Accesso ai dati specifici per lingua
-                    const langData = tourData.tour.content[currentLang];
-                    if (!langData) {
-                        contentDiv.innerHTML = '<p class="text-red-600">Dati per questa lingua non disponibili.</p>';
-                        return;
-                    }
-                    
-                    let transcription;
-                    if (jsonPath === 'introduction') {
-                        // Accesso all'introduzione dalla lingua corrente
-                        transcription = langData.introduction && langData.introduction.transcription;
-                    } else if (jsonPath.startsWith('stops.')) {
-                        // Accesso alle tappe dalla lingua corrente
-                        const index = parseInt(jsonPath.split('.')[1]);
-                        if (langData.stops && Array.isArray(langData.stops) && index >= 0 && index < langData.stops.length) {
-                            transcription = langData.stops[index].transcription;
-                        }
-                    }
-                    
-                    if (!transcription || !transcription.paragraphs || transcription.paragraphs.length === 0) {
-                        contentDiv.innerHTML = '<p class="text-red-600">Trascrizione non trovata o formato errato.</p>';
-                        return;
-                    }
-                    
-                    const paragraphs = transcription.paragraphs
-                        .map(p => `<p>${p}</p>`)
-                        .join('');
-                    
-                    contentDiv.innerHTML = paragraphs;
-                    
-                    if (jsonPath.startsWith('stops.')) {
-                        const index = parseInt(jsonPath.split('.')[1]);
-                        if (langData.stops && index >= 0 && index < langData.stops.length) {
-                            const stop = langData.stops[index];
-                            
-                            if (stop) {
-                                const titleEl = document.createElement('h3');
-                                titleEl.className = 'text-lg font-bold mb-3';
-                                titleEl.textContent = stop.title;
-                                contentDiv.prepend(titleEl);
-                                
-                                const footerEl = document.createElement('div');
-                                footerEl.className = 'mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500';
-                                
-                                if (stop.duration) {
-                                    const durationEl = document.createElement('p');
-                                    durationEl.innerHTML = `<i class="fas fa-clock mr-2"></i>Durata: ${stop.duration}`;
-                                    footerEl.appendChild(durationEl);
-                                }
-                                
-                                // Cerca dati statici per Google Maps URL se disponibili
-                                if (tourData.tour.staticData && tourData.tour.staticData.stops) {
-                                    const staticStop = tourData.tour.staticData.stops.find(s => s.id === stop.id);
-                                    if (staticStop && staticStop.googleMapsUrl) {
-                                        const mapLinkEl = document.createElement('p');
-                                        mapLinkEl.className = 'mt-1';
-                                        mapLinkEl.innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i><a href="${staticStop.googleMapsUrl}" target="_blank" class="text-blue-600 hover:underline">Visualizza su Google Maps</a>`;
-                                        footerEl.appendChild(mapLinkEl);
-                                    }
-                                }
-                                
-                                contentDiv.appendChild(footerEl);
-                            }
-                        }
-                    }
-                    
-                    loadedIds[targetId] = true;
-                    
-                    announceToScreenReader('Trascrizione caricata');
-                }
-                
-                if (dataLoaded) {
-                    renderTranscription();
+                    console.log(`Espansione di ${targetId} - display: ${transcriptContainer.style.display}`);
                 } else {
-                    const checkInterval = setInterval(() => {
-                        if (dataLoaded) {
-                            clearInterval(checkInterval);
-                            renderTranscription();
-                        }
-                    }, 100);
+                    transcriptContainer.style.opacity = '0';
+                    transcriptContainer.style.maxHeight = '0';
+                    transcriptContainer.style.padding = '0';
                     
                     setTimeout(() => {
-                        clearInterval(checkInterval);
-                        if (!dataLoaded) {
-                            contentDiv.innerHTML = '<p class="text-red-600">Timeout nel caricamento dei dati.</p>';
-                        }
-                    }, 5000);
+                        transcriptContainer.style.display = 'none';
+                    }, 500);
+                    
+                    console.log(`Contrazione di ${targetId}`);
                 }
-            }
+                
+                updateButtonState(this, willExpand);
+                transcriptContainer.setAttribute('aria-hidden', !willExpand);
+                
+                if (willExpand && !loadedIds[targetId]) {
+                    const jsonPath = transcriptMap[targetId];
+                    
+                    console.log(`Tentativo di recuperare contenuto per il percorso: ${jsonPath}`);
+                    
+                    if (!jsonPath) {
+                        console.error(`Nessuna trascrizione mappata per l'ID: ${targetId}`);
+                        return;
+                    }
+                    
+                    const contentDiv = transcriptContainer.querySelector('.space-y-4');
+                    if (!contentDiv) {
+                        console.error(`Contenitore del contenuto (.space-y-4) non trovato in: ${targetId}`);
+                        return;
+                    }
+                    
+                    contentDiv.innerHTML = '<p class="text-center"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Caricamento trascrizione...</p>';
+                    
+                    function renderTranscription() {
+                        if (!dataLoaded || !tourData || !tourData.tour) {
+                            contentDiv.innerHTML = '<p class="text-red-600">I dati dell\'audioguida non sono disponibili.</p>';
+                            return;
+                        }
+                        
+                        // Accesso ai dati specifici per lingua
+                        const langData = tourData.tour.content[currentLang];
+                        if (!langData) {
+                            contentDiv.innerHTML = '<p class="text-red-600">Dati per questa lingua non disponibili.</p>';
+                            return;
+                        }
+                        
+                        let transcription;
+                        if (jsonPath === 'introduction') {
+                            // Accesso all'introduzione dalla lingua corrente
+                            transcription = langData.introduction && langData.introduction.transcription;
+                        } else if (jsonPath.startsWith('stops.')) {
+                            // Accesso alle tappe dalla lingua corrente
+                            const index = parseInt(jsonPath.split('.')[1]);
+                            if (langData.stops && Array.isArray(langData.stops) && index >= 0 && index < langData.stops.length) {
+                                transcription = langData.stops[index].transcription;
+                            }
+                        }
+                        
+                        if (!transcription || !transcription.paragraphs || transcription.paragraphs.length === 0) {
+                            contentDiv.innerHTML = '<p class="text-red-600">Trascrizione non trovata o formato errato.</p>';
+                            return;
+                        }
+                        
+                        const paragraphs = transcription.paragraphs
+                            .map(p => `<p>${p}</p>`)
+                            .join('');
+                        
+                        contentDiv.innerHTML = paragraphs;
+                        
+                        if (jsonPath.startsWith('stops.')) {
+                            const index = parseInt(jsonPath.split('.')[1]);
+                            if (langData.stops && index >= 0 && index < langData.stops.length) {
+                                const stop = langData.stops[index];
+                                
+                                if (stop) {
+                                    const titleEl = document.createElement('h3');
+                                    titleEl.className = 'text-lg font-bold mb-3';
+                                    titleEl.textContent = stop.title;
+                                    contentDiv.prepend(titleEl);
+                                    
+                                    const footerEl = document.createElement('div');
+                                    footerEl.className = 'mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500';
+                                    
+                                    if (stop.duration) {
+                                        const durationEl = document.createElement('p');
+                                        durationEl.innerHTML = `<i class="fas fa-clock mr-2"></i>Durata: ${stop.duration}`;
+                                        footerEl.appendChild(durationEl);
+                                    }
+                                    
+                                    // Cerca dati statici per Google Maps URL se disponibili
+                                    if (tourData.tour.staticData && tourData.tour.staticData.stops) {
+                                        const staticStop = tourData.tour.staticData.stops.find(s => s.id === stop.id);
+                                        if (staticStop && staticStop.googleMapsUrl) {
+                                            const mapLinkEl = document.createElement('p');
+                                            mapLinkEl.className = 'mt-1';
+                                            mapLinkEl.innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i><a href="${staticStop.googleMapsUrl}" target="_blank" class="text-blue-600 hover:underline">Visualizza su Google Maps</a>`;
+                                            footerEl.appendChild(mapLinkEl);
+                                        }
+                                    }
+                                    
+                                    contentDiv.appendChild(footerEl);
+                                }
+                            }
+                        }
+                        
+                        loadedIds[targetId] = true;
+                        
+                        announceToScreenReader('Trascrizione caricata');
+                    }
+                    
+                    if (dataLoaded) {
+                        renderTranscription();
+                    } else {
+                        const checkInterval = setInterval(() => {
+                            if (dataLoaded) {
+                                clearInterval(checkInterval);
+                                renderTranscription();
+                            }
+                        }, 100);
+                        
+                        setTimeout(() => {
+                            clearInterval(checkInterval);
+                            if (!dataLoaded) {
+                                contentDiv.innerHTML = '<p class="text-red-600">Timeout nel caricamento dei dati.</p>';
+                            }
+                        }, 5000);
+                    }
+                }
+            });
         });
-    });
+    }
     
     function updateButtonState(button, isExpanded) {
         const toggleIcon = button.querySelector('.toggle-icon');
@@ -322,20 +497,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function announceToScreenReader(message) {
-        let announcer = document.getElementById('sr-announcer');
-        if (!announcer) {
-            announcer = document.createElement('div');
-            announcer.id = 'sr-announcer';
-            announcer.setAttribute('aria-live', 'polite');
-            announcer.setAttribute('aria-atomic', 'true');
-            announcer.classList.add('sr-only');
-            document.body.appendChild(announcer);
-        }
+        const announcer = document.getElementById('sr-announcer') || (() => {
+            const el = document.createElement('div');
+            el.id = 'sr-announcer';
+            el.setAttribute('aria-live', 'polite');
+            el.classList.add('sr-only');
+            document.body.appendChild(el);
+            return el;
+        })();
         
         announcer.textContent = message;
-        setTimeout(() => {
-            announcer.textContent = '';
-        }, 3000);
     }
 });
 
@@ -557,23 +728,14 @@ document.addEventListener('DOMContentLoaded', function() {
         setupProgressInterval();
     }
     
-    // Verifica se Amplitude è già pronto
-    if (typeof Amplitude !== 'undefined' && Amplitude.getConfig && Amplitude.getConfig()) {
-        console.log('Amplitude già disponibile, inizializzo subito i controlli');
-        initializeAudioControls();
-    } else {
-        console.log('In attesa che Amplitude sia pronto...');
-        
-        // Ascolta l'evento personalizzato quando Amplitude è pronto
-        document.addEventListener('amplitude-ready', function() {
-            console.log('Evento amplitude-ready ricevuto, inizializzo i controlli');
-            initializeAudioControls();
-        });
-        
-        // Continua a controllare se Amplitude è disponibile come fallback
-        let checkAmplitude = setInterval(function() {
-            if (typeof Amplitude !== 'undefined' && Amplitude.getConfig && Amplitude.getConfig()) {
-                clearInterval(checkAmplitude);
+    // Verifica periodicamente se Amplitude è pronto
+    // (Questo può essere necessario perché Amplitude potrebbe non essere caricato immediatamente)
+    let amplitudeReadyCheck = setInterval(function() {
+        if (typeof Amplitude !== 'undefined') {
+            clearInterval(amplitudeReadyCheck);
+            
+            // Assicurati che siamo nel contesto principale e non in un iframe o altro
+            if (window === window.top) {
                 console.log('Amplitude rilevato, inizializzo i controlli');
                 initializeAudioControls();
                 
@@ -583,16 +745,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.amplitudeReadyFired = true;
                 }
             }
-        }, 500);
-        
-        // Timeout di sicurezza
-        setTimeout(function() {
-            clearInterval(checkAmplitude);
-            if (typeof Amplitude !== 'undefined' && !window.amplitudeReadyFired) {
-                console.log('Timeout raggiunto, ma Amplitude è disponibile. Inizializzo i controlli.');
-                initializeAudioControls();
-                window.amplitudeReadyFired = true;
-            }
-        }, 10000);
-    }
+        }
+    }, 500);
+    
+    // Timeout di sicurezza
+    setTimeout(function() {
+        clearInterval(amplitudeReadyCheck);
+        if (typeof Amplitude !== 'undefined' && !window.amplitudeReadyFired) {
+            console.log('Timeout raggiunto, ma Amplitude è disponibile. Inizializzo i controlli.');
+            initializeAudioControls();
+            window.amplitudeReadyFired = true;
+        }
+    }, 10000);
 });
