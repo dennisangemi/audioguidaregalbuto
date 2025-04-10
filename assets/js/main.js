@@ -10,7 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
         'transcript-0': 'introduction',
         'transcript-1': 'stops.0', 
         'transcript-2': 'stops.1',
-        'transcript-3': 'stops.2'
+        'transcript-3': 'stops.2',
+        'transcript-4': 'stops.3',
+        'transcript-5': 'stops.4',
+        'transcript-6': 'stops.5',
+        'transcript-7': 'stops.6',
+        'transcript-8': 'stops.7',
+        'transcript-9': 'stops.8',
+        'transcript-10': 'stops.9'
     };
     
     // Variabili per tenere traccia dei dati e dello stato di caricamento
@@ -201,13 +208,22 @@ document.addEventListener('DOMContentLoaded', function() {
                         return;
                     }
                     
+                    // Accesso ai dati specifici per lingua
+                    const langData = tourData.tour.content[currentLang];
+                    if (!langData) {
+                        contentDiv.innerHTML = '<p class="text-red-600">Dati per questa lingua non disponibili.</p>';
+                        return;
+                    }
+                    
                     let transcription;
                     if (jsonPath === 'introduction') {
-                        transcription = tourData.tour.introduction.transcription;
+                        // Accesso all'introduzione dalla lingua corrente
+                        transcription = langData.introduction && langData.introduction.transcription;
                     } else if (jsonPath.startsWith('stops.')) {
+                        // Accesso alle tappe dalla lingua corrente
                         const index = parseInt(jsonPath.split('.')[1]);
-                        if (index >= 0 && index < tourData.tour.stops.length) {
-                            transcription = tourData.tour.stops[index].transcription;
+                        if (langData.stops && Array.isArray(langData.stops) && index >= 0 && index < langData.stops.length) {
+                            transcription = langData.stops[index].transcription;
                         }
                     }
                     
@@ -224,31 +240,37 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (jsonPath.startsWith('stops.')) {
                         const index = parseInt(jsonPath.split('.')[1]);
-                        const stop = tourData.tour.stops[index];
-                        
-                        if (stop) {
-                            const titleEl = document.createElement('h3');
-                            titleEl.className = 'text-lg font-bold mb-3';
-                            titleEl.textContent = stop.title;
-                            contentDiv.prepend(titleEl);
+                        if (langData.stops && index >= 0 && index < langData.stops.length) {
+                            const stop = langData.stops[index];
                             
-                            const footerEl = document.createElement('div');
-                            footerEl.className = 'mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500';
-                            
-                            if (stop.duration) {
-                                const durationEl = document.createElement('p');
-                                durationEl.innerHTML = `<i class="fas fa-clock mr-2"></i>Durata: ${stop.duration}`;
-                                footerEl.appendChild(durationEl);
+                            if (stop) {
+                                const titleEl = document.createElement('h3');
+                                titleEl.className = 'text-lg font-bold mb-3';
+                                titleEl.textContent = stop.title;
+                                contentDiv.prepend(titleEl);
+                                
+                                const footerEl = document.createElement('div');
+                                footerEl.className = 'mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500';
+                                
+                                if (stop.duration) {
+                                    const durationEl = document.createElement('p');
+                                    durationEl.innerHTML = `<i class="fas fa-clock mr-2"></i>Durata: ${stop.duration}`;
+                                    footerEl.appendChild(durationEl);
+                                }
+                                
+                                // Cerca dati statici per Google Maps URL se disponibili
+                                if (tourData.tour.staticData && tourData.tour.staticData.stops) {
+                                    const staticStop = tourData.tour.staticData.stops.find(s => s.id === stop.id);
+                                    if (staticStop && staticStop.googleMapsUrl) {
+                                        const mapLinkEl = document.createElement('p');
+                                        mapLinkEl.className = 'mt-1';
+                                        mapLinkEl.innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i><a href="${staticStop.googleMapsUrl}" target="_blank" class="text-blue-600 hover:underline">Visualizza su Google Maps</a>`;
+                                        footerEl.appendChild(mapLinkEl);
+                                    }
+                                }
+                                
+                                contentDiv.appendChild(footerEl);
                             }
-                            
-                            if (stop.googleMapsUrl) {
-                                const mapLinkEl = document.createElement('p');
-                                mapLinkEl.className = 'mt-1';
-                                mapLinkEl.innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i><a href="${stop.googleMapsUrl}" target="_blank" class="text-blue-600 hover:underline">Visualizza su Google Maps</a>`;
-                                footerEl.appendChild(mapLinkEl);
-                            }
-                            
-                            contentDiv.appendChild(footerEl);
                         }
                     }
                     
