@@ -446,11 +446,11 @@
     position: absolute;
     width: 100%;
     height: auto;
-    bottom: 0; /* Mostra la parte bassa dell'immagine invece della parte alta */
+    top: 20%; /* Posiziona al 30% dall'alto per mostrare la parte centrale/centro-bassa */
     left: 0;
     object-fit: cover;
-    object-position: center bottom; /* Enfatizza la parte bassa dell'immagine */
-    transform: scale(1.05);
+    object-position: center 30%; /* Centra orizzontalmente e posiziona verticalmente al 30% */
+    transform: translateY(-30%) scale(1.05); /* Aggiustato per centrare correttamente la parte centrale/centro-bassa */
 }
 
 /* Visualizzazione onde audio sovrapposte all'illustrazione */
