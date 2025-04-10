@@ -62,7 +62,7 @@
                 "description": "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
                 "duration": "00:00",
                 "audioPath": "#",
-                "imagePath": "assets/img/illustration-2.png",
+                "imagePath": "assets/img/regetna.jpg",
                 "transcription": {
                     "paragraphs": [
                         "..."
@@ -216,70 +216,70 @@
                 "order": 1,
                 "googleMapsUrl": "#",
                 "icon": "fa-map-marker-alt",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "palazzo_comunale",
                 "order": 2,
                 "googleMapsUrl": "#",
                 "icon": "fa-landmark",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "chiesa_madre",
                 "order": 3,
                 "googleMapsUrl": "#",
                 "icon": "fa-church",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "lombardi",
                 "order": 4,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "campione",
                 "order": 5,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "corso",
                 "order": 6,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "santa_maria",
                 "order": 7,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "piano",
                 "order": 8,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "villa",
                 "order": 9,
                 "googleMapsUrl": "#",
                 "icon": "fa-tree",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "lago",
                 "order": 10,
                 "googleMapsUrl": "#",
                 "icon": "fa-water",
-                "imagePath": "assets/img/illustration-2.png"
+                "imagePath": "assets/img/regetna.jpg"
             }
         ]
       }
