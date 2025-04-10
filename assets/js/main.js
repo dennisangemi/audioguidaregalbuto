@@ -282,6 +282,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const imagePath = staticStop.imagePath || stop.imagePath || 'assets/img/illustration-2.png';
             const audioPath = stop.audioPath || '#';
             
+            // Recupera URL Google Maps dai dati statici
+            const googleMapsUrl = staticStop?.googleMapsUrl || '';
+            
+            // Recupera durazione audio
+            const duration = stop?.duration || '';
+            
             // Scegli un schema di colori basato sull'indice (ciclico)
             const colorScheme = colorSchemes[index % colorSchemes.length];
             
@@ -305,7 +311,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="absolute inset-0 bg-gradient-to-t ${colorScheme.gradientFrom} ${colorScheme.gradientVia} to-transparent opacity-80"></div>
                         
                         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                            <span class="inline-block px-3 py-1 ${colorScheme.badge} backdrop-blur-sm rounded-full text-xs font-medium mb-2">Tappa ${order}</span>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="inline-block px-3 py-1 ${colorScheme.badge} backdrop-blur-sm rounded-full text-xs font-medium">Tappa ${order}</span>
+                                ${duration ? 
+                                    `<span class="inline-flex items-center px-3 py-1 bg-white/30 backdrop-blur-sm rounded-full text-xs font-medium">
+                                        <i class="fas fa-clock mr-1.5"></i>${duration}
+                                     </span>` 
+                                    : ''}
+                            </div>
                             <h2 id="title-${elementId}" class="text-2xl md:text-3xl font-bold tracking-tight leading-tight">
                                 ${stop.title}
                             </h2>
@@ -314,7 +327,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <div class="flex-1 p-6 md:p-8">
-                        <p class="text-gray-600 mb-6">${stop.description || 'Nessuna descrizione disponibile'}</p>
+                        <div class="flex flex-wrap justify-between items-center mb-6">
+                            <p class="text-gray-600 flex-grow mr-4">${stop.description || 'Nessuna descrizione disponibile'}</p>
+                            ${googleMapsUrl ? 
+                                `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
+                                   class="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-${colorScheme.buttonText.replace('text-', '')}/10 ${colorScheme.buttonText} transition-colors" 
+                                   aria-label="Visualizza su Google Maps">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </a>` 
+                                : ''}
+                        </div>
                         
                         <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
                             <div class="flex items-center gap-4 mb-4">
@@ -338,6 +360,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <span class="text-xs font-medium text-gray-500">+30s</span>
                                     </div>
                                 </div>
+                                
+                                ${duration ? 
+                                    `<div class="hidden md:flex items-center ml-auto">
+                                        <span class="text-sm text-gray-500">
+                                            <i class="fas fa-headphones mr-1.5 opacity-70"></i>${duration}
+                                        </span>
+                                    </div>` 
+                                    : ''}
                             </div>
                             
                             <div class="player-progress-container relative h-2 bg-gray-200 rounded-full mb-2">
@@ -352,10 +382,21 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                         
-                        <button class="toggle-transcript mt-5 w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
-                            <span>Mostra trascrizione</span>
-                            <i class="fas fa-chevron-down transcript-toggle-icon transition-transform" aria-hidden="true"></i>
-                        </button>
+                        <div class="mt-5 flex flex-col sm:flex-row gap-3">
+                            <button class="toggle-transcript flex-grow py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
+                                <i class="fas fa-align-left mr-2"></i>
+                                <span>Mostra trascrizione</span>
+                                <i class="fas fa-chevron-down transcript-toggle-icon transition-transform ml-2" aria-hidden="true"></i>
+                            </button>
+                            
+                            ${googleMapsUrl ? 
+                                `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
+                                   class="sm:flex-shrink-0 py-3 px-6 rounded-xl border ${colorScheme.buttonBorder} ${colorScheme.buttonText} ${colorScheme.buttonHover} transition-all flex justify-center items-center">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <span>Indicazioni</span>
+                                </a>` 
+                                : ''}
+                        </div>
                         
                         <div id="transcript-${index + 1}" class="hidden mt-4 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
                             <div class="p-5 space-y-4 text-gray-700">
