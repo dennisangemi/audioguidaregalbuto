@@ -1,0 +1,177 @@
+/* Header moderno - Audioguida Regalbuto 2025 */
+
+/* Stile base dell'header */
+.bg-white\/90 {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Animazione per l'apparizione dell'header durante lo scroll */
+@keyframes header-appear {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Classe per l'header durante lo scroll */
+.header-scrolled {
+    animation: header-appear 0.4s ease forwards;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Stili per i link di navigazione */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary, #6b46c1);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Stile per il link attivo */
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Stile per il pulsante di inizia tour */
+.tour-button {
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tour-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(107, 70, 193, 0.25);
+}
+
+.tour-button:active {
+    transform: translateY(0);
+}
+
+/* Menu mobile migliorato */
+.mobile-menu {
+    position: fixed;
+    top: 64px; /* Altezza dell'header */
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 35;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mobile-menu.open {
+    height: calc(100vh - 64px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Link nel menu mobile */
+.mobile-menu a {
+    padding: 16px;
+    font-size: 1.25rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    width: 100%;
+    max-width: 220px;
+    text-align: center;
+    margin: 2px 0;
+    border-radius: 12px;
+    color: #333;
+}
+
+.mobile-menu a:active {
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+.mobile-menu.open a {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ritardo sequenziale per l'animazione dei link */
+.mobile-menu a:nth-child(1) { transition-delay: 0.05s; }
+.mobile-menu a:nth-child(2) { transition-delay: 0.1s; }
+.mobile-menu a:nth-child(3) { transition-delay: 0.15s; }
+.mobile-menu a:nth-child(4) { transition-delay: 0.2s; }
+
+/* Stile per l'icona del menu */
+.menu-icon {
+    transition: transform 0.3s ease;
+}
+
+.menu-open .menu-icon {
+    transform: rotate(90deg);
+}
+
+/* Miglioramento accessibilità touch su mobile */
+@media (max-width: 767px) {
+    /* Area touch più ampia per elementi navigazione */
+    #mobile-menu-button {
+        padding: 8px;
+        margin: -8px;
+        touch-action: manipulation;
+    }
+    
+    /* Miglioramento touch tour button mobile */
+    .mobile-menu .tour-button {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: 8px;
+        width: 85%;
+        max-width: 240px;
+        justify-content: center;
+    }
+    
+    /* Fix per overflow problemi */
+    body.overflow-hidden {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+    
+    /* Fix per problemi di scroll */
+    .header-scrolled {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Per utenti che preferiscono ridurre le animazioni */
+@media (prefers-reduced-motion: reduce) {
+    .nav-link::after, 
+    .tour-button, 
+    .mobile-menu, 
+    .mobile-menu a,
+    .menu-icon {
+        transition: none;
+    }
+    
+    .tour-button:hover {
+        transform: none;
+    }
+}

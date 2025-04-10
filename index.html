@@ -2,95 +2,167 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Audio guida turistica di Regalbuto: un viaggio sonoro alla scoperta della storia, arte e tradizioni della città siciliana">
     <title>Audio guida di Regalbuto</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#6b46c1',
+                            light: '#8b5cf6',
+                            dark: '#5a2ca0',
+                        },
+                        secondary: '#3b82f6',
+                        accent: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- AmplitudeJS CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.css"/>
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/components/audio-amplitude.css">
     <link rel="stylesheet" href="assets/css/components/transcription.css">
-    <!-- Nuovo CSS per il player dell'hero -->
+    <!-- Nuovo CSS per il player dell'hero e l'header -->
     <link rel="stylesheet" href="assets/css/components/hero-player.css">
+    <link rel="stylesheet" href="assets/css/components/header.css">
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
     <!-- Skip link per accessibilità da tastiera -->
     <a href="#main-content" class="skip-to-content">Salta al contenuto principale</a>
     
-    <!-- Header espanso con introduzione integrata -->
-    <header class="site-header expanded-header" role="banner" aria-labelledby="site-title">
-        <div class="container mx-auto px-4 relative">
-            <div class="hero-content">
-                <!-- Icona e titolo principale -->
-                <div class="hero-header text-center mb-6">
-                    <div class="podcast-icon-large" aria-hidden="true">
+    <!-- Header moderno con navbar fissa - margini aumentati su desktop -->
+    <header id="site-header" class="bg-white/90 backdrop-blur-xl fixed w-full z-40 border-b border-gray-100 shadow-sm" role="banner">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl">
+            <nav class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="text-primary text-2xl">
                         <i class="fas fa-compass" aria-hidden="true"></i>
                     </div>
-                    <div class="hero-text">
-                        <h1 id="site-title" class="text-4xl md:text-5xl font-bold">Audio guida di Regalbuto</h1>
-                        <div class="hero-tagline">Scopri la storia, l'arte e le tradizioni</div>
-                    </div>
+                    <a href="#" class="text-xl font-semibold tracking-tight text-primary-dark">
+                        Regalbuto
+                        <span class="hidden sm:inline text-gray-500 font-normal">Audio Guida</span>
+                    </a>
                 </div>
                 
-                <!-- Contenuto introduttivo -->
-                <div class="intro-section">
-                    <!-- Descrizione spostata prima del player -->
-                    <div class="intro-content order-1">
-                        <p class="intro-description">
-                            Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. 
-                            Scopri dieci luoghi emblematici raccontati con passione e ricchezza di dettagli.
-                        </p>
-                        
-                        <div class="intro-features-container">
-                            <div class="intro-features">
-                                <div class="intro-feature">
-                                    <i class="fas fa-clock" aria-hidden="true"></i>
-                                    <span>Durata: 5 minuti</span>
-                                </div>
-                                <div class="intro-feature">
-                                    <i class="fas fa-map-signs" aria-hidden="true"></i>
-                                    <span>10 tappe da esplorare</span>
-                                </div>
-                                <div class="intro-feature">
-                                    <i class="fas fa-headphones-alt" aria-hidden="true"></i>
-                                    <span>Audio di qualità</span>
-                                </div>
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="#tour-timeline" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Tappe</a>
+                    <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
+                    <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
+                    <button class="tour-button bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg flex items-center">
+                        <i class="fas fa-play mr-2 text-xs"></i>
+                        Inizia il tour
+                    </button>
+                </div>
+                
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
+                    <i class="fas fa-bars text-xl menu-icon"></i>
+                </button>
+            </nav>
+        </div>
+        
+        <!-- Menu mobile ottimizzato -->
+        <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+            <a href="#tour-timeline" class="nav-link text-gray-700 hover:text-primary transition-colors">Tappe</a>
+            <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
+            <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
+            <a href="#" class="tour-button mt-4 bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
+                <i class="fas fa-play mr-2 text-xs"></i>
+                Inizia il tour
+            </a>
+        </div>
+    </header>
+    
+    <!-- Hero section principale con player in evidenza e design minimal - margini aumentati -->
+    <section class="pt-16 md:pt-20 relative bg-gradient-to-br from-primary-light/10 via-white to-accent/10" aria-labelledby="hero-title">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl relative">
+            <!-- Hero content con player prominente e più spazio sui lati -->
+            <div class="flex flex-col lg:flex-row lg:items-center pt-12 pb-6 md:pt-20 md:pb-12 lg:pt-24 lg:pb-16">
+                <!-- Colonna sinistra: testo introduttivo -->
+                <div class="lg:w-1/2 lg:pr-12 xl:pr-16 mb-10 lg:mb-0">
+                    <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-dark leading-tight mb-4">
+                        Audio Guida di <span class="text-primary">Regalbuto</span>
+                    </h1>
+                    
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. 
+                        Un viaggio sonoro tra dieci luoghi emblematici raccontati con passione.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-6 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+                                <i class="fas fa-clock" aria-hidden="true"></i>
                             </div>
+                            <span class="text-sm font-medium">10 tappe · 45 minuti</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mr-3">
+                                <i class="fas fa-language" aria-hidden="true"></i>
+                            </div>
+                            <span class="text-sm font-medium">4 lingue disponibili</span>
                         </div>
                     </div>
                     
-                    <!-- Player dopo la descrizione - design modernizzato -->
-                    <div class="intro-player-container order-2">
-                        <div class="intro-player hero-audio-player">
-                            <!-- Player AmplitudeJS per l'introduzione - semplificato -->
+                    <div class="hidden lg:block">
+                        <a href="#tour-timeline" class="inline-flex items-center text-sm font-semibold text-primary hover:text-primary-dark group">
+                            Scopri tutte le tappe
+                            <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Colonna destra: player dell'introduzione minimalista come CTA principale con migliore visibilità -->
+                <div class="lg:w-1/2 lg:pl-6 xl:pl-10">
+                    <!-- Player con design minimalista e aperto - migliore contrasto -->
+                    <div class="relative overflow-visible">
+                        <!-- Cerchi decorativi di sfondo per migliorare visibilità -->
+                        <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/20 opacity-70 blur-3xl"></div>
+                        <div class="absolute top-10 -left-10 w-48 h-48 rounded-full bg-gradient-radial from-primary/30 to-transparent opacity-40 blur-2xl"></div>
+                        
+                        <!-- Player integrato come CTA principale - design minimale con migliore contrasto -->
+                        <div class="intro-player hero-audio-player relative">
+                            <!-- Player AmplitudeJS per l'introduzione - design aperto ma più visibile -->
                             <div class="amplitude-player intro-amplitude" id="intro-player">
-                                <div class="amplitude-visualization-container">
+                                <div class="amplitude-visualization-container rounded-3xl overflow-hidden shadow-xl">
                                     <div class="amplitude-visualization" id="intro-visualization"></div>
                                     <button class="amplitude-play-pause" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
                                         <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
                                         <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
                                     </button>
-                                    <div class="amplitude-track-title" data-amplitude-song-info="name" data-amplitude-main-song-info="true">
-                                        Introduzione a Regalbuto
-                                    </div>
                                 </div>
-                                <!-- Rimossi i controlli di durata -->
+                                
+                                <!-- Pulsante trascrizione posizionato nell'angolo inferiore -->
+                                <div class="absolute bottom-4 right-4 z-10">
+                                    <button class="toggle-transcript intro-transcript-button compact text-white rounded-full px-4 py-1.5 text-sm transition-all flex items-center" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
+                                        <i class="fas fa-align-left mr-1" aria-hidden="true"></i>
+                                        <span>Trascrizione</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Contenitore per la trascrizione -->
+                            <div id="transcript-0" class="transcript-container mt-4 rounded-lg bg-white/90 backdrop-blur-md shadow-lg p-4 hidden" aria-hidden="true" role="region" aria-label="Trascrizione dell'introduzione">
+                                <div class="text-gray-700 text-sm">
+                                    <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
+                                    <p>La trascrizione verrà caricata qui...</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Tab espandibile per la trascrizione - ridotta importanza -->
-                        <div class="intro-transcript-container">
-                            <button class="toggle-transcript intro-transcript-button compact" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
-                                <span class="mr-2">Trascrizione</span>
-                                <i class="fas fa-chevron-down toggle-icon" aria-hidden="true"></i>
-                            </button>
-                            
-                            <div id="transcript-0" class="transcript-container rounded-lg" aria-hidden="true" role="region" aria-label="Trascrizione dell'introduzione">
-                                <div class="space-y-4 text-left">
-                                    <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
-                                </div>
+                        <!-- Badge info lingua - ottimizzato per mobile -->
+                        <div class="mt-4 flex justify-end">
+                            <div class="flex items-center bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm border border-gray-100">
+                                <i class="fas fa-language text-gray-400 mr-2"></i>
+                                <span class="text-xs font-medium">Italiano</span>
+                                <i class="fas fa-chevron-down text-xs text-gray-400 ml-2"></i>
                             </div>
                         </div>
                     </div>
@@ -98,15 +170,24 @@
             </div>
         </div>
         
-        <!-- Freccia indicativa per scorrere verso il tour -->
-        <div class="hero-arrow-container">
-            <a href="#tour-timeline" class="hero-arrow" aria-label="Scorri verso le tappe del tour">
-                <i class="fas fa-arrow-down" aria-hidden="true"></i>
+        <!-- Indicatore per scorrere verso le tappe - migliorato padding -->
+        <div class="hidden md:flex justify-center pb-8">
+            <a href="#tour-timeline" class="flex flex-col items-center text-gray-500 hover:text-primary transition-colors" aria-label="Scorri verso le tappe del tour">
+                <span class="text-sm font-medium mb-2">Scopri le tappe</span>
+                <i class="fas fa-chevron-down animate-bounce"></i>
             </a>
         </div>
-    </header>
+        
+        <!-- Navigazione rapida su mobile -->
+        <div class="flex md:hidden justify-center pb-6 pt-2">
+            <a href="#tour-timeline" class="bg-white/80 shadow-sm rounded-full px-4 py-2 text-sm font-medium text-primary inline-flex items-center">
+                Vai alle tappe 
+                <i class="fas fa-chevron-down ml-2"></i>
+            </a>
+        </div>
+    </section>
     
-    <div id="main-content" class="container mx-auto px-4 py-4 max-w-5xl">
+    <div id="main-content" class="container mx-auto px-4 md:px-6 py-4 max-w-5xl">
         <!-- Sezione tappe del tour completamente riprogettata -->
         <section class="tour-timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
             <div class="timeline-container">
@@ -400,5 +481,134 @@
     
     <!-- Poi carica il main.js che utilizzerà le utility -->
     <script src="assets/js/main.js"></script>
+    
+    <!-- Script per l'header e il menu mobile - migliorato per mobile -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.setAttribute('aria-hidden', isExpanded);
+                    mobileMenu.classList.toggle('open');
+                    document.body.classList.toggle('overflow-hidden');
+                    mobileMenuButton.classList.toggle('menu-open');
+                });
+                
+                // Chiudi menu quando si clicca su un link - event delegation
+                mobileMenu.addEventListener('click', function(event) {
+                    const target = event.target.closest('a');
+                    if (target) {
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        mobileMenu.setAttribute('aria-hidden', 'true');
+                        mobileMenu.classList.remove('open');
+                        document.body.classList.remove('overflow-hidden');
+                        mobileMenuButton.classList.remove('menu-open');
+                        
+                        // Gestisci scroll per target con ancoraggio
+                        const href = target.getAttribute('href');
+                        if (href && href.startsWith('#') && href.length > 1) {
+                            event.preventDefault();
+                            const targetElement = document.getElementById(href.substring(1));
+                            if (targetElement) {
+                                const headerHeight = document.getElementById('site-header').offsetHeight;
+                                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                                
+                                window.scrollTo({
+                                    top: targetPosition - headerHeight,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Header effetto scroll
+            const header = document.getElementById('site-header');
+            let lastScrollY = window.scrollY;
+            
+            function handleScroll() {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+                
+                lastScrollY = currentScrollY;
+            }
+            
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            
+            // Gestione click sul toggle della trascrizione
+            const transcriptToggles = document.querySelectorAll('.toggle-transcript');
+            
+            transcriptToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const transcriptContainer = document.getElementById(targetId);
+                    
+                    if (transcriptContainer) {
+                        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                        
+                        this.setAttribute('aria-expanded', !isExpanded);
+                        transcriptContainer.setAttribute('aria-hidden', isExpanded);
+                        transcriptContainer.classList.toggle('active');
+                        transcriptContainer.classList.toggle('hidden');
+                        
+                        // Rotazione dell'icona
+                        const icon = this.querySelector('.toggle-icon');
+                        if (icon) {
+                            icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+                        }
+                    }
+                });
+            });
+            
+            // Evidenzia il link di navigazione attivo in base alla sezione visibile
+            const sections = document.querySelectorAll('section[id], article[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function highlightNavLink() {
+                const headerHeight = document.getElementById('site-header').offsetHeight;
+                const scrollPosition = window.scrollY + headerHeight + 20;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (sectionId && scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            
+                            if (link.getAttribute('href') === '#' + sectionId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', highlightNavLink, { passive: true });
+            highlightNavLink(); // Esegui all'avvio
+            
+            // Fix per iOS Safari - problemi di altezza viewport
+            function setVHProperty() {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            setVHProperty();
+            window.addEventListener('resize', setVHProperty);
+        });
+    </script>
 </body>
 </html>
