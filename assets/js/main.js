@@ -207,9 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Cerca i dati statici per questa tappa
             const staticStop = staticStops?.find(s => s.id === stop.id) || {};
             
-            // Determina l'immagine, l'icona e il percorso del file audio
+            // Determina l'immagine e il percorso del file audio
             const imagePath = staticStop.imagePath || stop.imagePath || 'assets/img/illustration-2.png';
-            const icon = staticStop.icon || 'fa-map-marker-alt';
             const audioPath = stop.audioPath || '#';
             
             // Converti ID con underscore in ID con trattino per il DOM
@@ -224,12 +223,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Crea la struttura HTML per la card
             articleEl.innerHTML = `
                 <div class="episode-content">
-                    <!-- Immagine con overlay del titolo e icona -->
+                    <!-- Immagine con overlay del titolo -->
                     <div class="episode-image-container">
                         <img src="${imagePath}" alt="${stop.title}" class="episode-image">
-                        <div class="episode-icon">
-                            <i class="fas ${icon}" aria-hidden="true"></i>
-                        </div>
                         <div class="episode-image-overlay">
                             <h2 id="title-${elementId}" class="episode-title">${stop.title}</h2>
                         </div>
