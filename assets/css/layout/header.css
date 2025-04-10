@@ -356,8 +356,8 @@
         padding: 3rem 0 3.5rem;
         background-attachment: scroll; /* Cambiato da fixed a scroll per mobile */
         background-position: center;
-        /* Transizione notevolmente rallentata con cubic-bezier personalizzata */
-        transition: background-position 2.5s cubic-bezier(0.1, 0.4, 0.1, 1);
+        /* Aggiungiamo una transizione per rendere più fluidi i movimenti */
+        transition: background-position 0.5s ease-out;
     }
     
     .hero-text h1 {
@@ -415,20 +415,13 @@
     .intro-features {
         grid-template-columns: 1fr 1fr;
     }
-    
-    /* Aggiunta transizione ancora più lenta per dispositivi più piccoli */
-    .expanded-header {
-        transition: background-position 3.5s cubic-bezier(0.05, 0.5, 0.05, 1);
-    }
 }
 
 @media (max-width: 480px) {
     .expanded-header {
         padding: 2.5rem 0 3rem;
-        /* Transizione estremamente lenta per schermi piccoli */
-        transition: background-position 5s cubic-bezier(0.05, 0.6, 0.05, 1);
-        background-size: cover;
-        background-position: center;
+        transition: background-position 0.8s ease-out;
+        /* RIMOSSA la riduzione dello zoom - lasciamo background-size: cover dall'impostazione principale */
     }
     
     .hero-content {
@@ -480,8 +473,6 @@
 @media (max-width: 360px) {
     .expanded-header {
         padding: 2rem 0 2.5rem;
-        /* Transizione ancora più lenta per device molto piccoli */
-        transition: background-position 6s cubic-bezier(0.02, 0.7, 0.02, 1);
     }
     
     .hero-text h1 {
