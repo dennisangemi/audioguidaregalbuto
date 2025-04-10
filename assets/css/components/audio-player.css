@@ -360,6 +360,71 @@
     padding-right: 1rem;
 }
 
+/* Miglioramento delle icone dei pulsanti di controllo tempo */
+.player-time-button {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(107, 70, 193, 0.1);
+    color: #6b46c1;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: visible;
+}
+
+/* Etichetta del tempo sotto l'icona */
+.time-control-label {
+    position: absolute;
+    bottom: -0.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #6b46c1;
+    letter-spacing: -0.01em;
+    background-color: #ffffff;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(107, 70, 193, 0.15);
+    line-height: 1;
+}
+
+/* Effetto hover sui pulsanti di controllo tempo */
+.player-time-button:hover {
+    background-color: rgba(107, 70, 193, 0.2);
+    transform: scale(1.05);
+}
+
+.player-time-button:hover .time-control-label {
+    transform: translateX(-50%) translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.player-time-button:active {
+    transform: scale(0.95);
+}
+
+.player-time-button:active .time-control-label {
+    transform: translateX(-50%) translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+/* Posizionamento specifico delle icone all'interno dei pulsanti */
+.player-time-button i {
+    font-size: 1rem;
+    opacity: 0.9;
+    position: relative;
+    top: -0.1rem;
+}
+
 /* Layout mobile ottimizzato */
 @media (max-width: 767px) {
     .audio-player {
@@ -389,6 +454,21 @@
         width: 100%;
         justify-content: space-around;
         margin-top: 0.5rem;
+    }
+    
+    .player-time-button {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .player-time-button i {
+        font-size: 0.9rem;
+    }
+    
+    .time-control-label {
+        font-size: 0.65rem;
+        padding: 0.05rem 0.25rem;
+        bottom: -0.25rem;
     }
 }
 
@@ -438,6 +518,23 @@
     }
 }
 
+/* Animazione al click per feedback visuale */
+@keyframes pulse-click {
+    0% {
+        box-shadow: 0 0 0 0 rgba(107, 70, 193, 0.3);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(107, 70, 193, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(107, 70, 193, 0);
+    }
+}
+
+.player-time-button.clicked {
+    animation: pulse-click 0.6s;
+}
+
 .main-play-button.playing {
     animation: pulse 2s infinite;
 }
@@ -447,7 +544,8 @@
     .audio-player,
     .main-play-button,
     .player-button,
-    .player-progress-handle {
+    .player-progress-handle,
+    .player-time-button {
         transition: none;
     }
     
@@ -456,6 +554,10 @@
     }
     
     .main-play-button.playing {
+        animation: none;
+    }
+    
+    .player-time-button.clicked {
         animation: none;
     }
 }

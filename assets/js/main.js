@@ -244,12 +244,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
                                 <div class="player-time-controls">
                                     <button class="player-time-button backward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Indietro di 15 secondi">
-                                        <i class="fas fa-backward"></i>
-                                        <span class="sr-only">-15s</span>
+                                        <i class="fas fa-undo-alt"></i>
+                                        <span class="time-control-label">15s</span>
                                     </button>
                                     <button class="player-time-button forward-15" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Avanti di 15 secondi">
-                                        <i class="fas fa-forward"></i>
-                                        <span class="sr-only">+15s</span>
+                                        <i class="fas fa-redo-alt"></i>
+                                        <span class="time-control-label">15s</span>
                                     </button>
                                 </div>
                             </div>
@@ -525,32 +525,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 console.log(`Avanti +15s: playlist=${playlist}, song=${songIndex}`);
                 
-                if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
-                    try {
-                        // Ottieni la posizione attuale in secondi
-                        const currentSeconds = Amplitude.getPlaylistSongPlayedSeconds(playlist, songIndex);
-                        const duration = Amplitude.getPlaylistSongDuration(playlist, songIndex);
+                try {
+                    // Utilizziamo l'elemento audio HTML direttamente
+                    const audioElement = Amplitude.getAudio();
+                    if (audioElement) {
+                        const currentTime = audioElement.currentTime;
+                        const duration = audioElement.duration;
                         
-                        console.log(`Posizione attuale: ${currentSeconds}s, durata: ${duration}s`);
+                        console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
                         
-                        if (!isNaN(currentSeconds) && !isNaN(duration) && duration > 0) {
+                        if (!isNaN(currentTime) && !isNaN(duration) && duration > 0) {
                             // Calcola la nuova posizione (avanti di 15 secondi, ma non oltre la durata)
-                            const newPosition = Math.min(currentSeconds + 15, duration);
-                            const newPercentage = (newPosition / duration) * 100;
+                            const newPosition = Math.min(currentTime + 15, duration);
                             
-                            console.log(`Nuova posizione: ${newPosition}s (${newPercentage.toFixed(2)}%)`);
+                            console.log(`Nuova posizione: ${newPosition}s`);
                             
                             // Imposta la nuova posizione
-                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, newPercentage);
+                            audioElement.currentTime = newPosition;
                             
-                            // Aggiorna la posizione visiva del cursore
-                            updateProgressUI(playlist, songIndex, newPercentage);
+                            // Aggiunge una classe temporanea per feedback visivo
+                            button.classList.add('clicked');
+                            setTimeout(() => {
+                                button.classList.remove('clicked');
+                            }, 500);
                         } else {
                             console.warn('Impossibile determinare la durata o posizione corrente');
                         }
-                    } catch (error) {
-                        console.error('Errore nell\'avanzamento di 15 secondi:', error);
                     }
+                } catch (error) {
+                    console.error('Errore nell\'avanzamento di 15 secondi:', error);
                 }
             });
         });
@@ -565,32 +568,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 console.log(`Indietro -15s: playlist=${playlist}, song=${songIndex}`);
                 
-                if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
-                    try {
-                        // Ottieni la posizione attuale in secondi
-                        const currentSeconds = Amplitude.getPlaylistSongPlayedSeconds(playlist, songIndex);
-                        const duration = Amplitude.getPlaylistSongDuration(playlist, songIndex);
+                try {
+                    // Utilizziamo l'elemento audio HTML direttamente
+                    const audioElement = Amplitude.getAudio();
+                    if (audioElement) {
+                        const currentTime = audioElement.currentTime;
+                        const duration = audioElement.duration;
                         
-                        console.log(`Posizione attuale: ${currentSeconds}s, durata: ${duration}s`);
+                        console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
                         
-                        if (!isNaN(currentSeconds) && !isNaN(duration) && duration > 0) {
+                        if (!isNaN(currentTime) && !isNaN(duration)) {
                             // Calcola la nuova posizione (indietro di 15 secondi, ma non sotto zero)
-                            const newPosition = Math.max(currentSeconds - 15, 0);
-                            const newPercentage = (newPosition / duration) * 100;
+                            const newPosition = Math.max(currentTime - 15, 0);
                             
-                            console.log(`Nuova posizione: ${newPosition}s (${newPercentage.toFixed(2)}%)`);
+                            console.log(`Nuova posizione: ${newPosition}s`);
                             
                             // Imposta la nuova posizione
-                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, newPercentage);
+                            audioElement.currentTime = newPosition;
                             
-                            // Aggiorna la posizione visiva del cursore
-                            updateProgressUI(playlist, songIndex, newPercentage);
+                            // Aggiunge una classe temporanea per feedback visivo
+                            button.classList.add('clicked');
+                            setTimeout(() => {
+                                button.classList.remove('clicked');
+                            }, 500);
                         } else {
                             console.warn('Impossibile determinare la durata o posizione corrente');
                         }
-                    } catch (error) {
-                        console.error('Errore nel riavvolgimento di 15 secondi:', error);
                     }
+                } catch (error) {
+                    console.error('Errore nel riavvolgimento di 15 secondi:', error);
                 }
             });
         });
