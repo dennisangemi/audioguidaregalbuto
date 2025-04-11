@@ -137,7 +137,7 @@
                 <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     <a href="#tour-timeline" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Tappe</a>
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
-                    <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
+                    <a href="mappa.html" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
                     
                     <!-- Selettore lingua spostato nell'header -->
                     <div class="language-selector relative">
@@ -187,7 +187,7 @@
         <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
             <a href="#tour-timeline" class="nav-link text-gray-700 hover:text-primary transition-colors">Tappe</a>
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
-            <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
+            <a href="mappa.html" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
             
             <!-- Opzioni lingua mobile -->
             <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
@@ -802,92 +802,6 @@
             </article>
         </main>
         
-        <!-- Sezione mappa interattiva -->
-        <section id="tour-map" class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 p-6 md:p-8 mb-12" aria-labelledby="tour-map-title">
-            <div class="flex flex-col space-y-6">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <h2 id="tour-map-title" class="text-2xl md:text-3xl font-bold text-primary-dark">Mappa del Tour</h2>
-                    <div class="flex items-center gap-2 mt-3 md:mt-0">
-                        <button id="map-reset" class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors">
-                            <i class="fas fa-sync-alt mr-2 text-xs"></i> Reimposta mappa
-                        </button>
-                        <button id="map-expand" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary-dark transition-colors">
-                            <i class="fas fa-expand-alt mr-2 text-xs"></i> <span id="map-expand-text">Espandi</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="relative">
-                    <div id="tour-map-container" class="map-container">
-                        <!-- La mappa viene inserita qui da Leaflet -->
-                    </div>
-                    <!-- Controlli mappa -->
-                    <div class="map-controls">
-                        <button class="map-control-button" id="map-locate-me" aria-label="Localizza la mia posizione">
-                            <i class="fas fa-location-arrow"></i>
-                        </button>
-                        <button class="map-control-button" id="map-fullscreen" aria-label="Modalità a schermo intero">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-                    <button data-stop-id="piazza" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-map-marker-alt mr-2 text-primary"></i>
-                        Piazza della Repubblica
-                    </button>
-                    
-                    <button data-stop-id="comune" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-landmark mr-2 text-primary"></i>
-                        Palazzo Comunale
-                    </button>
-                    
-                    <button data-stop-id="chiesa_madre" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-church mr-2 text-primary"></i>
-                        Chiesa Madre
-                    </button>
-                    
-                    <button data-stop-id="lombardi" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-monument mr-2 text-primary"></i>
-                        Monumento Lombardi
-                    </button>
-                    
-                    <button data-stop-id="campione" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-monument mr-2 text-primary"></i>
-                        Monumento Campione
-                    </button>
-                    
-                    <button data-stop-id="corso" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-road mr-2 text-primary"></i>
-                        Corso Ingrassia
-                    </button>
-                    
-                    <button data-stop-id="santa_maria" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-place-of-worship mr-2 text-primary"></i>
-                        Santa Maria La Croce
-                    </button>
-                    
-                    <button data-stop-id="piano" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-square mr-2 text-primary"></i>
-                        Piazza Vittorio Veneto
-                    </button>
-                    
-                    <button data-stop-id="villa" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-tree mr-2 text-primary"></i>
-                        Villa Comunale
-                    </button>
-                    
-                    <button data-stop-id="lago" class="map-button px-4 py-3 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-sm font-medium text-gray-700 hover:border-primary/30 hover:text-primary transition-all">
-                        <i class="fas fa-water mr-2 text-primary"></i>
-                        Lago Pozzillo
-                    </button>
-                </div>
-                
-                <p class="text-sm text-gray-500 italic text-center">Clicca sui pulsanti sopra per evidenziare le tappe sulla mappa</p>
-            </div>
-        </section>
-        
         <footer class="rounded-lg" role="contentinfo">
             <p>2025 Audio guida di Regalbuto. Un progetto di <a href="#" class="footer-link">Regalbuto Inside</a>.</p>
         </footer>
@@ -904,6 +818,22 @@
     
     <!-- Poi carica il main.js che utilizzerà le utility -->
     <script src="assets/js/main.js"></script>
+    
+    <!-- Script per gestire i collegamenti alla mappa -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestione dei pulsanti "Vedi sulla mappa"
+            document.querySelectorAll('.view-on-map').forEach(button => {
+                button.addEventListener('click', function() {
+                    const stopId = this.getAttribute('data-stop-id');
+                    window.location.href = `mappa.html?stop=${stopId}`;
+                });
+                
+                // Tooltip per il pulsante
+                button.setAttribute('title', 'Vedi sulla mappa');
+            });
+        });
+    </script>
     
     <!-- Script per l'header, menu mobile e selettore lingua -->
     <script>
@@ -1112,255 +1042,5 @@
             }
         });
     </script>
-    
-    <!-- Script per la mappa interattiva -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Dati delle tappe con coordinate (estratte dalle URL di Google Maps nel JSON)
-            // Coordinate di Regalbuto come fallback: 37.6471, 14.6364
-            const tourStops = [
-                { id: "piazza", title: "Piazza della Repubblica", coordinates: [37.6471, 14.6364], icon: "fa-map-marker-alt", url: "https://maps.app.goo.gl/FG2njxa754LHAxha9" },
-                { id: "comune", title: "Palazzo Comunale", coordinates: [37.6471, 14.6363], icon: "fa-landmark", url: "https://maps.app.goo.gl/AASKU2yNkVvauoKn8" },
-                { id: "chiesa_madre", title: "Chiesa Madre di San Basilio", coordinates: [37.6472, 14.6364], icon: "fa-church", url: "https://maps.app.goo.gl/xcCrj5qfHnW9MjBy5" },
-                { id: "lombardi", title: "Monumento R. Lombardi", coordinates: [37.6475, 14.6367], icon: "fa-monument", url: "#" },
-                { id: "campione", title: "Monumento G. Campione", coordinates: [37.6476, 14.6368], icon: "fa-monument", url: "#" },
-                { id: "corso", title: "Corso G.F. Ingrassia", coordinates: [37.6474, 14.6366], icon: "fa-road", url: "https://maps.app.goo.gl/K5HXUGqsyndHHDk57" },
-                { id: "santa_maria", title: "Chiesa Santa Maria La Croce", coordinates: [37.6473, 14.6363], icon: "fa-place-of-worship", url: "https://maps.app.goo.gl/Sjrgz97vXRWmoze19" },
-                { id: "piano", title: "Piazza Vittorio Veneto", coordinates: [37.6473, 14.6370], icon: "fa-square", url: "https://maps.app.goo.gl/YzFDkN9uL7buAds58" },
-                { id: "villa", title: "Villa Comunale", coordinates: [37.6472, 14.6373], icon: "fa-tree", url: "https://maps.app.goo.gl/ZTFVeBeasGu66iPs5" },
-                { id: "lago", title: "Lago Pozzillo", coordinates: [37.6255, 14.5970], icon: "fa-water", url: "https://maps.app.goo.gl/mhY1xBwv7gJC1uv37" }
-            ];
-            
-            // Colori per marker e highlight
-            const markerColors = {
-                default: '#6b46c1', // Colore primario
-                active: '#10b981',  // Colore accent
-                highlight: '#3b82f6' // Colore secondario
-            };
-            
-            // Verifica se il container della mappa esiste
-            const mapContainer = document.getElementById('tour-map-container');
-            if (!mapContainer) return;
-            
-            // Inizializzazione della mappa Leaflet
-            const map = L.map('tour-map-container', {
-                zoomControl: false,
-                attributionControl: false
-            }).setView([37.6471, 14.6364], 15); // Centrata su Regalbuto
-            
-            // Aggiunta del layer di mappa base (OpenStreetMap)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            
-            // Aggiunta controllo zoom in un'altra posizione
-            L.control.zoom({
-                position: 'bottomright'
-            }).addTo(map);
-            
-            // Variabile per tenere traccia dei marker
-            const markers = {};
-            
-            // Funzione per creare l'icona personalizzata
-            function createCustomIcon(icon, color = markerColors.default) {
-                return L.divIcon({
-                    html: `<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg border-2" style="border-color: ${color};"><i class="fas ${icon}" style="color: ${color};"></i></div>`,
-                    className: 'custom-marker-icon',
-                    iconSize: [32, 32],
-                    iconAnchor: [16, 32],
-                    popupAnchor: [0, -32]
-                });
-            }
-            
-            // Crea e aggiungi i marker alla mappa
-            tourStops.forEach(stop => {
-                const marker = L.marker(stop.coordinates, {
-                    icon: createCustomIcon(stop.icon),
-                    alt: stop.title,
-                    stopId: stop.id
-                }).addTo(map);
-                
-                // Crea il popup con informazioni sulla tappa
-                const popupContent = `
-                    <div class="text-center">
-                        <h4>${stop.title}</h4>
-                        <p class="text-sm">Tappa ${tourStops.indexOf(stop) + 1}</p>
-                        <div class="flex justify-center mt-2">
-                            <a href="#${stop.id}" class="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full hover:bg-primary/20 transition-colors">
-                                Vai all'audio
-                            </a>
-                        </div>
-                    </div>
-                `;
-                
-                marker.bindPopup(popupContent);
-                markers[stop.id] = marker;
-            });
-            
-            // Funzione per evidenziare un marker
-            function highlightMarker(stopId) {
-                // Ripristina tutti i marker allo stato normale
-                Object.values(markers).forEach(marker => {
-                    marker.setIcon(createCustomIcon(tourStops.find(stop => stop.id === marker.options.stopId).icon));
-                });
-                
-                // Evidenzia il marker selezionato
-                if (stopId && markers[stopId]) {
-                    markers[stopId].setIcon(createCustomIcon(tourStops.find(stop => stop.id === stopId).icon, markerColors.highlight));
-                    markers[stopId].openPopup();
-                    
-                    // Centra la mappa sul marker selezionato
-                    map.setView(markers[stopId].getLatLng(), 17);
-                }
-            }
-            
-            // Funzione per reimpostare la mappa
-            function resetMap() {
-                Object.values(markers).forEach(marker => {
-                    marker.setIcon(createCustomIcon(tourStops.find(stop => stop.id === marker.options.stopId).icon));
-                    marker.closePopup();
-                });
-                
-                // Adatta la vista per mostrare tutti i marker
-                const bounds = L.latLngBounds(tourStops.map(stop => stop.coordinates));
-                map.fitBounds(bounds, {
-                    padding: [50, 50],
-                    maxZoom: 16
-                });
-            }
-            
-            // Funzione per espandere/ridurre la mappa
-            let isExpanded = false;
-            function toggleMapSize() {
-                isExpanded = !isExpanded;
-                mapContainer.classList.toggle('expanded', isExpanded);
-                document.getElementById('map-expand-text').textContent = isExpanded ? 'Riduci' : 'Espandi';
-                
-                // Attendere che la transizione CSS sia completa prima di aggiornare la mappa
-                setTimeout(() => {
-                    map.invalidateSize();
-                    resetMap();
-                }, 300);
-            }
-            
-            // Evento per localizzare la posizione dell'utente
-            document.getElementById('map-locate-me').addEventListener('click', function() {
-                // Verifica se il browser supporta la geolocalizzazione
-                if ("geolocation" in navigator) {
-                    // Attiva l'indicatore di caricamento
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                    
-                    navigator.geolocation.getCurrentPosition(position => {
-                        // Centra la mappa sulla posizione dell'utente
-                        const userLatLng = [position.coords.latitude, position.coords.longitude];
-                        map.setView(userLatLng, 15);
-                        
-                        // Opzionalmente aggiungi un marker per la posizione dell'utente
-                        const userIcon = L.divIcon({
-                            html: `<div class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center shadow-lg"><i class="fas fa-user text-white"></i></div>`,
-                            className: 'user-location-icon',
-                            iconSize: [32, 32],
-                            iconAnchor: [16, 16]
-                        });
-                        
-                        // Rimuovi marker precedenti se esistono
-                        if (window.userLocationMarker) {
-                            map.removeLayer(window.userLocationMarker);
-                        }
-                        
-                        // Aggiungi nuovo marker
-                        window.userLocationMarker = L.marker(userLatLng, { icon: userIcon })
-                            .addTo(map)
-                            .bindPopup('La tua posizione attuale')
-                            .openPopup();
-                        
-                        // Ripristina l'icona del pulsante
-                        this.innerHTML = '<i class="fas fa-location-arrow"></i>';
-                    }, error => {
-                        console.error('Errore durante la geolocalizzazione:', error);
-                        alert('Non è stato possibile ottenere la tua posizione. Verifica di aver concesso i permessi di geolocalizzazione.');
-                        this.innerHTML = '<i class="fas fa-location-arrow"></i>';
-                    });
-                } else {
-                    alert('Il tuo browser non supporta la geolocalizzazione.');
-                }
-            });
-            
-            // Gestione pulsante di espansione mappa
-            document.getElementById('map-expand').addEventListener('click', toggleMapSize);
-            
-            // Gestione pulsante di reset mappa
-            document.getElementById('map-reset').addEventListener('click', resetMap);
-            
-            // Gestione pulsante modalità schermo intero
-            document.getElementById('map-fullscreen').addEventListener('click', function() {
-                const mapSection = document.getElementById('tour-map');
-                if (!document.fullscreenElement) {
-                    if (mapSection.requestFullscreen) {
-                        mapSection.requestFullscreen();
-                    } else if (mapSection.webkitRequestFullscreen) {
-                        mapSection.webkitRequestFullscreen();
-                    } else if (mapSection.msRequestFullscreen) {
-                        mapSection.msRequestFullscreen();
-                    }
-                    
-                    setTimeout(() => {
-                        map.invalidateSize();
-                    }, 100);
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                }
-            });
-            
-            // Gestione dei pulsanti "Vedi sulla mappa"
-            document.querySelectorAll('.view-on-map').forEach(button => {
-                button.addEventListener('click', function() {
-                    const stopId = this.getAttribute('data-stop-id');
-                    
-                    // Scorri fino alla mappa
-                    document.getElementById('tour-map').scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                    });
-                    
-                    // Evidenzia il marker dopo un breve ritardo per dare tempo allo scroll
-                    setTimeout(() => {
-                        highlightMarker(stopId);
-                        // Se la mappa è ridotta, espandila
-                        if (!isExpanded) {
-                            toggleMapSize();
-                        }
-                    }, 500);
-                });
-            });
-            
-            // Gestione dei pulsanti della lista delle tappe sotto la mappa
-            document.querySelectorAll('.map-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    const stopId = this.getAttribute('data-stop-id');
-                    highlightMarker(stopId);
-                    
-                    // Feedback visivo sul pulsante cliccato
-                    document.querySelectorAll('.map-button').forEach(btn => {
-                        btn.classList.remove('border-primary', 'text-primary', 'bg-primary/5');
-                    });
-                    this.classList.add('border-primary', 'text-primary', 'bg-primary/5');
-                });
-            });
-            
-            // Inizializza la vista della mappa per mostrare tutti i marker
-            resetMap();
-        });
-    </script>
-    
-    <!-- Leaflet.js per le mappe interattive -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 </html>

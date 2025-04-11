@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Mappa interattiva dell'audioguida di Regalbuto: visualizza tutte le tappe del percorso turistico">
+    <title>Mappa del Tour - Audio guida di Regalbuto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#6b46c1',
+                            light: '#8b5cf6',
+                            dark: '#5a2ca0',
+                        },
+                        secondary: '#3b82f6',
+                        accent: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components/header.css">
+    <!-- CSS per le mappe -->
+    <link rel="stylesheet" href="assets/css/components/map.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Skip link per accessibilità da tastiera -->
+    <a href="#main-content" class="skip-to-content">Salta al contenuto principale</a>
+    
+    <!-- Header moderno con navbar fissa - margini aumentati su desktop -->
+    <header id="site-header" class="bg-white/90 backdrop-blur-xl fixed w-full z-40 border-b border-gray-100 shadow-sm" role="banner">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl">
+            <nav class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="text-primary text-2xl">
+                        <i class="fas fa-compass" aria-hidden="true"></i>
+                    </div>
+                    <a href="index.html" class="text-xl font-semibold tracking-tight text-primary-dark">
+                        Regalbuto
+                        <span class="hidden sm:inline text-gray-500 font-normal">Audio Guida</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="index.html#tour-timeline" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Tappe</a>
+                    <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
+                    <a href="mappa.html" class="nav-link text-sm font-medium text-primary border-b-2 border-primary transition-colors">Mappa</a>
+                    
+                    <!-- Selettore lingua spostato nell'header -->
+                    <div class="language-selector relative">
+                        <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary transition-all focus:outline-none" aria-expanded="false" aria-haspopup="true">
+                            <i class="fas fa-language mr-1.5"></i>
+                            <span class="current-language">Italiano</span>
+                            <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="language-arrow"></i>
+                        </button>
+                        
+                        <div id="language-dropdown" class="language-dropdown absolute right-0 mt-2 py-2 w-36 bg-white rounded-lg shadow-lg border border-gray-100 hidden z-50" role="menu">
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="it">
+                                <span class="w-4 mr-2">🇮🇹</span> Italiano
+                            </a>
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="en">
+                                <span class="w-4 mr-2">🇬🇧</span> English
+                            </a>
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="de">
+                                <span class="w-4 mr-2">🇩🇪</span> Deutsch
+                            </a>
+                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="es">
+                                <span class="w-4 mr-2">🇪🇸</span> Español
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <a href="index.html" class="tour-button bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg flex items-center">
+                        <i class="fas fa-play mr-2 text-xs"></i>
+                        Inizia il tour
+                    </a>
+                </div>
+                
+                <div class="flex items-center gap-4 md:hidden">
+                    <!-- Selettore lingua mobile -->
+                    <button id="mobile-language-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Cambia lingua">
+                        <i class="fas fa-language text-xl"></i>
+                    </button>
+                    
+                    <!-- Menu mobile button -->
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
+                        <i class="fas fa-bars text-xl menu-icon"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Menu mobile ottimizzato -->
+        <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+            <a href="index.html#tour-timeline" class="nav-link text-gray-700 hover:text-primary transition-colors">Tappe</a>
+            <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
+            <a href="mappa.html" class="nav-link text-primary font-medium transition-colors">Mappa</a>
+            
+            <!-- Opzioni lingua mobile -->
+            <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="it" aria-label="Italiano">🇮🇹</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="en" aria-label="English">🇬🇧</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="es" aria-label="Español">🇪🇸</button>
+            </div>
+            
+            <a href="index.html" class="tour-button mt-4 bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
+                <i class="fas fa-play mr-2 text-xs"></i>
+                Inizia il tour
+            </a>
+        </div>
+    </header>
+    
+    <main id="main-content" class="pt-20 md:pt-24 pb-8">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl">
+            <!-- Intestazione pagina mappa -->
+            <div class="mb-6 md:mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-primary-dark mb-2">Mappa del Tour</h1>
+                <p class="text-gray-600">Esplora tutte le tappe dell'audioguida di Regalbuto in questa mappa interattiva.</p>
+            </div>
+            
+            <!-- Wrapper principale della mappa con sidebar -->
+            <div class="map-page-wrapper">
+                <div class="map-page-content">
+                    <!-- Sidebar con la lista delle tappe -->
+                    <div class="map-sidebar">
+                        <h2 class="text-lg font-semibold mb-4 text-primary">Tappe del tour</h2>
+                        <ul class="space-y-2">
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="piazza">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Piazza della Repubblica</h3>
+                                        <span class="text-xs text-gray-500">Tappa 1</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="comune">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-landmark"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Palazzo Comunale</h3>
+                                        <span class="text-xs text-gray-500">Tappa 2</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="chiesa_madre">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-church"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Chiesa Madre di San Basilio</h3>
+                                        <span class="text-xs text-gray-500">Tappa 3</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="lombardi">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-monument"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Monumento R. Lombardi</h3>
+                                        <span class="text-xs text-gray-500">Tappa 4</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="campione">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-monument"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Monumento G. Campione</h3>
+                                        <span class="text-xs text-gray-500">Tappa 5</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="corso">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-road"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Corso G.F. Ingrassia</h3>
+                                        <span class="text-xs text-gray-500">Tappa 6</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="santa_maria">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-place-of-worship"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Chiesa Santa Maria La Croce</h3>
+                                        <span class="text-xs text-gray-500">Tappa 7</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="piano">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-square"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Piazza Vittorio Veneto</h3>
+                                        <span class="text-xs text-gray-500">Tappa 8</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="villa">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-tree"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Villa Comunale</h3>
+                                        <span class="text-xs text-gray-500">Tappa 9</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="lago">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                                        <i class="fas fa-water"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Lago Pozzillo</h3>
+                                        <span class="text-xs text-gray-500">Tappa 10</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <!-- Legenda -->
+                        <div class="mt-6 p-3 bg-gray-50 rounded-lg">
+                            <h3 class="text-sm font-semibold mb-2 text-gray-700">Legenda</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-primary mr-1"></div>
+                                    <span class="text-xs">Monumento</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-secondary mr-1"></div>
+                                    <span class="text-xs">Chiesa</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-accent mr-1"></div>
+                                    <span class="text-xs">Punto panoramico</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Collegamento alla pagina del tour -->
+                        <div class="mt-6">
+                            <a href="index.html" class="block w-full py-3 px-4 bg-primary text-white text-center rounded-lg shadow-md hover:bg-primary-dark transition-all">
+                                <i class="fas fa-headphones mr-2"></i> Torna all'audioguida
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Container principale della mappa -->
+                    <div class="map-main-container">
+                        <div class="bg-white rounded-xl border border-gray-100 shadow-md overflow-hidden h-full">
+                            <!-- Controlli mappa -->
+                            <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                                <h2 class="font-semibold">Mappa interattiva</h2>
+                                <div class="flex gap-2">
+                                    <button id="map-reset" class="px-3 py-1 bg-white border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors flex items-center">
+                                        <i class="fas fa-sync-alt mr-1 text-xs"></i> Reimposta
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Container della mappa -->
+                            <div class="relative">
+                                <div id="tour-map-container" class="map-container">
+                                    <!-- La mappa viene inserita qui da Leaflet -->
+                                </div>
+                                
+                                <!-- Controlli mappa -->
+                                <div class="map-controls">
+                                    <button class="map-control-button" id="map-locate-me" aria-label="Localizza la mia posizione">
+                                        <i class="fas fa-location-arrow"></i>
+                                    </button>
+                                    <button class="map-control-button" id="map-fullscreen" aria-label="Modalità a schermo intero">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-white border-t border-gray-100 py-6">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row md:justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm text-gray-500">2025 Audio guida di Regalbuto. Un progetto di <a href="#" class="text-primary hover:text-primary-dark">Regalbuto Inside</a>.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="text-sm text-gray-500 hover:text-primary">Home</a>
+                    <a href="index.html#tour-timeline" class="text-sm text-gray-500 hover:text-primary">Tappe</a>
+                    <a href="mappa.html" class="text-sm text-primary">Mappa</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script per la gestione dell'header e del menu mobile -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.setAttribute('aria-hidden', isExpanded);
+                    mobileMenu.classList.toggle('open');
+                    document.body.classList.toggle('overflow-hidden');
+                    mobileMenuButton.classList.toggle('menu-open');
+                });
+            }
+            
+            // Header effetto scroll
+            const header = document.getElementById('site-header');
+            
+            function handleScroll() {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            
+            // Gestione selettore lingua
+            const languageButton = document.getElementById('language-button');
+            const languageDropdown = document.getElementById('language-dropdown');
+            const languageArrow = document.getElementById('language-arrow');
+            
+            if (languageButton && languageDropdown) {
+                languageButton.addEventListener('click', function() {
+                    const isExpanded = languageButton.getAttribute('aria-expanded') === 'true';
+                    
+                    languageButton.setAttribute('aria-expanded', !isExpanded);
+                    languageDropdown.classList.toggle('hidden');
+                    languageArrow.style.transform = isExpanded ? '' : 'rotate(180deg)';
+                    
+                    // Chiudi il dropdown quando si clicca fuori
+                    if (!isExpanded) {
+                        document.addEventListener('click', closeLanguageDropdown);
+                    }
+                });
+                
+                // Funzione per chiudere il dropdown
+                function closeLanguageDropdown(e) {
+                    if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
+                        languageDropdown.classList.add('hidden');
+                        languageButton.setAttribute('aria-expanded', 'false');
+                        languageArrow.style.transform = '';
+                        document.removeEventListener('click', closeLanguageDropdown);
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <!-- Leaflet.js per le mappe interattive -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Script per la gestione della mappa interattiva -->
+    <script src="assets/js/map.js"></script>
+</body>
+</html>
