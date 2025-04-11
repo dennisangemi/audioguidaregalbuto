@@ -17,13 +17,43 @@
 /* Stato espanso */
 .transcript-container.expanded {
     display: block;
-    max-height: 500px;
+    max-height: 400px; /* Altezza massima fissa */
     padding: 1.25rem;
     opacity: 1;
+    overflow-y: auto; /* Abilita lo scrolling verticale */
+}
+
+/* Contenitore per le trascrizioni nel nuovo design */
+#transcript-0,
+[id^="transcript-"] {
+    background-color: #f9f9f9;
+    border-radius: 0.75rem;
+    overflow-y: auto; /* Garantisce che il contenuto sia scrollabile */
+    transition: opacity 0.3s ease, max-height 0.5s ease;
+    max-height: 0; /* Inizialmente nascosto */
+}
+
+/* Quando visibile */
+#transcript-0.expanded,
+[id^="transcript-"].expanded {
+    max-height: 400px; /* Altezza fissa ma con scrolling */
     overflow-y: auto;
 }
 
-/* Pulsante toggle - design semplificato */
+/* Stile per i paragrafi della trascrizione */
+#transcript-0 .text-gray-700,
+[id^="transcript-"] .space-y-4 {
+    padding: 1rem;
+}
+
+#transcript-0 .text-gray-700 p,
+[id^="transcript-"] .space-y-4 p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Pulsante toggle */
 .toggle-transcript {
     display: flex;
     align-items: center;
@@ -55,31 +85,14 @@
     outline: none;
 }
 
-/* Icona toggle */
-.toggle-icon {
+/* Icona toggle con transizione migliorata */
+.transcript-toggle-icon {
     margin-left: 0.5rem;
     transition: transform 0.3s ease;
 }
 
-/* Animazione rotazione icona */
-.rotate-icon {
-    transform: rotate(180deg);
-}
-
-/* Stato pulsante quando trascrizione è espansa */
-.toggle-transcript[aria-expanded="true"] {
-    background-color: #ede9fe;
-    border-color: rgba(139, 92, 246, 0.4);
-}
-
-/* Stili per il testo all'interno del container */
-.transcript-container p {
-    margin-bottom: 1rem;
-    line-height: 1.6;
-}
-
 /* Spinner di caricamento */
-.transcript-container .fa-spinner {
+.fa-spinner {
     color: #6b46c1;
     font-size: 1.5rem;
     margin: 1rem auto;
@@ -87,7 +100,7 @@
 }
 
 /* Messaggio di errore */
-.transcript-container .text-red-600 {
+.text-red-600 {
     color: #dc2626;
 }
 
@@ -105,11 +118,24 @@
 @media (prefers-reduced-motion: reduce) {
     .transcript-container,
     .toggle-transcript,
-    .toggle-icon {
+    .transcript-toggle-icon {
         transition: none;
     }
     
     .fa-spin {
         animation: none;
+    }
+}
+
+/* Adattamenti per mobile */
+@media (max-width: 640px) {
+    #transcript-0.expanded,
+    [id^="transcript-"].expanded {
+        max-height: 300px; /* Altezza ridotta su mobile */
+    }
+    
+    #transcript-0 .text-gray-700 p,
+    [id^="transcript-"] .space-y-4 p {
+        font-size: 0.9rem;
     }
 }

@@ -510,25 +510,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             return;
                         }
                         
+                        // Visualizza solo i paragrafi della trascrizione senza altri elementi
                         const paragraphs = transcription.paragraphs
                             .map(p => `<p>${p}</p>`)
                             .join('');
                         
                         contentDiv.innerHTML = paragraphs;
-                        
-                        if (jsonPath.startsWith('stops.')) {
-                            const index = parseInt(jsonPath.split('.')[1]);
-                            if (langData.stops && index >= 0 && index < langData.stops.length) {
-                                const stop = langData.stops[index];
-                                
-                                if (stop) {
-                                    const titleEl = document.createElement('h3');
-                                    titleEl.className = 'text-lg font-bold mb-3';
-                                    titleEl.textContent = stop.title;
-                                    contentDiv.prepend(titleEl);
-                                }
-                            }
-                        }
                         
                         loadedIds[targetId] = true;
                         
@@ -558,7 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateButtonState(button, isExpanded) {
-        const toggleIcon = button.querySelector('.toggle-icon');
+        const toggleIcon = button.querySelector('.transcript-toggle-icon');
         const buttonText = button.querySelector('span');
         
         console.log(`Aggiornamento stato pulsante: ${isExpanded ? 'espanso' : 'contratto'}`);
@@ -566,15 +553,11 @@ document.addEventListener('DOMContentLoaded', function() {
         button.setAttribute('aria-expanded', isExpanded);
         
         if (toggleIcon) {
-            if (isExpanded) {
-                toggleIcon.classList.add('rotate-icon');
-            } else {
-                toggleIcon.classList.remove('rotate-icon');
-            }
+            toggleIcon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0)';
         }
         
         if (buttonText) {
-            buttonText.textContent = isExpanded ? 'Nascondi trascrizione' : 'Mostra trascrizione completa';
+            buttonText.textContent = isExpanded ? 'Nascondi trascrizione' : 'Mostra trascrizione';
         }
     }
     
