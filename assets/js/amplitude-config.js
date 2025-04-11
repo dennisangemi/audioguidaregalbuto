@@ -7,7 +7,9 @@ const AudioPlayerManager = (function() {
         currentPlayer: null,
         isPlaying: false,
         pausedPlayer: null,
-        needsRestart: false
+        needsRestart: false,
+        currentSong: null,
+        currentPlaylist: null
     };
     
     // Espone un metodo di inizializzazione che verrà chiamato da main.js dopo il caricamento dei dati
@@ -225,7 +227,9 @@ const AudioPlayerManager = (function() {
                     console.log(`Player messo in pausa: ${playerId}`);
                 } 
                 // Se è lo stesso player che era stato messo in pausa
-                else if (playerId === audioState.pausedPlayer) {
+                else if (playerId === audioState.pausedPlayer && 
+                         audioState.currentPlaylist === playlist && 
+                         audioState.currentSong === index) {
                     // Riprendi la riproduzione da dove era stata interrotta
                     Amplitude.play();
                     audioState.isPlaying = true;
@@ -237,7 +241,7 @@ const AudioPlayerManager = (function() {
                 // Se è un player diverso o il primo avvio
                 else {
                     // Se un altro player è in riproduzione, fermalo prima
-                    if (audioState.isPlaying) {
+                    if (audioState.isPlaying || audioState.pausedPlayer) {
                         Amplitude.pause();
                         
                         // Trova il player precedente e resetta il suo stato visivo
@@ -247,6 +251,11 @@ const AudioPlayerManager = (function() {
                                 updatePlayerVisualState(prevPlayerButton, false);
                             }
                         }
+                        
+                        // Reset completo dell'audio precedente
+                        if (audioState.currentPlaylist !== null && audioState.currentSong !== null) {
+                            Amplitude.getAudio().currentTime = 0;
+                        }
                     }
                     
                     // Avvia questo player dall'inizio
@@ -254,10 +263,14 @@ const AudioPlayerManager = (function() {
                         // Player principale
                         console.log('Avvio player principale');
                         Amplitude.play();
+                        audioState.currentPlaylist = null;
+                        audioState.currentSong = null;
                     } else {
                         // Player della playlist
                         console.log(`Avvio episodio: playlist=${playlist}, index=${index}`);
                         Amplitude.playPlaylistSongAtIndex(index, playlist);
+                        audioState.currentPlaylist = playlist;
+                        audioState.currentSong = index;
                     }
                     
                     // Aggiorna lo stato
