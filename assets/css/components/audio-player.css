@@ -301,39 +301,56 @@
 
 .player-progress-bar {
     position: relative;
-    height: 8px;
-    background-color: rgba(229, 231, 235, 0.8);
-    border-radius: 8px;
-    overflow: hidden;
+    height: 4px;
+    background-color: rgba(156, 163, 175, 0.4);
+    border-radius: 100px;
     cursor: pointer;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    overflow: visible; /* Consente al pallino di essere visibile anche quando fuori dal contenitore */
+    z-index: 10;
 }
 
 .player-progress-fill {
     position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
-    background: linear-gradient(90deg, #6b46c1 0%, #8b5cf6 100%);
-    border-radius: 8px;
+    background: linear-gradient(to right, #4a6cf7, #6610f2);
+    border-radius: 100px;
     transition: width 0.1s linear;
+    will-change: width; /* Ottimizza le animazioni */
 }
 
 .player-progress-handle {
     position: absolute;
     top: 50%;
-    width: 16px;
-    height: 16px;
-    background-color: #ffffff;
-    border: 2px solid #6b46c1;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #4a6cf7;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transform: translate(-50%, -50%);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: left 0.1s linear, transform 0.15s ease;
+    z-index: 15; /* Sopra la barra di avanzamento */
+    cursor: grab;
+    will-change: left; /* Ottimizza le animazioni */
+    pointer-events: auto; /* Garantisce che riceva eventi mouse/touch */
+    opacity: 0.6; /* Inizialmente semi-trasparente */
 }
 
-.player-progress-bar:hover .player-progress-handle {
+/* Stato hover per l'intero container */
+.player-progress-bar:hover .player-progress-handle,
+.player-progress-bar:active .player-progress-handle {
+    transform: translate(-50%, -50%) scale(1.3); /* Ingrandimento per feedback visivo */
+    opacity: 1; /* Completamente visibile */
+}
+
+/* Stato attivo durante il trascinamento */
+.player-progress-handle:active {
+    cursor: grabbing; /* Cambia cursore durante il trascinamento */
+    transform: translate(-50%, -50%) scale(1.3);
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.1);
 }
 
 /* Container tempi */

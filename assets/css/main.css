@@ -13,7 +13,6 @@
 
 /* Component styles */
 @import 'components/timeline.css';
-@import 'components/episode-card.css';
 @import 'components/transcription.css';
 @import 'components/audio-player.css';
 @import 'components/intro-section.css';
