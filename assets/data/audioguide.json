@@ -20,11 +20,11 @@
         },
         "stops": [ 
             {
-                "id": "piazza_repubblica",
+                "id": "piazza",
                 "title": "Piazza della Repubblica",
                 "description": "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
                 "duration": "00:00",
-                "audioPath": "assets/audio/it/raw/1_piazza_repubblica.mp3",
+                "audioPath": "assets/audio/it/raw/1_piazza.mp3",
                 "transcription": {
                     "paragraphs":[
                         "Benvenuti in Piazza della Repubblica, il cuore pulsante di Regalbuto e una delle piazze più grandi della provincia di Enna.",
@@ -39,11 +39,11 @@
                 }
             },
             {
-                "id": "palazzo_comunale",
+                "id": "comune",
                 "title": "Paaaalazzo Comunale",
                 "description": "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
                 "duration": "00:00",
-                "audioPath": "assets/audio/it/raw/2_palazzo_comunale.mp3",
+                "audioPath": "assets/audio/it/raw/2_comune.mp3",
                 "transcription": {
                     "paragraphs": [
                         "Attraversiamo la piazza e ci addentriamo in uno dei luoghi simbolo della città: il Palazzo Comunale. Questo elegante edificio con il suo prospetto barocco, si inserisce in perfetta armonia con gli edifici storici che lo circondano. ",
@@ -212,14 +212,14 @@
       "staticData": {
       "stops": [
             {
-                "id": "piazza_repubblica",
+                "id": "piazza",
                 "order": 1,
                 "googleMapsUrl": "#",
                 "icon": "fa-map-marker-alt",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
-                "id": "palazzo_comunale",
+                "id": "comune",
                 "order": 2,
                 "googleMapsUrl": "#",
                 "icon": "fa-landmark",
