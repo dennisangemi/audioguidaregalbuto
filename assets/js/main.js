@@ -360,14 +360,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <span class="text-xs font-medium text-gray-500">+30s</span>
                                     </div>
                                 </div>
-                                
-                                ${duration ? 
-                                    `<div class="hidden md:flex items-center ml-auto">
-                                        <span class="text-sm text-gray-500">
-                                            <i class="fas fa-headphones mr-1.5 opacity-70"></i>${duration}
-                                        </span>
-                                    </div>` 
-                                    : ''}
                             </div>
                             
                             <div class="player-progress-container relative h-2 bg-gray-200 rounded-full mb-2">
@@ -542,28 +534,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     titleEl.className = 'text-lg font-bold mb-3';
                                     titleEl.textContent = stop.title;
                                     contentDiv.prepend(titleEl);
-                                    
-                                    const footerEl = document.createElement('div');
-                                    footerEl.className = 'mt-4 pt-3 border-t border-gray-200 text-sm text-gray-500';
-                                    
-                                    if (stop.duration) {
-                                        const durationEl = document.createElement('p');
-                                        durationEl.innerHTML = `<i class="fas fa-clock mr-2"></i>Durata: ${stop.duration}`;
-                                        footerEl.appendChild(durationEl);
-                                    }
-                                    
-                                    // Cerca dati statici per Google Maps URL se disponibili
-                                    if (tourData.tour.staticData && tourData.tour.staticData.stops) {
-                                        const staticStop = tourData.tour.staticData.stops.find(s => s.id === stop.id);
-                                        if (staticStop && staticStop.googleMapsUrl) {
-                                            const mapLinkEl = document.createElement('p');
-                                            mapLinkEl.className = 'mt-1';
-                                            mapLinkEl.innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i><a href="${staticStop.googleMapsUrl}" target="_blank" class="text-blue-600 hover:underline">Visualizza su Google Maps</a>`;
-                                            footerEl.appendChild(mapLinkEl);
-                                        }
-                                    }
-                                    
-                                    contentDiv.appendChild(footerEl);
                                 }
                             }
                         }
