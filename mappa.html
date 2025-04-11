@@ -36,77 +36,55 @@
     <link rel="stylesheet" href="assets/css/components/header.css">
     <!-- CSS per le mappe -->
     <link rel="stylesheet" href="assets/css/components/map.css">
-    <!-- Stili per le mappe -->
+    <!-- Stili per le mappe - Ridefiniti per maggiore chiarezza -->
     <style>
+        /* Stili base della mappa */
         .map-container {
-            height: 300px;
+            height: 100%;
             width: 100%;
-            border-radius: 0.75rem;
+            min-height: 500px;
+            border-radius: 0.5rem;
             overflow: hidden;
-            border: 1px solid rgba(209, 213, 219, 1);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(229, 231, 235, 1);
+            transition: height 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
         
-        .map-container.expanded {
-            height: 450px;
-        }
-        
+        /* Stili per i popup della mappa */
         .leaflet-popup-content {
             font-family: inherit;
-            margin: 10px;
-            line-height: 1.5;
+            margin: 8px;
+            line-height: 1.4;
+            text-align: center;
         }
         
         .leaflet-popup-content h4 {
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             color: #6b46c1;
         }
         
-        .map-button {
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .map-button::after {
-            content: '';
-            position: absolute;
-            background: rgba(107, 70, 193, 0.1);
-            width: 100%;
-            height: 100%;
-            border-radius: inherit;
-            top: 0;
-            left: 0;
-            transform: scale(0);
-            transition: transform 0.3s ease;
-            z-index: -1;
-        }
-        
-        .map-button:hover::after {
-            transform: scale(1);
-        }
-        
+        /* Controlli della mappa */
         .map-controls {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             z-index: 999;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
         
         .map-control-button {
             background: white;
-            border: 1px solid rgba(209, 213, 219, 1);
+            border: 1px solid rgba(229, 231, 235, 1);
             border-radius: 0.25rem;
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
             cursor: pointer;
             color: #6b46c1;
             transition: all 0.2s ease;
@@ -115,6 +93,70 @@
         .map-control-button:hover {
             background: #f9fafb;
             color: #5a2ca0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Marker selezionato */
+        .map-marker-selected {
+            z-index: 1000 !important;
+        }
+        
+        /* Layout della pagina mappa */
+        .map-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .map-layout {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+        
+        /* Stile per la lista tappe attiva */
+        .stop-item.active {
+            background-color: rgba(107, 70, 193, 0.08);
+            border-color: #6b46c1;
+        }
+        
+        /* Stile particolare per la mappa a schermo intero */
+        .map-fullscreen .map-container {
+            height: calc(100vh - 100px);
+            border-radius: 0;
+            margin: -1rem;
+        }
+        
+        /* Animazioni per marker */
+        @keyframes marker-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .marker-bounce {
+            animation: marker-bounce 0.6s ease-in-out;
+        }
+        
+        /* Per migliorare la reattività della sidebar */
+        .stops-sidebar {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(107, 70, 193, 0.3) transparent;
+        }
+        
+        .stops-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .stops-sidebar::-webkit-scrollbar-thumb {
+            background-color: rgba(107, 70, 193, 0.3);
+            border-radius: 3px;
+        }
+        
+        .stops-sidebar::-webkit-scrollbar-track {
+            background: transparent;
         }
     </style>
 </head>
@@ -201,197 +243,329 @@
         </div>
     </header>
     
+    <!-- Contenuto principale - Completamente ridisegnato -->
     <main id="main-content" class="pt-20 md:pt-24 pb-8">
         <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl">
-            <!-- Intestazione pagina mappa -->
-            <div class="mb-6 md:mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-primary-dark mb-2">Mappa del Tour</h1>
-                <p class="text-gray-600">Esplora tutte le tappe dell'audioguida di Regalbuto in questa mappa interattiva.</p>
+            <!-- Intestazione semplice e minimalista -->
+            <div class="mb-6 border-b border-gray-200 pb-4">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                    <div class="mb-4 md:mb-0">
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Mappa del tour</h1>
+                        <p class="text-gray-600 mt-1">Esplora tutte le tappe dell'audioguida di Regalbuto</p>
+                    </div>
+                    
+                    <a href="index.html" class="inline-flex items-center text-sm font-medium text-primary hover:text-primary-dark transition-colors">
+                        <i class="fas fa-chevron-left mr-2"></i> 
+                        Torna all'audioguida
+                    </a>
+                </div>
             </div>
             
-            <!-- Wrapper principale della mappa con sidebar -->
-            <div class="map-page-wrapper">
-                <div class="map-page-content">
-                    <!-- Sidebar con la lista delle tappe -->
-                    <div class="map-sidebar">
-                        <h2 class="text-lg font-semibold mb-4 text-primary">Tappe del tour</h2>
+            <!-- Layout principale - Nuovo design pulito e minimalista -->
+            <div class="map-layout">
+                <!-- Sidebar con lista tappe -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 lg:h-[calc(100vh-220px)] flex flex-col">
+                    <div class="mb-4 flex items-center justify-between">
+                        <h2 class="font-semibold text-gray-800 flex items-center">
+                            <i class="fas fa-route text-primary mr-2"></i> 
+                            Tappe del tour
+                        </h2>
+                        
+                        <span class="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
+                            10 tappe
+                        </span>
+                    </div>
+                    
+                    <!-- Barra di ricerca semplificata -->
+                    <div class="relative mb-4">
+                        <input type="text" id="stop-search" class="w-full rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none bg-gray-50" placeholder="Cerca tappa...">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i class="fas fa-search text-xs"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Lista tappe scrollabile -->
+                    <div class="stops-sidebar flex-grow overflow-y-auto pr-1">
                         <ul class="space-y-2">
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="piazza">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-map-marker-alt"></i>
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="piazza">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
+                                            1
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Piazza della Repubblica</h3>
-                                        <span class="text-xs text-gray-500">Tappa 1</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="comune">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-landmark"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Palazzo Comunale</h3>
-                                        <span class="text-xs text-gray-500">Tappa 2</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Piazza della Repubblica</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 2:38
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="chiesa_madre">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-church"></i>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="comune">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
+                                            2
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Chiesa Madre di San Basilio</h3>
-                                        <span class="text-xs text-gray-500">Tappa 3</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="lombardi">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-monument"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Monumento R. Lombardi</h3>
-                                        <span class="text-xs text-gray-500">Tappa 4</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Palazzo Comunale</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 2:48
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="campione">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-monument"></i>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="chiesa_madre">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-secondary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-secondary font-medium text-xs">
+                                            3
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Monumento G. Campione</h3>
-                                        <span class="text-xs text-gray-500">Tappa 5</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="corso">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-road"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Corso G.F. Ingrassia</h3>
-                                        <span class="text-xs text-gray-500">Tappa 6</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Chiesa Madre di San Basilio</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 11:19
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="santa_maria">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-place-of-worship"></i>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="lombardi">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
+                                            4
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Chiesa Santa Maria La Croce</h3>
-                                        <span class="text-xs text-gray-500">Tappa 7</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="piano">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-square"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Piazza Vittorio Veneto</h3>
-                                        <span class="text-xs text-gray-500">Tappa 8</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Monumento R. Lombardi</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 2:11
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="villa">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-tree"></i>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="campione">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
+                                            5
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Villa Comunale</h3>
-                                        <span class="text-xs text-gray-500">Tappa 9</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Monumento G. Campione</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 2:12
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="map-sidebar-item p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 cursor-pointer transition-all" data-stop-id="lago">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                                        <i class="fas fa-water"></i>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="corso">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
+                                            6
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-medium text-gray-800">Lago Pozzillo</h3>
-                                        <span class="text-xs text-gray-500">Tappa 10</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Corso G.F. Ingrassia</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 8:43
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="santa_maria">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-secondary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-secondary font-medium text-xs">
+                                            7
+                                        </div>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Chiesa Santa Maria La Croce</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 6:36
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="piano">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
+                                            8
+                                        </div>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Piazza Vittorio Veneto</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 8:01
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="villa">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-accent/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-accent font-medium text-xs">
+                                            9
+                                        </div>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Villa Comunale</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 6:10
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="lago">
+                                <div class="p-3 flex items-center">
+                                    <div class="w-9 h-9 bg-accent/10 rounded-full flex items-center justify-center mr-3 shrink-0">
+                                        <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-accent font-medium text-xs">
+                                            10
+                                        </div>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-medium text-gray-800 truncate">Lago Pozzillo</h3>
+                                        <div class="flex items-center text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <i class="fas fa-clock mr-1 opacity-60"></i> 3:04
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        
-                        <!-- Legenda -->
-                        <div class="mt-6 p-3 bg-gray-50 rounded-lg">
-                            <h3 class="text-sm font-semibold mb-2 text-gray-700">Legenda</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <div class="flex items-center">
-                                    <div class="w-3 h-3 rounded-full bg-primary mr-1"></div>
-                                    <span class="text-xs">Monumento</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <div class="w-3 h-3 rounded-full bg-secondary mr-1"></div>
-                                    <span class="text-xs">Chiesa</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <div class="w-3 h-3 rounded-full bg-accent mr-1"></div>
-                                    <span class="text-xs">Punto panoramico</span>
-                                </div>
+                    </div>
+                    
+                    <!-- Legenda minimalista -->
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 bg-primary inline-block rounded-full mr-1"></span>
+                                <span>Monumento</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 bg-secondary inline-block rounded-full mr-1"></span>
+                                <span>Chiesa</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 bg-accent inline-block rounded-full mr-1"></span>
+                                <span>Panorama</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <!-- Mappa -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden relative lg:h-[calc(100vh-220px)]">
+                    <!-- Barra strumenti mappa -->
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-pin text-primary mr-2"></i>
+                            <h2 class="font-medium text-gray-800 text-sm">Mappa interattiva</h2>
+                        </div>
                         
-                        <!-- Collegamento alla pagina del tour -->
-                        <div class="mt-6">
-                            <a href="index.html" class="block w-full py-3 px-4 bg-primary text-white text-center rounded-lg shadow-md hover:bg-primary-dark transition-all">
-                                <i class="fas fa-headphones mr-2"></i> Torna all'audioguida
-                            </a>
+                        <div class="flex gap-2">
+                            <button id="map-view-all" class="text-sm px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded transition-colors flex items-center">
+                                <i class="fas fa-expand-arrows-alt text-xs mr-1.5"></i>
+                                Mostra tutto
+                            </button>
+                            <button id="map-toggle-fullscreen" class="text-sm px-3 py-1.5 bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 rounded transition-colors flex items-center">
+                                <i class="fas fa-expand text-xs mr-1.5"></i>
+                                Schermo intero
+                            </button>
                         </div>
                     </div>
                     
-                    <!-- Container principale della mappa -->
-                    <div class="map-main-container">
-                        <div class="bg-white rounded-xl border border-gray-100 shadow-md overflow-hidden h-full">
-                            <!-- Controlli mappa -->
-                            <div class="flex items-center justify-between p-4 border-b border-gray-100">
-                                <h2 class="font-semibold">Mappa interattiva</h2>
-                                <div class="flex gap-2">
-                                    <button id="map-reset" class="px-3 py-1 bg-white border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors flex items-center">
-                                        <i class="fas fa-sync-alt mr-1 text-xs"></i> Reimposta
-                                    </button>
+                    <!-- Container mappa -->
+                    <div id="tour-map-container" class="map-container">
+                        <!-- La mappa viene inserita qui da Leaflet -->
+                    </div>
+                    
+                    <!-- Controlli mappa -->
+                    <div class="map-controls">
+                        <button class="map-control-button" id="map-locate-me" aria-label="Localizza la mia posizione" title="Trova la mia posizione">
+                            <i class="fas fa-location-crosshairs"></i>
+                        </button>
+                        <button class="map-control-button" id="map-reset" aria-label="Reimposta vista" title="Reimposta vista">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info box - Dettagli sulla tappa selezionata -->
+            <div id="stop-details" class="hidden mt-5 bg-white rounded-lg border border-gray-100 shadow-sm p-4 lg:p-5 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+                <div class="flex flex-col md:flex-row md:items-start">
+                    <div class="md:flex-1 mb-4 md:mb-0 md:mr-8">
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3">
+                                <div class="w-5 h-5 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs" id="stop-number">
+                                    1
                                 </div>
                             </div>
-                            
-                            <!-- Container della mappa -->
-                            <div class="relative">
-                                <div id="tour-map-container" class="map-container">
-                                    <!-- La mappa viene inserita qui da Leaflet -->
-                                </div>
-                                
-                                <!-- Controlli mappa -->
-                                <div class="map-controls">
-                                    <button class="map-control-button" id="map-locate-me" aria-label="Localizza la mia posizione">
-                                        <i class="fas fa-location-arrow"></i>
-                                    </button>
-                                    <button class="map-control-button" id="map-fullscreen" aria-label="Modalità a schermo intero">
-                                        <i class="fas fa-expand"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <h3 id="stop-title" class="text-xl font-semibold text-gray-800">Piazza della Repubblica</h3>
                         </div>
+                        <p id="stop-description" class="text-gray-600 mb-4">Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.</p>
+                        <div class="flex items-center space-x-5 text-sm">
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-gray-400 mr-2"></i>
+                                <span id="stop-duration" class="text-gray-600">2:38</span>
+                            </div>
+                            <a id="stop-maps-link" href="#" target="_blank" class="text-primary hover:text-primary-dark flex items-center">
+                                <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> Google Maps
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <a id="stop-audio-link" href="index.html#piazza" class="px-5 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-md shadow-sm transition-colors text-sm flex items-center justify-center mb-3">
+                            <i class="fas fa-headphones mr-2"></i>
+                            Ascolta l'audio
+                        </a>
+                        <button id="stop-highlight" class="px-5 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-md border border-gray-200 transition-colors text-sm flex items-center justify-center">
+                            <i class="fas fa-map-pin mr-2"></i>
+                            Centra sulla mappa
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
     
-    <footer class="bg-white border-t border-gray-100 py-6">
+    <footer class="border-t border-gray-100 py-6 bg-white">
         <div class="container mx-auto px-4 md:px-6">
             <div class="flex flex-col md:flex-row md:justify-between items-center">
                 <div class="mb-4 md:mb-0">
@@ -526,6 +700,126 @@
                             targetElement.removeAttribute('tabindex');
                         }, 1000);
                     }
+                });
+            }
+            
+            // Nuove funzionalità per la mappa riprogettata
+            
+            // 1. Gestione schermo intero dedicato per la mappa
+            const toggleFullscreenButton = document.getElementById('map-toggle-fullscreen');
+            if (toggleFullscreenButton) {
+                toggleFullscreenButton.addEventListener('click', function() {
+                    const mapContainer = document.querySelector('.map-layout');
+                    mapContainer.classList.toggle('map-fullscreen');
+                    
+                    // Aggiorna l'icona e il testo
+                    const isFullscreen = mapContainer.classList.contains('map-fullscreen');
+                    this.innerHTML = isFullscreen ? 
+                        '<i class="fas fa-compress text-xs mr-1.5"></i> Esci' : 
+                        '<i class="fas fa-expand text-xs mr-1.5"></i> Schermo intero';
+                    
+                    // Aggiorna la mappa dopo il cambio di dimensioni
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 100);
+                });
+            }
+            
+            // 2. Attiva la ricerca tappe
+            const stopSearch = document.getElementById('stop-search');
+            if (stopSearch) {
+                stopSearch.addEventListener('input', function() {
+                    const searchValue = this.value.toLowerCase();
+                    document.querySelectorAll('.stop-item').forEach(item => {
+                        const stopName = item.querySelector('h3').textContent.toLowerCase();
+                        if (stopName.includes(searchValue)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            
+            // 3. Gestione selezione tappe e visualizzazione dettagli
+            document.querySelectorAll('.stop-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Aggiorna stato visivo
+                    document.querySelectorAll('.stop-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Mostra i dettagli
+                    const stopId = this.getAttribute('data-stop-id');
+                    const stopDetails = document.getElementById('stop-details');
+                    
+                    if (stopDetails) {
+                        stopDetails.classList.remove('hidden');
+                        
+                        // Qui simuliamo l'aggiornamento dei dettagli
+                        // In una versione reale questi dati verrebbero caricati dal JSON
+                        const stopInfo = {
+                            piazza: {
+                                title: "Piazza della Repubblica",
+                                description: "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
+                                duration: "2:38",
+                                number: "1"
+                            },
+                            comune: {
+                                title: "Palazzo Comunale",
+                                description: "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
+                                duration: "2:48",
+                                number: "2"
+                            },
+                            chiesa_madre: {
+                                title: "Chiesa Madre di San Basilio",
+                                description: "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
+                                duration: "11:19",
+                                number: "3"
+                            }
+                            // Altri elementi... Versione completa implementerebbe tutti gli elementi
+                        };
+                        
+                        // Aggiorna i dettagli sulla base dell'ID
+                        if (stopInfo[stopId]) {
+                            document.getElementById('stop-number').textContent = stopInfo[stopId].number;
+                            document.getElementById('stop-title').textContent = stopInfo[stopId].title;
+                            document.getElementById('stop-description').textContent = stopInfo[stopId].description;
+                            document.getElementById('stop-duration').textContent = stopInfo[stopId].duration;
+                            document.getElementById('stop-audio-link').href = `index.html#${stopId}`;
+                            
+                            // Implementazione completa aggiornerebbe anche il link a Google Maps
+                        }
+                        
+                        // Aggiorna anche l'azione del pulsante per centrare sulla mappa
+                        document.getElementById('stop-highlight').setAttribute('data-stop-id', stopId);
+                    }
+                    
+                    // Questo evento sarebbe catturato dal codice della mappa per centrare il marker
+                    document.dispatchEvent(new CustomEvent('highlightMarker', { 
+                        detail: { stopId: stopId }
+                    }));
+                });
+            });
+            
+            // 4. Pulsante di centratura sulla mappa
+            const highlightButton = document.getElementById('stop-highlight');
+            if (highlightButton) {
+                highlightButton.addEventListener('click', function() {
+                    const stopId = this.getAttribute('data-stop-id');
+                    // Questo evento sarebbe catturato dal codice della mappa
+                    document.dispatchEvent(new CustomEvent('highlightMarker', { 
+                        detail: { stopId: stopId, animated: true }
+                    }));
+                });
+            }
+            
+            // 5. Pulsante "Mostra tutto"
+            const viewAllButton = document.getElementById('map-view-all');
+            if (viewAllButton) {
+                viewAllButton.addEventListener('click', function() {
+                    document.dispatchEvent(new Event('resetMapView'));
                 });
             }
         });
