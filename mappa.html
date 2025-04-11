@@ -24,12 +24,99 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AmplitudeJS CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.css"/>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components/audio-amplitude.css">
+    <link rel="stylesheet" href="assets/css/components/transcription.css">
+    <!-- Nuovo CSS per il player dell'hero e l'header -->
+    <link rel="stylesheet" href="assets/css/components/hero-player.css">
     <link rel="stylesheet" href="assets/css/components/header.css">
     <!-- CSS per le mappe -->
     <link rel="stylesheet" href="assets/css/components/map.css">
+    <!-- Stili per le mappe -->
+    <style>
+        .map-container {
+            height: 300px;
+            width: 100%;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid rgba(209, 213, 219, 1);
+            transition: all 0.3s ease;
+        }
+        
+        .map-container.expanded {
+            height: 450px;
+        }
+        
+        .leaflet-popup-content {
+            font-family: inherit;
+            margin: 10px;
+            line-height: 1.5;
+        }
+        
+        .leaflet-popup-content h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #6b46c1;
+        }
+        
+        .map-button {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .map-button::after {
+            content: '';
+            position: absolute;
+            background: rgba(107, 70, 193, 0.1);
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            top: 0;
+            left: 0;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        
+        .map-button:hover::after {
+            transform: scale(1);
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .map-control-button {
+            background: white;
+            border: 1px solid rgba(209, 213, 219, 1);
+            border-radius: 0.25rem;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            color: #6b46c1;
+            transition: all 0.2s ease;
+        }
+        
+        .map-control-button:hover {
+            background: #f9fafb;
+            color: #5a2ca0;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
     <!-- Skip link per accessibilità da tastiera -->
@@ -111,11 +198,6 @@
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="es" aria-label="Español">🇪🇸</button>
             </div>
-            
-            <a href="index.html" class="tour-button mt-4 bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
-                <i class="fas fa-play mr-2 text-xs"></i>
-                Inizia il tour
-            </a>
         </div>
     </header>
     
@@ -341,6 +423,17 @@
                     document.body.classList.toggle('overflow-hidden');
                     mobileMenuButton.classList.toggle('menu-open');
                 });
+                
+                // Chiudi il menu quando si clicca sui link interni
+                mobileMenu.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'A' || event.target.closest('a')) {
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        mobileMenu.setAttribute('aria-hidden', 'true');
+                        mobileMenu.classList.remove('open');
+                        document.body.classList.remove('overflow-hidden');
+                        mobileMenuButton.classList.remove('menu-open');
+                    }
+                });
             }
             
             // Header effetto scroll
@@ -354,12 +447,17 @@
                 }
             }
             
+            // Esegui subito per impostare lo stato iniziale
+            handleScroll();
+            
             window.addEventListener('scroll', handleScroll, { passive: true });
             
             // Gestione selettore lingua
             const languageButton = document.getElementById('language-button');
             const languageDropdown = document.getElementById('language-dropdown');
             const languageArrow = document.getElementById('language-arrow');
+            const mobileLanguageButton = document.getElementById('mobile-language-button');
+            const mobileLanguageOptions = document.querySelectorAll('.language-option-mobile');
             
             if (languageButton && languageDropdown) {
                 languageButton.addEventListener('click', function() {
@@ -384,6 +482,51 @@
                         document.removeEventListener('click', closeLanguageDropdown);
                     }
                 }
+            }
+            
+            // Gestione selettore lingua mobile
+            if (mobileLanguageButton && mobileMenu) {
+                mobileLanguageButton.addEventListener('click', function() {
+                    if (!mobileMenu.classList.contains('open')) {
+                        mobileMenuButton.click(); // Apri il menu mobile
+                    }
+                });
+            }
+            
+            // Gestione degli eventi di click sulle opzioni di lingua mobile
+            if (mobileLanguageOptions) {
+                mobileLanguageOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const lang = this.getAttribute('data-lang');
+                        console.log('Cambiata lingua a:', lang);
+                        
+                        // Aggiorna stato visivo
+                        mobileLanguageOptions.forEach(opt => {
+                            opt.classList.remove('border-primary', 'bg-primary/10');
+                        });
+                        this.classList.add('border-primary', 'bg-primary/10');
+                    });
+                });
+            }
+            
+            // Gestione dello skip link per accessibilità
+            const skipLink = document.querySelector('.skip-to-content');
+            if (skipLink) {
+                skipLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.setAttribute('tabindex', '-1');
+                        targetElement.focus();
+                        
+                        // Ripristina l'accessibilità dopo il focus
+                        setTimeout(() => {
+                            targetElement.removeAttribute('tabindex');
+                        }, 1000);
+                    }
+                });
             }
         });
     </script>

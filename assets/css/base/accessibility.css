@@ -1,5 +1,26 @@
 /* Accessibility styles */
 
+/* Skip to content link - fondamentale per l'accessibilità da tastiera */
+.skip-to-content {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    z-index: 100;
+    padding: 12px 20px;
+    background-color: var(--color-primary, #6b46c1);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0 0 4px 0;
+    transition: top 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.skip-to-content:focus {
+    top: 0;
+    outline: none;
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
     * {
