@@ -147,42 +147,39 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Icone play e pause correttamente configurate */
+/* Icone play e pause correttamente configurate - REVISIONE PER TUTTI I PLAYER */
 .amplitude-play {
     display: inline-block;
-    font-size: 1.25rem;
 }
 
 .amplitude-pause {
     display: none;
-    font-size: 1.25rem;
 }
 
 /* Quando è in riproduzione, nascondi play e mostra pause */
-.amplitude-playing .amplitude-play {
-    display: none;
+.amplitude-playing .amplitude-play,
+button.playing .amplitude-play,
+.amplitude-play-pause.playing .amplitude-play {
+    display: none !important;
 }
 
-.amplitude-playing .amplitude-pause {
-    display: inline-block;
+.amplitude-playing .amplitude-pause,
+button.playing .amplitude-pause,
+.amplitude-play-pause.playing .amplitude-pause {
+    display: inline-block !important;
 }
 
 /* Classe specifica per pausa - assicura che lo stato sia visualizzato correttamente */
-.amplitude-paused .amplitude-play {
+.amplitude-paused .amplitude-play,
+button.paused .amplitude-play,
+.amplitude-play-pause.paused .amplitude-play {
     display: inline-block !important;
 }
 
-.amplitude-paused .amplitude-pause {
+.amplitude-paused .amplitude-pause,
+button.paused .amplitude-pause,
+.amplitude-play-pause.paused .amplitude-pause {
     display: none !important;
-}
-
-/* Classe specifica per riproduzione - assicura che lo stato sia visualizzato correttamente */
-.amplitude-playing .amplitude-play {
-    display: none !important;
-}
-
-.amplitude-playing .amplitude-pause {
-    display: inline-block !important;
 }
 
 /* Migliora il feedback visivo per i pulsanti attivi */

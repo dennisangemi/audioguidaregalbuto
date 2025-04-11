@@ -199,6 +199,15 @@ const AudioPlayerManager = (function() {
         const playerId = button.getAttribute('data-player-id') || 
                        (button.closest('.amplitude-player') ? button.closest('.amplitude-player').id : 'unknown-player');
         
+        // Inizializza correttamente lo stato visivo (icona play visibile, icona pause nascosta)
+        const playIcon = button.querySelector('.amplitude-play');
+        const pauseIcon = button.querySelector('.amplitude-pause');
+        
+        if (playIcon && pauseIcon) {
+            playIcon.style.display = 'inline-block';
+            pauseIcon.style.display = 'none';
+        }
+        
         button.addEventListener('click', function(e) {
             e.stopPropagation(); // Impedisci la propagazione dell'evento
             
@@ -295,7 +304,19 @@ const AudioPlayerManager = (function() {
                 playIcon.style.display = 'inline-block';
                 pauseIcon.style.display = 'none';
             }
+            
+            // Aggiorna classi CSS per supportare diversi stili
+            if (isPlaying) {
+                button.classList.add('playing');
+                button.classList.remove('paused');
+            } else {
+                button.classList.remove('playing');
+                button.classList.add('paused');
+            }
         }
+        
+        // Forza un reflow del DOM per assicurarsi che le modifiche CSS vengano applicate immediatamente
+        void button.offsetWidth;
     }
     
     /**
