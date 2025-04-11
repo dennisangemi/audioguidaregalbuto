@@ -60,8 +60,8 @@
                 "id": "chiesa_madre",
                 "title": "Chiesa Madre di San Basilio",
                 "description": "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
-                "duration": "00:00",
-                "audioPath": "#",
+                "duration": "11:19",
+                "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
                 "imagePath": "assets/img/regetna.jpg",
                 "transcription": {
                     "paragraphs": [
@@ -215,6 +215,10 @@
                 "id": "piazza",
                 "order": 1,
                 "googleMapsUrl": "https://maps.app.goo.gl/FG2njxa754LHAxha9",
+                "coordinates": {
+                    "latitude": 37.652467,
+                    "longitude": 14.6408218
+                },
                 "icon": "fa-map-marker-alt",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -222,6 +226,10 @@
                 "id": "comune",
                 "order": 2,
                 "googleMapsUrl": "https://maps.app.goo.gl/AASKU2yNkVvauoKn8",
+                "coordinates": {
+                    "latitude": 37.6523334,
+                    "longitude": 14.6407522
+                },
                 "icon": "fa-landmark",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -229,20 +237,32 @@
                 "id": "chiesa_madre",
                 "order": 3,
                 "googleMapsUrl": "https://maps.app.goo.gl/xcCrj5qfHnW9MjBy5",
+                "coordinates": {
+                    "latitude": 37.6526445,
+                    "longitude": 14.6408936
+                },
                 "icon": "fa-church",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "lombardi",
                 "order": 4,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://www.google.com/maps/place/37.652006,14.6411328",
+                "coordinates": {
+                    "latitude": 37.652006,
+                    "longitude": 14.6411328
+                },
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "campione",
                 "order": 5,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://www.google.com/maps/place/37.6521778,14.6406708",
+                "coordinates": {
+                    "latitude": 37.6521778,
+                    "longitude": 14.6406708
+                },
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -250,6 +270,10 @@
                 "id": "corso",
                 "order": 6,
                 "googleMapsUrl": "https://maps.app.goo.gl/K5HXUGqsyndHHDk57",
+                "coordinates": {
+                    "latitude": 37.652076,
+                    "longitude": 14.6408725
+                },
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -257,6 +281,10 @@
                 "id": "santa_maria",
                 "order": 7,
                 "googleMapsUrl": "https://maps.app.goo.gl/Sjrgz97vXRWmoze19",
+                "coordinates": {
+                    "latitude": 37.6498226,
+                    "longitude": 14.6406302
+                },
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -264,6 +292,10 @@
                 "id": "piano",
                 "order": 8,
                 "googleMapsUrl": "https://maps.app.goo.gl/YzFDkN9uL7buAds58",
+                "coordinates": {
+                    "latitude": 37.6497021,
+                    "longitude": 14.6408261
+                },
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -271,6 +303,10 @@
                 "id": "villa",
                 "order": 9,
                 "googleMapsUrl": "https://maps.app.goo.gl/ZTFVeBeasGu66iPs5",
+                "coordinates": {
+                    "latitude": 37.6498436,
+                    "longitude": 14.642395
+                },
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -278,6 +314,10 @@
                 "id": "lago",
                 "order": 10,
                 "googleMapsUrl": "https://maps.app.goo.gl/mhY1xBwv7gJC1uv37",
+                "coordinates": {
+                    "latitude": 37.6583729,
+                    "longitude": 14.6191883
+                },
                 "icon": "fa-water",
                 "imagePath": "assets/img/regetna.jpg"
             }
