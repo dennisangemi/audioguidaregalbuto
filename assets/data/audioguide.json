@@ -214,21 +214,21 @@
             {
                 "id": "piazza",
                 "order": 1,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/FG2njxa754LHAxha9",
                 "icon": "fa-map-marker-alt",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "comune",
                 "order": 2,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/AASKU2yNkVvauoKn8",
                 "icon": "fa-landmark",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "chiesa_madre",
                 "order": 3,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/xcCrj5qfHnW9MjBy5",
                 "icon": "fa-church",
                 "imagePath": "assets/img/regetna.jpg"
             },
@@ -249,35 +249,35 @@
             {
                 "id": "corso",
                 "order": 6,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/K5HXUGqsyndHHDk57",
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "santa_maria",
                 "order": 7,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/Sjrgz97vXRWmoze19",
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "piano",
                 "order": 8,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/YzFDkN9uL7buAds58",
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "villa",
                 "order": 9,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/ZTFVeBeasGu66iPs5",
                 "icon": "fa-tree",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
                 "id": "lago",
                 "order": 10,
-                "googleMapsUrl": "#",
+                "googleMapsUrl": "https://maps.app.goo.gl/mhY1xBwv7gJC1uv37",
                 "icon": "fa-water",
                 "imagePath": "assets/img/regetna.jpg"
             }
