@@ -380,14 +380,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <span>Mostra trascrizione</span>
                                 <i class="fas fa-chevron-down transcript-toggle-icon transition-transform ml-2" aria-hidden="true"></i>
                             </button>
-                            
-                            ${googleMapsUrl ? 
-                                `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
-                                   class="sm:flex-shrink-0 py-3 px-6 rounded-xl border ${colorScheme.buttonBorder} ${colorScheme.buttonText} ${colorScheme.buttonHover} transition-all flex justify-center items-center">
-                                    <i class="fas fa-map-marker-alt mr-2"></i>
-                                    <span>Indicazioni</span>
-                                </a>` 
-                                : ''}
                         </div>
                         
                         <div id="transcript-${index + 1}" class="hidden mt-4 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
