@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# function convert wav or mp4 to mp3 using ffmpeg
+# for wav use  ffmpeg -i input.wav -q:a 0 ouptut.mp3
+# for mp4 use ffmpeg -i input.mp4 -q:a 0 -map a output.mp3
+# for m4a use ffmpeg -i input.m4a -q:a 0 output.mp3
+# instruction: source this file
+# usage: 2mp3 input_file output_file
+#        2mp3 *.wav
+#        2mp3 *.mp4
+#        2mp3 *.m4a
+
+2mp3() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: 2mp3 input_file [input_file2 ...]"
+        return 1
+    fi
+
+    # Determine CPU cores for parallel processing
+    local cores=1
+    if command -v nproc &>/dev/null; then
+        cores=$(nproc)
+    elif [ -f /proc/cpuinfo ]; then
+        cores=$(grep -c ^processor /proc/cpuinfo)
+    elif command -v sysctl &>/dev/null && sysctl -n hw.ncpu &>/dev/null; then
+        cores=$(sysctl -n hw.ncpu)
+    fi
+    
+    echo "Using up to $cores parallel processes for conversion"
+    
+    local files_processed=0
+    local files_total=$#
+    
+    # Process files non-parallelly first to check if there are fundamental issues
+    for file in "$@"; do
+        if [[ $file == *.wav ]]; then
+            echo "Converting $file to ${file%.wav}.mp3 ($(( ++files_processed ))/$files_total)"
+            # Use highest quality settings for WAV to MP3 conversion
+            ffmpeg -i "$file" -qscale:a 0 "${file%.wav}.mp3" -y
+        elif [[ $file == *.mp4 ]]; then
+            echo "Converting $file to ${file%.mp4}.mp3 ($(( ++files_processed ))/$files_total)"
+            # Use highest quality settings for MP4 to MP3 conversion
+            # -qscale:a 0 = VBR encoding at highest quality
+            # copy original audio codec parameters without re-encoding when possible
+            ffmpeg -i "$file" -vn -qscale:a 0 "${file%.mp4}.mp3" -y
+        elif [[ $file == *.m4a ]]; then
+            echo "Converting $file to ${file%.m4a}.mp3 ($(( ++files_processed ))/$files_total)"
+            # Use highest quality settings for M4A to MP3 conversion
+            ffmpeg -i "$file" -qscale:a 0 "${file%.m4a}.mp3" -y
+        else
+            echo "File $file is not a wav, mp4, or m4a file"
+            continue
+        fi
+        
+        # Check if conversion was successful
+        if [ -f "${file%.*}.mp3" ]; then
+            echo "Successfully created ${file%.*}.mp3"
+        else
+            echo "Failed to create ${file%.*}.mp3"
+        fi
+    done
+    
+    echo "All conversions completed!"
+}
+
+# Ensure the function is exported so it can be used as a command
+export -f 2mp3
