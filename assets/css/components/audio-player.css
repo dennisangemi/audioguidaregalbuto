@@ -294,83 +294,6 @@
     gap: 1rem;
 }
 
-/* Progress bar principale elegante */
-.progress-container {
-    flex-grow: 1;
-}
-
-.player-progress-bar {
-    position: relative;
-    height: 4px;
-    background-color: rgba(156, 163, 175, 0.4);
-    border-radius: 100px;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    overflow: visible; /* Consente al pallino di essere visibile anche quando fuori dal contenitore */
-    z-index: 10;
-}
-
-.player-progress-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: linear-gradient(to right, #4a6cf7, #6610f2);
-    border-radius: 100px;
-    transition: width 0.1s linear;
-    will-change: width; /* Ottimizza le animazioni */
-}
-
-.player-progress-handle {
-    position: absolute;
-    top: 50%;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #4a6cf7;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    transform: translate(-50%, -50%);
-    transition: left 0.1s linear, transform 0.15s ease;
-    z-index: 15; /* Sopra la barra di avanzamento */
-    cursor: grab;
-    will-change: left; /* Ottimizza le animazioni */
-    pointer-events: auto; /* Garantisce che riceva eventi mouse/touch */
-    opacity: 0.6; /* Inizialmente semi-trasparente */
-}
-
-/* Stato hover per l'intero container */
-.player-progress-bar:hover .player-progress-handle,
-.player-progress-bar:active .player-progress-handle {
-    transform: translate(-50%, -50%) scale(1.3); /* Ingrandimento per feedback visivo */
-    opacity: 1; /* Completamente visibile */
-}
-
-/* Stato attivo durante il trascinamento */
-.player-progress-handle:active {
-    cursor: grabbing; /* Cambia cursore durante il trascinamento */
-    transform: translate(-50%, -50%) scale(1.3);
-    opacity: 1;
-}
-
-/* Container tempi */
-.player-time {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    color: #6b7280;
-    font-variant-numeric: tabular-nums;
-}
-
-.time-current {
-    color: #4b5563;
-    font-weight: 500;
-}
-
-.time-total {
-    color: #6b7280;
-}
-
 /* Container informazioni delle tracce */
 .track-info {
     flex-grow: 1;
@@ -496,10 +419,6 @@
         align-items: center;
         gap: 1.25rem;
     }
-    
-    .progress-container {
-        margin: 0 1rem;
-    }
 }
 
 /* Layout di lusso per schermi molto grandi */
@@ -561,7 +480,6 @@
     .audio-player,
     .main-play-button,
     .player-button,
-    .player-progress-handle,
     .player-time-button {
         transition: none;
     }

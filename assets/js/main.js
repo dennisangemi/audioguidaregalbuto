@@ -207,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBorder: 'border-primary/20',
                 buttonText: 'text-primary',
                 buttonHover: 'hover:bg-primary/5',
-                progressBg: 'from-primary to-secondary',
                 borderColor: 'border-primary',
                 hoverText: 'hover:text-primary',
                 hoverBorder: 'hover:border-primary/20',
@@ -221,7 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBorder: 'border-primary/20',
                 buttonText: 'text-primary',
                 buttonHover: 'hover:bg-primary/5',
-                progressBg: 'from-primary to-secondary',
                 borderColor: 'border-primary',
                 hoverText: 'hover:text-primary',
                 hoverBorder: 'hover:border-primary/20',
@@ -235,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBorder: 'border-secondary/20',
                 buttonText: 'text-secondary',
                 buttonHover: 'hover:bg-secondary/5',
-                progressBg: 'from-secondary to-primary',
                 borderColor: 'border-secondary',
                 hoverText: 'hover:text-secondary',
                 hoverBorder: 'hover:border-secondary/20',
@@ -249,7 +246,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBorder: 'border-accent/20',
                 buttonText: 'text-accent',
                 buttonHover: 'hover:bg-accent/5',
-                progressBg: 'from-accent to-secondary',
                 borderColor: 'border-accent',
                 hoverText: 'hover:text-accent',
                 hoverBorder: 'hover:border-accent/20',
@@ -263,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBorder: 'border-secondary/20',
                 buttonText: 'text-secondary',
                 buttonHover: 'hover:bg-secondary/5',
-                progressBg: 'from-secondary to-accent',
                 borderColor: 'border-secondary',
                 hoverText: 'hover:text-secondary',
                 hoverBorder: 'hover:border-secondary/20',
@@ -339,38 +334,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         
                         <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
-                            <div class="flex items-center gap-4 mb-4">
-                                <button class="amplitude-play-pause w-14 h-14 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
+                            <div class="flex items-center justify-center gap-8">
+                                <div class="flex flex-col items-center">
+                                    <button class="backward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                        <i class="fas fa-undo-alt text-sm"></i>
+                                    </button>
+                                    <span class="text-xs font-medium text-gray-500">-30s</span>
+                                </div>
+                                
+                                <button class="amplitude-play-pause w-16 h-16 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
                                     <i class="fa fa-play amplitude-play text-lg" aria-hidden="true"></i>
                                     <i class="fa fa-pause amplitude-pause text-lg" aria-hidden="true"></i>
                                 </button>
                                 
-                                <div class="flex items-center gap-3">
-                                    <div class="flex flex-col items-center">
-                                        <button class="backward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
-                                            <i class="fas fa-undo-alt text-sm"></i>
-                                        </button>
-                                        <span class="text-xs font-medium text-gray-500">-30s</span>
-                                    </div>
-                                    
-                                    <div class="flex flex-col items-center">
-                                        <button class="forward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
-                                            <i class="fas fa-redo-alt text-sm"></i>
-                                        </button>
-                                        <span class="text-xs font-medium text-gray-500">+30s</span>
-                                    </div>
+                                <div class="flex flex-col items-center">
+                                    <button class="forward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                        <i class="fas fa-redo-alt text-sm"></i>
+                                    </button>
+                                    <span class="text-xs font-medium text-gray-500">+30s</span>
                                 </div>
-                            </div>
-                            
-                            <div class="player-progress-container relative h-2 bg-gray-200 rounded-full mb-2">
-                                <div class="player-progress absolute top-0 left-0 h-full bg-gradient-to-r ${colorScheme.progressBg} rounded-full" style="width: 0%"></div>
-                                <div class="player-progress-handle absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 ${colorScheme.borderColor} shadow-md" style="left: 0%"></div>
-                                <input type="range" class="amplitude-song-slider w-full absolute inset-0 opacity-0 cursor-pointer" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
-                            </div>
-                            
-                            <div class="flex justify-between text-xs font-medium text-gray-500">
-                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
-                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
                             </div>
                         </div>
                         
@@ -575,16 +557,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Implementazione dei controlli avanti/indietro di 15 secondi
+// Implementazione dei controlli avanti/indietro di 30 secondi
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestione dei pulsanti di avanzamento rapido (+15s) e riavvolgimento (-15s)
+    // Gestione dei pulsanti di avanzamento rapido (+30s) e riavvolgimento (-30s)
     function setupTimeControls() {
         const forwardButtons = document.querySelectorAll('.forward-15');
         const backwardButtons = document.querySelectorAll('.backward-15');
         
-        console.log(`Trovati ${forwardButtons.length} pulsanti +15s e ${backwardButtons.length} pulsanti -15s`);
+        console.log(`Trovati ${forwardButtons.length} pulsanti +30s e ${backwardButtons.length} pulsanti -30s`);
         
-        // Avanti di 15 secondi
+        // Avanti di 30 secondi
         forwardButtons.forEach(button => {
             button.addEventListener('click', function(e) {
                 e.stopPropagation(); // Impedisce che il click si propaghi al bottone play/pause
@@ -592,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const songIndex = this.getAttribute('data-amplitude-song-index');
                 const playlist = this.getAttribute('data-amplitude-playlist');
                 
-                console.log(`Avanti +15s: playlist=${playlist}, song=${songIndex}`);
+                console.log(`Avanti +30s: playlist=${playlist}, song=${songIndex}`);
                 
                 try {
                     // Utilizziamo l'elemento audio HTML direttamente
@@ -604,8 +586,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
                         
                         if (!isNaN(currentTime) && !isNaN(duration) && duration > 0) {
-                            // Calcola la nuova posizione (avanti di 15 secondi, ma non oltre la durata)
-                            const newPosition = Math.min(currentTime + 15, duration);
+                            // Calcola la nuova posizione (avanti di 30 secondi, ma non oltre la durata)
+                            const newPosition = Math.min(currentTime + 30, duration);
                             
                             console.log(`Nuova posizione: ${newPosition}s`);
                             
@@ -622,12 +604,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 } catch (error) {
-                    console.error('Errore nell\'avanzamento di 15 secondi:', error);
+                    console.error('Errore nell\'avanzamento di 30 secondi:', error);
                 }
             });
         });
         
-        // Indietro di 15 secondi
+        // Indietro di 30 secondi
         backwardButtons.forEach(button => {
             button.addEventListener('click', function(e) {
                 e.stopPropagation(); // Impedisce che il click si propaghi al bottone play/pause
@@ -635,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const songIndex = this.getAttribute('data-amplitude-song-index');
                 const playlist = this.getAttribute('data-amplitude-playlist');
                 
-                console.log(`Indietro -15s: playlist=${playlist}, song=${songIndex}`);
+                console.log(`Indietro -30s: playlist=${playlist}, song=${songIndex}`);
                 
                 try {
                     // Utilizziamo l'elemento audio HTML direttamente
@@ -647,8 +629,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
                         
                         if (!isNaN(currentTime) && !isNaN(duration)) {
-                            // Calcola la nuova posizione (indietro di 15 secondi, ma non sotto zero)
-                            const newPosition = Math.max(currentTime - 15, 0);
+                            // Calcola la nuova posizione (indietro di 30 secondi, ma non sotto zero)
+                            const newPosition = Math.max(currentTime - 30, 0);
                             
                             console.log(`Nuova posizione: ${newPosition}s`);
                             
@@ -665,138 +647,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 } catch (error) {
-                    console.error('Errore nel riavvolgimento di 15 secondi:', error);
+                    console.error('Errore nel riavvolgimento di 30 secondi:', error);
                 }
             });
         });
-    }
-    
-    // Funzione per aggiornare l'interfaccia utente della progress bar
-    function updateProgressUI(playlist, songIndex, percentage) {
-        // Trova il container della progress bar relativo a questo specifico player
-        const selector = `.player-progress-container input[data-amplitude-playlist="${playlist}"][data-amplitude-song-index="${songIndex}"]`;
-        const rangeInput = document.querySelector(selector);
-        
-        if (rangeInput) {
-            const container = rangeInput.closest('.player-progress-container');
-            const progressBar = container.querySelector('.player-progress');
-            const handle = container.querySelector('.player-progress-handle');
-            
-            // Aggiorna la larghezza della barra di avanzamento
-            progressBar.style.width = percentage + '%';
-            
-            // Aggiorna la posizione del cursore
-            handle.style.left = percentage + '%';
-            
-            // Aggiorna anche il valore dell'input range
-            rangeInput.value = percentage;
-        }
-    }
-    
-    // Funzione per sincronizzare il progress bar con lo stato di Amplitude
-    function setupProgressSync() {
-        // Ascolta gli eventi di aggiornamento del tempo di Amplitude
-        if (typeof Amplitude !== 'undefined') {
-            Amplitude.bind('time_update', function() {
-                try {
-                    const currentPlaylist = Amplitude.getActivePlaylist();
-                    if (currentPlaylist) {
-                        const currentSong = Amplitude.getActiveIndexInPlaylist(currentPlaylist);
-                        const percentage = Amplitude.getSongPlayedPercentage();
-                        
-                        if (currentSong !== null && !isNaN(percentage)) {
-                            updateProgressUI(currentPlaylist, currentSong, percentage);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Errore nell\'aggiornamento del progresso:', error);
-                }
-            });
-        }
-        
-        // Configura gli slider per essere interattivi
-        document.querySelectorAll('.player-progress-container').forEach(container => {
-            const slider = container.querySelector('input[type="range"]');
-            const progressBar = container.querySelector('.player-progress');
-            const handle = container.querySelector('.player-progress-handle');
-            
-            if (slider) {
-                // Quando l'utente clicca o tocca la barra di avanzamento
-                container.addEventListener('click', function(e) {
-                    if (e.target === slider) return; // Gestiamo già questa interazione tramite l'input range
-                    
-                    const rect = container.getBoundingClientRect();
-                    const percentage = ((e.clientX - rect.left) / rect.width) * 100;
-                    
-                    const playlist = slider.getAttribute('data-amplitude-playlist');
-                    const songIndex = slider.getAttribute('data-amplitude-song-index');
-                    
-                    if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
-                        try {
-                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, percentage);
-                            updateProgressUI(playlist, songIndex, percentage);
-                        } catch (error) {
-                            console.error('Errore nell\'impostare la posizione dell\'audio:', error);
-                        }
-                    }
-                });
-                
-                // Quando l'utente trascina lo slider
-                slider.addEventListener('input', function() {
-                    const percentage = this.value;
-                    
-                    if (progressBar && handle) {
-                        progressBar.style.width = percentage + '%';
-                        handle.style.left = percentage + '%';
-                    }
-                });
-                
-                // Quando l'utente rilascia lo slider
-                slider.addEventListener('change', function() {
-                    const percentage = this.value;
-                    const playlist = this.getAttribute('data-amplitude-playlist');
-                    const songIndex = this.getAttribute('data-amplitude-song-index');
-                    
-                    if (playlist && songIndex !== null && typeof Amplitude !== 'undefined') {
-                        try {
-                            Amplitude.setPlaylistSongPlayedPercentage(playlist, songIndex, percentage);
-                        } catch (error) {
-                            console.error('Errore nell\'impostare la posizione dell\'audio:', error);
-                        }
-                    }
-                });
-            }
-        });
-    }
-    
-    // Imposta un intervallo per aggiornare tutte le progress bar periodicamente (per sicurezza)
-    function setupProgressInterval() {
-        setInterval(function() {
-            if (typeof Amplitude !== 'undefined') {
-                try {
-                    const currentPlaylist = Amplitude.getActivePlaylist();
-                    
-                    if (currentPlaylist) {
-                        const currentSong = Amplitude.getActiveIndexInPlaylist(currentPlaylist);
-                        const percentage = Amplitude.getSongPlayedPercentage();
-                        
-                        if (currentSong !== null && !isNaN(percentage)) {
-                            updateProgressUI(currentPlaylist, currentSong, percentage);
-                        }
-                    }
-                } catch (error) {
-                    // Ignoriamo gli errori nel polling, è solo un backup
-                }
-            }
-        }, 1000);
     }
     
     // Inizializza i controlli dopo che Amplitude è stato completamente caricato
     function initializeAudioControls() {
         console.log('Inizializzazione controlli audio...');
         setupTimeControls();
-        setupProgressSync();
-        setupProgressInterval();
     }
     
     // Verifica periodicamente se Amplitude è pronto
