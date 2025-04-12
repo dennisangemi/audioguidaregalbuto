@@ -206,11 +206,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBg: 'from-primary to-primary-light',
                 buttonBorder: 'border-primary/20',
                 buttonText: 'text-primary',
-                buttonHover: 'hover:bg-primary/5',
+                buttonHover: 'hover:bg-primary/20',
                 borderColor: 'border-primary',
                 hoverText: 'hover:text-primary',
                 hoverBorder: 'hover:border-primary/20',
-                hoverBg: 'hover:bg-primary/5'
+                hoverBg: 'hover:bg-primary/5',
+                mapsBg: 'bg-primary/10'
             },
             {
                 gradientFrom: 'from-primary/80', 
@@ -219,11 +220,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBg: 'from-primary to-primary-light',
                 buttonBorder: 'border-primary/20',
                 buttonText: 'text-primary',
-                buttonHover: 'hover:bg-primary/5',
+                buttonHover: 'hover:bg-primary/20',
                 borderColor: 'border-primary',
                 hoverText: 'hover:text-primary',
                 hoverBorder: 'hover:border-primary/20',
-                hoverBg: 'hover:bg-primary/5'
+                hoverBg: 'hover:bg-primary/5',
+                mapsBg: 'bg-primary/10'
             },
             {
                 gradientFrom: 'from-secondary/80', 
@@ -232,11 +234,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBg: 'from-secondary to-primary',
                 buttonBorder: 'border-secondary/20',
                 buttonText: 'text-secondary',
-                buttonHover: 'hover:bg-secondary/5',
+                buttonHover: 'hover:bg-secondary/20',
                 borderColor: 'border-secondary',
                 hoverText: 'hover:text-secondary',
                 hoverBorder: 'hover:border-secondary/20',
-                hoverBg: 'hover:bg-secondary/5'
+                hoverBg: 'hover:bg-secondary/5',
+                mapsBg: 'bg-secondary/10'
             },
             {
                 gradientFrom: 'from-accent/80', 
@@ -245,11 +248,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBg: 'from-accent to-secondary',
                 buttonBorder: 'border-accent/20',
                 buttonText: 'text-accent',
-                buttonHover: 'hover:bg-accent/5',
+                buttonHover: 'hover:bg-accent/20',
                 borderColor: 'border-accent',
                 hoverText: 'hover:text-accent',
                 hoverBorder: 'hover:border-accent/20',
-                hoverBg: 'hover:bg-accent/5'
+                hoverBg: 'hover:bg-accent/5',
+                mapsBg: 'bg-accent/10'
             },
             {
                 gradientFrom: 'from-secondary/80', 
@@ -258,11 +262,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonBg: 'from-secondary to-accent',
                 buttonBorder: 'border-secondary/20',
                 buttonText: 'text-secondary',
-                buttonHover: 'hover:bg-secondary/5',
+                buttonHover: 'hover:bg-secondary/20',
                 borderColor: 'border-secondary',
                 hoverText: 'hover:text-secondary',
                 hoverBorder: 'hover:border-secondary/20',
-                hoverBg: 'hover:bg-secondary/5'
+                hoverBg: 'hover:bg-secondary/5',
+                mapsBg: 'bg-secondary/10'
             }
         ];
         
@@ -277,26 +282,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const imagePath = staticStop.imagePath || stop.imagePath || 'assets/img/illustration-2.png';
             const audioPath = stop.audioPath || '#';
             
-            // Recupera URL Google Maps dai dati statici
-            const googleMapsUrl = staticStop?.googleMapsUrl || '';
-            
-            // Recupera durazione audio
-            const duration = stop?.duration || '';
-            
             // Scegli un schema di colori basato sull'indice (ciclico)
             const colorScheme = colorSchemes[index % colorSchemes.length];
             
             // Converti ID con underscore in ID con trattino per il DOM
             const elementId = stop.id.replace(/_/g, '-');
             
+            // Ordine della tappa (da dati statici oppure indice + 1)
+            const order = staticStop.order || (index + 1);
+            
+            // Recupera durazione audio
+            const duration = stop?.duration || '';
+            
             // Crea l'elemento article con il nuovo design Tailwind
             const articleEl = document.createElement('article');
             articleEl.className = 'bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl border border-gray-100 transform hover:-translate-y-1';
             articleEl.id = elementId;
             articleEl.setAttribute('aria-labelledby', `title-${elementId}`);
-            
-            // Ordine della tappa (da dati statici oppure indice + 1)
-            const order = staticStop.order || (index + 1);
             
             // Crea la struttura HTML per la card con il nuovo design Tailwind
             articleEl.innerHTML = `
@@ -322,50 +324,56 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <div class="flex-1 p-6 md:p-8">
-                        <div class="flex flex-wrap justify-between items-center mb-6">
-                            <p class="text-gray-600 flex-grow mr-4">${stop.description || 'Nessuna descrizione disponibile'}</p>
-                        </div>
+                        <p class="text-gray-600 mb-6">${stop.description || 'Nessuna descrizione disponibile'}</p>
                         
                         <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
-                            <div class="flex items-center justify-center gap-8">
-                                <div class="flex flex-col items-center">
-                                    <button class="backward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
-                                        <i class="fas fa-undo-alt text-sm"></i>
-                                    </button>
-                                    <span class="text-xs font-medium text-gray-500">-30s</span>
-                                </div>
-                                
-                                <button class="amplitude-play-pause w-16 h-16 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
+                            <div class="flex items-center gap-4 mb-4">
+                                <button class="amplitude-play-pause w-14 h-14 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
                                     <i class="fa fa-play amplitude-play text-lg" aria-hidden="true"></i>
                                     <i class="fa fa-pause amplitude-pause text-lg" aria-hidden="true"></i>
                                 </button>
                                 
-                                <div class="flex flex-col items-center">
-                                    <button class="forward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
-                                        <i class="fas fa-redo-alt text-sm"></i>
-                                    </button>
-                                    <span class="text-xs font-medium text-gray-500">+30s</span>
+                                <div class="flex items-center gap-3">
+                                    <div class="flex flex-col items-center">
+                                        <button class="backward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                            <i class="fas fa-undo-alt text-sm"></i>
+                                        </button>
+                                        <span class="text-xs font-medium text-gray-500">-30s</span>
+                                    </div>
+                                    
+                                    <div class="flex flex-col items-center">
+                                        <button class="forward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                            <i class="fas fa-redo-alt text-sm"></i>
+                                        </button>
+                                        <span class="text-xs font-medium text-gray-500">+30s</span>
+                                    </div>
                                 </div>
+                                
+                                <!-- Nuovo pulsante "Apri in maps" con lo stesso design del file HTML -->
+                                <div class="ml-auto">
+                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg ${colorScheme.mapsBg} ${colorScheme.buttonText} border ${colorScheme.buttonBorder} ${colorScheme.buttonHover} active:scale-95 transition-all shadow-sm" data-stop-id="${stop.id}">
+                                        <i class="fas fa-map-marker-alt text-sm"></i>
+                                        <span class="text-xs font-medium">Apri in maps</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="player-progress-container relative h-2 bg-gray-200 rounded-full mb-2">
+                                <div class="player-progress absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width: 0%"></div>
+                                <div class="player-progress-handle absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-primary shadow-md" style="left: 0%"></div>
+                                <input type="range" class="amplitude-song-slider w-full absolute inset-0 opacity-0 cursor-pointer" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
+                            </div>
+                            
+                            <div class="flex justify-between text-xs font-medium text-gray-500">
+                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
+                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
                             </div>
                         </div>
                         
-                        <div class="mt-5 flex flex-col sm:flex-row gap-3">
-                            <button class="toggle-transcript flex-grow py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
-                                <i class="fas fa-align-left mr-2"></i>
-                                <span>Mostra trascrizione</span>
-                                <i class="fas fa-chevron-down transcript-toggle-icon transition-transform ml-2" aria-hidden="true"></i>
-                            </button>
-                            
-                            ${googleMapsUrl ? 
-                                `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
-                                   class="py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2 hover:scale-105"
-                                   aria-label="Visualizza ${stop.title} su Google Maps">
-                                    <i class="fas fa-map-marker-alt mr-2"></i>
-                                    <span class="font-medium">Maps</span>
-                                    <i class="fas fa-external-link-alt text-xs ml-1" aria-hidden="true"></i>
-                                </a>` 
-                                : ''}
-                        </div>
+                        <button class="toggle-transcript mt-5 w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
+                            <span>Mostra trascrizione</span>
+                            <i class="fas fa-chevron-down transcript-toggle-icon transition-transform" aria-hidden="true"></i>
+                        </button>
                         
                         <div id="transcript-${index + 1}" class="hidden mt-4 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
                             <div class="p-5 space-y-4 text-gray-700">
@@ -381,6 +389,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Riconfigura i gestori di eventi per le trascrizioni
         setupTranscriptToggles();
+        
+        // Aggiunge gli event listener ai pulsanti "Apri in maps"
+        document.querySelectorAll('.view-on-map').forEach(button => {
+            button.addEventListener('click', function() {
+                const stopId = this.getAttribute('data-stop-id');
+                window.location.href = `mappa.html?stop=${stopId}`;
+            });
+            
+            // Tooltip aggiornato per il pulsante
+            button.setAttribute('title', 'Apri la posizione in maps');
+        });
     }
         
     // Pre-inizializza tutti i contenitori di trascrizioni per evitare problemi di layout

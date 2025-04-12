@@ -458,10 +458,11 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Nuovo pulsante "Vedi sulla mappa" -->
+                                <!-- Nuovo pulsante "Apri in maps" -->
                                 <div class="ml-auto">
-                                    <button class="view-on-map w-10 h-10 rounded-full bg-white text-primary border border-primary/20 flex items-center justify-center hover:bg-primary/5 active:scale-95 transition-all shadow-sm" data-stop-id="piazza">
+                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 active:scale-95 transition-all shadow-sm" data-stop-id="piazza">
                                         <i class="fas fa-map-marker-alt text-sm"></i>
+                                        <span class="text-xs font-medium">Apri in maps</span>
                                     </button>
                                 </div>
                             </div>
@@ -539,10 +540,11 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Nuovo pulsante "Vedi sulla mappa" -->
+                                <!-- Nuovo pulsante "Apri in maps" -->
                                 <div class="ml-auto">
-                                    <button class="view-on-map w-10 h-10 rounded-full bg-white text-primary border border-primary/20 flex items-center justify-center hover:bg-primary/5 active:scale-95 transition-all shadow-sm" data-stop-id="comune">
+                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 active:scale-95 transition-all shadow-sm" data-stop-id="comune">
                                         <i class="fas fa-map-marker-alt text-sm"></i>
+                                        <span class="text-xs font-medium">Apri in maps</span>
                                     </button>
                                 </div>
                             </div>
@@ -615,10 +617,11 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Nuovo pulsante "Vedi sulla mappa" -->
+                                <!-- Nuovo pulsante "Apri in maps" -->
                                 <div class="ml-auto">
-                                    <button class="view-on-map w-10 h-10 rounded-full bg-white text-secondary border border-secondary/20 flex items-center justify-center hover:bg-secondary/5 active:scale-95 transition-all shadow-sm" data-stop-id="chiesa_madre">
+                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/10 text-secondary border border-secondary/20 hover:bg-secondary/20 active:scale-95 transition-all shadow-sm" data-stop-id="chiesa_madre">
                                         <i class="fas fa-map-marker-alt text-sm"></i>
+                                        <span class="text-xs font-medium">Apri in maps</span>
                                     </button>
                                 </div>
                             </div>
@@ -691,10 +694,11 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Nuovo pulsante "Vedi sulla mappa" -->
+                                <!-- Nuovo pulsante "Apri in maps" -->
                                 <div class="ml-auto">
-                                    <button class="view-on-map w-10 h-10 rounded-full bg-white text-accent border border-accent/20 flex items-center justify-center hover:bg-accent/5 active:scale-95 transition-all shadow-sm" data-stop-id="villa">
+                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent/10 text-accent border border-accent/20 hover:bg-accent/20 active:scale-95 transition-all shadow-sm" data-stop-id="villa">
                                         <i class="fas fa-map-marker-alt text-sm"></i>
+                                        <span class="text-xs font-medium">Apri in maps</span>
                                     </button>
                                 </div>
                             </div>
@@ -767,10 +771,11 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Nuovo pulsante "Vedi sulla mappa" -->
+                                <!-- Nuovo pulsante "Apri in maps" -->
                                 <div class="ml-auto">
-                                    <button class="view-on-map w-10 h-10 rounded-full bg-white text-secondary border border-secondary/20 flex items-center justify-center hover:bg-secondary/5 active:scale-95 transition-all shadow-sm" data-stop-id="lago">
+                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/10 text-secondary border border-secondary/20 hover:bg-secondary/20 active:scale-95 transition-all shadow-sm" data-stop-id="lago">
                                         <i class="fas fa-map-marker-alt text-sm"></i>
+                                        <span class="text-xs font-medium">Apri in maps</span>
                                     </button>
                                 </div>
                             </div>
@@ -822,15 +827,15 @@
     <!-- Script per gestire i collegamenti alla mappa -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Gestione dei pulsanti "Vedi sulla mappa"
+            // Gestione dei pulsanti "Apri in maps"
             document.querySelectorAll('.view-on-map').forEach(button => {
                 button.addEventListener('click', function() {
                     const stopId = this.getAttribute('data-stop-id');
                     window.location.href = `mappa.html?stop=${stopId}`;
                 });
                 
-                // Tooltip per il pulsante
-                button.setAttribute('title', 'Vedi sulla mappa');
+                // Tooltip aggiornato per il pulsante
+                button.setAttribute('title', 'Apri la posizione in maps');
             });
         });
     </script>
