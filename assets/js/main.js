@@ -324,13 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="flex-1 p-6 md:p-8">
                         <div class="flex flex-wrap justify-between items-center mb-6">
                             <p class="text-gray-600 flex-grow mr-4">${stop.description || 'Nessuna descrizione disponibile'}</p>
-                            ${googleMapsUrl ? 
-                                `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
-                                   class="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-${colorScheme.buttonText.replace('text-', '')}/10 ${colorScheme.buttonText} transition-colors" 
-                                   aria-label="Visualizza su Google Maps">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </a>` 
-                                : ''}
                         </div>
                         
                         <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
@@ -362,6 +355,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <span>Mostra trascrizione</span>
                                 <i class="fas fa-chevron-down transcript-toggle-icon transition-transform ml-2" aria-hidden="true"></i>
                             </button>
+                            
+                            ${googleMapsUrl ? 
+                                `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
+                                   class="py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2 hover:scale-105"
+                                   aria-label="Visualizza ${stop.title} su Google Maps">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <span class="font-medium">Maps</span>
+                                    <i class="fas fa-external-link-alt text-xs ml-1" aria-hidden="true"></i>
+                                </a>` 
+                                : ''}
                         </div>
                         
                         <div id="transcript-${index + 1}" class="hidden mt-4 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
