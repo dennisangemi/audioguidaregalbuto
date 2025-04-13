@@ -148,6 +148,20 @@ const LanguageManager = (function() {
                 
                 // Evidenzia opzione selezionata
                 this.classList.add('border-primary', 'bg-primary/10');
+                
+                // Chiudi il menu mobile quando si seleziona una lingua
+                const mobileMenu = document.getElementById('mobile-menu');
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                
+                if (mobileMenu && mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                    mobileMenu.setAttribute('aria-hidden', 'true');
+                    if (mobileMenuButton) {
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        mobileMenuButton.classList.remove('menu-open');
+                    }
+                    document.body.classList.remove('overflow-hidden');
+                }
             });
         });
         
