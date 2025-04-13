@@ -533,55 +533,103 @@
             
             // Variabile per tenere traccia dello stato del dropdown
             let isLanguageDropdownOpen = false;
-            let clickEventListener = null;
             
-            // Toggle del dropdown delle lingue - MIGLIORATO
+            // Toggle del dropdown delle lingue - CORRETTO
             if (languageButton && languageDropdown) {
-                languageButton.addEventListener('click', function(e) {
-                    e.stopPropagation(); // Ferma la propagazione dell'evento
+                // Funzione per aprire il dropdown
+                function openLanguageDropdown() {
+                    isLanguageDropdownOpen = true;
+                    languageButton.setAttribute('aria-expanded', 'true');
+                    languageDropdown.classList.remove('hidden');
+                    languageArrow.style.transform = 'rotate(180deg)';
                     
-                    // Inverti lo stato
-                    isLanguageDropdownOpen = !isLanguageDropdownOpen;
-                    
-                    // Aggiorna l'UI
-                    updateLanguageDropdownUI();
-                });
+                    // Aggiungi l'event listener con un breve ritardo
+                    setTimeout(() => {
+                        document.addEventListener('click', handleOutsideClick);
+                        document.addEventListener('keydown', handleEscKey);
+                    }, 10);
+                }
                 
-                // Funzione per aggiornare l'UI del dropdown in modo consistente
-                function updateLanguageDropdownUI() {
-                    if (isLanguageDropdownOpen) {
-                        // Mostra il dropdown
-                        languageButton.setAttribute('aria-expanded', 'true');
-                        languageDropdown.classList.remove('hidden');
-                        languageArrow.style.transform = 'rotate(180deg)';
-                        
-                        // Gestisce il click fuori dal dropdown
-                        if (!clickEventListener) {
-                            clickEventListener = function(e) {
-                                if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
-                                    isLanguageDropdownOpen = false;
-                                    updateLanguageDropdownUI();
-                                }
-                            };
-                            
-                            // Aggiungi l'event listener con un breve ritardo per evitare che si attivi subito
-                            setTimeout(() => {
-                                document.addEventListener('click', clickEventListener);
-                            }, 10);
-                        }
-                    } else {
-                        // Nascondi il dropdown
-                        languageButton.setAttribute('aria-expanded', 'false');
-                        languageDropdown.classList.add('hidden');
-                        languageArrow.style.transform = '';
-                        
-                        // Rimuovi l'event listener quando non serve più
-                        if (clickEventListener) {
-                            document.removeEventListener('click', clickEventListener);
-                            clickEventListener = null;
-                        }
+                // Funzione per chiudere il dropdown
+                function closeLanguageDropdown() {
+                    isLanguageDropdownOpen = false;
+                    languageButton.setAttribute('aria-expanded', 'false');
+                    languageDropdown.classList.add('hidden');
+                    languageArrow.style.transform = '';
+                    
+                    // Rimuovi gli event listener
+                    document.removeEventListener('click', handleOutsideClick);
+                    document.removeEventListener('keydown', handleEscKey);
+                }
+                
+                // Gestisce il click fuori dal dropdown
+                function handleOutsideClick(e) {
+                    if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
+                        closeLanguageDropdown();
                     }
                 }
+                
+                // Gestisce la pressione del tasto ESC
+                function handleEscKey(e) {
+                    if (e.key === 'Escape') {
+                        closeLanguageDropdown();
+                        // Rimetti il focus sul pulsante
+                        languageButton.focus();
+                    }
+                }
+                
+                // Event listener per il click sul pulsante
+                languageButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (isLanguageDropdownOpen) {
+                        closeLanguageDropdown();
+                    } else {
+                        openLanguageDropdown();
+                    }
+                });
+                
+                // Gestione accessibilità da tastiera
+                languageButton.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (!isLanguageDropdownOpen) {
+                            openLanguageDropdown();
+                            
+                            // Focus sulla prima opzione
+                            const firstOption = languageDropdown.querySelector('.language-option');
+                            if (firstOption) {
+                                firstOption.focus();
+                            }
+                        }
+                    }
+                });
+                
+                // Aggiungi navigazione da tastiera tra le opzioni
+                languageOptions.forEach((option, index) => {
+                    option.setAttribute('tabindex', '0');
+                    
+                    option.addEventListener('keydown', function(e) {
+                        // Naviga tra le opzioni con i tasti freccia
+                        if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            const nextOption = languageOptions[index + 1] || languageOptions[0];
+                            nextOption.focus();
+                        } else if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            const prevOption = languageOptions[index - 1] || languageOptions[languageOptions.length - 1];
+                            prevOption.focus();
+                        } else if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            option.click();
+                        } else if (e.key === 'Tab' && !e.shiftKey && index === languageOptions.length - 1) {
+                            closeLanguageDropdown();
+                        } else if (e.key === 'Tab' && e.shiftKey && index === 0) {
+                            closeLanguageDropdown();
+                        }
+                    });
+                });
             }
             
             // Utilizzo di LanguageManager per il cambio lingua - MIGLIORATO
@@ -592,10 +640,11 @@
                         console.log('Cambio lingua a:', lang);
                         window.LanguageManager.changeLanguage(lang);
                         
-                        // Se il dropdown è aperto, chiudilo
+                        // Chiudi il dropdown dopo il cambio lingua
                         if (isLanguageDropdownOpen) {
-                            isLanguageDropdownOpen = false;
-                            updateLanguageDropdownUI();
+                            closeLanguageDropdown();
+                            // Rimetti il focus sul pulsante principale
+                            languageButton.focus();
                         }
                     }
                 }
@@ -603,7 +652,7 @@
                 // Gestione cambio lingua dal dropdown desktop
                 languageOptions.forEach(option => {
                     option.addEventListener('click', function(e) {
-                        e.stopPropagation(); // Ferma la propagazione dell'evento
+                        e.stopPropagation();
                         e.preventDefault();
                         const lang = this.getAttribute('data-lang');
                         changeLanguage(lang);
@@ -652,21 +701,15 @@
                     // Evidenzia l'opzione della lingua corrente su mobile
                     mobileLanguageOptions.forEach(option => {
                         const optionLang = option.getAttribute('data-lang');
-                        if (optionLang === lang) {
-                            option.classList.add('border-primary', 'bg-primary/10');
-                        } else {
-                            option.classList.remove('border-primary', 'bg-primary/10');
-                        }
+                        option.classList.toggle('border-primary', optionLang === lang);
+                        option.classList.toggle('bg-primary/10', optionLang === lang);
                     });
                     
                     // Evidenzia anche nel dropdown desktop
                     languageOptions.forEach(option => {
                         const optionLang = option.getAttribute('data-lang');
-                        if (optionLang === lang) {
-                            option.classList.add('bg-primary/10', 'text-primary');
-                        } else {
-                            option.classList.remove('bg-primary/10', 'text-primary');
-                        }
+                        option.classList.toggle('bg-primary/10', optionLang === lang);
+                        option.classList.toggle('text-primary', optionLang === lang);
                     });
                 }
             }
