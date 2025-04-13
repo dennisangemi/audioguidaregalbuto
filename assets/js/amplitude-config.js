@@ -176,85 +176,153 @@ const AudioPlayerManager = (function() {
             return;
         }
         
-        // Memorizza lo stato corrente prima di aggiornare
-        const wasPlaying = audioState.isPlaying;
-        const currentPlayer = audioState.currentPlayer;
-        const currentPlaylist = audioState.currentPlaylist;
-        const currentSong = audioState.currentSong;
-        const currentTime = Amplitude.getAudio().currentTime;
+        // RESET COMPLETO 1: Pausa qualsiasi riproduzione in corso
+        try {
+            Amplitude.pause();
+        } catch(e) {
+            console.warn("Errore durante la pausa dell'audio:", e);
+        }
         
-        console.log(`Stato corrente: playing=${wasPlaying}, playlist=${currentPlaylist}, song=${currentSong}, time=${currentTime}`);
-        console.log(`Aggiornamento percorso audio intro: ${introData.audioPath}`);
-        
-        // 1. Reset completo: Pausa qualsiasi riproduzione in corso
-        Amplitude.pause();
-        
-        // 2. Reset completo dello stato del player
+        // RESET COMPLETO 2: Reset dello stato del player
         audioState.isPlaying = false;
         audioState.pausedPlayer = null;
         
-        try {
-            // 3. Reset della posizione dell'audio corrente
-            Amplitude.getAudio().currentTime = 0;
-        } catch(e) {
-            console.warn("Impossibile resettare la posizione dell'audio:", e);
-        }
+        // Memorizza i percorsi originali degli audio per ripristinarli dopo
+        const originalPaths = {
+            intro: introData.audioPath,
+            stops: []
+        };
         
-        // 4. Aggiorna l'audio dell'introduzione
-        if (Amplitude.getSongs() && Amplitude.getSongs().length > 0) {
-            const introSong = Amplitude.getSongs()[0];
-            const oldIntroUrl = introSong.url;
-            introSong.url = introData.audioPath;
-            introSong.name = langData.title || 'Introduzione';
-            console.log(`Aggiornato URL intro da ${oldIntroUrl} a ${introData.audioPath}`);
-        }
-        
-        // 5. Aggiorna tutti gli audio della playlist degli episodi
         if (Array.isArray(langData.stops)) {
-            console.log(`Aggiornamento di ${langData.stops.length} file audio per le tappe`);
+            langData.stops.forEach(stop => {
+                if (stop && stop.audioPath) {
+                    originalPaths.stops.push(stop.audioPath);
+                } else {
+                    originalPaths.stops.push(null);
+                }
+            });
+        }
+        
+        console.log("Percorsi audio originali memorizzati:", originalPaths);
+        
+        // RICARICAMENTO RADICALE: Reinizializza completamente Amplitude con i nuovi audio
+        try {
+            console.log("Inizio reinizializzazione completa di Amplitude...");
             
-            if (Amplitude.getConfig() && 
-                Amplitude.getConfig().playlists && 
-                Amplitude.getConfig().playlists.episodi && 
-                Array.isArray(Amplitude.getConfig().playlists.episodi.songs)) {
+            // 1. Prepara i nuovi dati per la reinizializzazione
+            let episodiSongs = [];
+            if (Array.isArray(langData.stops)) {
+                episodiSongs = langData.stops.map((stop, index) => {
+                    // Aggiungi un parametro nocache per forzare il ricaricamento
+                    const audioPath = stop.audioPath ? 
+                        stop.audioPath + (stop.audioPath.includes('?') ? '&' : '?') + 'nocache=' + Date.now() + index : 
+                        null;
+                    
+                    console.log(`Preparando tappa ${index + 1}: ${stop.title} - Audio: ${audioPath}`);
+                    
+                    return {
+                        "name": stop.title || `Tappa ${index + 1}`,
+                        "artist": "Audio guida di Regalbuto",
+                        "url": audioPath,
+                        "visual_id": `episode-${index}`,
+                        "index": index
+                    };
+                }).filter(song => song.url);
+            }
+            
+            // 2. Configurazione aggiornata con i nuovi percorsi audio
+            const introAudioPath = introData.audioPath + (introData.audioPath.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
+            console.log(`Preparando intro con audio: ${introAudioPath}`);
+            
+            const config = {
+                "songs": [
+                    {
+                        "name": langData.title || "Introduzione",
+                        "artist": "Audio guida di Regalbuto",
+                        "url": introAudioPath
+                    }
+                ],
+                "playlists": {
+                    "episodi": {
+                        "songs": episodiSongs
+                    }
+                },
+                "volume": 75,
+                "debug": true
+            };
+            
+            // 3. Reinizializza Amplitude con i nuovi dati
+            if (typeof Amplitude !== 'undefined') {
+                // Prima fermiamo e rimuoviamo l'audio corrente
+                try {
+                    const audioElement = Amplitude.getAudio();
+                    if (audioElement) {
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+                        audioElement.src = '';
+                        audioElement.load();
+                    }
+                    
+                    console.log("Audio element resettato");
+                } catch(e) {
+                    console.warn("Errore nel reset dell'elemento audio:", e);
+                }
                 
-                const playlistSongs = Amplitude.getConfig().playlists.episodi.songs;
-                
-                // Aggiorna ogni tappa con il nuovo URL audio
-                for (let i = 0; i < langData.stops.length; i++) {
-                    if (i < playlistSongs.length && langData.stops[i] && langData.stops[i].audioPath) {
-                        const oldUrl = playlistSongs[i].url;
-                        playlistSongs[i].url = langData.stops[i].audioPath;
-                        playlistSongs[i].name = langData.stops[i].title;
-                        
-                        console.log(`Aggiornata tappa ${i+1}: ${langData.stops[i].title}`);
-                        console.log(`  URL cambiato da ${oldUrl} a ${langData.stops[i].audioPath}`);
+                // Distruggi l'istanza di Amplitude se possibile
+                if (typeof Amplitude.destroy === 'function') {
+                    try {
+                        Amplitude.destroy();
+                        console.log("Istanza Amplitude distrutta");
+                    } catch(e) {
+                        console.warn("Errore nella distruzione dell'istanza Amplitude (potrebbe non essere supportato):", e);
                     }
                 }
+                
+                // Piccolo ritardo per assicurarsi che tutto sia pulito prima di reinizializzare
+                setTimeout(() => {
+                    try {
+                        Amplitude.init(config);
+                        console.log("Amplitude reinizializzato con successo con i nuovi audio");
+                        
+                        // Reinizializza tutti i player dopo il reset completo
+                        initializePlayers();
+                        console.log("Player audio reinizializzati");
+                        
+                        // Ripristina i percorsi originali nella configurazione per future operazioni
+                        // Questo è importante per evitare l'accumulo di parametri nocache
+                        if (Amplitude.getSongs() && Amplitude.getSongs().length > 0) {
+                            Amplitude.getSongs()[0].url = originalPaths.intro;
+                        }
+                        
+                        if (Amplitude.getConfig().playlists && 
+                            Amplitude.getConfig().playlists.episodi && 
+                            Array.isArray(Amplitude.getConfig().playlists.episodi.songs)) {
+                            
+                            const playlistSongs = Amplitude.getConfig().playlists.episodi.songs;
+                            
+                            for (let i = 0; i < playlistSongs.length; i++) {
+                                if (i < originalPaths.stops.length && originalPaths.stops[i]) {
+                                    playlistSongs[i].url = originalPaths.stops[i];
+                                }
+                            }
+                        }
+                        
+                        // Emetti evento di aggiornamento completato
+                        document.dispatchEvent(new CustomEvent('audioFilesUpdated', {
+                            detail: { language: lang }
+                        }));
+                        
+                        console.log("Aggiornamento lingua audio completato con successo");
+                    } catch(e) {
+                        console.error("Errore nella reinizializzazione di Amplitude:", e);
+                    }
+                }, 300);
             } else {
-                console.error('Impossibile trovare la playlist "episodi" nella configurazione di Amplitude');
+                console.error('Libreria AmplitudeJS non trovata durante il tentativo di reinizializzazione');
             }
+        } catch (error) {
+            console.error('Errore generale nell\'aggiornamento della lingua audio:', error);
         }
-        
-        // 6. Forza il ricaricamento completo dei file audio
-        console.log('Forzatura ricaricamento file audio...');
-        
-        try {
-            // Questa azione forza il browser a ricaricare tutti gli elementi audio
-            Amplitude.getAudio().load();
-            
-            // 7. IMPORTANTE: Reinizializzazione completa degli stati dei pulsanti
-            resetAllPlayerButtonStates();
-        } catch (e) {
-            console.warn('Errore nel forzare il ricaricamento audio:', e);
-        }
-        
-        // 8. Emetti evento personalizzato per informare altri componenti che gli audio sono stati aggiornati
-        document.dispatchEvent(new CustomEvent('audioFilesUpdated', {
-            detail: { language: lang }
-        }));
-        
-        console.log('Aggiornamento lingua audio completato con successo');
     }
     
     /**
@@ -689,62 +757,75 @@ const AudioPlayerManager = (function() {
             return false;
         }
         
-        console.log(`Riproduzione canzone: ${song.name}, URL: ${song.url}`);
+        // Aggiunta di un parametro casuale all'URL per evitare il caching del browser
+        const songUrl = song.url + (song.url.indexOf('?') === -1 ? '?' : '&') + 'nocache=' + new Date().getTime();
         
-        // Prima prova il metodo standard
+        console.log(`Riproduzione canzone: ${song.name}, URL: ${songUrl} (originale: ${song.url})`);
+        
         try {
-            Amplitude.playPlaylistSongAtIndex(index, playlist);
-            console.log('Riproduzione avviata tramite metodo standard');
-            return true;
-        } catch (e) {
-            console.warn('Fallimento del metodo standard:', e);
-            
-            // Se il metodo standard fallisce, prova il metodo di fallback
+            // Prima prova il metodo standard di Amplitude (che dovrebbe funzionare nella maggior parte dei casi)
             try {
-                // Imposta manualmente la playlist e la canzone correnti
-                Amplitude.setCurrentPlaylist(playlist);
-                
-                // Carica direttamente il file audio e avvia la riproduzione quando è pronto
-                Amplitude.load(song.url, function() {
-                    console.log(`File audio caricato con successo: ${song.url}`);
-                    Amplitude.play();
-                    
-                    // Aggiorna manualmente lo stato interno di AmplitudeJS
-                    Amplitude.setCurrentIndex(index);
-                    
-                    console.log('Riproduzione avviata tramite meccanismo di fallback');
-                });
-                
+                Amplitude.playPlaylistSongAtIndex(index, playlist);
+                console.log('Riproduzione avviata tramite metodo standard');
                 return true;
-            } catch (fallbackError) {
-                console.error('Anche il meccanismo di fallback è fallito:', fallbackError);
+            } catch (e) {
+                console.warn('Fallimento del metodo standard, provo con il fallback:', e);
                 
-                // Ultimo tentativo disperato: manipola direttamente l'elemento audio
-                try {
-                    const audioElement = Amplitude.getAudio();
-                    if (audioElement) {
-                        audioElement.src = song.url;
-                        audioElement.load();
-                        
-                        // Prova a riprodurre dopo un breve ritardo
-                        setTimeout(() => {
-                            const playPromise = audioElement.play();
-                            if (playPromise !== undefined) {
-                                playPromise.catch(e => {
-                                    console.error('Impossibile riprodurre l\'audio:', e);
-                                    
-                                    // Visualizza un messaggio all'utente se tutto fallisce
-                                    alert('Impossibile riprodurre l\'audio. Prova a ricaricare la pagina.');
-                                });
-                            }
-                        }, 300);
-                        
-                        return true;
-                    }
-                } catch (lastError) {
-                    console.error('Tutti i tentativi di riproduzione sono falliti:', lastError);
+                // Fallback: Manipolazione diretta dell'elemento audio
+                const audioElement = Amplitude.getAudio();
+                if (audioElement) {
+                    // Ferma qualsiasi riproduzione attuale
+                    audioElement.pause();
+                    
+                    // IMPORTANTE: Imposta l'URL con il parametro anti-cache
+                    audioElement.src = songUrl;
+                    
+                    // Forza il ricaricamento del file audio
+                    audioElement.load();
+                    
+                    console.log(`File audio caricato con URL: ${songUrl}`);
+                    
+                    // Avvia la riproduzione dopo un breve ritardo
+                    setTimeout(() => {
+                        const playPromise = audioElement.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                console.log('Riproduzione avviata con successo tramite fallback');
+                                
+                                // Aggiorna manualmente le informazioni interne di Amplitude 
+                                // senza usare metodi che potrebbero non esistere
+                                try {
+                                    // Aggiorna il contesto attuale se possibile
+                                    if (Amplitude.getConfig) {
+                                        const config = Amplitude.getConfig();
+                                        if (config && config.active_playlist !== playlist) {
+                                            console.log(`Aggiornamento playlist attiva: ${playlist}`);
+                                        }
+                                        if (config && config.active_index !== index) {
+                                            console.log(`Aggiornamento indice attivo: ${index}`);
+                                        }
+                                    }
+                                } catch (e) {
+                                    console.warn('Impossibile aggiornare il contesto di Amplitude, ma l\'audio funzionerà comunque:', e);
+                                }
+                            }).catch(e => {
+                                console.error('Errore durante la riproduzione:', e);
+                                
+                                // Tentativo di riavvio automatico della riproduzione
+                                setTimeout(() => {
+                                    audioElement.play().catch(finalError => {
+                                        console.error('Impossibile riprodurre l\'audio anche dopo il ritentativo:', finalError);
+                                    });
+                                }, 500);
+                            });
+                        }
+                    }, 300);
+                    
+                    return true;
                 }
             }
+        } catch (error) {
+            console.error('Errore durante il tentativo di riproduzione:', error);
         }
         
         return false;
