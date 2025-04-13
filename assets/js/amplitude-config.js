@@ -12,6 +12,9 @@ const AudioPlayerManager = (function() {
         currentPlaylist: null
     };
     
+    // Lingua corrente
+    let currentLang = localStorage.getItem('preferredLanguage') || 'it';
+    
     // Espone un metodo di inizializzazione che verrà chiamato da main.js dopo il caricamento dei dati
     function initialize(tourData) {
         if (!tourData || !tourData.tour) {
@@ -21,8 +24,10 @@ const AudioPlayerManager = (function() {
         
         console.log('Inizializzazione di Amplitude con i dati dal JSON', tourData);
         
-        // Determina la lingua attualmente selezionata (default: italiano)
-        const currentLang = 'it'; // In futuro può essere gestito dinamicamente in base alla selezione dell'utente
+        // Usa la lingua corrente dalla memorizzazione locale o dal language manager 
+        if (window.LanguageManager) {
+            currentLang = window.LanguageManager.getCurrentLanguage();
+        }
         
         // Ottieni i dati specifici della lingua
         const langData = tourData.tour.content[currentLang];
@@ -141,6 +146,83 @@ const AudioPlayerManager = (function() {
                     console.error('Libreria AmplitudeJS non trovata');
                 }
             });
+            
+        // Ascolta per i cambi di lingua
+        document.addEventListener('audioLanguageChanged', function(event) {
+            if (event.detail && event.detail.language && event.detail.tourData) {
+                updateAudioLanguage(event.detail.language, event.detail.tourData);
+            }
+        });
+    }
+    
+    /**
+     * Aggiorna i file audio quando cambia la lingua
+     */
+    function updateAudioLanguage(lang, tourData) {
+        console.log(`Aggiornamento lingua audio a: ${lang}`);
+        currentLang = lang;
+        
+        if (!tourData || !tourData.tour || !tourData.tour.content || !tourData.tour.content[lang]) {
+            console.error(`Dati per la lingua ${lang} non disponibili`);
+            return;
+        }
+        
+        // Recupera i dati della nuova lingua
+        const langData = tourData.tour.content[lang];
+        const introData = langData.introduction;
+        
+        if (!introData || !introData.audioPath) {
+            console.error('Dati dell\'introduzione non validi o percorso audio mancante');
+            return;
+        }
+        
+        // Memorizza lo stato corrente prima di aggiornare
+        const wasPlaying = audioState.isPlaying;
+        const currentPlayer = audioState.currentPlayer;
+        const currentPlaylist = audioState.currentPlaylist;
+        const currentSong = audioState.currentSong;
+        
+        // Aggiorna il file audio dell'introduzione
+        Amplitude.getConfig().songs[0].url = introData.audioPath;
+        Amplitude.getConfig().songs[0].name = langData.title || 'Introduzione';
+        
+        // Aggiorna la playlist degli episodi
+        if (Array.isArray(langData.stops)) {
+            langData.stops.forEach((stop, index) => {
+                if (stop.audioPath && 
+                    Amplitude.getConfig().playlists.episodi && 
+                    Amplitude.getConfig().playlists.episodi.songs[index]) {
+                    
+                    Amplitude.getConfig().playlists.episodi.songs[index].url = stop.audioPath;
+                    Amplitude.getConfig().playlists.episodi.songs[index].name = stop.title;
+                }
+            });
+        }
+        
+        // Ricarica l'audio attualmente in riproduzione se necessario
+        if (wasPlaying) {
+            if (currentPlaylist === null && currentSong === null) {
+                // Era in riproduzione l'introduzione
+                Amplitude.pause();
+                // Ricarica l'audio dell'introduzione
+                Amplitude.getSongs()[0].url = introData.audioPath;
+                Amplitude.load(introData.audioPath, function() {
+                    Amplitude.play();
+                });
+            } else if (currentPlaylist === 'episodi' && currentSong !== null) {
+                // Era in riproduzione un episodio
+                const stopIndex = currentSong;
+                if (langData.stops && langData.stops[stopIndex] && langData.stops[stopIndex].audioPath) {
+                    Amplitude.pause();
+                    // Ricarica l'audio dell'episodio
+                    const newUrl = langData.stops[stopIndex].audioPath;
+                    Amplitude.getPlaylistSongs('episodi')[stopIndex].url = newUrl;
+                    Amplitude.load(newUrl, function() {
+                        Amplitude.playPlaylistSongAtIndex(stopIndex, 'episodi');
+                    });
+                }
+            }
+        }
     }
     
     /**
@@ -456,7 +538,8 @@ const AudioPlayerManager = (function() {
         initialize: initialize,
         getAudioState: function() { return audioState; },
         setupPlayerButton: setupPlayerButton, // Espone questa funzione per permettere di configurare nuovi pulsanti dinamicamente
-        updatePlayerVisualState: updatePlayerVisualState // Espone questa funzione per aggiornare lo stato visivo
+        updatePlayerVisualState: updatePlayerVisualState, // Espone questa funzione per aggiornare lo stato visivo
+        updateAudioLanguage: updateAudioLanguage // Espone la funzione per aggiornare la lingua dell'audio
     };
 })();
 
@@ -468,5 +551,16 @@ document.addEventListener('audioguideDataLoaded', function(event) {
         AudioPlayerManager.initialize(event.detail.tourData);
     } else {
         console.error('Evento audioguideDataLoaded ricevuto senza dati validi');
+    }
+});
+
+// Ascoltiamo l'evento di cambio lingua per aggiornare i file audio
+document.addEventListener('audioLanguageChanged', function(event) {
+    console.log('Evento audioLanguageChanged ricevuto');
+    
+    if (event.detail && event.detail.language && event.detail.tourData) {
+        AudioPlayerManager.updateAudioLanguage(event.detail.language, event.detail.tourData);
+    } else {
+        console.error('Evento audioLanguageChanged ricevuto senza dati validi');
     }
 });

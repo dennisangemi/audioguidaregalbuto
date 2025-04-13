@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Variabili per tenere traccia dei dati e dello stato di caricamento
     let tourData = null;
-    let currentLang = 'it'; // Lingua predefinita
+    let currentLang = localStorage.getItem('preferredLanguage') || 'it'; // Lingua predefinita o da localStorage
     let dataLoaded = false;
     const loadedIds = {};
     
@@ -40,6 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
             tourData = data;
             dataLoaded = true;
             
+            // Inizializza il language manager con i dati del tour
+            if (window.LanguageManager) {
+                window.LanguageManager.initialize(data);
+                // Imposta la lingua corrente quella gestita dal Language Manager
+                currentLang = window.LanguageManager.getCurrentLanguage();
+            }
+            
             // Quando i dati sono caricati, inizializziamo anche l'interfaccia
             initializeInterface();
             
@@ -52,6 +59,29 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             console.error('Errore nel caricamento dei dati dell\'audioguida:', error);
         });
+    
+    // Ascolto eventi di cambio lingua
+    document.addEventListener('languageChanged', function(event) {
+        if (event.detail && event.detail.language) {
+            currentLang = event.detail.language;
+            console.log(`Lingua cambiata a: ${currentLang} - Aggiorno l'interfaccia`);
+            
+            // Ricarica l'interfaccia con la nuova lingua
+            if (dataLoaded) {
+                initializeInterface();
+                
+                // Resetta le trascrizioni caricate
+                Object.keys(loadedIds).forEach(id => {
+                    loadedIds[id] = false;
+                });
+                
+                // Emetti evento per informare AmplitudeJS che deve aggiornare i file audio
+                document.dispatchEvent(new CustomEvent('audioLanguageChanged', {
+                    detail: { language: currentLang, tourData: tourData }
+                }));
+            }
+        }
+    });
     
     // Funzione per popolare l'interfaccia con i dati dal JSON
     function initializeInterface() {
@@ -70,8 +100,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         document.querySelectorAll('.amplitude-track-author[data-amplitude-main-song-info="true"]').forEach(el => {
-            el.textContent = 'Audio guida di Regalbuto';
+            el.textContent = currentLang === 'it' ? 'Audio guida di Regalbuto' : 'Audio Guide of Regalbuto';
         });
+        
+        // Aggiorna il titolo principale della pagina in base alla lingua
+        document.getElementById('hero-title').innerHTML = langData.title || 'Audio Guida di <span class="text-primary">Regalbuto</span>';
+        
+        // Aggiorna la descrizione principale se presente
+        const heroDescription = document.querySelector('.text-lg.text-gray-600.mb-6');
+        if (heroDescription && langData.description) {
+            heroDescription.textContent = langData.description;
+        }
         
         // Generiamo dinamicamente la timeline
         generateTimelineStops(langData.stops, tourData.tour.staticData?.stops);
@@ -87,6 +126,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 contentDiv.innerHTML = introData.transcription.paragraphs
                     .map(p => `<p>${p}</p>`)
                     .join('');
+            }
+        }
+        
+        // Ascolto per il pulsante di cambio lingua
+        setupLanguageButtons();
+    }
+    
+    function setupLanguageButtons() {
+        const languageDropdown = document.getElementById('language-dropdown');
+        
+        if (languageDropdown) {
+            // Assicurati che il dropdown si chiuda quando si seleziona una lingua
+            languageDropdown.addEventListener('click', function(e) {
+                if (e.target.classList.contains('language-option')) {
+                    languageDropdown.classList.add('hidden');
+                    document.getElementById('language-arrow').style.transform = '';
+                    document.getElementById('language-button').setAttribute('aria-expanded', 'false');
+                    
+                    // Rimuovi l'event listener per chiudere il dropdown quando si clicca altrove
+                    document.removeEventListener('click', closeLanguageDropdown);
+                }
+            });
+        }
+    }
+    
+    // Funzione per chiudere il dropdown quando si clicca fuori (definita globalmente)
+    function closeLanguageDropdown(e) {
+        const languageDropdown = document.getElementById('language-dropdown');
+        const languageButton = document.getElementById('language-button');
+        
+        if (languageDropdown && languageButton) {
+            if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
+                languageDropdown.classList.add('hidden');
+                languageButton.setAttribute('aria-expanded', 'false');
+                document.getElementById('language-arrow').style.transform = '';
+                document.removeEventListener('click', closeLanguageDropdown);
             }
         }
     }
@@ -271,6 +346,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         ];
         
+        // Ottieni traduzioni per UI
+        const showTranscription = window.LanguageManager ? 
+            window.LanguageManager.getUITranslation('showTranscription') : 'Mostra trascrizione';
+        const locationNumber = window.LanguageManager ? 
+            window.LanguageManager.getUITranslation('locationNumber') : 'Tappa';
+        const locationOnMaps = window.LanguageManager ? 
+            window.LanguageManager.getUITranslation('locationOnMaps') : 'Posizione su Maps';
+        
         // Crea card per ogni tappa
         stops.forEach((stop, index) => {
             if (!stop || !stop.id) return;
@@ -316,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
                                     class="maps-badge group flex items-center gap-2 px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-md hover:shadow-lg ${colorScheme.buttonText} border ${colorScheme.buttonBorder} hover:bg-white transition-all duration-300">
                                     <i class="fas fa-map-marker-alt pulse-animation"></i>
-                                    <span class="font-medium text-sm">Posizione su Maps</span>
+                                    <span class="font-medium text-sm">${locationOnMaps}</span>
                                     <i class="fas fa-external-link-alt text-xs opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
                                 </a>
                             </div>` 
@@ -324,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="inline-block px-3 py-1 ${colorScheme.badge} backdrop-blur-sm rounded-full text-xs font-medium">Tappa ${order}</span>
+                                <span class="inline-block px-3 py-1 ${colorScheme.badge} backdrop-blur-sm rounded-full text-xs font-medium">${locationNumber} ${order}</span>
                                 ${duration ? 
                                     `<span class="inline-flex items-center px-3 py-1 bg-white/30 backdrop-blur-sm rounded-full text-xs font-medium">
                                         <i class="fas fa-clock mr-1.5"></i>${duration}
@@ -370,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         <!-- Pulsante trascrizione -->
                         <button class="toggle-transcript mt-5 w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
-                            <span>Mostra trascrizione</span>
+                            <span>${showTranscription}</span>
                             <i class="fas fa-chevron-down transcript-toggle-icon transition-transform ml-2" aria-hidden="true"></i>
                         </button>
                         
@@ -436,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Aggiungiamo tooltip ai pulsanti "Apri in maps"
         document.querySelectorAll('.maps-badge').forEach(button => {
-            button.setAttribute('title', 'Apri la posizione in Google Maps');
+            button.setAttribute('title', locationOnMaps);
             
             // Aggiungiamo effetto hover con animazione
             button.addEventListener('mouseenter', function() {
@@ -614,7 +697,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (buttonText) {
-            buttonText.textContent = isExpanded ? 'Nascondi trascrizione' : 'Mostra trascrizione';
+            // Ottieni le traduzioni per i pulsanti di trascrizione
+            const showText = window.LanguageManager ? 
+                window.LanguageManager.getUITranslation('showTranscription') : 'Mostra trascrizione';
+            const hideText = window.LanguageManager ? 
+                window.LanguageManager.getUITranslation('hideTranscription') : 'Nascondi trascrizione';
+                
+            buttonText.textContent = isExpanded ? hideText : showText;
         }
     }
     

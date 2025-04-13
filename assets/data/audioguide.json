@@ -597,7 +597,7 @@
                     "longitude": 14.6411328
                 },
                 "icon": "fa-tree",
-                "imagePath": "assets/img/regetna.jpg"
+                "imagePath": "assets/img/lombardi_raw.jpg"
             },
             {
                 "id": "campione",
@@ -608,7 +608,7 @@
                     "longitude": 14.6406708
                 },
                 "icon": "fa-tree",
-                "imagePath": "assets/img/regetna.jpg"
+                "imagePath": "assets/img/campione_raw.jpg"
             },
             {
                 "id": "corso",

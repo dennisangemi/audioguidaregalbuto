@@ -140,8 +140,8 @@
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
                     <a href="mappa.html" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
                     
-                    <!-- Selettore lingua spostato nell'header -->
-                    <div class="language-selector relative">
+                    <!-- Selettore lingua spostato nell'header - MIGLIORATO -->
+                    <div class="language-selector relative inline-block">
                         <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary transition-all focus:outline-none" aria-expanded="false" aria-haspopup="true">
                             <i class="fas fa-language mr-1.5"></i>
                             <span class="current-language">Italiano</span>
@@ -149,18 +149,21 @@
                         </button>
                         
                         <div id="language-dropdown" class="language-dropdown absolute right-0 mt-2 py-2 w-36 bg-white rounded-lg shadow-lg border border-gray-100 hidden z-50" role="menu">
-                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="it">
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="it">
                                 <span class="w-4 mr-2">🇮🇹</span> Italiano
-                            </a>
-                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="en">
+                            </button>
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="en">
                                 <span class="w-4 mr-2">🇬🇧</span> English
-                            </a>
-                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="de">
+                            </button>
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="de">
                                 <span class="w-4 mr-2">🇩🇪</span> Deutsch
-                            </a>
-                            <a href="#" class="language-option flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="es">
+                            </button>
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="es">
                                 <span class="w-4 mr-2">🇪🇸</span> Español
-                            </a>
+                            </button>
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="fr">
+                                <span class="w-4 mr-2">🇫🇷</span> Français
+                            </button>
                         </div>
                     </div>
                     
@@ -190,12 +193,13 @@
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
             <a href="mappa.html" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
             
-            <!-- Opzioni lingua mobile -->
+            <!-- Opzioni lingua mobile - MIGLIORATE -->
             <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="it" aria-label="Italiano">🇮🇹</button>
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="en" aria-label="English">🇬🇧</button>
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="es" aria-label="Español">🇪🇸</button>
+                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="fr" aria-label="Français">🇫🇷</button>
             </div>
             
             <a href="#" class="tour-button mt-4 bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
@@ -233,7 +237,7 @@
                             <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mr-3">
                                 <i class="fas fa-language" aria-hidden="true"></i>
                             </div>
-                            <span class="text-sm font-medium">4 lingue disponibili</span>
+                            <span class="text-sm font-medium">5 lingue disponibili</span>
                         </div>
                     </div>
                     
@@ -365,6 +369,9 @@
     
     <!-- Script per la visualizzazione delle onde audio -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.4/wavesurfer.min.js"></script>
+    
+    <!-- Language Manager -->
+    <script src="assets/js/language-manager.js"></script>
     
     <!-- Carica prima amplitude-config.js come utility library -->
     <script src="assets/js/amplitude-config.js"></script>
@@ -515,7 +522,7 @@
             setVHProperty();
             window.addEventListener('resize', setVHProperty);
             
-            // Gestione selettore lingua
+            // MIGLIORAMENTO: Gestione del selettore lingua
             const languageButton = document.getElementById('language-button');
             const languageDropdown = document.getElementById('language-dropdown');
             const languageArrow = document.getElementById('language-arrow');
@@ -524,74 +531,156 @@
             const mobileLanguageButton = document.getElementById('mobile-language-button');
             const mobileLanguageOptions = document.querySelectorAll('.language-option-mobile');
             
-            // Toggle del dropdown delle lingue
+            // Variabile per tenere traccia dello stato del dropdown
+            let isLanguageDropdownOpen = false;
+            let clickEventListener = null;
+            
+            // Toggle del dropdown delle lingue - MIGLIORATO
             if (languageButton && languageDropdown) {
-                languageButton.addEventListener('click', function() {
-                    const isExpanded = languageButton.getAttribute('aria-expanded') === 'true';
+                languageButton.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Ferma la propagazione dell'evento
                     
-                    languageButton.setAttribute('aria-expanded', !isExpanded);
-                    languageDropdown.classList.toggle('hidden');
-                    languageArrow.style.transform = isExpanded ? '' : 'rotate(180deg)';
+                    // Inverti lo stato
+                    isLanguageDropdownOpen = !isLanguageDropdownOpen;
                     
-                    // Chiudi il dropdown quando si clicca fuori
-                    if (!isExpanded) {
-                        document.addEventListener('click', closeLanguageDropdown);
-                    }
+                    // Aggiorna l'UI
+                    updateLanguageDropdownUI();
                 });
                 
-                // Funzione per chiudere il dropdown
-                function closeLanguageDropdown(e) {
-                    if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
-                        languageDropdown.classList.add('hidden');
+                // Funzione per aggiornare l'UI del dropdown in modo consistente
+                function updateLanguageDropdownUI() {
+                    if (isLanguageDropdownOpen) {
+                        // Mostra il dropdown
+                        languageButton.setAttribute('aria-expanded', 'true');
+                        languageDropdown.classList.remove('hidden');
+                        languageArrow.style.transform = 'rotate(180deg)';
+                        
+                        // Gestisce il click fuori dal dropdown
+                        if (!clickEventListener) {
+                            clickEventListener = function(e) {
+                                if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
+                                    isLanguageDropdownOpen = false;
+                                    updateLanguageDropdownUI();
+                                }
+                            };
+                            
+                            // Aggiungi l'event listener con un breve ritardo per evitare che si attivi subito
+                            setTimeout(() => {
+                                document.addEventListener('click', clickEventListener);
+                            }, 10);
+                        }
+                    } else {
+                        // Nascondi il dropdown
                         languageButton.setAttribute('aria-expanded', 'false');
+                        languageDropdown.classList.add('hidden');
                         languageArrow.style.transform = '';
-                        document.removeEventListener('click', closeLanguageDropdown);
+                        
+                        // Rimuovi l'event listener quando non serve più
+                        if (clickEventListener) {
+                            document.removeEventListener('click', clickEventListener);
+                            clickEventListener = null;
+                        }
+                    }
+                }
+            }
+            
+            // Utilizzo di LanguageManager per il cambio lingua - MIGLIORATO
+            if (window.LanguageManager) {
+                // Funzione di cambio lingua centralizzata
+                function changeLanguage(lang) {
+                    if (window.LanguageManager) {
+                        console.log('Cambio lingua a:', lang);
+                        window.LanguageManager.changeLanguage(lang);
+                        
+                        // Se il dropdown è aperto, chiudilo
+                        if (isLanguageDropdownOpen) {
+                            isLanguageDropdownOpen = false;
+                            updateLanguageDropdownUI();
+                        }
                     }
                 }
                 
-                // Gestione cambio lingua
+                // Gestione cambio lingua dal dropdown desktop
                 languageOptions.forEach(option => {
                     option.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Ferma la propagazione dell'evento
                         e.preventDefault();
                         const lang = this.getAttribute('data-lang');
-                        const langText = this.textContent.trim();
-                        
-                        // Aggiorna testo lingua corrente
-                        currentLanguageElement.textContent = langText;
-                        
-                        // Chiudi dropdown
-                        languageDropdown.classList.add('hidden');
-                        languageButton.setAttribute('aria-expanded', 'false');
-                        languageArrow.style.transform = '';
-                        
-                        // TODO: Implementare cambio lingua reale (caricamento file audio diversi, ecc.)
-                        console.log('Cambiata lingua a:', lang);
+                        changeLanguage(lang);
                     });
                 });
-            }
-            
-            // Gestione cambio lingua su mobile
-            if (mobileLanguageButton) {
-                mobileLanguageButton.addEventListener('click', function() {
-                    if (!mobileMenu.classList.contains('open')) {
-                        // Apri il menu mobile che contiene le opzioni di lingua
-                        mobileMenuButton.click();
+                
+                // Gestione cambio lingua su mobile
+                if (mobileLanguageButton) {
+                    mobileLanguageButton.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('open')) {
+                            // Apri il menu mobile che contiene le opzioni di lingua
+                            mobileMenuButton.click();
+                        }
+                    });
+                    
+                    // Gestione opzioni lingua mobile
+                    mobileLanguageOptions.forEach(option => {
+                        option.addEventListener('click', function() {
+                            const lang = this.getAttribute('data-lang');
+                            changeLanguage(lang);
+                        });
+                    });
+                }
+                
+                // Evidenzia la lingua corrente quando il sito viene caricato
+                if (window.LanguageManager && window.LanguageManager.getCurrentLanguage) {
+                    const currentLang = window.LanguageManager.getCurrentLanguage();
+                    highlightCurrentLanguage(currentLang);
+                }
+                
+                // Ascolta eventi di cambio lingua per aggiornare l'interfaccia
+                document.addEventListener('languageChanged', function(event) {
+                    if (event.detail && event.detail.language) {
+                        const lang = event.detail.language;
+                        highlightCurrentLanguage(lang);
                     }
                 });
                 
-                // Gestione opzioni lingua mobile
-                mobileLanguageOptions.forEach(option => {
-                    option.addEventListener('click', function() {
-                        const lang = this.getAttribute('data-lang');
-                        
-                        // Rimuovi selezione attuale e seleziona la nuova lingua
-                        mobileLanguageOptions.forEach(opt => opt.classList.remove('border-primary', 'bg-primary/10'));
-                        this.classList.add('border-primary', 'bg-primary/10');
-                        
-                        // TODO: Implementare cambio lingua reale
-                        console.log('Cambiata lingua su mobile a:', lang);
+                // Funzione per evidenziare la lingua corrente in tutti i selettori
+                function highlightCurrentLanguage(lang) {
+                    // Aggiorna l'indicatore della lingua corrente
+                    if (currentLanguageElement) {
+                        currentLanguageElement.textContent = getLanguageDisplayName(lang);
+                    }
+                    
+                    // Evidenzia l'opzione della lingua corrente su mobile
+                    mobileLanguageOptions.forEach(option => {
+                        const optionLang = option.getAttribute('data-lang');
+                        if (optionLang === lang) {
+                            option.classList.add('border-primary', 'bg-primary/10');
+                        } else {
+                            option.classList.remove('border-primary', 'bg-primary/10');
+                        }
                     });
-                });
+                    
+                    // Evidenzia anche nel dropdown desktop
+                    languageOptions.forEach(option => {
+                        const optionLang = option.getAttribute('data-lang');
+                        if (optionLang === lang) {
+                            option.classList.add('bg-primary/10', 'text-primary');
+                        } else {
+                            option.classList.remove('bg-primary/10', 'text-primary');
+                        }
+                    });
+                }
+            }
+            
+            // Helper per ottenere il nome visualizzato della lingua
+            function getLanguageDisplayName(code) {
+                const names = {
+                    'it': 'Italiano',
+                    'en': 'English',
+                    'es': 'Español',
+                    'de': 'Deutsch',
+                    'fr': 'Français'
+                };
+                return names[code] || code;
             }
         });
     </script>
