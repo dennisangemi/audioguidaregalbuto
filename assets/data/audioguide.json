@@ -301,7 +301,7 @@
             "title": "Guía de audio de Regalbuto",
             "description": "Explora la historia, el arte y las tradiciones de Regalbuto...",
             "introduction": {
-            "audioPath": "assets/audio/es/0_intro.mp3",
+            "audioPath": "assets/audio/es/intro.mp3",
             "transcription": {
                     "paragraphs": [
                         "..."
