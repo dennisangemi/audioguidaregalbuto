@@ -63,6 +63,15 @@
     transform: translateY(0);
 }
 
+/* Fix per il contrasto del pulsante "Inizia il tour" nel menu mobile */
+.mobile-menu .tour-button {
+    color: white !important; /* Forza il colore bianco */
+}
+
+.mobile-menu .tour-button i {
+    color: white !important; /* Assicura che anche l'icona sia bianca */
+}
+
 /* Menu mobile migliorato */
 .mobile-menu {
     position: fixed;
