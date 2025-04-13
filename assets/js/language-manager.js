@@ -106,6 +106,9 @@ const LanguageManager = (function() {
             localStorage.setItem('preferredLanguage', currentLang);
         }
         
+        // Imposta l'attributo lang nell'HTML anche all'inizializzazione
+        document.documentElement.setAttribute('lang', currentLang);
+        
         // Imposta la lingua corrente nell'interfaccia
         setLanguageInUI();
         
