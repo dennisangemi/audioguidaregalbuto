@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
             articleEl.innerHTML = `
                 <div class="flex flex-col md:flex-row">
                     <div class="relative md:w-2/5 h-60 md:h-auto overflow-hidden">
-                        <img src="${imagePath}" alt="${stop.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <img src="${imagePath}" alt="${stop.title}" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t ${colorScheme.gradientFrom} ${colorScheme.gradientVia} to-transparent opacity-80"></div>
                         
                         <!-- Badge di posizione sulla mappa - ottimizzato per tutte le dimensioni dello schermo -->
