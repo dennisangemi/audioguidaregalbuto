@@ -21,8 +21,8 @@
         "stops": [ 
             {
                 "id": "piazza",
-                "title": "Piaaazza della Repubblica",
-                "description": "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
+                "title": "Piazza della Repubblica",
+                "description": "Scopri il cuore storico e sociale di Regalbuto: Piazza della Repubblica, tra le più ampie della provincia di Enna. Un tempo Piazza del Re, dal 1946 celebra la nascita della Repubblica Italiana. Tra eleganti geometrie in pietra e palazzi simbolo della città, lasciati guidare nei racconti di una comunità viva.",
                 "duration": "2:38",
                 "audioPath": "assets/audio/it/1_piazza.mp3",
                 "transcription": {
@@ -40,8 +40,8 @@
             },
             {
                 "id": "comune",
-                "title": "Paaaalazzo Comunale",
-                "description": "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
+                "title": "Palazzo Comunale",
+                "description": "Il Palazzo Comunale si affaccia con eleganza su Piazza della Repubblica, segnando il cuore istituzionale di Regalbuto. All'interno, tra busti storici, una scenografica scalinata in pietra lavica e la sala consiliare decorata, si custodisce l'identità civica della città.",
                 "duration": "2:48",
                 "audioPath": "assets/audio/it/2_comune.mp3",
                 "transcription": {
@@ -59,7 +59,7 @@
             {
                 "id": "chiesa_madre",
                 "title": "Chiesa Madre di San Basilio",
-                "description": "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
+                "description": "Accanto al Palazzo Comunale si erge la Chiesa Madre di San Basilio, cuore spirituale di Regalbuto. Dalle sue origini medievali all’imponente interno settecentesco, custodisce arte, devozione e la memoria viva di San Vito, patrono della città.",
                 "duration": "11:19",
                 "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
                 "imagePath": "assets/img/regetna.jpg",
@@ -84,7 +84,7 @@
             {
                 "id": "lombardi",
                 "title": "Riccardo Lombardi",
-                "description": "...",
+                "description": "Il busto di Riccardo Lombardi onora una figura di spicco della politica italiana del Novecento, simbolo di resistenza, rigore morale e impegno per il socialismo. La sua eredità politica continua a ispirare con il suo pensiero sull’individualità e la giustizia sociale",
                 "duration": "2:11",
                 "audioPath": "assets/audio/it/raw/4_lombardi.mp3",
                 "transcription": {
@@ -99,7 +99,7 @@
             {
                 "id": "campione",
                 "title": "Don Giuseppe Campione",
-                "description": "...",
+                "description": "Il monumento a Don Giuseppe Campione celebra un uomo di grande valore sociale e religioso, fondatore della Banca Rurale e promotore di un'amministrazione locale orientata al benessere della comunità. Il suo impegno per i più poveri e la sua visione di progresso furono ostacolati dal regime fascista, ma la sua eredità continua a vivere nel cuore della città.",
                 "duration": "2:12",
                 "audioPath": "assets/audio/it/5_campione.mp3",
                 "transcription": {
@@ -116,7 +116,7 @@
             {
                 "id": "corso",
                 "title": "Corso Gian Filippo Ingrassia",
-                "description": "...",
+                "description": "Il Corso Gian Filippo Ingrassìa ospita eleganti palazzi nobiliari, tra cui Palazzo Compagnini, esempio di stile Liberty siciliano. È anche il cuore del Carnevale di Regalbuto, con la \"contradanza\" regalbutese che apre le sfilate. Qui si trova il Collegio di Maria, un'importante istituzione educativa; la via ricorda Gian Filippo Ingrassìa, medico e anatomista, con un busto a lui dedicato.",
                 "duration": "8:43",
                 "audioPath": "assets/audio/it/6_corso.mp3",
                 "transcription": {
@@ -135,7 +135,7 @@
             {
                 "id": "santa_maria",
                 "title": "Chiesa Santa Maria La Croce",
-                "description": "...",
+                "description": "La Chiesa di Santa Maria la Croce, esempio di architettura barocca, presenta un interno ricco di stucchi e opere d'arte. È un luogo di grande valore storico e spirituale per la comunità, custodendo anche reliquie importanti.",
                 "duration": "6:36",
                 "audioPath": "assets/audio/it/7_santa_maria.mp3",
                 "transcription": {
@@ -159,7 +159,7 @@
             {
                 "id": "piano",
                 "title": "Piazza Vittorio Veneto",
-                "description": "...",
+                "description": "Piazza Vittorio Veneto ospita il Monumento ai Caduti. Un tempo qui sorgevano la Chiesa di Sant'Agostino e il convento agostiniano.  La piazza è un luogo che conserva la memoria storica di eventi significativi, come la battaglia di Regalbuto durante la Seconda Guerra Mondiale, e oggi rappresenta un punto di riferimento per la comunità.",
                 "duration": "8:01",
                 "audioPath": "assets/audio/it/8_piano.mp3",
                 "transcription": {
@@ -180,7 +180,7 @@
             {
                 "id": "villa",
                 "title": "Villa Comunale",
-                "description": "...",
+                "description": "La Villa Comunale di Regalbuto ospita la statua di Vincenzo Gamiddo, giovane partigiano caduto durante la Seconda Guerra Mondiale. Da qui si può ammirare la vista sui monti che raccontano la lunga storia del paese, dalle origini antiche al periodo arabo e normanno.",
                 "duration": "6:10",
                 "audioPath": "assets/audio/it/9_villa.mp3",
                 "transcription": {
@@ -198,7 +198,7 @@
             {
                 "id": "lago",
                 "title": "Lago Pozzillo",
-                "description": "Il bacino artificiale più grande della Sicilia con un panorama mozzafiato.",
+                "description": "La Diga Pozzillo ha dato vita all'omonimo lago, il più grande bacino artificiale della Sicilia. Fondamentale per l'irrigazione e la produzione di energia, il lago è anche un importante habitat naturale, ricco di fauna e vegetazione, ideale per attività all'aperto.",
                 "duration": "3:04",
                 "audioPath": "assets/audio/it/10_lago.mp3",
                 "transcription": {
@@ -223,7 +223,79 @@
                     ]
                 }
             },
-            "stops": [ ]
+            "stops": [
+                {
+                    "id": "piazza",
+                    "title": "Republic Square",
+                    "description": "Discover the historical and social heart of Regalbuto: Piazza della Repubblica, one of the largest squares in the province of Enna. Once called Piazza del Re (King's Square), since 1946 it celebrates the birth of the Italian Republic. Among elegant stone geometries and symbolic buildings of the city, let yourself be guided through the stories of a vibrant community.",
+                    "duration": "2:38",
+                    "audioPath": "assets/audio/it/1_piazza.mp3"
+                },
+                {
+                    "id": "comune",
+                    "title": "Town Hall",
+                    "description": "The Town Hall elegantly overlooks Republic Square, marking the institutional heart of Regalbuto. Inside, among historical busts, a scenic staircase made of lava stone and the decorated council chamber, the civic identity of the city is preserved.",
+                    "duration": "2:48",
+                    "audioPath": "assets/audio/it/2_comune.mp3"
+                },
+                {
+                    "id": "chiesa_madre",
+                    "title": "Mother Church of Saint Basil",
+                    "description": "Next to the Town Hall stands the Mother Church of Saint Basil, the spiritual heart of Regalbuto. From its medieval origins to the impressive 18th-century interior, it preserves art, devotion and the living memory of Saint Vitus, patron saint of the city.",
+                    "duration": "11:19",
+                    "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
+                    "imagePath": "assets/img/regetna.jpg"
+                },
+                {
+                    "id": "lombardi",
+                    "title": "Riccardo Lombardi",
+                    "description": "The bust of Riccardo Lombardi honors a prominent figure of 20th-century Italian politics, a symbol of resistance, moral rigor, and commitment to socialism. His political legacy continues to inspire with his thoughts on individuality and social justice.",
+                    "duration": "2:11",
+                    "audioPath": "assets/audio/it/raw/4_lombardi.mp3"
+                },
+                {
+                    "id": "campione",
+                    "title": "Don Giuseppe Campione",
+                    "description": "The monument to Don Giuseppe Campione celebrates a man of great social and religious value, founder of the Rural Bank and promoter of a local administration oriented towards community welfare. His commitment to the poorest and his vision of progress were hindered by the fascist regime, but his legacy continues to live in the heart of the city.",
+                    "duration": "2:12",
+                    "audioPath": "assets/audio/it/5_campione.mp3"
+                },
+                {
+                    "id": "corso",
+                    "title": "Gian Filippo Ingrassia Avenue",
+                    "description": "Corso Gian Filippo Ingrassia hosts elegant noble palaces, including Palazzo Compagnini, an example of Sicilian Liberty style. It's also the heart of Regalbuto's Carnival, with the local 'contradanza' opening the parades. Here you'll find the Collegio di Maria, an important educational institution; the street commemorates Gian Filippo Ingrassia, a physician and anatomist, with a bust dedicated to him.",
+                    "duration": "8:43",
+                    "audioPath": "assets/audio/it/6_corso.mp3"
+                },
+                {
+                    "id": "santa_maria",
+                    "title": "Church of Santa Maria La Croce",
+                    "description": "The Church of Santa Maria la Croce, an example of baroque architecture, features an interior rich in stucco and works of art. It is a place of great historical and spiritual value for the community, also housing important relics.",
+                    "duration": "6:36",
+                    "audioPath": "assets/audio/it/7_santa_maria.mp3"
+                },
+                {
+                    "id": "piano",
+                    "title": "Vittorio Veneto Square",
+                    "description": "Piazza Vittorio Veneto hosts the War Memorial. Once the site of the Church of Saint Augustine and the Augustinian monastery. The square is a place that preserves the historical memory of significant events, such as the Battle of Regalbuto during World War II, and today represents a reference point for the community.",
+                    "duration": "8:01",
+                    "audioPath": "assets/audio/it/8_piano.mp3"
+                },
+                {
+                    "id": "villa",
+                    "title": "Municipal Park",
+                    "description": "The Municipal Park of Regalbuto hosts the statue of Vincenzo Gamiddo, a young partisan who fell during World War II. From here you can admire the view of the mountains that tell the long history of the town, from ancient origins to the Arab and Norman period.",
+                    "duration": "6:10",
+                    "audioPath": "assets/audio/it/9_villa.mp3"
+                },
+                {
+                    "id": "lago",
+                    "title": "Lake Pozzillo",
+                    "description": "The Pozzillo Dam created the homonymous lake, the largest artificial basin in Sicily. Essential for irrigation and energy production, the lake is also an important natural habitat, rich in fauna and vegetation, ideal for outdoor activities.",
+                    "duration": "3:04",
+                    "audioPath": "assets/audio/it/10_lago.mp3"
+                }
+            ]
         },
         "es": {
             "title": "Guía de audio de Regalbuto",
@@ -236,7 +308,79 @@
                     ]
                 }
             },
-          "stops": []
+          "stops": [
+                {
+                    "id": "piazza",
+                    "title": "Plaza de la República",
+                    "description": "Descubre el corazón histórico y social de Regalbuto: la Plaza de la República, una de las más amplias de la provincia de Enna. Antiguamente Plaza del Rey, desde 1946 celebra el nacimiento de la República Italiana. Entre elegantes geometrías de piedra y palacios símbolo de la ciudad, déjate guiar por los relatos de una comunidad viva.",
+                    "duration": "2:38",
+                    "audioPath": "assets/audio/it/1_piazza.mp3"
+                },
+                {
+                    "id": "comune",
+                    "title": "Ayuntamiento",
+                    "description": "El Ayuntamiento se asoma con elegancia a la Plaza de la República, marcando el corazón institucional de Regalbuto. En su interior, entre bustos históricos, una escenográfica escalinata de piedra volcánica y la sala consistorial decorada, se custodia la identidad cívica de la ciudad.",
+                    "duration": "2:48",
+                    "audioPath": "assets/audio/it/2_comune.mp3"
+                },
+                {
+                    "id": "chiesa_madre",
+                    "title": "Iglesia Madre de San Basilio",
+                    "description": "Junto al Ayuntamiento se erige la Iglesia Madre de San Basilio, corazón espiritual de Regalbuto. Desde sus orígenes medievales hasta el imponente interior del siglo XVIII, custodia arte, devoción y la memoria viva de San Vito, patrón de la ciudad.",
+                    "duration": "11:19",
+                    "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
+                    "imagePath": "assets/img/regetna.jpg"
+                },
+                {
+                    "id": "lombardi",
+                    "title": "Riccardo Lombardi",
+                    "description": "El busto de Riccardo Lombardi honra a una figura destacada de la política italiana del siglo XX, símbolo de resistencia, rigor moral y compromiso con el socialismo. Su legado político continúa inspirando con su pensamiento sobre la individualidad y la justicia social.",
+                    "duration": "2:11",
+                    "audioPath": "assets/audio/it/raw/4_lombardi.mp3"
+                },
+                {
+                    "id": "campione",
+                    "title": "Don Giuseppe Campione",
+                    "description": "El monumento a Don Giuseppe Campione celebra a un hombre de gran valor social y religioso, fundador del Banco Rural y promotor de una administración local orientada al bienestar de la comunidad. Su compromiso con los más pobres y su visión de progreso fueron obstaculizados por el régimen fascista, pero su legado sigue vivo en el corazón de la ciudad.",
+                    "duration": "2:12",
+                    "audioPath": "assets/audio/it/5_campione.mp3"
+                },
+                {
+                    "id": "corso",
+                    "title": "Corso Gian Filippo Ingrassia",
+                    "description": "El Corso Gian Filippo Ingrassia alberga elegantes palacios nobiliarios, entre ellos el Palazzo Compagnini, ejemplo del estilo Liberty siciliano. También es el corazón del Carnaval de Regalbuto, con la 'contradanza' local que abre los desfiles. Aquí se encuentra el Colegio de María, una importante institución educativa; la calle recuerda a Gian Filippo Ingrassia, médico y anatomista, con un busto dedicado a él.",
+                    "duration": "8:43",
+                    "audioPath": "assets/audio/it/6_corso.mp3"
+                },
+                {
+                    "id": "santa_maria",
+                    "title": "Iglesia de Santa María La Cruz",
+                    "description": "La Iglesia de Santa María la Cruz, ejemplo de arquitectura barroca, presenta un interior rico en estucos y obras de arte. Es un lugar de gran valor histórico y espiritual para la comunidad, custodiando también importantes reliquias.",
+                    "duration": "6:36",
+                    "audioPath": "assets/audio/it/7_santa_maria.mp3"
+                },
+                {
+                    "id": "piano",
+                    "title": "Plaza Vittorio Veneto",
+                    "description": "La Plaza Vittorio Veneto alberga el Monumento a los Caídos. En el pasado, aquí se encontraban la Iglesia de San Agustín y el convento agustiniano. La plaza es un lugar que preserva la memoria histórica de eventos significativos, como la batalla de Regalbuto durante la Segunda Guerra Mundial, y hoy representa un punto de referencia para la comunidad.",
+                    "duration": "8:01",
+                    "audioPath": "assets/audio/it/8_piano.mp3"
+                },
+                {
+                    "id": "villa",
+                    "title": "Parque Municipal",
+                    "description": "El Parque Municipal de Regalbuto alberga la estatua de Vincenzo Gamiddo, joven partisano caído durante la Segunda Guerra Mundial. Desde aquí se puede admirar la vista de los montes que cuentan la larga historia del pueblo, desde los orígenes antiguos hasta el período árabe y normando.",
+                    "duration": "6:10",
+                    "audioPath": "assets/audio/it/9_villa.mp3"
+                },
+                {
+                    "id": "lago",
+                    "title": "Lago Pozzillo",
+                    "description": "La Presa Pozzillo dio vida al lago homónimo, la cuenca artificial más grande de Sicilia. Fundamental para la irrigación y la producción de energía, el lago es también un importante hábitat natural, rico en fauna y vegetación, ideal para actividades al aire libre.",
+                    "duration": "3:04",
+                    "audioPath": "assets/audio/it/10_lago.mp3"
+                }
+            ]
         },
         "de": {
             "title": "Audioguide von Regalbuto",
@@ -249,7 +393,79 @@
                     ]
                 }
             },
-            "stops": []
+            "stops": [
+                {
+                    "id": "piazza",
+                    "title": "Piazza della Repubblica",
+                    "description": "Entdecken Sie das historische und soziale Herz von Regalbuto: die Piazza della Repubblica, einer der größten Plätze der Provinz Enna. Früher als Piazza del Re bekannt, feiert der Platz seit 1946 die Geburt der Italienischen Republik. Zwischen eleganten Steingeometrien und symbolischen Gebäuden der Stadt lassen Sie sich durch die Erzählungen einer lebendigen Gemeinschaft führen.",
+                    "duration": "2:38",
+                    "audioPath": "assets/audio/it/1_piazza.mp3"
+                },
+                {
+                    "id": "comune",
+                    "title": "Rathaus",
+                    "description": "Das Rathaus überblickt elegant die Piazza della Repubblica und markiert das institutionelle Herz von Regalbuto. Im Inneren, zwischen historischen Büsten, einer malerischen Treppe aus Lavastein und dem dekorierten Ratssaal, wird die bürgerliche Identität der Stadt bewahrt.",
+                    "duration": "2:48",
+                    "audioPath": "assets/audio/it/2_comune.mp3"
+                },
+                {
+                    "id": "chiesa_madre",
+                    "title": "Mutterkirche San Basilio",
+                    "description": "Neben dem Rathaus steht die Mutterkirche San Basilio, das spirituelle Herz von Regalbuto. Von ihren mittelalterlichen Ursprüngen bis zum beeindruckenden Interieur des 18. Jahrhunderts bewahrt sie Kunst, Andacht und die lebendige Erinnerung an San Vito, den Schutzheiligen der Stadt.",
+                    "duration": "11:19",
+                    "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
+                    "imagePath": "assets/img/regetna.jpg"
+                },
+                {
+                    "id": "lombardi",
+                    "title": "Riccardo Lombardi",
+                    "description": "Die Büste von Riccardo Lombardi ehrt eine bedeutende Figur der italienischen Politik des 20. Jahrhunderts, ein Symbol des Widerstands, moralischer Strenge und Engagement für den Sozialismus. Sein politisches Erbe inspiriert weiterhin mit seinen Gedanken zur Individualität und sozialen Gerechtigkeit.",
+                    "duration": "2:11",
+                    "audioPath": "assets/audio/it/raw/4_lombardi.mp3"
+                },
+                {
+                    "id": "campione",
+                    "title": "Don Giuseppe Campione",
+                    "description": "Das Denkmal für Don Giuseppe Campione ehrt einen Mann von großem sozialen und religiösen Wert, Gründer der Landbank und Förderer einer lokalen Verwaltung, die auf das Gemeinwohl ausgerichtet war. Sein Engagement für die Ärmsten und seine Vision des Fortschritts wurden vom faschistischen Regime behindert, aber sein Erbe lebt im Herzen der Stadt weiter.",
+                    "duration": "2:12",
+                    "audioPath": "assets/audio/it/5_campione.mp3"
+                },
+                {
+                    "id": "corso",
+                    "title": "Corso Gian Filippo Ingrassia",
+                    "description": "Der Corso Gian Filippo Ingrassia beherbergt elegante Adelspaläste, darunter den Palazzo Compagnini, ein Beispiel des sizilianischen Jugendstils. Er ist auch das Herz des Karnevals von Regalbuto, mit der lokalen 'Contradanza', die die Paraden eröffnet. Hier befindet sich auch das Collegio di Maria, eine wichtige Bildungseinrichtung; die Straße erinnert an Gian Filippo Ingrassia, einen Arzt und Anatomen, mit einer ihm gewidmeten Büste.",
+                    "duration": "8:43",
+                    "audioPath": "assets/audio/it/6_corso.mp3"
+                },
+                {
+                    "id": "santa_maria",
+                    "title": "Kirche Santa Maria La Croce",
+                    "description": "Die Kirche Santa Maria la Croce, ein Beispiel barocker Architektur, verfügt über ein Interieur reich an Stuck und Kunstwerken. Sie ist ein Ort von großem historischen und spirituellen Wert für die Gemeinschaft und beherbergt auch wichtige Reliquien.",
+                    "duration": "6:36",
+                    "audioPath": "assets/audio/it/7_santa_maria.mp3"
+                },
+                {
+                    "id": "piano",
+                    "title": "Piazza Vittorio Veneto",
+                    "description": "Die Piazza Vittorio Veneto beherbergt das Kriegerdenkmal. Einst standen hier die Kirche des Heiligen Augustinus und das Augustinerkloster. Der Platz ist ein Ort, der die historische Erinnerung an bedeutende Ereignisse bewahrt, wie die Schlacht von Regalbuto während des Zweiten Weltkriegs, und stellt heute einen Bezugspunkt für die Gemeinschaft dar.",
+                    "duration": "8:01",
+                    "audioPath": "assets/audio/it/8_piano.mp3"
+                },
+                {
+                    "id": "villa",
+                    "title": "Stadtpark",
+                    "description": "Der Stadtpark von Regalbuto beherbergt die Statue von Vincenzo Gamiddo, einem jungen Partisanen, der während des Zweiten Weltkriegs fiel. Von hier aus können Sie den Blick auf die Berge genießen, die die lange Geschichte der Stadt erzählen, von den antiken Ursprüngen bis zur arabischen und normannischen Zeit.",
+                    "duration": "6:10",
+                    "audioPath": "assets/audio/it/9_villa.mp3"
+                },
+                {
+                    "id": "lago",
+                    "title": "Pozzillo-See",
+                    "description": "Der Pozzillo-Staudamm schuf den gleichnamigen See, das größte künstliche Becken Siziliens. Wesentlich für die Bewässerung und Energieerzeugung ist der See auch ein wichtiger natürlicher Lebensraum, reich an Fauna und Vegetation, ideal für Aktivitäten im Freien.",
+                    "duration": "3:04",
+                    "audioPath": "assets/audio/it/10_lago.mp3"
+                }
+            ]
         },
         "fr": {
             "title": "Guide audio de Regalbuto",
@@ -262,7 +478,79 @@
                     ]
                 }
             },
-            "stops": []
+            "stops": [
+                {
+                    "id": "piazza",
+                    "title": "Place de la République",
+                    "description": "Découvrez le cœur historique et social de Regalbuto : la Place de la République, l'une des plus grandes de la province d'Enna. Autrefois Place du Roi, depuis 1946 elle célèbre la naissance de la République Italienne. Entre élégantes géométries de pierre et palais emblématiques de la ville, laissez-vous guider à travers les récits d'une communauté vivante.",
+                    "duration": "2:38",
+                    "audioPath": "assets/audio/it/1_piazza.mp3"
+                },
+                {
+                    "id": "comune",
+                    "title": "Hôtel de Ville",
+                    "description": "L'Hôtel de Ville surplombe avec élégance la Place de la République, marquant le cœur institutionnel de Regalbuto. À l'intérieur, entre bustes historiques, un escalier scénographique en pierre de lave et la salle du conseil décorée, l'identité civique de la ville est préservée.",
+                    "duration": "2:48",
+                    "audioPath": "assets/audio/it/2_comune.mp3"
+                },
+                {
+                    "id": "chiesa_madre",
+                    "title": "Église-Mère de Saint Basile",
+                    "description": "À côté de l'Hôtel de Ville s'élève l'Église-Mère de Saint Basile, cœur spirituel de Regalbuto. De ses origines médiévales à l'imposant intérieur du XVIIIe siècle, elle conserve l'art, la dévotion et la mémoire vivante de Saint Guy, patron de la ville.",
+                    "duration": "11:19",
+                    "audioPath": "assets/audio/it/3_chiesa_madre.mp3",
+                    "imagePath": "assets/img/regetna.jpg"
+                },
+                {
+                    "id": "lombardi",
+                    "title": "Riccardo Lombardi",
+                    "description": "Le buste de Riccardo Lombardi honore une figure marquante de la politique italienne du XXe siècle, symbole de résistance, de rigueur morale et d'engagement pour le socialisme. Son héritage politique continue d'inspirer par sa pensée sur l'individualité et la justice sociale.",
+                    "duration": "2:11",
+                    "audioPath": "assets/audio/it/raw/4_lombardi.mp3"
+                },
+                {
+                    "id": "campione",
+                    "title": "Don Giuseppe Campione",
+                    "description": "Le monument à Don Giuseppe Campione célèbre un homme de grande valeur sociale et religieuse, fondateur de la Banque Rurale et promoteur d'une administration locale orientée vers le bien-être de la communauté. Son engagement pour les plus pauvres et sa vision du progrès ont été entravés par le régime fasciste, mais son héritage continue de vivre dans le cœur de la ville.",
+                    "duration": "2:12",
+                    "audioPath": "assets/audio/it/5_campione.mp3"
+                },
+                {
+                    "id": "corso",
+                    "title": "Cours Gian Filippo Ingrassia",
+                    "description": "Le Cours Gian Filippo Ingrassia abrite d'élégants palais nobles, dont le Palais Compagnini, exemple du style Liberty sicilien. C'est aussi le cœur du Carnaval de Regalbuto, avec la 'contradanza' locale qui ouvre les défilés. On y trouve le Collège de Marie, une importante institution éducative ; la rue commémore Gian Filippo Ingrassia, médecin et anatomiste, avec un buste qui lui est dédié.",
+                    "duration": "8:43",
+                    "audioPath": "assets/audio/it/6_corso.mp3"
+                },
+                {
+                    "id": "santa_maria",
+                    "title": "Église de Sainte-Marie la Croix",
+                    "description": "L'église de Santa Maria la Croce, exemple d'architecture baroque, présente un intérieur riche en stucs et en œuvres d'art. C'est un lieu de grande valeur historique et spirituelle pour la communauté, abritant également d'importantes reliques.",
+                    "duration": "6:36",
+                    "audioPath": "assets/audio/it/7_santa_maria.mp3"
+                },
+                {
+                    "id": "piano",
+                    "title": "Place Vittorio Veneto",
+                    "description": "La Place Vittorio Veneto abrite le Monument aux Morts. Autrefois s'y trouvaient l'Église de Saint-Augustin et le couvent augustinien. La place est un lieu qui conserve la mémoire historique d'événements significatifs, comme la bataille de Regalbuto pendant la Seconde Guerre mondiale, et représente aujourd'hui un point de référence pour la communauté.",
+                    "duration": "8:01",
+                    "audioPath": "assets/audio/it/8_piano.mp3"
+                },
+                {
+                    "id": "villa",
+                    "title": "Parc Municipal",
+                    "description": "Le Parc Municipal de Regalbuto abrite la statue de Vincenzo Gamiddo, jeune partisan tombé pendant la Seconde Guerre mondiale. D'ici, on peut admirer la vue sur les montagnes qui racontent la longue histoire de la ville, des origines anciennes à la période arabe et normande.",
+                    "duration": "6:10",
+                    "audioPath": "assets/audio/it/9_villa.mp3"
+                },
+                {
+                    "id": "lago",
+                    "title": "Lac Pozzillo",
+                    "description": "Le barrage de Pozzillo a donné naissance au lac du même nom, le plus grand bassin artificiel de Sicile. Fondamental pour l'irrigation et la production d'énergie, le lac est aussi un important habitat naturel, riche en faune et en végétation, idéal pour les activités de plein air.",
+                    "duration": "3:04",
+                    "audioPath": "assets/audio/it/10_lago.mp3"
+                }
+            ]
         }
       },
       "staticData": {
@@ -381,4 +669,3 @@
       }
     }
 }
-  
