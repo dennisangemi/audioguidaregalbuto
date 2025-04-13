@@ -282,6 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const imagePath = staticStop.imagePath || stop.imagePath || 'assets/img/illustration-2.png';
             const audioPath = stop.audioPath || '#';
             
+            // Ottieni il link a Google Maps dai dati statici
+            const googleMapsUrl = staticStop?.googleMapsUrl || '';
+            
             // Scegli un schema di colori basato sull'indice (ciclico)
             const colorScheme = colorSchemes[index % colorSchemes.length];
             
@@ -321,58 +324,51 @@ document.addEventListener('DOMContentLoaded', function() {
                             </h2>
                             <div class="h-1 w-16 bg-gradient-to-r from-white to-white/20 mt-3"></div>
                         </div>
+                        
+                        ${googleMapsUrl ? 
+                            `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
+                                class="view-on-map absolute top-4 right-4 group flex items-center gap-2 px-3 py-2 rounded-lg bg-white/80 backdrop-blur-sm ${colorScheme.buttonText} border ${colorScheme.buttonBorder} hover:bg-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm">
+                                <i class="fas fa-map-marker-alt text-sm"></i>
+                                <span class="font-medium text-sm">Maps</span>
+                                <i class="fas fa-external-link-alt text-xs opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                            </a>` 
+                            : ''}
                     </div>
                     
                     <div class="flex-1 p-6 md:p-8">
                         <p class="text-gray-600 mb-6">${stop.description || 'Nessuna descrizione disponibile'}</p>
                         
                         <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
-                            <div class="flex items-center gap-4 mb-4">
-                                <button class="amplitude-play-pause w-14 h-14 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
+                            <!-- Player semplificato con controlli allineati: -30s, play/pause, +30s -->
+                            <div class="flex items-center justify-center gap-6 md:gap-8">
+                                <!-- Pulsante indietro 30 secondi -->
+                                <div class="flex flex-col items-center">
+                                    <button class="backward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </button>
+                                    <span class="text-xs font-medium text-gray-500">-30s</span>
+                                </div>
+                                
+                                <!-- Pulsante play/pause centrale -->
+                                <button class="amplitude-play-pause w-16 h-16 rounded-full bg-gradient-to-br ${colorScheme.buttonBg} text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" aria-label="Riproduci o metti in pausa">
                                     <i class="fa fa-play amplitude-play text-lg" aria-hidden="true"></i>
                                     <i class="fa fa-pause amplitude-pause text-lg" aria-hidden="true"></i>
                                 </button>
                                 
-                                <div class="flex items-center gap-3">
-                                    <div class="flex flex-col items-center">
-                                        <button class="backward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
-                                            <i class="fas fa-undo-alt text-sm"></i>
-                                        </button>
-                                        <span class="text-xs font-medium text-gray-500">-30s</span>
-                                    </div>
-                                    
-                                    <div class="flex flex-col items-center">
-                                        <button class="forward-15 w-10 h-10 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
-                                            <i class="fas fa-redo-alt text-sm"></i>
-                                        </button>
-                                        <span class="text-xs font-medium text-gray-500">+30s</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Nuovo pulsante "Apri in maps" con lo stesso design del file HTML -->
-                                <div class="ml-auto">
-                                    <button class="view-on-map flex items-center gap-2 px-3 py-1.5 rounded-lg ${colorScheme.mapsBg} ${colorScheme.buttonText} border ${colorScheme.buttonBorder} ${colorScheme.buttonHover} active:scale-95 transition-all shadow-sm" data-stop-id="${stop.id}">
-                                        <i class="fas fa-map-marker-alt text-sm"></i>
-                                        <span class="text-xs font-medium">Apri in maps</span>
+                                <!-- Pulsante avanti 30 secondi -->
+                                <div class="flex flex-col items-center">
+                                    <button class="forward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                        <i class="fas fa-redo-alt"></i>
                                     </button>
+                                    <span class="text-xs font-medium text-gray-500">+30s</span>
                                 </div>
-                            </div>
-                            
-                            <div class="player-progress-container relative h-2 bg-gray-200 rounded-full mb-2">
-                                <div class="player-progress absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width: 0%"></div>
-                                <div class="player-progress-handle absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-primary shadow-md" style="left: 0%"></div>
-                                <input type="range" class="amplitude-song-slider w-full absolute inset-0 opacity-0 cursor-pointer" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}" min="0" max="100" step="0.1" value="0" aria-label="Posizione audio"/>
-                            </div>
-                            
-                            <div class="flex justify-between text-xs font-medium text-gray-500">
-                                <span class="amplitude-current-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
-                                <span class="amplitude-duration-time" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">0:00</span>
                             </div>
                         </div>
                         
+                        <!-- Pulsante trascrizione -->
                         <button class="toggle-transcript mt-5 w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-gray-600 ${colorScheme.hoverText} ${colorScheme.hoverBorder} ${colorScheme.hoverBg} transition-all flex justify-center items-center space-x-2" data-target="transcript-${index + 1}" aria-expanded="false" aria-controls="transcript-${index + 1}">
                             <span>Mostra trascrizione</span>
-                            <i class="fas fa-chevron-down transcript-toggle-icon transition-transform" aria-hidden="true"></i>
+                            <i class="fas fa-chevron-down transcript-toggle-icon transition-transform ml-2" aria-hidden="true"></i>
                         </button>
                         
                         <div id="transcript-${index + 1}" class="hidden mt-4 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" aria-hidden="true" role="region" aria-label="Trascrizione audio ${stop.title}">
@@ -390,15 +386,24 @@ document.addEventListener('DOMContentLoaded', function() {
         // Riconfigura i gestori di eventi per le trascrizioni
         setupTranscriptToggles();
         
-        // Aggiunge gli event listener ai pulsanti "Apri in maps"
+        // Aggiungiamo tooltip ai pulsanti "Apri in maps"
         document.querySelectorAll('.view-on-map').forEach(button => {
-            button.addEventListener('click', function() {
-                const stopId = this.getAttribute('data-stop-id');
-                window.location.href = `mappa.html?stop=${stopId}`;
+            button.setAttribute('title', 'Apri la posizione in Google Maps');
+            
+            // Aggiungiamo effetto hover con animazione
+            button.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.fa-external-link-alt');
+                if (icon) {
+                    icon.classList.add('animate-pulse');
+                }
             });
             
-            // Tooltip aggiornato per il pulsante
-            button.setAttribute('title', 'Apri la posizione in maps');
+            button.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.fa-external-link-alt');
+                if (icon) {
+                    icon.classList.remove('animate-pulse');
+                }
+            });
         });
     }
         
