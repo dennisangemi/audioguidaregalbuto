@@ -310,6 +310,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="${imagePath}" alt="${stop.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t ${colorScheme.gradientFrom} ${colorScheme.gradientVia} to-transparent opacity-80"></div>
                         
+                        <!-- Badge di posizione sulla mappa - ottimizzato per tutte le dimensioni dello schermo -->
+                        ${googleMapsUrl ? 
+                            `<div class="absolute top-3 right-3 z-20">
+                                <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
+                                    class="maps-badge group flex items-center gap-2 px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-md hover:shadow-lg ${colorScheme.buttonText} border ${colorScheme.buttonBorder} hover:bg-white transition-all duration-300">
+                                    <i class="fas fa-map-marker-alt pulse-animation"></i>
+                                    <span class="font-medium text-sm">Posizione su Maps</span>
+                                    <i class="fas fa-external-link-alt text-xs opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                                </a>
+                            </div>` 
+                            : ''}
+                        
                         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="inline-block px-3 py-1 ${colorScheme.badge} backdrop-blur-sm rounded-full text-xs font-medium">Tappa ${order}</span>
@@ -324,15 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             </h2>
                             <div class="h-1 w-16 bg-gradient-to-r from-white to-white/20 mt-3"></div>
                         </div>
-                        
-                        ${googleMapsUrl ? 
-                            `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
-                                class="view-on-map absolute top-4 right-4 group flex items-center gap-2 px-3 py-2 rounded-lg bg-white/80 backdrop-blur-sm ${colorScheme.buttonText} border ${colorScheme.buttonBorder} hover:bg-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm">
-                                <i class="fas fa-map-marker-alt text-sm"></i>
-                                <span class="font-medium text-sm">Maps</span>
-                                <i class="fas fa-external-link-alt text-xs opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                            </a>` 
-                            : ''}
                     </div>
                     
                     <div class="flex-1 p-6 md:p-8">
@@ -386,8 +389,53 @@ document.addEventListener('DOMContentLoaded', function() {
         // Riconfigura i gestori di eventi per le trascrizioni
         setupTranscriptToggles();
         
+        // Aggiungi stile CSS per l'animazione pulsante e rendere il badge mobile più visibile
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse-map-pin {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+                100% { transform: scale(1); }
+            }
+            
+            .pulse-animation {
+                animation: pulse-map-pin 2s infinite;
+                transform-origin: center;
+            }
+            
+            .maps-badge {
+                transition: all 0.3s ease;
+            }
+            
+            .maps-badge:hover {
+                transform: translateY(-2px);
+            }
+            
+            /* Stile responsive per badge su mobile - ingrandito e più visibile */
+            @media (max-width: 768px) {
+                .maps-badge {
+                    padding: 0.5rem 0.75rem;
+                    background-color: rgba(255, 255, 255, 0.95);
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                
+                .maps-badge i.fa-map-marker-alt {
+                    font-size: 1.25rem;
+                }
+                
+                .maps-badge span {
+                    display: none;
+                }
+                
+                .maps-badge i.fa-external-link-alt {
+                    display: none;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
         // Aggiungiamo tooltip ai pulsanti "Apri in maps"
-        document.querySelectorAll('.view-on-map').forEach(button => {
+        document.querySelectorAll('.maps-badge').forEach(button => {
             button.setAttribute('title', 'Apri la posizione in Google Maps');
             
             // Aggiungiamo effetto hover con animazione
