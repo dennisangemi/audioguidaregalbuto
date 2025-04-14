@@ -2,7 +2,7 @@
 
 /* Sezione cronologica del tour */
 .tour-timeline-section {
-    margin: 2rem 0 4rem;
+    margin: var(--spacing-xl) 0 var(--spacing-2xl);
     position: relative;
     overflow: hidden;
 }
@@ -10,19 +10,24 @@
 /* Container principale della timeline */
 .timeline-container {
     position: relative;
-    padding: 2rem 1rem;
+    padding: var(--spacing-xl) var(--spacing-md);
     margin: 0;
-    background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-md);
     border: 1px solid rgba(229, 231, 235, 0.5);
+    transition: var(--transition-normal);
+}
+
+.timeline-container:hover {
+    box-shadow: var(--shadow-lg);
 }
 
 /* Wrapper per il percorso */
 .timeline-track-wrapper {
     position: relative;
     overflow: visible;
-    padding: 1rem 0;
+    padding: var(--spacing-md) 0;
 }
 
 /* Percorso della timeline */
@@ -32,8 +37,8 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    gap: 2rem;
-    padding: 2rem 0.5rem;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) var(--spacing-xs);
 }
 
 /* Linea di percorso con SVG */
@@ -45,11 +50,12 @@
     height: 100%;
     z-index: 1;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity var(--transition-slow);
 }
 
 .timeline-path {
-    stroke: rgba(107, 70, 193, 0.3);
+    stroke: var(--color-primary-light);
+    stroke-opacity: 0.3;
     stroke-width: 3px;
     stroke-linecap: round;
     stroke-dasharray: 6, 6;
@@ -62,7 +68,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2.5rem;
+    gap: var(--spacing-2xl);
     position: relative;
     z-index: 2;
     width: 100%;
@@ -80,7 +86,7 @@
     width: 120px;
     max-width: 120px;
     outline: none;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-normal);
     position: relative;
 }
 
@@ -89,26 +95,26 @@
 }
 
 .timeline-stop:focus-visible {
-    outline: 2px solid #6b46c1;
+    outline: 2px solid var(--color-primary);
     outline-offset: 4px;
-    border-radius: 8px;
+    border-radius: var(--border-radius-md);
 }
 
 /* Icona della tappa con numerazione */
 .timeline-stop-icon {
     width: 64px;
     height: 64px;
-    border-radius: 50%;
-    background-color: #ffffff;
+    border-radius: var(--border-radius-round);
+    background-color: var(--bg-white);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
-    border: 3px solid #e5e7eb;
-    color: #6b46c1;
-    font-size: 1.6rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: var(--spacing-md);
+    border: 3px solid var(--bg-gray-light);
+    color: var(--color-primary);
+    font-size: var(--font-size-xl);
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
     position: relative;
 }
 
@@ -117,35 +123,35 @@
     position: absolute;
     top: -6px;
     right: -6px;
-    background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
-    color: white;
-    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    border-radius: var(--border-radius-round);
     width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: var(--font-size-xs);
     font-weight: bold;
-    box-shadow: 0 2px 6px rgba(107, 70, 193, 0.3);
-    border: 2px solid white;
-    z-index: 10; /* Assicura che il numero sia sopra qualsiasi altro elemento */
+    box-shadow: var(--shadow-sm);
+    border: 2px solid var(--bg-white);
+    z-index: 10;
 }
 
 .timeline-stop:hover .timeline-stop-icon {
-    background-color: #f7f9fc;
-    border-color: #6b46c1;
+    background-color: var(--bg-gray-light);
+    border-color: var(--color-primary);
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
 }
 
 /* Etichetta della tappa */
 .timeline-stop-label {
-    font-size: 0.95rem;
+    font-size: var(--font-size-sm);
     font-weight: 500;
-    color: #4b5563;
+    color: var(--text-medium);
     text-align: center;
-    transition: color 0.3s ease;
+    transition: color var(--transition-normal);
     max-width: 120px;
     white-space: normal;
     line-height: 1.4;
@@ -154,26 +160,26 @@
 }
 
 .timeline-stop:hover .timeline-stop-label {
-    color: #6b46c1;
+    color: var(--color-primary);
 }
 
 /* Stato attivo per le tappe */
 .timeline-stop.active .timeline-stop-icon {
-    background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
-    border-color: #ffffff;
-    color: #ffffff;
+    background: var(--gradient-primary);
+    border-color: var(--bg-white);
+    color: var(--text-white);
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(107, 70, 193, 0.2);
+    box-shadow: var(--shadow-md);
 }
 
 .timeline-stop.active .timeline-stop-number {
-    background: #ffffff;
-    color: #6b46c1;
-    border-color: #6b46c1;
+    background: var(--bg-white);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 .timeline-stop.active .timeline-stop-label {
-    color: #6b46c1;
+    color: var(--color-primary);
     font-weight: 600;
 }
 
@@ -185,50 +191,50 @@
     position: absolute;
     bottom: -2px;
     right: -2px;
-    background-color: #10b981;
-    color: white;
+    background-color: var(--color-accent);
+    color: var(--text-white);
     width: 22px;
     height: 22px;
-    border-radius: 50%;
+    border-radius: var(--border-radius-round);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.7rem;
-    border: 2px solid white;
+    font-size: var(--font-size-xs);
+    border: 2px solid var(--bg-white);
 }
 
 /* Responsive design - Stile per mobile migliorato con icone più grandi */
 @media (max-width: 767px) {
     .timeline-container {
-        padding: 1.5rem 0.5rem 2rem;
+        padding: var(--spacing-lg) var(--spacing-xs) var(--spacing-xl);
     }
     
     .timeline-track {
-        padding: 1rem 0;
-        gap: 1.5rem 1rem;
+        padding: var(--spacing-md) 0;
+        gap: var(--spacing-lg) var(--spacing-md);
     }
     
     .timeline-stops {
-        gap: 2rem 0.5rem;
+        gap: var(--spacing-xl) var(--spacing-xs);
     }
     
     .timeline-stop {
         width: 110px;
         max-width: 110px;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-xs);
     }
     
     /* Icone più grandi su mobile */
     .timeline-stop-icon {
         width: 64px;
         height: 64px;
-        font-size: 1.5rem;
-        margin-bottom: 0.75rem;
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-sm);
         border-width: 3px;
     }
     
     .timeline-stop-label {
-        font-size: 0.85rem;
+        font-size: var(--font-size-xs);
         max-width: 110px;
         padding-bottom: 0;
     }
@@ -236,38 +242,38 @@
     .timeline-stop-number {
         width: 24px;
         height: 24px;
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
     }
 }
 
 /* Per dispositivi molto piccoli - icone ancora più grandi rispetto al contenitore */
 @media (max-width: 480px) {
     .timeline-track {
-        padding: 1rem 0.25rem;
-        gap: 2rem 0.5rem;
+        padding: var(--spacing-md) var(--spacing-xs);
+        gap: var(--spacing-xl) var(--spacing-xs);
     }
     
     .timeline-stop {
         width: 90px;      /* Larghezza contenitore ridotta */
         max-width: 90px;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-xs);
     }
     
     /* Icone ancora più grandi rispetto al contenitore su schermi piccoli */
     .timeline-stop-icon {
         width: 70px;      /* Icona più grande */
         height: 70px;
-        font-size: 1.6rem;
-        margin-bottom: 0.6rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--spacing-xs);
+        box-shadow: var(--shadow-md);
     }
     
     .timeline-stops {
-        gap: 2.5rem 0.25rem;
+        gap: var(--spacing-2xl) var(--spacing-xs);
     }
     
     .timeline-stop-label {
-        font-size: 0.8rem;
+        font-size: var(--font-size-xs);
         font-weight: 500;
         max-width: 90px;
     }
@@ -275,7 +281,7 @@
     .timeline-stop-number {
         width: 26px;      /* Badge numero più grande */
         height: 26px;
-        font-size: 0.8rem;
+        font-size: var(--font-size-xs);
     }
     
     /* Aumenta la dimensione dell'icona della tappa attiva ancora di più */
@@ -288,7 +294,7 @@
 @media (min-width: 1024px) {
     .timeline-stops {
         justify-content: center;
-        gap: 3rem;
+        gap: var(--spacing-2xl);
     }
     
     .timeline-stop {
@@ -299,18 +305,18 @@
     .timeline-stop-icon {
         width: 70px;
         height: 70px;
-        font-size: 1.8rem;
+        font-size: var(--font-size-2xl);
     }
     
     .timeline-stop-label {
-        font-size: 1rem;
+        font-size: var(--font-size-md);
         max-width: 130px;
     }
     
     .timeline-stop-number {
         width: 28px;
         height: 28px;
-        font-size: 0.85rem;
+        font-size: var(--font-size-xs);
     }
 }
 
