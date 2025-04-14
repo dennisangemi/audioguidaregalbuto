@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it"> <!-- lang attribute will be updated by JS -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -25,17 +25,13 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AmplitudeJS CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.css"/>
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/components/audio-amplitude.css">
     <link rel="stylesheet" href="assets/css/components/transcription.css">
-    <!-- Nuovo CSS per il player dell'hero e l'header -->
     <link rel="stylesheet" href="assets/css/components/hero-player.css">
     <link rel="stylesheet" href="assets/css/components/header.css">
-    <!-- CSS per le mappe -->
     <style>
         .map-container {
             height: 300px;
@@ -118,10 +114,9 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-    <!-- Skip link per accessibilità da tastiera -->
+<!-- Skip link per accessibilità da tastiera -->
     <a href="#main-content" class="skip-to-content">Salta al contenuto principale</a>
     
-    <!-- Header moderno con navbar fissa - margini aumentati su desktop -->
     <header id="site-header" class="bg-white/90 backdrop-blur-xl fixed w-full z-40 border-b border-gray-100 shadow-sm" role="banner">
         <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl">
             <nav class="flex justify-between items-center h-16 md:h-20">
@@ -140,8 +135,8 @@
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
                     <a href="mappa.html" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
                     
-                    <!-- Selettore lingua spostato nell'header - MIGLIORATO -->
-                    <div class="language-selector relative inline-block">
+<!-- Selettore lingua spostato nell'header - MIGLIORATO -->
+                                        <div class="language-selector relative inline-block">
                         <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary transition-all focus:outline-none" aria-expanded="false" aria-haspopup="true">
                             <i class="fas fa-language mr-1.5"></i>
                             <span class="current-language">Italiano</span>
@@ -174,12 +169,10 @@
                 </div>
                 
                 <div class="flex items-center gap-4 md:hidden">
-                    <!-- Selettore lingua mobile -->
                     <button id="mobile-language-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Cambia lingua">
                         <i class="fas fa-language text-xl"></i>
                     </button>
                     
-                    <!-- Menu mobile button -->
                     <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
                         <i class="fas fa-bars text-xl menu-icon"></i>
                     </button>
@@ -187,14 +180,13 @@
             </nav>
         </div>
         
-        <!-- Menu mobile ottimizzato -->
         <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
             <a href="#tour-timeline" class="nav-link text-gray-700 hover:text-primary transition-colors">Tappe</a>
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
             <a href="mappa.html" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
             
-            <!-- Opzioni lingua mobile - MIGLIORATE -->
-            <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
+<!-- Opzioni lingua mobile - MIGLIORATE -->
+                        <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="it" aria-label="Italiano">🇮🇹</button>
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="en" aria-label="English">🇬🇧</button>
                 <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
@@ -209,20 +201,16 @@
         </div>
     </header>
     
-    <!-- Hero section principale con illustrazione e player integrati -->
     <section class="pt-16 md:pt-20 relative bg-gradient-to-br from-primary-light/10 via-white to-accent/10" aria-labelledby="hero-title">
         <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl relative">
-            <!-- Hero content con illustrazione -->
             <div class="flex flex-col lg:flex-row lg:items-center pt-12 pb-6 md:pt-20 md:pb-12 lg:pt-28 lg:pb-16">
-                <!-- Colonna sinistra: testo introduttivo -->
                 <div class="lg:w-1/2 lg:pr-12 xl:pr-16 mb-10 lg:mb-0">
                     <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-dark leading-tight mb-4">
-                        Audio Guida di <span class="text-primary">Regalbuto</span>
+                        <!-- Content updated by JS -->
                     </h1>
                     
                     <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-                        Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. 
-                        Un viaggio sonoro tra dieci luoghi emblematici raccontati con passione.
+                        <!-- Content updated by JS -->
                     </p>
                     
                     <div class="flex flex-wrap gap-6 mb-8">
@@ -249,27 +237,19 @@
                     </div>
                 </div>
                 
-                <!-- Colonna destra: illustrazione con player audio integrato -->
                 <div class="lg:w-1/2 lg:pl-6 xl:pl-10 relative">
                     <div class="illustration-player-container relative">
-                        <!-- Sfondo luminoso dietro l'illustrazione -->
                         <div class="absolute -top-20 -right-10 w-72 h-72 rounded-full bg-gradient-to-br from-primary/25 via-secondary/20 to-accent/15 opacity-70 blur-3xl"></div>
                         
-                        <!-- Container per illustrazione arrotondata con player sovrapposto -->
                         <div class="relative audio-illustration-wrapper rounded-3xl overflow-hidden shadow-xl mx-auto max-w-md lg:max-w-lg">
-                            <!-- Illustrazione come sfondo -->
                             <img src="assets/img/regetna.jpg" alt="Illustrazione di Regalbuto" class="w-full h-auto illustration-bg">
                             
-                            <!-- Overlay sfumato per migliorare leggibilità delle onde audio -->
                             <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/30 to-transparent"></div>
                             
-                            <!-- Player AmplitudeJS integrato sull'illustrazione -->
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="amplitude-player intro-amplitude w-full h-full" id="intro-player">
-                                    <!-- Visualizzazione onde audio sovrapposte all'illustrazione -->
                                     <div class="amplitude-visualization w-full h-full absolute top-0 left-0" id="intro-visualization"></div>
                                     
-                                    <!-- Pulsante centrale play/pause -->
                                     <div class="absolute inset-0 flex items-center justify-center">
                                         <button class="amplitude-play-pause z-10" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
                                             <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
@@ -277,7 +257,6 @@
                                         </button>
                                     </div>
                                     
-                                    <!-- Etichetta "Ascolta l'introduzione" -->
                                     <div class="absolute bottom-10 left-0 right-0 flex justify-center">
                                         <span class="bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-medium shadow-md inline-flex items-center">
                                             <i class="fas fa-headphones mr-2"></i>
@@ -285,29 +264,25 @@
                                         </span>
                                     </div>
                                     
-                                    <!-- Pulsante trascrizione posizionato nell'angolo inferiore destro -->
                                     <div class="absolute bottom-4 right-4 z-10">
                                         <button class="toggle-transcript intro-transcript-button compact bg-white/30 hover:bg-white/40 backdrop-blur-md text-white rounded-full px-3 py-1.5 text-xs transition-all flex items-center" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
                                             <i class="fas fa-align-left mr-1" aria-hidden="true"></i>
-                                            <span>Trascrizione</span>
+                                            <span>...</span> <!-- Text updated by JS -->
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Contenitore per la trascrizione -->
                         <div id="transcript-0" class="transcript-container mt-4 rounded-lg bg-white/90 backdrop-blur-md shadow-lg p-4 hidden" aria-hidden="true" role="region" aria-label="Trascrizione dell'introduzione">
                             <div class="text-gray-700 text-sm">
-                                <!-- Il contenuto verrà caricato dinamicamente dal file JSON -->
-                                <p>La trascrizione verrà caricata qui...</p>
+                                <!-- Content loaded dynamically by JS -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Indicatore per scorrere verso le tappe -->
             <div class="flex justify-center pb-8 mt-4">
                 <a href="#tour-timeline" class="flex flex-col items-center text-gray-500 hover:text-primary transition-colors" aria-label="Scorri verso le tappe del tour">
                     <span class="text-sm font-medium mb-2">Scopri le tappe</span>
@@ -318,19 +293,17 @@
     </section>
     
     <div id="main-content" class="container mx-auto px-4 md:px-6 py-4 max-w-5xl">
-        <!-- Sezione tappe del tour completamente riprogettata -->
         <section class="tour-timeline-section mb-12" id="tour-timeline" aria-labelledby="tour-timeline-title">
             <div class="timeline-container">
                 <div class="timeline-track-wrapper" tabindex="0" aria-label="Timeline orizzontale scorrevole, usa frecce sinistra e destra per navigare">
                     <div class="timeline-track">
                         <div class="timeline-line"></div>
                         <div class="timeline-stops">
-                            <!-- I pulsanti della timeline verranno generati dinamicamente dal JavaScript -->
+                            <!-- Content generated dynamically by JS -->
                         </div>
                     </div>
                 </div>
                 
-                <!-- Controlli di navigazione -->
                 <div class="timeline-controls" role="group" aria-label="Controlli di navigazione della timeline">
                     <button class="timeline-control prev" aria-label="Tappe precedenti">
                         <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -341,7 +314,6 @@
                     </button>
                 </div>
                 
-                <!-- Pulsante migliorato per controllare l'animazione - spostato sopra gli indicatori -->
                 <div class="animation-control-wrapper">
                     <button class="animation-control" aria-label="Interrompi animazione automatica">
                         <span class="control-icon"><i class="fas fa-pause" aria-hidden="true"></i></span>
@@ -349,56 +321,38 @@
                     </button>
                 </div>
                 
-                <!-- Pallini indicatori per la timeline - spostati sotto il pulsante di controllo -->
                 <div class="timeline-indicators" aria-hidden="true"></div>
             </div>
         </section>
         
-        <!-- Contenitore principale dove verranno generate dinamicamente le card degli episodi -->
         <main class="space-y-12">
-            <!-- Le card degli episodi verranno generate dinamicamente dal JavaScript -->
+            <!-- Content generated dynamically by JS -->
         </main>
         
         <footer class="rounded-lg" role="contentinfo">
-            <p>2025 Audio guida di Regalbuto. Un progetto di <a href="#" class="footer-link">Regalbuto Inside</a>.</p>
+            <p>...</p> <!-- Content updated by JS -->
         </footer>
     </div>
 
-    <!-- AmplitudeJS Script -->
     <script src="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.js"></script>
-    
-    <!-- Script per la visualizzazione delle onde audio -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.4/wavesurfer.min.js"></script>
-    
-    <!-- Language Manager -->
     <script src="assets/js/language-manager.js"></script>
-    
-    <!-- Carica prima amplitude-config.js come utility library -->
     <script src="assets/js/amplitude-config.js"></script>
-    
-    <!-- Poi carica il main.js che utilizzerà le utility -->
     <script src="assets/js/main.js"></script>
-    
-    <!-- Script per gestire i collegamenti alla mappa -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Gestione dei pulsanti "Apri in maps"
             document.querySelectorAll('.view-on-map').forEach(button => {
                 button.addEventListener('click', function() {
                     const stopId = this.getAttribute('data-stop-id');
                     window.location.href = `mappa.html?stop=${stopId}`;
                 });
                 
-                // Tooltip aggiornato per il pulsante
                 button.setAttribute('title', 'Apri la posizione in maps');
             });
         });
     </script>
-    
-    <!-- Script per l'header, menu mobile e selettore lingua -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Menu mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             
@@ -413,7 +367,6 @@
                     mobileMenuButton.classList.toggle('menu-open');
                 });
                 
-                // Chiudi menu quando si clicca su un link - event delegation
                 mobileMenu.addEventListener('click', function(event) {
                     const target = event.target.closest('a');
                     if (target) {
@@ -423,7 +376,6 @@
                         document.body.classList.remove('overflow-hidden');
                         mobileMenuButton.classList.remove('menu-open');
                         
-                        // Gestisci scroll per target con ancoraggio
                         const href = target.getAttribute('href');
                         if (href && href.startsWith('#') && href.length > 1) {
                             event.preventDefault();
@@ -442,7 +394,6 @@
                 });
             }
             
-            // Header effetto scroll
             const header = document.getElementById('site-header');
             let lastScrollY = window.scrollY;
             
@@ -460,7 +411,6 @@
             
             window.addEventListener('scroll', handleScroll, { passive: true });
             
-            // Gestione click sul toggle della trascrizione
             const transcriptToggles = document.querySelectorAll('.toggle-transcript');
             
             transcriptToggles.forEach(toggle => {
@@ -476,7 +426,6 @@
                         transcriptContainer.classList.toggle('active');
                         transcriptContainer.classList.toggle('hidden');
                         
-                        // Rotazione dell'icona
                         const icon = this.querySelector('.transcript-toggle-icon');
                         if (icon) {
                             icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
@@ -485,7 +434,6 @@
                 });
             });
             
-            // Evidenzia il link di navigazione attivo in base alla sezione visibile
             const sections = document.querySelectorAll('section[id], article[id]');
             const navLinks = document.querySelectorAll('.nav-link');
             
@@ -511,9 +459,8 @@
             }
             
             window.addEventListener('scroll', highlightNavLink, { passive: true });
-            highlightNavLink(); // Esegui all'avvio
+            highlightNavLink();
             
-            // Fix per iOS Safari - problemi di altezza viewport
             function setVHProperty() {
                 const vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -522,7 +469,6 @@
             setVHProperty();
             window.addEventListener('resize', setVHProperty);
             
-            // MIGLIORAMENTO: Gestione del selettore lingua
             const languageButton = document.getElementById('language-button');
             const languageDropdown = document.getElementById('language-dropdown');
             const languageArrow = document.getElementById('language-arrow');
@@ -531,31 +477,24 @@
             const mobileLanguageButton = document.getElementById('mobile-language-button');
             const mobileLanguageOptions = document.querySelectorAll('.language-option-mobile');
             
-            // Variabile per tenere traccia dello stato del dropdown
             let isLanguageDropdownOpen = false;
             let clickEventListener = null;
             
-            // Toggle del dropdown delle lingue - MIGLIORATO
             if (languageButton && languageDropdown) {
                 languageButton.addEventListener('click', function(e) {
-                    e.stopPropagation(); // Ferma la propagazione dell'evento
+                    e.stopPropagation();
                     
-                    // Inverti lo stato
                     isLanguageDropdownOpen = !isLanguageDropdownOpen;
                     
-                    // Aggiorna l'UI
                     updateLanguageDropdownUI();
                 });
                 
-                // Funzione per aggiornare l'UI del dropdown in modo consistente
                 function updateLanguageDropdownUI() {
                     if (isLanguageDropdownOpen) {
-                        // Mostra il dropdown
                         languageButton.setAttribute('aria-expanded', 'true');
                         languageDropdown.classList.remove('hidden');
                         languageArrow.style.transform = 'rotate(180deg)';
                         
-                        // Gestisce il click fuori dal dropdown
                         if (!clickEventListener) {
                             clickEventListener = function(e) {
                                 if (!languageDropdown.contains(e.target) && e.target !== languageButton) {
@@ -564,18 +503,15 @@
                                 }
                             };
                             
-                            // Aggiungi l'event listener con un breve ritardo per evitare che si attivi subito
                             setTimeout(() => {
                                 document.addEventListener('click', clickEventListener);
                             }, 10);
                         }
                     } else {
-                        // Nascondi il dropdown
                         languageButton.setAttribute('aria-expanded', 'false');
                         languageDropdown.classList.add('hidden');
                         languageArrow.style.transform = '';
                         
-                        // Rimuovi l'event listener quando non serve più
                         if (clickEventListener) {
                             document.removeEventListener('click', clickEventListener);
                             clickEventListener = null;
@@ -584,15 +520,12 @@
                 }
             }
             
-            // Utilizzo di LanguageManager per il cambio lingua - MIGLIORATO
             if (window.LanguageManager) {
-                // Funzione di cambio lingua centralizzata
                 function changeLanguage(lang) {
                     if (window.LanguageManager) {
                         console.log('Cambio lingua a:', lang);
                         window.LanguageManager.changeLanguage(lang);
                         
-                        // Se il dropdown è aperto, chiudilo
                         if (isLanguageDropdownOpen) {
                             isLanguageDropdownOpen = false;
                             updateLanguageDropdownUI();
@@ -600,26 +533,22 @@
                     }
                 }
                 
-                // Gestione cambio lingua dal dropdown desktop
                 languageOptions.forEach(option => {
                     option.addEventListener('click', function(e) {
-                        e.stopPropagation(); // Ferma la propagazione dell'evento
+                        e.stopPropagation();
                         e.preventDefault();
                         const lang = this.getAttribute('data-lang');
                         changeLanguage(lang);
                     });
                 });
                 
-                // Gestione cambio lingua su mobile
                 if (mobileLanguageButton) {
                     mobileLanguageButton.addEventListener('click', function() {
                         if (!mobileMenu.classList.contains('open')) {
-                            // Apri il menu mobile che contiene le opzioni di lingua
                             mobileMenuButton.click();
                         }
                     });
                     
-                    // Gestione opzioni lingua mobile
                     mobileLanguageOptions.forEach(option => {
                         option.addEventListener('click', function() {
                             const lang = this.getAttribute('data-lang');
@@ -628,13 +557,11 @@
                     });
                 }
                 
-                // Evidenzia la lingua corrente quando il sito viene caricato
                 if (window.LanguageManager && window.LanguageManager.getCurrentLanguage) {
                     const currentLang = window.LanguageManager.getCurrentLanguage();
                     highlightCurrentLanguage(currentLang);
                 }
                 
-                // Ascolta eventi di cambio lingua per aggiornare l'interfaccia
                 document.addEventListener('languageChanged', function(event) {
                     if (event.detail && event.detail.language) {
                         const lang = event.detail.language;
@@ -642,14 +569,11 @@
                     }
                 });
                 
-                // Funzione per evidenziare la lingua corrente in tutti i selettori
                 function highlightCurrentLanguage(lang) {
-                    // Aggiorna l'indicatore della lingua corrente
                     if (currentLanguageElement) {
                         currentLanguageElement.textContent = getLanguageDisplayName(lang);
                     }
                     
-                    // Evidenzia l'opzione della lingua corrente su mobile
                     mobileLanguageOptions.forEach(option => {
                         const optionLang = option.getAttribute('data-lang');
                         if (optionLang === lang) {
@@ -659,7 +583,6 @@
                         }
                     });
                     
-                    // Evidenzia anche nel dropdown desktop
                     languageOptions.forEach(option => {
                         const optionLang = option.getAttribute('data-lang');
                         if (optionLang === lang) {
@@ -671,7 +594,6 @@
                 }
             }
             
-            // Helper per ottenere il nome visualizzato della lingua
             function getLanguageDisplayName(code) {
                 const names = {
                     'it': 'Italiano',
