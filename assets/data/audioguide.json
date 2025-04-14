@@ -6,7 +6,7 @@
         "content": {
         "it": {
             "title": "Audio Guida di Regalbuto",
-            "description": "Esplora la storia, l'arte e le tradizioni di Regalbuto...",
+            "description": "Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. Un viaggio sonoro tra dieci luoghi emblematici raccontati con passione.",
             "introduction": {
             "audioPath": "assets/audio/it/0_intro.mp3",
             "transcription": {
@@ -214,7 +214,7 @@
         },
         "en": {
             "title": "Audio Guide of Regalbuto",
-            "description": "Explore the history, art, and traditions of Regalbuto...",
+            "description": "Explore the history, art and traditions of Regalbuto through this audio-guided tour. A sound journey through ten emblematic places narrated with passion.",
             "introduction": {
             "audioPath": "assets/audio/en/0_intro.mp3",
             "transcription": {
@@ -299,7 +299,7 @@
         },
         "es": {
             "title": "Guía de audio de Regalbuto",
-            "description": "Explora la historia, el arte y las tradiciones de Regalbuto...",
+            "description": "Explora la historia, el arte y las tradiciones de Regalbuto a través de este recorrido con audio guía. Un viaje sonoro entre diez lugares emblemáticos narrados con pasión.",
             "introduction": {
             "audioPath": "assets/audio/es/intro.mp3",
             "transcription": {
@@ -384,7 +384,7 @@
         },
         "de": {
             "title": "Audioguide von Regalbuto",
-            "description": "Erkunde die Geschichte, Kunst und Traditionen von Regalbuto...",
+            "description": "Erkunden Sie die Geschichte, Kunst und Traditionen von Regalbuto mit dieser Audioführung. Eine Klangreise durch zehn emblematische Orte, die mit Leidenschaft erzählt werden.",
             "introduction": {
             "audioPath": "assets/audio/de/0_intro.mp3",
             "transcription": {
@@ -469,7 +469,7 @@
         },
         "fr": {
             "title": "Guide audio de Regalbuto",
-            "description": "Explorez l'histoire, l'art et les traditions de Regalbuto...",
+            "description": "Explorez l'histoire, l'art et les traditions de Regalbuto à travers ce parcours audio guidé. Un voyage sonore parmi dix lieux emblématiques racontés avec passion.",
             "introduction": {
             "audioPath": "assets/audio/fr/0_intro.mp3",
             "transcription": {
@@ -560,8 +560,8 @@
                 "order": 1,
                 "googleMapsUrl": "https://maps.app.goo.gl/FG2njxa754LHAxha9",
                 "coordinates": {
-                    "latitude": 37.652467,
-                    "longitude": 14.6408218
+                    "latitude": 37.652308,
+                    "longitude": 14.641018
                 },
                 "icon": "fa-map-marker-alt",
                 "imagePath": "assets/img/regetna.jpg"
@@ -571,8 +571,8 @@
                 "order": 2,
                 "googleMapsUrl": "https://maps.app.goo.gl/AASKU2yNkVvauoKn8",
                 "coordinates": {
-                    "latitude": 37.6523334,
-                    "longitude": 14.6407522
+                    "latitude": 37.652282,
+                    "longitude": 14.640830
                 },
                 "icon": "fa-landmark",
                 "imagePath": "assets/img/regetna.jpg"
@@ -596,7 +596,7 @@
                     "latitude": 37.652006,
                     "longitude": 14.6411328
                 },
-                "icon": "fa-tree",
+                "icon": "fa-monument",
                 "imagePath": "assets/img/lombardi_edited.png"
             },
             {
@@ -604,10 +604,10 @@
                 "order": 5,
                 "googleMapsUrl": "https://www.google.com/maps/place/37.6521778,14.6406708",
                 "coordinates": {
-                    "latitude": 37.6521778,
-                    "longitude": 14.6406708
+                    "latitude": 37.652076,
+                    "longitude": 14.6408725
                 },
-                "icon": "fa-tree",
+                "icon": "fa-monument",
                 "imagePath": "assets/img/campione_edited.png"
             },
             {
@@ -615,10 +615,10 @@
                 "order": 6,
                 "googleMapsUrl": "https://maps.app.goo.gl/K5HXUGqsyndHHDk57",
                 "coordinates": {
-                    "latitude": 37.652076,
-                    "longitude": 14.6408725
+                    "latitude": 37.651872,
+                    "longitude": 14.640747
                 },
-                "icon": "fa-tree",
+                "icon": "fa-road",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
@@ -626,10 +626,10 @@
                 "order": 7,
                 "googleMapsUrl": "https://maps.app.goo.gl/Sjrgz97vXRWmoze19",
                 "coordinates": {
-                    "latitude": 37.6498226,
-                    "longitude": 14.6406302
+                    "latitude": 37.6497021,
+                    "longitude": 14.6408261
                 },
-                "icon": "fa-tree",
+                "icon": "fa-church",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
@@ -637,10 +637,10 @@
                 "order": 8,
                 "googleMapsUrl": "https://maps.app.goo.gl/YzFDkN9uL7buAds58",
                 "coordinates": {
-                    "latitude": 37.6497021,
-                    "longitude": 14.6408261
+                    "latitude": 37.649530,
+                    "longitude": 14.640728
                 },
-                "icon": "fa-tree",
+                "icon": "fa-square",
                 "imagePath": "assets/img/regetna.jpg"
             },
             {
