@@ -197,70 +197,90 @@
     border: 2px solid white;
 }
 
-/* Responsive design */
+/* Responsive design - Stile per mobile migliorato con icone più grandi */
 @media (max-width: 767px) {
+    .timeline-container {
+        padding: 1.5rem 0.5rem 2rem;
+    }
+    
+    .timeline-track {
+        padding: 1rem 0;
+        gap: 1.5rem 1rem;
+    }
+    
     .timeline-stops {
-        gap: 2rem 1.5rem;
+        gap: 2rem 0.5rem;
     }
     
     .timeline-stop {
-        width: 100px;
-        max-width: 100px;
-        margin-bottom: 1.5rem;
+        width: 110px;
+        max-width: 110px;
+        margin-bottom: 0.5rem;
     }
     
+    /* Icone più grandi su mobile */
     .timeline-stop-icon {
-        width: 54px;
-        height: 54px;
-        font-size: 1.4rem;
+        width: 64px;
+        height: 64px;
+        font-size: 1.5rem;
         margin-bottom: 0.75rem;
+        border-width: 3px;
     }
     
     .timeline-stop-label {
         font-size: 0.85rem;
-        max-width: 100px;
+        max-width: 110px;
+        padding-bottom: 0;
     }
     
     .timeline-stop-number {
-        width: 22px;
-        height: 22px;
-        font-size: 0.7rem;
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
     }
 }
 
-/* Per dispositivi molto piccoli */
+/* Per dispositivi molto piccoli - icone ancora più grandi rispetto al contenitore */
 @media (max-width: 480px) {
     .timeline-track {
-        padding: 1.5rem 0.25rem;
+        padding: 1rem 0.25rem;
+        gap: 2rem 0.5rem;
     }
     
     .timeline-stop {
-        width: 85px;
-        max-width: 85px;
-        margin-bottom: 1.2rem;
-    }
-    
-    .timeline-stop-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 1.2rem;
+        width: 90px;      /* Larghezza contenitore ridotta */
+        max-width: 90px;
         margin-bottom: 0.5rem;
     }
     
+    /* Icone ancora più grandi rispetto al contenitore su schermi piccoli */
+    .timeline-stop-icon {
+        width: 70px;      /* Icona più grande */
+        height: 70px;
+        font-size: 1.6rem;
+        margin-bottom: 0.6rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+    
     .timeline-stops {
-        gap: 1rem;
+        gap: 2.5rem 0.25rem;
     }
     
     .timeline-stop-label {
         font-size: 0.8rem;
+        font-weight: 500;
+        max-width: 90px;
     }
     
     .timeline-stop-number {
-        width: 20px;
-        height: 20px;
-        font-size: 0.65rem;
-        top: -5px;
-        right: -5px;
+        width: 26px;      /* Badge numero più grande */
+        height: 26px;
+        font-size: 0.8rem;
+    }
+    
+    /* Aumenta la dimensione dell'icona della tappa attiva ancora di più */
+    .timeline-stop.active .timeline-stop-icon {
+        transform: scale(1.15);
     }
 }
 
