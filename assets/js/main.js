@@ -425,8 +425,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="text-gray-600 mb-6">${stop.description || 'Nessuna descrizione disponibile'}</p>
                         
                         <div class="bg-gradient-to-br from-primary-light/5 to-accent/5 rounded-2xl p-5 border border-gray-100 shadow-sm">
-                            <!-- Player semplificato con controlli allineati: -30s, play/pause, +30s -->
-                            <div class="flex items-center justify-center gap-6 md:gap-8">
+                            <!-- Player semplificato con controlli allineati e barra di avanzamento -->
+                            <div class="flex items-center justify-center gap-6 md:gap-8 mb-4">
                                 <!-- Pulsante indietro 30 secondi -->
                                 <div class="flex flex-col items-center">
                                     <button class="backward-15 w-12 h-12 rounded-full bg-white ${colorScheme.buttonText} border ${colorScheme.buttonBorder} flex items-center justify-center ${colorScheme.buttonHover} active:scale-95 transition-all mb-1 shadow-sm" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
@@ -448,6 +448,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </button>
                                     <span class="text-xs font-medium text-gray-500">+30s</span>
                                 </div>
+                            </div>
+                            
+                            <!-- Barra di avanzamento AmplitudeJS -->
+                            <div class="amplitude-progress-container mt-2 flex items-center gap-2" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}">
+                                <span class="amplitude-current-time text-xs font-medium text-gray-500" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}"></span>
+                                <progress class="amplitude-song-played-progress w-full h-1.5 rounded-full overflow-hidden appearance-none bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary"
+                                          data-amplitude-playlist="episodi" data-amplitude-song-index="${index}"></progress>
+                                <span class="amplitude-duration-time text-xs font-medium text-gray-500" data-amplitude-playlist="episodi" data-amplitude-song-index="${index}"></span>
                             </div>
                         </div>
                         
