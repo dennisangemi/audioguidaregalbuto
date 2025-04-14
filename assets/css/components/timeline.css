@@ -1,4 +1,4 @@
-/* Timeline - Modern & Minimal 2025 - Percorso delle tappe */
+/* Timeline - Percorso delle tappe 2025 */
 
 /* Sezione cronologica del tour */
 .tour-timeline-section {
@@ -10,7 +10,7 @@
 /* Container principale della timeline */
 .timeline-container {
     position: relative;
-    padding: 1.5rem 1rem 2rem;
+    padding: 2rem 1rem;
     margin: 0;
     background-color: #ffffff;
     border-radius: 20px;
@@ -31,57 +31,44 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5rem;
-    padding: 1rem 0.5rem;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 2rem 0.5rem;
 }
 
-/* Linea curva che collega le tappe - rimossa la scroll */
-.timeline-line {
+/* Linea di percorso con SVG */
+.timeline-path-svg {
     position: absolute;
-    top: 50%;
-    left: 5%;
-    right: 5%;
-    height: 4px;
-    background: linear-gradient(to right, rgba(107, 70, 193, 0.2), rgba(139, 92, 246, 0.2));
-    border-radius: 4px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
-    transform: translateY(-50%);
-    /* La curva viene creata con gli pseudo-elementi */
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-/* Curva del percorso con pseudo-elementi */
-.timeline-line::before,
-.timeline-line::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 4px solid rgba(107, 70, 193, 0.2);
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
+.timeline-path {
+    stroke: rgba(107, 70, 193, 0.3);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-dasharray: 6, 6;
+    fill: none;
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-.timeline-line::before {
-    left: -10px;
-}
-
-.timeline-line::after {
-    right: -10px;
-}
-
-/* Container per le tappe - layout flexbox/grid */
+/* Container per le tappe */
 .timeline-stops {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
+    gap: 2.5rem;
     position: relative;
     z-index: 2;
     width: 100%;
 }
 
-/* Singola tappa della timeline */
+/* Singola tappa del percorso */
 .timeline-stop {
     display: flex;
     flex-direction: column;
@@ -107,7 +94,7 @@
     border-radius: 8px;
 }
 
-/* Icona della tappa */
+/* Icona della tappa con numerazione */
 .timeline-stop-icon {
     width: 64px;
     height: 64px;
@@ -123,7 +110,26 @@
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
     position: relative;
-    overflow: hidden;
+}
+
+/* Badge numerazione */
+.timeline-stop-number {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(107, 70, 193, 0.3);
+    border: 2px solid white;
+    z-index: 10; /* Assicura che il numero sia sopra qualsiasi altro elemento */
 }
 
 .timeline-stop:hover .timeline-stop-icon {
@@ -154,10 +160,16 @@
 /* Stato attivo per le tappe */
 .timeline-stop.active .timeline-stop-icon {
     background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
-    border-color: #6b46c1;
+    border-color: #ffffff;
     color: #ffffff;
     transform: scale(1.1);
     box-shadow: 0 6px 20px rgba(107, 70, 193, 0.2);
+}
+
+.timeline-stop.active .timeline-stop-number {
+    background: #ffffff;
+    color: #6b46c1;
+    border-color: #6b46c1;
 }
 
 .timeline-stop.active .timeline-stop-label {
@@ -165,21 +177,30 @@
     font-weight: 600;
 }
 
-/* Elementi connettori del percorso */
-.timeline-connector {
+/* Classe per indicare che un punto è completato */
+.timeline-stop.completed .timeline-stop-icon::after {
+    content: '\f00c'; /* Font Awesome check icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: rgba(107, 70, 193, 0.1);
+    bottom: -2px;
+    right: -2px;
+    background-color: #10b981;
+    color: white;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    border: 2px solid white;
 }
 
-/* Responsive design - mobile first */
+/* Responsive design */
 @media (max-width: 767px) {
     .timeline-stops {
-        gap: 1.5rem;
-        justify-content: space-around;
+        gap: 2rem 1.5rem;
     }
     
     .timeline-stop {
@@ -200,21 +221,23 @@
         max-width: 100px;
     }
     
-    /* Modifica alla linea per mobile */
-    .timeline-line {
-        display: none;
+    .timeline-stop-number {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
     }
 }
 
 /* Per dispositivi molto piccoli */
 @media (max-width: 480px) {
     .timeline-track {
-        padding: 0.5rem 0;
+        padding: 1.5rem 0.25rem;
     }
     
     .timeline-stop {
         width: 85px;
         max-width: 85px;
+        margin-bottom: 1.2rem;
     }
     
     .timeline-stop-icon {
@@ -230,6 +253,14 @@
     
     .timeline-stop-label {
         font-size: 0.8rem;
+    }
+    
+    .timeline-stop-number {
+        width: 20px;
+        height: 20px;
+        font-size: 0.65rem;
+        top: -5px;
+        right: -5px;
     }
 }
 
@@ -256,11 +287,10 @@
         max-width: 130px;
     }
     
-    /* Linea curva migliorata per desktop */
-    .timeline-line {
-        height: 6px;
-        left: 10%;
-        right: 10%;
+    .timeline-stop-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.85rem;
     }
 }
 

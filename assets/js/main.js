@@ -177,7 +177,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Svuota il contenitore attuale
         timelineContainer.innerHTML = '';
         
-        // Crea elementi per ogni tappa
+        // Rimuovi SVG esistente e creane uno nuovo
+        const trackElement = document.querySelector('.timeline-track');
+        let svgElement = document.querySelector('.timeline-path-svg');
+        if (svgElement) svgElement.remove();
+        
+        // Creazione dell'elemento SVG che conterrà il percorso
+        svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svgElement.classList.add('timeline-path-svg');
+        trackElement.appendChild(svgElement);
+        
+        // Creazione dell'elemento path che rappresenta la linea del percorso
+        let pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        pathElement.classList.add('timeline-path');
+        svgElement.appendChild(pathElement);
+        
+        // Crea elementi per ogni tappa in ordine numerico
         stops.forEach((stop, index) => {
             if (!stop || !stop.id) return;
             
@@ -194,12 +209,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Crea il pulsante della timeline
             const buttonEl = document.createElement('button');
             buttonEl.className = 'timeline-stop';
-            buttonEl.setAttribute('aria-label', `Vai alla tappa: ${stop.title}`);
+            buttonEl.setAttribute('aria-label', `Vai alla tappa ${order}: ${stop.title}`);
             buttonEl.dataset.targetId = elementId;
+            buttonEl.dataset.stopOrder = order;
             
             buttonEl.innerHTML = `
                 <div class="timeline-stop-icon" aria-hidden="true">
                     <i class="fas ${icon}" aria-hidden="true"></i>
+                    <div class="timeline-stop-number">${order}</div>
                 </div>
                 <span class="timeline-stop-label">${stop.title}</span>
             `;
@@ -222,44 +239,156 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     
                     this.classList.add('active');
+                    
+                    // Imposta le tappe precedenti come completate
+                    const currentOrder = parseInt(this.dataset.stopOrder);
+                    document.querySelectorAll('.timeline-stop').forEach(el => {
+                        const stopOrder = parseInt(el.dataset.stopOrder);
+                        if (stopOrder < currentOrder) {
+                            el.classList.add('completed');
+                        } else {
+                            el.classList.remove('completed');
+                        }
+                    });
                 }
             });
             
+            // Aggiungi al container
             timelineContainer.appendChild(buttonEl);
+        });
+        
+        // Crea il percorso visivo - aspetta che il layout sia completo
+        // Un piccolo ritardo per assicurarsi che tutte le tappe siano correttamente renderizzate
+        setTimeout(() => {
+            drawSimplePath();
+        }, 100);
+        
+        // Aggiungi handler per resize - ridisegna il percorso quando la finestra cambia dimensioni
+        window.addEventListener('resize', function() {
+            clearTimeout(window.resizeTimelineTimer);
+            window.resizeTimelineTimer = setTimeout(drawSimplePath, 250);
+        });
+    }
+    
+    /**
+     * Funzione per disegnare il percorso che collega le tappe in ordine numerico
+     * Crea un percorso SVG che collega tutte le tappe nella stessa riga, senza connessioni tra righe diverse
+     */
+    function drawSimplePath() {
+        // Seleziona tutte le tappe presenti nel DOM
+        const stops = document.querySelectorAll('.timeline-stop');
+        if (stops.length < 2) return; // Non disegnare il percorso se ci sono meno di 2 tappe
+        
+        // Ottieni elementi SVG necessari per il disegno
+        const svgElement = document.querySelector('.timeline-path-svg');
+        const pathElement = document.querySelector('.timeline-path');
+        if (!svgElement || !pathElement) return;
+        
+        // Ottieni il container track per riferimento coordinate
+        const trackElement = document.querySelector('.timeline-track');
+        const trackRect = trackElement.getBoundingClientRect();
+        
+        // Imposta dimensioni SVG per coprire esattamente l'area del contenitore
+        svgElement.setAttribute('width', trackElement.offsetWidth);
+        svgElement.setAttribute('height', trackElement.offsetHeight);
+        
+        // Raccogli posizioni complete delle tappe (icone e label)
+        const positions = [];
+        stops.forEach(stop => {
+            // Usa l'icona della tappa come punto di riferimento per il percorso
+            const iconElement = stop.querySelector('.timeline-stop-icon');
+            const labelElement = stop.querySelector('.timeline-stop-label');
             
-            // Se questo è l'elemento corrispondente all'ID nell'URL, scrolliamoci
-            const urlParams = new URLSearchParams(window.location.search);
-            const stopParam = urlParams.get('stop');
-            if (stopParam && stop.id === stopParam) {
-                setTimeout(() => {
-                    buttonEl.click();
-                }, 500);
+            const iconRect = iconElement.getBoundingClientRect();
+            const labelRect = labelElement.getBoundingClientRect();
+            
+            // Calcola le coordinate relative al contenitore della timeline
+            positions.push({
+                x: iconRect.left + iconRect.width / 2 - trackRect.left, // Centro orizzontale dell'icona
+                y: iconRect.top + iconRect.height / 2 - trackRect.top,  // Centro verticale dell'icona
+                stopOrder: parseInt(stop.dataset.stopOrder || '0'), // Numero della tappa
+                // Memorizza anche la posizione Y per identificare le righe
+                rowY: Math.round(iconRect.top / 10) * 10, // Arrotondiamo per raggruppare tappe nella stessa riga
+                // Aggiungiamo le informazioni del rettangolo completo
+                iconRect: {
+                    left: iconRect.left - trackRect.left,
+                    right: iconRect.right - trackRect.left,
+                    top: iconRect.top - trackRect.top,
+                    bottom: iconRect.bottom - trackRect.top,
+                    width: iconRect.width,
+                    height: iconRect.height
+                },
+                labelRect: {
+                    left: labelRect.left - trackRect.left,
+                    right: labelRect.right - trackRect.left,
+                    top: labelRect.top - trackRect.top,
+                    bottom: labelRect.bottom - trackRect.top,
+                    width: labelRect.width,
+                    height: labelRect.height
+                }
+            });
+        });
+        
+        // Ordina le posizioni per numero di tappa per garantire il percorso corretto
+        positions.sort((a, b) => a.stopOrder - b.stopOrder);
+        
+        // Identifica le diverse righe
+        const rows = {};
+        positions.forEach(pos => {
+            if (!rows[pos.rowY]) {
+                rows[pos.rowY] = [];
+            }
+            rows[pos.rowY].push(pos);
+        });
+        
+        // Inizializza il percorso vuoto
+        let pathData = '';
+        
+        // Crea percorsi separati per ciascuna riga (senza connessioni tra righe)
+        Object.values(rows).forEach(rowPositions => {
+            if (rowPositions.length < 2) return; // Salta righe con una sola tappa
+            
+            // Ordina le posizioni della riga per numero di tappa
+            rowPositions.sort((a, b) => a.stopOrder - b.stopOrder);
+            
+            // Inizia un nuovo percorso per questa riga
+            pathData += `M ${rowPositions[0].x} ${rowPositions[0].y}`;
+            
+            // Connetti le tappe nella stessa riga con curve di Bezier
+            for (let i = 1; i < rowPositions.length; i++) {
+                const prev = rowPositions[i-1];
+                const curr = rowPositions[i];
+                
+                // Calcola la differenza di posizione tra le tappe
+                const dx = curr.x - prev.x;
+                const dy = curr.y - prev.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Per tappe sulla stessa riga, usa una curva morbida e flessuosa
+                const heightFactor = Math.min(0.5, 30 / distance);
+                
+                // Punti di controllo che creano un arco più naturale
+                let midY = (prev.y + curr.y) / 2;
+                
+                // Aggiungi un po' di variazione all'altezza della curva
+                const arcHeight = distance * heightFactor * (i % 2 === 0 ? 1 : -1);
+                midY += arcHeight;
+                
+                const cp1X = prev.x + dx/3;
+                const cp1Y = midY; 
+                const cp2X = curr.x - dx/3;
+                const cp2Y = midY;
+                
+                // Curva morbida che passa sotto o sopra la linea diretta
+                pathData += ` C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${curr.x} ${curr.y}`;
             }
         });
         
-        // Crea connettori tra le tappe per il percorso
-        addConnectorsToPath();
-    }
-    
-    // Funzione per inizializzare i connettori del percorso
-    function addConnectorsToPath() {
-        // Questa funzione è una versione semplificata senza animazioni né carosello
-        console.log("Percorso tappe inizializzato con il nuovo design");
+        // Assegna il percorso all'elemento SVG path
+        pathElement.setAttribute('d', pathData);
         
-        // Analizziamo la posizione delle tappe per supporto mobile
-        const timelineTrack = document.querySelector('.timeline-track');
-        const stops = document.querySelectorAll('.timeline-stop');
-        
-        // Aggiungiamo una classe speciale se ci sono più di 5 tappe, per migliorare il layout
-        if (stops.length > 5) {
-            timelineTrack.classList.add('many-stops');
-        }
-        
-        // Aggiorniamo aria-label per una migliore accessibilità
-        const timelineWrapper = document.querySelector('.timeline-track-wrapper');
-        if (timelineWrapper) {
-            timelineWrapper.setAttribute('aria-label', `Percorso con ${stops.length} tappe`);
-        }
+        // Rendi visibile l'SVG con una transizione graduale
+        svgElement.style.opacity = '1';
     }
     
     // Funzione per generare le card degli episodi dinamicamente con il nuovo design Tailwind
@@ -765,7 +894,7 @@ function setupTimeControls() {
 
                     console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
 
-                    if (!isNaN(currentTime) && !isNaN(duration) && duration > 0) {
+                    if (!isNaN(currentTime) && !isNaN(duration) && durata > 0) {
                         const newPosition = Math.min(currentTime + 30, duration);
                         console.log(`Nuova posizione: ${newPosition}s`);
                         audioElement.currentTime = newPosition;
