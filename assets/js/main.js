@@ -472,6 +472,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Riconfigura i gestori di eventi per le trascrizioni
         setupTranscriptToggles();
         
+        // Riconfigura i gestori di eventi per i controlli +/- 30 secondi
+        setupTimeControls();
+        
         // Aggiungi stile CSS per l'animazione pulsante e rendere il badge mobile più visibile
         const style = document.createElement('style');
         style.textContent = `
@@ -722,134 +725,87 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Implementazione dei controlli avanti/indietro di 30 secondi
-document.addEventListener('DOMContentLoaded', function() {
-    // Gestione dei pulsanti di avanzamento rapido (+30s) e riavvolgimento (-30s)
-    function setupTimeControls() {
-        const forwardButtons = document.querySelectorAll('.forward-15');
-        const backwardButtons = document.querySelectorAll('.backward-15');
-        
-        console.log(`Trovati ${forwardButtons.length} pulsanti +30s e ${backwardButtons.length} pulsanti -30s`);
-        
-        // Avanti di 30 secondi
-        forwardButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.stopPropagation(); // Impedisce che il click si propaghi al bottone play/pause
-                
-                const songIndex = this.getAttribute('data-amplitude-song-index');
-                const playlist = this.getAttribute('data-amplitude-playlist');
-                
-                console.log(`Avanti +30s: playlist=${playlist}, song=${songIndex}`);
-                
-                try {
-                    // Utilizziamo l'elemento audio HTML direttamente
-                    const audioElement = Amplitude.getAudio();
-                    if (audioElement) {
-                        const currentTime = audioElement.currentTime;
-                        const duration = audioElement.duration;
-                        
-                        console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
-                        
-                        if (!isNaN(currentTime) && !isNaN(duration) && duration > 0) {
-                            // Calcola la nuova posizione (avanti di 30 secondi, ma non oltre la durata)
-                            const newPosition = Math.min(currentTime + 30, duration);
-                            
-                            console.log(`Nuova posizione: ${newPosition}s`);
-                            
-                            // Imposta la nuova posizione
-                            audioElement.currentTime = newPosition;
-                            
-                            // Aggiunge una classe temporanea per feedback visivo
-                            button.classList.add('clicked');
-                            setTimeout(() => {
-                                button.classList.remove('clicked');
-                            }, 500);
-                        } else {
-                            console.warn('Impossibile determinare la durata o posizione corrente');
-                        }
+function setupTimeControls() {
+    const forwardButtons = document.querySelectorAll('.forward-15');
+    const backwardButtons = document.querySelectorAll('.backward-15');
+
+    console.log(`Configurazione controlli tempo: Trovati ${forwardButtons.length} pulsanti +30s e ${backwardButtons.length} pulsanti -30s`);
+
+    // Rimuovi eventuali listener precedenti per evitare duplicazioni
+    forwardButtons.forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+    });
+    backwardButtons.forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+    });
+
+    // Riapplica listener ai nuovi pulsanti clonati
+    document.querySelectorAll('.forward-15').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation(); // Impedisce che il click si propaghi al bottone play/pause
+
+            console.log(`Avanti +30s cliccato`);
+
+            try {
+                const audioElement = Amplitude.getAudio();
+                if (audioElement && !audioElement.paused) { // Agisce solo se l'audio è in riproduzione
+                    const currentTime = audioElement.currentTime;
+                    const duration = audioElement.duration;
+
+                    console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
+
+                    if (!isNaN(currentTime) && !isNaN(duration) && duration > 0) {
+                        const newPosition = Math.min(currentTime + 30, duration);
+                        console.log(`Nuova posizione: ${newPosition}s`);
+                        audioElement.currentTime = newPosition;
+
+                        // Feedback visivo
+                        button.classList.add('clicked');
+                        setTimeout(() => button.classList.remove('clicked'), 300);
+                    } else {
+                        console.warn('Impossibile determinare la durata o posizione corrente per +30s');
                     }
-                } catch (error) {
-                    console.error('Errore nell\'avanzamento di 30 secondi:', error);
+                } else {
+                     console.log('+30s ignorato: audio non in riproduzione.');
                 }
-            });
-        });
-        
-        // Indietro di 30 secondi
-        backwardButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.stopPropagation(); // Impedisce che il click si propaghi al bottone play/pause
-                
-                const songIndex = this.getAttribute('data-amplitude-song-index');
-                const playlist = this.getAttribute('data-amplitude-playlist');
-                
-                console.log(`Indietro -30s: playlist=${playlist}, song=${songIndex}`);
-                
-                try {
-                    // Utilizziamo l'elemento audio HTML direttamente
-                    const audioElement = Amplitude.getAudio();
-                    if (audioElement) {
-                        const currentTime = audioElement.currentTime;
-                        const duration = audioElement.duration;
-                        
-                        console.log(`Posizione attuale: ${currentTime}s, durata: ${duration}s`);
-                        
-                        if (!isNaN(currentTime) && !isNaN(duration)) {
-                            // Calcola la nuova posizione (indietro di 30 secondi, ma non sotto zero)
-                            const newPosition = Math.max(currentTime - 30, 0);
-                            
-                            console.log(`Nuova posizione: ${newPosition}s`);
-                            
-                            // Imposta la nuova posizione
-                            audioElement.currentTime = newPosition;
-                            
-                            // Aggiunge una classe temporanea per feedback visivo
-                            button.classList.add('clicked');
-                            setTimeout(() => {
-                                button.classList.remove('clicked');
-                            }, 500);
-                        } else {
-                            console.warn('Impossibile determinare la durata o posizione corrente');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Errore nel riavvolgimento di 30 secondi:', error);
-                }
-            });
-        });
-    }
-    
-    // Inizializza i controlli dopo che Amplitude è stato completamente caricato
-    function initializeAudioControls() {
-        console.log('Inizializzazione controlli audio...');
-        setupTimeControls();
-    }
-    
-    // Verifica periodicamente se Amplitude è pronto
-    // (Questo può essere necessario perché Amplitude potrebbe non essere caricato immediatamente)
-    let amplitudeReadyCheck = setInterval(function() {
-        if (typeof Amplitude !== 'undefined') {
-            clearInterval(amplitudeReadyCheck);
-            
-            // Assicurati che siamo nel contesto principale e non in un iframe o altro
-            if (window === window.top) {
-                console.log('Amplitude rilevato, inizializzo i controlli');
-                initializeAudioControls();
-                
-                // Emetti l'evento amplitude-ready per sicurezza
-                if (!window.amplitudeReadyFired) {
-                    document.dispatchEvent(new Event('amplitude-ready'));
-                    window.amplitudeReadyFired = true;
-                }
+            } catch (error) {
+                console.error('Errore nell\'avanzamento di 30 secondi:', error);
             }
-        }
-    }, 500);
-    
-    // Timeout di sicurezza
-    setTimeout(function() {
-        clearInterval(amplitudeReadyCheck);
-        if (typeof Amplitude !== 'undefined' && !window.amplitudeReadyFired) {
-            console.log('Timeout raggiunto, ma Amplitude è disponibile. Inizializzo i controlli.');
-            initializeAudioControls();
-            window.amplitudeReadyFired = true;
-        }
-    }, 10000);
-});
+        });
+    });
+
+    document.querySelectorAll('.backward-15').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation(); // Impedisce che il click si propaghi al bottone play/pause
+
+            console.log(`Indietro -30s cliccato`);
+
+            try {
+                const audioElement = Amplitude.getAudio();
+                 if (audioElement && !audioElement.paused) { // Agisce solo se l'audio è in riproduzione
+                    const currentTime = audioElement.currentTime;
+
+                    console.log(`Posizione attuale: ${currentTime}s`);
+
+                    if (!isNaN(currentTime)) {
+                        const newPosition = Math.max(currentTime - 30, 0);
+                        console.log(`Nuova posizione: ${newPosition}s`);
+                        audioElement.currentTime = newPosition;
+
+                        // Feedback visivo
+                        button.classList.add('clicked');
+                        setTimeout(() => button.classList.remove('clicked'), 300);
+                    } else {
+                        console.warn('Impossibile determinare la posizione corrente per -30s');
+                    }
+                } else {
+                     console.log('-30s ignorato: audio non in riproduzione.');
+                }
+            } catch (error) {
+                console.error('Errore nel riavvolgimento di 30 secondi:', error);
+            }
+        });
+    });
+}
