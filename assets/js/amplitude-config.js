@@ -189,7 +189,7 @@ const AudioPlayerManager = (function() {
         
         // Memorizza i percorsi originali degli audio per ripristinarli dopo
         const originalPaths = {
-            intro: introData.audioPath,
+            intro: introData.audioPath, // Store the correct original intro path
             stops: []
         };
         
@@ -223,7 +223,7 @@ const AudioPlayerManager = (function() {
                     return {
                         "name": stop.title || `Tappa ${index + 1}`,
                         "artist": "Audio guida di Regalbuto",
-                        "url": audioPath,
+                        "url": audioPath, // Use path with nocache for re-init
                         "visual_id": `episode-${index}`,
                         "index": index
                     };
@@ -231,6 +231,7 @@ const AudioPlayerManager = (function() {
             }
             
             // 2. Configurazione aggiornata con i nuovi percorsi audio
+            // Ensure the intro path also gets nocache for re-init
             const introAudioPath = introData.audioPath + (introData.audioPath.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
             console.log(`Preparando intro con audio: ${introAudioPath}`);
             
@@ -239,7 +240,7 @@ const AudioPlayerManager = (function() {
                     {
                         "name": langData.title || "Introduzione",
                         "artist": "Audio guida di Regalbuto",
-                        "url": introAudioPath
+                        "url": introAudioPath // Use intro path with nocache for re-init
                     }
                 ],
                 "playlists": {
@@ -285,26 +286,30 @@ const AudioPlayerManager = (function() {
                         console.log("Amplitude reinizializzato con successo con i nuovi audio");
                         
                         // Reinizializza tutti i player dopo il reset completo
-                        initializePlayers();
+                        initializePlayers(); // This will re-run setupCustomAudioControls
                         console.log("Player audio reinizializzati");
                         
-                        // Ripristina i percorsi originali nella configurazione per future operazioni
-                        // Questo è importante per evitare l'accumulo di parametri nocache
-                        if (Amplitude.getSongs() && Amplitude.getSongs().length > 0) {
-                            Amplitude.getSongs()[0].url = originalPaths.intro;
+                        // Ripristina i percorsi originali nella configurazione *running* instance
+                        // per evitare l'accumulo di parametri nocache
+                        const currentSongs = Amplitude.getSongs();
+                        if (currentSongs && currentSongs.length > 0) {
+                            currentSongs[0].url = originalPaths.intro; // Restore original intro path
+                            console.log(`Ripristinato URL intro originale: ${originalPaths.intro}`);
                         }
                         
-                        if (Amplitude.getConfig().playlists && 
-                            Amplitude.getConfig().playlists.episodi && 
-                            Array.isArray(Amplitude.getConfig().playlists.episodi.songs)) {
+                        const currentPlaylists = Amplitude.getConfig().playlists;
+                        if (currentPlaylists &&
+                            currentPlaylists.episodi &&
+                            Array.isArray(currentPlaylists.episodi.songs)) {
                             
-                            const playlistSongs = Amplitude.getConfig().playlists.episodi.songs;
+                            const playlistSongs = currentPlaylists.episodi.songs;
                             
                             for (let i = 0; i < playlistSongs.length; i++) {
                                 if (i < originalPaths.stops.length && originalPaths.stops[i]) {
-                                    playlistSongs[i].url = originalPaths.stops[i];
+                                    playlistSongs[i].url = originalPaths.stops[i]; // Restore original stop path
                                 }
                             }
+                            console.log("Ripristinati URL tappe originali.");
                         }
                         
                         // Emetti evento di aggiornamento completato
@@ -323,6 +328,168 @@ const AudioPlayerManager = (function() {
         } catch (error) {
             console.error('Errore generale nell\'aggiornamento della lingua audio:', error);
         }
+    }
+    
+    /**
+     * Funzione handler separata per gestire il click sui pulsanti player
+     * Estratta per evitare duplicazioni e rendere più facile il debug
+     */
+    function handlePlayerClick(e) {
+        e.stopPropagation(); // Impedisci la propagazione dell'evento
+        
+        const button = this;
+        const playerId = button.getAttribute('data-player-id');
+        const playlist = button.getAttribute('data-amplitude-playlist');
+        // Use nullish coalescing for index in case the attribute is missing (main player)
+        const index = parseInt(button.getAttribute('data-amplitude-song-index') ?? '-1');
+        
+        console.log(`Click su player: ${playerId}, stato corrente: isPlaying=${audioState.isPlaying}, currentPlayer=${audioState.currentPlayer}, pausedPlayer=${audioState.pausedPlayer}, playlist=${playlist}, index=${index}`);
+        
+        try {
+            // --- CASO 1: Player corrente in riproduzione viene cliccato (PAUSA) ---
+            if (audioState.currentPlayer === playerId && audioState.isPlaying) {
+                Amplitude.pause();
+                audioState.isPlaying = false;
+                audioState.pausedPlayer = playerId; // Memorizza quale player è stato messo in pausa
+                updatePlayerVisualState(button, false);
+                console.log(`Player messo in pausa: ${playerId}`);
+            }
+            // --- CASO 2: Player messo in pausa viene cliccato (RIPRENDI) ---
+            // Verifica se è lo stesso player E se l'indice/playlist corrisponde a quello in pausa
+            else if (playerId === audioState.pausedPlayer &&
+                     ((playlist === null && audioState.currentPlaylist === null) || // Intro player
+                      (playlist === audioState.currentPlaylist && index === audioState.currentSong))) // Playlist player
+            {
+                Amplitude.play();
+                audioState.isPlaying = true;
+                audioState.currentPlayer = playerId;
+                audioState.pausedPlayer = null; // Non è più in pausa
+                updatePlayerVisualState(button, true);
+                console.log(`Player ripreso da pausa: ${playerId}`);
+            }
+            // --- CASO 3: Nuovo player viene cliccato (AVVIO) ---
+            else {
+                // Se un altro player è attivo (in play o in pausa), fermalo e resetta la sua UI
+                if (audioState.isPlaying || audioState.pausedPlayer) {
+                    Amplitude.pause();
+                    if (audioState.currentPlayer) {
+                        const prevPlayerButton = document.querySelector(`[data-player-id="${audioState.currentPlayer}"]`);
+                        if (prevPlayerButton) {
+                            updatePlayerVisualState(prevPlayerButton, false);
+                        }
+                    }
+                    // Reset completo dell'audio precedente se necessario
+                    try {
+                        // Non resettare currentTime qui, potrebbe interrompere la ripresa
+                        // Amplitude.getAudio().currentTime = 0;
+                    } catch(e) {
+                        console.warn('Impossibile resettare la posizione audio', e);
+                    }
+                }
+                
+                // Avvia questo player dall'inizio
+                if (playlist === null) {
+                    // --- Player Principale (Introduzione) ---
+                    console.log('Avvio player principale (Introduzione)');
+                    // Assicurati di suonare SEMPRE la canzone all'indice 0
+                    Amplitude.playSongAtIndex(0);
+                    audioState.currentPlaylist = null;
+                    audioState.currentSong = null; // Indice 0 della lista principale, non playlist
+                } else {
+                    // --- Player della Playlist ---
+                    console.log(`Avvio episodio: playlist=${playlist}, index=${index}`);
+                    const success = playPlaylistSongWithFallback(index, playlist);
+                    
+                    if (success) {
+                        audioState.currentPlaylist = playlist;
+                        audioState.currentSong = index;
+                    } else {
+                        console.error(`Impossibile riprodurre la tappa ${index + 1}`);
+                        alert('Si è verificato un problema con la riproduzione dell\'audio. Prova a ricaricare la pagina.');
+                        return; // Esci se la riproduzione fallisce
+                    }
+                }
+                
+                // Aggiorna lo stato globale
+                audioState.currentPlayer = playerId;
+                audioState.isPlaying = true;
+                audioState.pausedPlayer = null; // Resetta il player in pausa
+                
+                updatePlayerVisualState(button, true);
+                console.log(`Nuovo player avviato: ${playerId}`);
+            }
+        } catch (error) {
+            console.error(`Errore nella gestione del player ${playerId}:`, error);
+        }
+    }
+    
+    /**
+     * Funzione specializzata per riprodurre una canzone della playlist
+     * con un meccanismo di fallback robusto
+     */
+    function playPlaylistSongWithFallback(index, playlist) {
+        console.log(`Tentativo di riproduzione robusto: playlist=${playlist}, index=${index}`);
+        
+        // Verifica che la playlist e l'indice siano validi
+        if (!Amplitude.getConfig().playlists || 
+            !Amplitude.getConfig().playlists[playlist] || 
+            !Amplitude.getConfig().playlists[playlist].songs || 
+            index >= Amplitude.getConfig().playlists[playlist].songs.length) {
+            console.error('Playlist o indice non validi');
+            return false;
+        }
+        
+        // Ottieni i dati della canzone dalla configurazione *corrente* di Amplitude
+        const song = Amplitude.getConfig().playlists[playlist].songs[index];
+        if (!song || !song.url) {
+            console.error('Canzone non valida o URL mancante');
+            return false;
+        }
+        
+        // Non aggiungere nocache qui, dovrebbe essere già stato gestito durante l'init/update
+        const songUrl = song.url;
+        console.log(`Riproduzione canzone: ${song.name}, URL: ${songUrl}`);
+        
+        try {
+            // Metodo standard di Amplitude
+            Amplitude.playPlaylistSongAtIndex(index, playlist);
+            console.log('Riproduzione avviata tramite metodo standard');
+            return true;
+        } catch (e) {
+            console.warn('Fallimento del metodo standard, provo con il fallback (potrebbe non essere necessario):', e);
+            
+            // Fallback: Manipolazione diretta dell'elemento audio (meno ideale)
+            const audioElement = Amplitude.getAudio();
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.src = songUrl; // Usa l'URL corretto dalla config
+                audioElement.load();
+                console.log(`File audio caricato con URL: ${songUrl}`);
+                
+                setTimeout(() => {
+                    const playPromise = audioElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            console.log('Riproduzione avviata con successo tramite fallback');
+                            // Tentativo di aggiornare il contesto interno di Amplitude
+                            try {
+                                // Questo potrebbe non essere affidabile o necessario
+                                // Amplitude.setActivePlaylist(playlist);
+                                // Amplitude.setActiveIndex(index);
+                            } catch (err) {
+                                console.warn('Impossibile aggiornare il contesto di Amplitude via fallback:', err);
+                            }
+                        }).catch(err => {
+                            console.error('Errore durante la riproduzione via fallback:', err);
+                        });
+                    }
+                }, 300);
+                return true; // Ritorna true anche se il fallback potrebbe fallire async
+            }
+        }
+        
+        console.error('Impossibile avviare la riproduzione con entrambi i metodi.');
+        return false;
     }
     
     /**
@@ -460,116 +627,6 @@ const AudioPlayerManager = (function() {
         button.addEventListener('click', handlePlayerClick);
         
         console.log(`Pulsante player configurato: ${playerId}`);
-    }
-    
-    /**
-     * Funzione handler separata per gestire il click sui pulsanti player
-     * Estratta per evitare duplicazioni e rendere più facile il debug
-     */
-    function handlePlayerClick(e) {
-        e.stopPropagation(); // Impedisci la propagazione dell'evento
-        
-        const button = this;
-        const playerId = button.getAttribute('data-player-id');
-        const playlist = button.getAttribute('data-amplitude-playlist');
-        const index = parseInt(button.getAttribute('data-amplitude-song-index'));
-        
-        console.log(`Click su player: ${playerId}, stato corrente: isPlaying=${audioState.isPlaying}, currentPlayer=${audioState.currentPlayer}, pausedPlayer=${audioState.pausedPlayer}, playlist=${playlist}, index=${index}`);
-        
-        try {
-            // Se questo player è attualmente in riproduzione
-            if (audioState.currentPlayer === playerId && audioState.isPlaying) {
-                // Metti in pausa la riproduzione
-                Amplitude.pause();
-                audioState.isPlaying = false;
-                audioState.pausedPlayer = playerId; // Memorizza quale player è stato messo in pausa
-                
-                updatePlayerVisualState(button, false);
-                console.log(`Player messo in pausa: ${playerId}`);
-            } 
-            // Se è lo stesso player che era stato messo in pausa
-            else if (playerId === audioState.pausedPlayer && 
-                     audioState.currentPlaylist === playlist && 
-                     audioState.currentSong === index) {
-                // Riprendi la riproduzione da dove era stata interrotta
-                Amplitude.play();
-                audioState.isPlaying = true;
-                audioState.currentPlayer = playerId;
-                
-                updatePlayerVisualState(button, true);
-                console.log(`Player ripreso da pausa: ${playerId}`);
-            }
-            // Se è un player diverso o il primo avvio
-            else {
-                // Se un altro player è in riproduzione, fermalo prima
-                if (audioState.isPlaying || audioState.pausedPlayer) {
-                    Amplitude.pause();
-                    
-                    // Trova il player precedente e resetta il suo stato visivo
-                    if (audioState.currentPlayer) {
-                        const prevPlayerButton = document.querySelector(`[data-player-id="${audioState.currentPlayer}"]`);
-                        if (prevPlayerButton) {
-                            updatePlayerVisualState(prevPlayerButton, false);
-                        }
-                    }
-                    
-                    // Reset completo dell'audio precedente
-                    try {
-                        Amplitude.getAudio().currentTime = 0;
-                    } catch(e) {
-                        console.warn('Impossibile resettare la posizione audio', e);
-                    }
-                }
-                
-                // Debug: stampa l'URL dell'audio che si sta per riprodurre
-                if (playlist === null) {
-                    if (Amplitude.getSongs() && Amplitude.getSongs().length > 0) {
-                        console.log(`Riproduco intro URL: ${Amplitude.getSongs()[0].url}`);
-                    }
-                } else if (Amplitude.getConfig().playlists && 
-                          Amplitude.getConfig().playlists[playlist] && 
-                          Amplitude.getConfig().playlists[playlist].songs && 
-                          index < Amplitude.getConfig().playlists[playlist].songs.length) {
-                    console.log(`Riproduco tappa URL: ${Amplitude.getConfig().playlists[playlist].songs[index].url}`);
-                }
-                
-                // Avvia questo player dall'inizio
-                if (playlist === null) {
-                    // Player principale
-                    console.log('Avvio player principale');
-                    Amplitude.play();
-                    audioState.currentPlaylist = null;
-                    audioState.currentSong = null;
-                } else {
-                    // Player della playlist - usa il metodo di fallback robusto
-                    console.log(`Avvio episodio: playlist=${playlist}, index=${index}`);
-                    
-                    // Utilizza il nuovo metodo di riproduzione robusto che include fallback
-                    const success = playPlaylistSongWithFallback(index, playlist);
-                    
-                    if (success) {
-                        audioState.currentPlaylist = playlist;
-                        audioState.currentSong = index;
-                    } else {
-                        console.error(`Impossibile riprodurre la tappa ${index + 1}`);
-                        
-                        // Mostra un messaggio di errore all'utente
-                        alert('Si è verificato un problema con la riproduzione dell\'audio. Prova a ricaricare la pagina.');
-                        return; // Esci dalla funzione poiché la riproduzione è fallita
-                    }
-                }
-                
-                // Aggiorna lo stato
-                audioState.currentPlayer = playerId;
-                audioState.isPlaying = true;
-                audioState.pausedPlayer = null; // Resetta il player in pausa
-                
-                updatePlayerVisualState(button, true);
-                console.log(`Nuovo player avviato: ${playerId}`);
-            }
-        } catch (error) {
-            console.error(`Errore nella gestione del player ${playerId}:`, error);
-        }
     }
     
     /**
@@ -732,103 +789,6 @@ const AudioPlayerManager = (function() {
                 ctx.fillRect(x, y, barWidth, height);
             }
         }
-    }
-    
-    /**
-     * Funzione specializzata per riprodurre una canzone della playlist
-     * con un meccanismo di fallback robusto
-     */
-    function playPlaylistSongWithFallback(index, playlist) {
-        console.log(`Tentativo di riproduzione robusto: playlist=${playlist}, index=${index}`);
-        
-        // Verifica che la playlist e l'indice siano validi
-        if (!Amplitude.getConfig().playlists || 
-            !Amplitude.getConfig().playlists[playlist] || 
-            !Amplitude.getConfig().playlists[playlist].songs || 
-            index >= Amplitude.getConfig().playlists[playlist].songs.length) {
-            console.error('Playlist o indice non validi');
-            return false;
-        }
-        
-        // Ottieni i dati della canzone
-        const song = Amplitude.getConfig().playlists[playlist].songs[index];
-        if (!song || !song.url) {
-            console.error('Canzone non valida o URL mancante');
-            return false;
-        }
-        
-        // Aggiunta di un parametro casuale all'URL per evitare il caching del browser
-        const songUrl = song.url + (song.url.indexOf('?') === -1 ? '?' : '&') + 'nocache=' + new Date().getTime();
-        
-        console.log(`Riproduzione canzone: ${song.name}, URL: ${songUrl} (originale: ${song.url})`);
-        
-        try {
-            // Prima prova il metodo standard di Amplitude (che dovrebbe funzionare nella maggior parte dei casi)
-            try {
-                Amplitude.playPlaylistSongAtIndex(index, playlist);
-                console.log('Riproduzione avviata tramite metodo standard');
-                return true;
-            } catch (e) {
-                console.warn('Fallimento del metodo standard, provo con il fallback:', e);
-                
-                // Fallback: Manipolazione diretta dell'elemento audio
-                const audioElement = Amplitude.getAudio();
-                if (audioElement) {
-                    // Ferma qualsiasi riproduzione attuale
-                    audioElement.pause();
-                    
-                    // IMPORTANTE: Imposta l'URL con il parametro anti-cache
-                    audioElement.src = songUrl;
-                    
-                    // Forza il ricaricamento del file audio
-                    audioElement.load();
-                    
-                    console.log(`File audio caricato con URL: ${songUrl}`);
-                    
-                    // Avvia la riproduzione dopo un breve ritardo
-                    setTimeout(() => {
-                        const playPromise = audioElement.play();
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                console.log('Riproduzione avviata con successo tramite fallback');
-                                
-                                // Aggiorna manualmente le informazioni interne di Amplitude 
-                                // senza usare metodi che potrebbero non esistere
-                                try {
-                                    // Aggiorna il contesto attuale se possibile
-                                    if (Amplitude.getConfig) {
-                                        const config = Amplitude.getConfig();
-                                        if (config && config.active_playlist !== playlist) {
-                                            console.log(`Aggiornamento playlist attiva: ${playlist}`);
-                                        }
-                                        if (config && config.active_index !== index) {
-                                            console.log(`Aggiornamento indice attivo: ${index}`);
-                                        }
-                                    }
-                                } catch (e) {
-                                    console.warn('Impossibile aggiornare il contesto di Amplitude, ma l\'audio funzionerà comunque:', e);
-                                }
-                            }).catch(e => {
-                                console.error('Errore durante la riproduzione:', e);
-                                
-                                // Tentativo di riavvio automatico della riproduzione
-                                setTimeout(() => {
-                                    audioElement.play().catch(finalError => {
-                                        console.error('Impossibile riprodurre l\'audio anche dopo il ritentativo:', finalError);
-                                    });
-                                }, 500);
-                            });
-                        }
-                    }, 300);
-                    
-                    return true;
-                }
-            }
-        } catch (error) {
-            console.error('Errore durante il tentativo di riproduzione:', error);
-        }
-        
-        return false;
     }
     
     // Espone le funzioni necessarie come API pubblica
