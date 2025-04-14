@@ -215,49 +215,50 @@ document.addEventListener('DOMContentLoaded', function() {
                         top: targetPosition - headerHeight - 20,
                         behavior: 'smooth'
                     });
+                    
+                    // Evidenziazione dell'elemento attivo
+                    document.querySelectorAll('.timeline-stop').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
                 }
             });
             
             timelineContainer.appendChild(buttonEl);
+            
+            // Se questo è l'elemento corrispondente all'ID nell'URL, scrolliamoci
+            const urlParams = new URLSearchParams(window.location.search);
+            const stopParam = urlParams.get('stop');
+            if (stopParam && stop.id === stopParam) {
+                setTimeout(() => {
+                    buttonEl.click();
+                }, 500);
+            }
         });
         
-        // Inizializza gli indicatori della timeline
-        initializeTimelineIndicators(stops.length);
+        // Crea connettori tra le tappe per il percorso
+        addConnectorsToPath();
     }
     
-    // Funzione per inizializzare gli indicatori della timeline
-    function initializeTimelineIndicators(stopCount) {
-        const indicatorsContainer = document.querySelector('.timeline-indicators');
-        if (!indicatorsContainer) return;
+    // Funzione per inizializzare i connettori del percorso
+    function addConnectorsToPath() {
+        // Questa funzione è una versione semplificata senza animazioni né carosello
+        console.log("Percorso tappe inizializzato con il nuovo design");
         
-        indicatorsContainer.innerHTML = '';
-        
-        // Crea un indicatore per ogni tappa
-        for (let i = 0; i < stopCount; i++) {
-            const indicator = document.createElement('div');
-            indicator.className = 'timeline-indicator';
-            indicator.setAttribute('aria-hidden', 'true');
-            indicatorsContainer.appendChild(indicator);
-        }
-        
-        // Imposta il primo indicatore come attivo
-        if (indicatorsContainer.firstChild) {
-            indicatorsContainer.firstChild.classList.add('active');
-        }
-        
-        // Aggiungi eventi ai controlli di navigazione
-        const prevButton = document.querySelector('.timeline-control.prev');
-        const nextButton = document.querySelector('.timeline-control.next');
+        // Analizziamo la posizione delle tappe per supporto mobile
         const timelineTrack = document.querySelector('.timeline-track');
+        const stops = document.querySelectorAll('.timeline-stop');
         
-        if (prevButton && nextButton && timelineTrack) {
-            prevButton.addEventListener('click', () => {
-                timelineTrack.scrollBy({ left: -300, behavior: 'smooth' });
-            });
-            
-            nextButton.addEventListener('click', () => {
-                timelineTrack.scrollBy({ left: 300, behavior: 'smooth' });
-            });
+        // Aggiungiamo una classe speciale se ci sono più di 5 tappe, per migliorare il layout
+        if (stops.length > 5) {
+            timelineTrack.classList.add('many-stops');
+        }
+        
+        // Aggiorniamo aria-label per una migliore accessibilità
+        const timelineWrapper = document.querySelector('.timeline-track-wrapper');
+        if (timelineWrapper) {
+            timelineWrapper.setAttribute('aria-label', `Percorso con ${stops.length} tappe`);
         }
     }
     
