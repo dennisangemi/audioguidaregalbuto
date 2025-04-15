@@ -273,8 +273,20 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Funzione per disegnare il percorso che collega le tappe in ordine numerico
      * Crea un percorso SVG che collega tutte le tappe nella stessa riga, senza connessioni tra righe diverse
+     * Ora questa funzione controlla la dimensione dello schermo e non disegna il percorso su mobile
      */
     function drawSimplePath() {
+        // Non disegna il percorso su schermi mobili (< 768px)
+        if (window.innerWidth < 768) {
+            // Nascondi SVG esistente
+            const svgElement = document.querySelector('.timeline-path-svg');
+            if (svgElement) {
+                svgElement.style.display = 'none';
+                svgElement.style.opacity = '0';
+            }
+            return;
+        }
+        
         // Seleziona tutte le tappe presenti nel DOM
         const stops = document.querySelectorAll('.timeline-stop');
         if (stops.length < 2) return; // Non disegnare il percorso se ci sono meno di 2 tappe
@@ -283,6 +295,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const svgElement = document.querySelector('.timeline-path-svg');
         const pathElement = document.querySelector('.timeline-path');
         if (!svgElement || !pathElement) return;
+        
+        // Mostra SVG su desktop
+        svgElement.style.display = '';
         
         // Ottieni il container track per riferimento coordinate
         const trackElement = document.querySelector('.timeline-track');
