@@ -184,26 +184,6 @@
     font-weight: 600;
 }
 
-/* Classe per indicare che un punto è completato */
-.timeline-stop.completed .timeline-stop-icon::after {
-    content: '\f00c'; /* Font Awesome check icon */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    background-color: var(--color-accent);
-    color: var(--text-white);
-    width: 22px;
-    height: 22px;
-    border-radius: var(--border-radius-round);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-xs);
-    border: 2px solid var(--bg-white);
-}
-
 /* Redesign completo per mobile - Vista a griglia */
 @media (max-width: 767px) {
     .timeline-container {
@@ -293,13 +273,6 @@
     
     .timeline-stop.active .timeline-stop-label {
         color: var(--color-primary);
-    }
-    
-    .timeline-stop.completed .timeline-stop-icon::after {
-        width: 24px;
-        height: 24px;
-        bottom: -3px;
-        right: -3px;
     }
 }
 
