@@ -2,7 +2,7 @@
 <html lang="it"> <!-- lang attribute will be updated by JS -->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=width=device-width, initial-scale=1.0">
     <meta name="description" content="Audio guida turistica di Regalbuto: un viaggio sonoro alla scoperta della storia, arte e tradizioni della città siciliana">
     <title>Audio guida di Regalbuto</title>
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
@@ -135,29 +135,29 @@
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Storia</a>
                     <a href="mappa.html" class="nav-link text-sm font-medium text-gray-600 hover:text-primary transition-colors">Mappa</a>
                     
-<!-- Selettore lingua spostato nell'header - MIGLIORATO -->
-                                        <div class="language-selector relative inline-block">
-                        <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary transition-all focus:outline-none" aria-expanded="false" aria-haspopup="true">
-                            <i class="fas fa-language mr-1.5"></i>
+<!-- Selettore lingua spostato nell'header - MIGLIORATO PER ACCESSIBILITÀ -->
+                    <div class="language-selector relative inline-block">
+                        <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1" aria-expanded="false" aria-haspopup="true" aria-label="Seleziona lingua">
+                            <i class="fas fa-language mr-1.5" aria-hidden="true"></i>
                             <span class="current-language">Italiano</span>
-                            <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="language-arrow"></i>
+                            <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="language-arrow" aria-hidden="true"></i>
                         </button>
                         
-                        <div id="language-dropdown" class="language-dropdown absolute right-0 mt-2 py-2 w-36 bg-white rounded-lg shadow-lg border border-gray-100 hidden z-50" role="menu">
-                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="it">
-                                <span class="w-4 mr-2">🇮🇹</span> Italiano
+                        <div id="language-dropdown" class="language-dropdown absolute right-0 mt-2 py-2 w-36 bg-white rounded-lg shadow-lg border border-gray-100 hidden z-50" role="menu" aria-labelledby="language-button">
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:bg-primary/10 focus:text-primary" role="menuitem" data-lang="it">
+                                <span class="w-4 mr-2" aria-hidden="true">🇮🇹</span> Italiano
                             </button>
-                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="en">
-                                <span class="w-4 mr-2">🇬🇧</span> English
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:bg-primary/10 focus:text-primary" role="menuitem" data-lang="en">
+                                <span class="w-4 mr-2" aria-hidden="true">🇬🇧</span> English
                             </button>
-                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="de">
-                                <span class="w-4 mr-2">🇩🇪</span> Deutsch
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:bg-primary/10 focus:text-primary" role="menuitem" data-lang="de">
+                                <span class="w-4 mr-2" aria-hidden="true">🇩🇪</span> Deutsch
                             </button>
-                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="es">
-                                <span class="w-4 mr-2">🇪🇸</span> Español
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:bg-primary/10 focus:text-primary" role="menuitem" data-lang="es">
+                                <span class="w-4 mr-2" aria-hidden="true">🇪🇸</span> Español
                             </button>
-                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors" role="menuitem" data-lang="fr">
-                                <span class="w-4 mr-2">🇫🇷</span> Français
+                            <button class="language-option w-full text-left flex px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors focus:outline-none focus:bg-primary/10 focus:text-primary" role="menuitem" data-lang="fr">
+                                <span class="w-4 mr-2" aria-hidden="true">🇫🇷</span> Français
                             </button>
                         </div>
                     </div>
@@ -169,12 +169,12 @@
                 </div>
                 
                 <div class="flex items-center gap-4 md:hidden">
-                    <button id="mobile-language-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Cambia lingua">
-                        <i class="fas fa-language text-xl"></i>
+                    <button id="mobile-language-button" class="text-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md p-1" aria-label="Cambia lingua">
+                        <i class="fas fa-language text-xl" aria-hidden="true"></i>
                     </button>
                     
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
-                        <i class="fas fa-bars text-xl menu-icon"></i>
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md p-1" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" role="button">
+                        <i class="fas fa-bars text-xl menu-icon" aria-hidden="true"></i>
                     </button>
                 </div>
             </nav>
@@ -185,19 +185,34 @@
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
             <a href="mappa.html" class="nav-link text-gray-700 hover:text-primary transition-colors">Mappa</a>
             
-<!-- Opzioni lingua mobile - MIGLIORATE -->
-                        <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="it" aria-label="Italiano">🇮🇹</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="en" aria-label="English">🇬🇧</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="es" aria-label="Español">🇪🇸</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="fr" aria-label="Français">🇫🇷</button>
+<!-- Opzioni lingua mobile - MIGLIORATE PER ACCESSIBILITÀ -->
+            <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100" role="group" aria-label="Selezione lingua">
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="it" aria-label="Italiano" aria-pressed="false">
+                    <span aria-hidden="true">🇮🇹</span>
+                    <span class="sr-only">Italiano</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="en" aria-label="English" aria-pressed="false">
+                    <span aria-hidden="true">🇬🇧</span>
+                    <span class="sr-only">English</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="de" aria-label="Deutsch" aria-pressed="false">
+                    <span aria-hidden="true">🇩🇪</span>
+                    <span class="sr-only">Deutsch</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="es" aria-label="Español" aria-pressed="false">
+                    <span aria-hidden="true">🇪🇸</span>
+                    <span class="sr-only">Español</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="fr" aria-label="Français" aria-pressed="false">
+                    <span aria-hidden="true">🇫🇷</span>
+                    <span class="sr-only">Français</span>
+                </button>
             </div>
             
             <a href="#" class="tour-button mt-4 bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
                 <i class="fas fa-play mr-2 text-xs"></i>
                 Inizia il tour
-            </a>
+</a>
         </div>
     </header>
     
@@ -247,11 +262,11 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/30 to-transparent"></div>
                             
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="amplitude-player intro-amplitude w-full h-full" id="intro-player">
-                                    <div class="amplitude-visualization w-full h-full absolute top-0 left-0" id="intro-visualization"></div>
+                                <div class="amplitude-player intro-amplitude w-full h-full" id="intro-player" role="region" aria-label="Audio player introduzione">
+                                    <div class="amplitude-visualization w-full h-full absolute top-0 left-0" id="intro-visualization" aria-hidden="true"></div>
                                     
                                     <div class="absolute inset-0 flex items-center justify-center">
-                                        <button class="amplitude-play-pause z-10" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
+                                        <button class="amplitude-play-pause z-10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 rounded-full" data-amplitude-main-play-pause="true" aria-label="Riproduci o metti in pausa l'introduzione">
                                             <i class="fa fa-play amplitude-play" aria-hidden="true"></i>
                                             <i class="fa fa-pause amplitude-pause" aria-hidden="true"></i>
                                         </button>
@@ -259,13 +274,13 @@
                                     
                                     <div class="absolute bottom-10 left-0 right-0 flex justify-center">
                                         <span class="bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-medium shadow-md inline-flex items-center">
-                                            <i class="fas fa-headphones mr-2"></i>
+                                            <i class="fas fa-headphones mr-2" aria-hidden="true"></i>
                                             Ascolta l'introduzione
                                         </span>
                                     </div>
                                     
                                     <div class="absolute bottom-4 right-4 z-10">
-                                        <button class="toggle-transcript intro-transcript-button compact bg-white/30 hover:bg-white/40 backdrop-blur-md text-white rounded-full px-3 py-1.5 text-xs transition-all flex items-center" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
+                                        <button class="toggle-transcript intro-transcript-button compact bg-white/30 hover:bg-white/40 backdrop-blur-md text-white rounded-full px-3 py-1.5 text-xs transition-all flex items-center focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1" data-target="transcript-0" aria-expanded="false" aria-controls="transcript-0">
                                             <i class="fas fa-align-left mr-1" aria-hidden="true"></i>
                                             <span>...</span> <!-- Text updated by JS -->
                                         </button>
@@ -350,6 +365,48 @@
                     mobileMenu.classList.toggle('open');
                     document.body.classList.toggle('overflow-hidden');
                     mobileMenuButton.classList.toggle('menu-open');
+                    
+                    // Focus management for keyboard users - focus first link when menu opens
+                    if (!isExpanded) {
+                        setTimeout(() => {
+                            const firstLink = mobileMenu.querySelector('a');
+                            if (firstLink) firstLink.focus();
+                        }, 100);
+                    }
+                });
+                
+                // Add keyboard support
+                mobileMenuButton.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+                
+                // Add keyboard navigation within mobile menu
+                mobileMenu.addEventListener('keydown', function(e) {
+                    const focusableElements = Array.from(mobileMenu.querySelectorAll('a, button'));
+                    const currentIndex = focusableElements.findIndex(el => document.activeElement === el);
+                    
+                    if (e.key === 'Escape') {
+                        e.preventDefault();
+                        mobileMenuButton.click(); // Close the menu
+                        mobileMenuButton.focus(); // Return focus to menu button
+                    } else if (e.key === 'ArrowDown' || e.key === 'Tab' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (currentIndex < focusableElements.length - 1) {
+                            focusableElements[currentIndex + 1].focus();
+                        } else {
+                            focusableElements[0].focus(); // Cycle back to first element
+                        }
+                    } else if (e.key === 'ArrowUp' || e.key === 'Tab' && e.shiftKey) {
+                        e.preventDefault();
+                        if (currentIndex > 0) {
+                            focusableElements[currentIndex - 1].focus();
+                        } else {
+                            focusableElements[focusableElements.length - 1].focus(); // Cycle to last element
+                        }
+                    }
                 });
                 
                 mobileMenu.addEventListener('click', function(event) {
@@ -411,10 +468,35 @@
                         transcriptContainer.classList.toggle('active');
                         transcriptContainer.classList.toggle('hidden');
                         
+                        // Update text for screen readers
+                        const textSpan = this.querySelector('span');
+                        if (textSpan) {
+                            const showText = window.LanguageManager ? window.LanguageManager.getUITranslation('showTranscription') : 'Mostra trascrizione';
+                            const hideText = window.LanguageManager ? window.LanguageManager.getUITranslation('hideTranscription') : 'Nascondi trascrizione';
+                            textSpan.textContent = !isExpanded ? hideText : showText;
+                        }
+                        
                         const icon = this.querySelector('.transcript-toggle-icon');
                         if (icon) {
                             icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
                         }
+                        
+                        // If transcript is now visible, move focus to it for better screen reader experience
+                        if (!isExpanded) {
+                            setTimeout(() => {
+                                transcriptContainer.setAttribute('tabindex', '-1');
+                                transcriptContainer.focus();
+                            }, 100);
+                        }
+                    }
+                });
+                
+                // Add keyboard navigation support
+                toggle.addEventListener('keydown', function(e) {
+                    // Enter or Space key triggers the button
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
                     }
                 });
             });
@@ -468,10 +550,74 @@
             if (languageButton && languageDropdown) {
                 languageButton.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    
                     isLanguageDropdownOpen = !isLanguageDropdownOpen;
-                    
                     updateLanguageDropdownUI();
+                    
+                    // When opening the dropdown, focus the first option
+                    if (isLanguageDropdownOpen) {
+                        setTimeout(() => {
+                            const firstOption = languageDropdown.querySelector('.language-option');
+                            if (firstOption) firstOption.focus();
+                        }, 10);
+                    }
+                });
+                
+                // Add keyboard navigation to the language button
+                languageButton.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (!isLanguageDropdownOpen) {
+                            isLanguageDropdownOpen = true;
+                            updateLanguageDropdownUI();
+                            
+                            // Focus first option
+                            setTimeout(() => {
+                                const firstOption = languageDropdown.querySelector('.language-option');
+                                if (firstOption) firstOption.focus();
+                            }, 10);
+                        }
+                    } else if (e.key === 'Escape' && isLanguageDropdownOpen) {
+                        isLanguageDropdownOpen = false;
+                        updateLanguageDropdownUI();
+                        languageButton.focus();
+                    }
+                });
+                
+                // Add keyboard navigation within the dropdown
+                languageDropdown.addEventListener('keydown', function(e) {
+                    const options = Array.from(languageDropdown.querySelectorAll('.language-option'));
+                    const currentIndex = options.findIndex(opt => document.activeElement === opt);
+                    
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (currentIndex < options.length - 1) {
+                            options[currentIndex + 1].focus();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (currentIndex > 0) {
+                            options[currentIndex - 1].focus();
+                        } else {
+                            languageButton.focus();
+                        }
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        options[0].focus();
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        options[options.length - 1].focus();
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        isLanguageDropdownOpen = false;
+                        updateLanguageDropdownUI();
+                        languageButton.focus();
+                    } else if (e.key === 'Tab' && !e.shiftKey && currentIndex === options.length - 1) {
+                        isLanguageDropdownOpen = false;
+                        updateLanguageDropdownUI();
+                    } else if (e.key === 'Tab' && e.shiftKey && currentIndex === 0) {
+                        isLanguageDropdownOpen = false;
+                        updateLanguageDropdownUI();
+                    }
                 });
                 
                 function updateLanguageDropdownUI() {
@@ -526,6 +672,80 @@
                         changeLanguage(lang);
                     });
                 });
+                
+                // Aggiungi navigazione da tastiera al pulsante lingua mobile
+                if (mobileLanguageButton) {
+                    mobileLanguageButton.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('open')) {
+                            mobileMenuButton.click();
+                        }
+                        
+                        // Dopo l'apertura del menu, sposta il focus sul primo pulsante di lingua per facilitare la navigazione
+                        setTimeout(() => {
+                            const firstLangOption = document.querySelector('.language-option-mobile');
+                            if (firstLangOption) firstLangOption.focus();
+                        }, 150);
+                    });
+                    
+                    // Supporta attivazione con tastiera
+                    mobileLanguageButton.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.click();
+                        }
+                    });
+                }
+                
+                // Navigazione da tastiera per i pulsanti di lingua mobile
+                if (mobileLanguageOptions) {
+                    mobileLanguageOptions.forEach(option => {
+                        // Gestione click
+                        option.addEventListener('click', function() {
+                            const lang = this.getAttribute('data-lang');
+                            changeLanguage(lang);
+                            
+                            // Aggiorna attributo aria-pressed per screen reader
+                            mobileLanguageOptions.forEach(opt => {
+                                opt.setAttribute('aria-pressed', 'false');
+                                opt.classList.remove('border-primary', 'bg-primary/10');
+                            });
+                            this.setAttribute('aria-pressed', 'true');
+                            this.classList.add('border-primary', 'bg-primary/10');
+                            
+                            // Annuncio per screen reader
+                            const langName = this.getAttribute('aria-label');
+                            const announcement = document.createElement('div');
+                            announcement.setAttribute('aria-live', 'assertive');
+                            announcement.classList.add('sr-only');
+                            announcement.textContent = `Lingua cambiata in ${langName}`;
+                            document.body.appendChild(announcement);
+                            setTimeout(() => document.body.removeChild(announcement), 1000);
+                        });
+                        
+                        // Gestione navigazione tastiera (frecce laterali)
+                        option.addEventListener('keydown', function(e) {
+                            const options = Array.from(document.querySelectorAll('.language-option-mobile'));
+                            const currentIndex = options.indexOf(this);
+                            
+                            if (e.key === 'ArrowRight') {
+                                e.preventDefault();
+                                const nextIndex = (currentIndex + 1) % options.length;
+                                options[nextIndex].focus();
+                            } else if (e.key === 'ArrowLeft') {
+                                e.preventDefault();
+                                const prevIndex = (currentIndex - 1 + options.length) % options.length;
+                                options[prevIndex].focus();
+                            } else if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                this.click();
+                            } else if (e.key === 'Escape') {
+                                e.preventDefault();
+                                mobileMenuButton.click(); // Chiude il menu mobile
+                                mobileMenuButton.focus(); // Ripristina il focus al pulsante menu
+                            }
+                        });
+                    });
+                }
                 
                 if (mobileLanguageButton) {
                     mobileLanguageButton.addEventListener('click', function() {

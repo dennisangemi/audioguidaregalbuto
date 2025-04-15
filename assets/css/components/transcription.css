@@ -2,16 +2,24 @@
 
 /* Container base */
 .transcript-container {
-    display: none; /* Inizialmente nascosto */
-    background-color: #f9f7ff;
-    border: 1px solid rgba(139, 92, 246, 0.15);
-    border-radius: 0.5rem;
-    margin-top: 0.75rem;
-    opacity: 0;
-    overflow: hidden;
     max-height: 0;
-    padding: 0;
-    transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-out;
+    margin-top: 8px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.transcript-container.active {
+    max-height: 300px;
+    overflow: auto;
+    opacity: 1;
+}
+
+.transcript-container:focus {
+    outline: 2px solid var(--color-primary, #6b46c1);
+    outline-offset: 2px;
 }
 
 /* Stato espanso */
@@ -55,6 +63,21 @@
 
 /* Pulsante toggle */
 .toggle-transcript {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-transcript.compact {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.toggle-transcript:focus {
+    outline: 2px solid var(--color-primary, #6b46c1);
+    outline-offset: 2px;
+}
+
+.toggle-transcript {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,11 +86,9 @@
     background-color: #f5f3ff;
     color: #4c1d95;
     font-weight: 600;
-    cursor: pointer;
     border: 2px solid rgba(139, 92, 246, 0.2);
     margin-top: 1rem;
     width: 100%;
-    transition: all 0.3s ease;
 }
 
 /* Stato hover */
@@ -114,9 +135,24 @@
     animation: spin 1s linear infinite;
 }
 
+/* High contrast support for transcriptions */
+@media (prefers-contrast: more) {
+    .transcript-container {
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+    
+    .transcript-container .text-gray-700 {
+        color: #000;
+    }
+}
+
 /* Media query per riduzione movimento */
 @media (prefers-reduced-motion: reduce) {
-    .transcript-container,
+    .transcript-container {
+        transition: none;
+    }
+    
     .toggle-transcript,
     .transcript-toggle-icon {
         transition: none;

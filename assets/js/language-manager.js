@@ -176,13 +176,15 @@ const LanguageManager = (function() {
         // Selettore desktop
         document.querySelector('.current-language').textContent = getLanguageDisplayName(currentLang);
         
-        // Selettore mobile
+        // Selettore mobile con attributi ARIA per accessibilità
         document.querySelectorAll('.language-option-mobile').forEach(option => {
             const lang = option.getAttribute('data-lang');
             if (lang === currentLang) {
                 option.classList.add('border-primary', 'bg-primary/10');
+                option.setAttribute('aria-pressed', 'true');
             } else {
                 option.classList.remove('border-primary', 'bg-primary/10');
+                option.setAttribute('aria-pressed', 'false');
             }
         });
     }
@@ -229,6 +231,30 @@ const LanguageManager = (function() {
         document.dispatchEvent(new CustomEvent('languageChanged', {
             detail: { language: lang }
         }));
+        
+        // Annuncio accessibile per screen reader
+        announceLangChange(lang);
+    }
+    
+    /**
+     * Crea un annuncio accessibile per screen reader quando cambia la lingua
+     * @param {string} lang - Il codice della lingua corrente
+     */
+    function announceLangChange(lang) {
+        // Crea un elemento per annunciare il cambio di lingua agli screen reader
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'assertive');
+        announcement.setAttribute('role', 'status');
+        announcement.classList.add('sr-only'); // Nascosto visivamente ma accessibile agli screen reader
+        announcement.textContent = `Lingua cambiata in ${getLanguageDisplayName(lang)}`;
+        
+        // Aggiungi l'elemento al DOM
+        document.body.appendChild(announcement);
+        
+        // Rimuovi l'elemento dopo che è stato annunciato (circa 3 secondi)
+        setTimeout(() => {
+            document.body.removeChild(announcement);
+        }, 3000);
     }
     
     /**

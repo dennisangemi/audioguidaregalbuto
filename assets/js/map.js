@@ -178,7 +178,7 @@ const AudioGuideMap = (function() {
         
         console.log('Creazione markers per', tourStops.length, 'tappe');
         
-        // Crea e aggiungi i marker alla mappa con design migliorato
+        // Crea e aggiungi i marker alla mappa con design migliorato e accessibilità
         tourStops.forEach(stop => {
             try {
                 // Verifica che le coordinate siano valide
@@ -196,18 +196,18 @@ const AudioGuideMap = (function() {
                     stopId: stop.id
                 }).addTo(map);
                 
-                // Crea il popup con informazioni sulla tappa (design migliorato con Tailwind)
+                // Crea il popup con informazioni sulla tappa (design migliorato con Tailwind e accessibilità)
                 const popupContent = `
                     <div class="text-center p-1">
                         <h4 class="text-primary font-semibold mb-1">${stop.title}</h4>
                         <p class="text-xs text-gray-500 mb-2">Tappa ${stop.order}</p>
                         <div class="flex justify-center gap-2">
-                            <a href="index.html#${stop.id}" class="px-3 py-1.5 bg-primary text-white text-xs rounded-full hover:bg-primary-dark transition-colors shadow-sm flex items-center">
-                                <i class="fas fa-headphones mr-1.5"></i>
+                            <a href="index.html#${stop.id}" class="px-3 py-1.5 bg-primary text-white text-xs rounded-full hover:bg-primary-dark transition-colors shadow-sm flex items-center" aria-label="Ascolta la guida audio per ${stop.title}">
+                                <i class="fas fa-headphones mr-1.5" aria-hidden="true"></i>
                                 Audio
                             </a>
-                            <a href="${stop.url}" target="_blank" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs rounded-full hover:bg-gray-200 transition-colors flex items-center">
-                                <i class="fas fa-map-marked-alt mr-1.5"></i>
+                            <a href="${stop.url}" target="_blank" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs rounded-full hover:bg-gray-200 transition-colors flex items-center" aria-label="Visualizza ${stop.title} su Google Maps">
+                                <i class="fas fa-map-marked-alt mr-1.5" aria-hidden="true"></i>
                                 Google Maps
                             </a>
                         </div>
@@ -216,6 +216,26 @@ const AudioGuideMap = (function() {
                 
                 marker.bindPopup(popupContent);
                 markers[stop.id] = marker;
+                
+                // Aggiungi gestione accessibilità dopo che il marker è aggiunto alla mappa
+                setTimeout(() => {
+                    const markerElement = marker.getElement();
+                    if (markerElement) {
+                        // Aggiungi attributi aria per accessibilità
+                        markerElement.setAttribute('role', 'button');
+                        markerElement.setAttribute('aria-label', `${stop.title}, Tappa ${stop.order}`);
+                        markerElement.setAttribute('tabindex', '0');
+                        
+                        // Aggiungi gestione eventi da tastiera
+                        markerElement.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                marker.openPopup();
+                                highlightMarker(stop.id);
+                            }
+                        });
+                    }
+                }, 100);
             } catch (error) {
                 console.error('Errore durante la creazione del marker:', error, stop);
             }

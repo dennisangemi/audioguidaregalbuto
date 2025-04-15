@@ -5,20 +5,77 @@
     position: absolute;
     top: -100px;
     left: 0;
-    z-index: 100;
+    z-index: 1000; /* Higher z-index to ensure it's above all elements */
     padding: 12px 20px;
     background-color: var(--color-primary, #6b46c1);
     color: #fff;
     font-weight: 600;
     text-decoration: none;
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 8px 0;
     transition: top 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: block; /* Ensure proper display on all browsers */
+    outline: 3px solid transparent; /* Prepare for focus style */
 }
 
 .skip-to-content:focus {
     top: 0;
-    outline: none;
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+/* Screen reader only class - hide visually but available for screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Visible only for screen readers but can be focused */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Better focus styles for all interactive elements */
+a:focus, button:focus, [role="button"]:focus, input:focus, 
+select:focus, textarea:focus, [tabindex]:focus {
+    outline: 2px solid var(--color-primary, #6b46c1);
+    outline-offset: 2px;
+}
+
+/* High contrast focus styles for when users prefer high contrast */
+@media (prefers-contrast: more) {
+    a:focus, button:focus, [role="button"]:focus, input:focus, 
+    select:focus, textarea:focus, [tabindex]:focus {
+        outline: 3px solid #000;
+        outline-offset: 3px;
+    }
+}
+
+/* High contrast text for when users prefer high contrast */
+@media (prefers-contrast: more) {
+    body {
+        color: #000;
+        background-color: #fff;
+    }
+    
+    a, button {
+        color: #000;
+    }
 }
 
 /* Reduced motion preferences */

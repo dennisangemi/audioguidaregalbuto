@@ -234,12 +234,28 @@
             <a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">Storia</a>
             <a href="mappa.html" class="nav-link text-primary font-medium transition-colors">Mappa</a>
             
-            <!-- Opzioni lingua mobile -->
-            <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100">
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="it" aria-label="Italiano">🇮🇹</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="en" aria-label="English">🇬🇧</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="de" aria-label="Deutsch">🇩🇪</button>
-                <button class="language-option-mobile w-8 h-8 rounded-full flex items-center justify-center text-sm border hover:border-primary transition-colors" data-lang="es" aria-label="Español">🇪🇸</button>
+            <!-- Opzioni lingua mobile con accessibilità migliorata -->
+            <div class="flex justify-center gap-3 my-3 py-2 border-t border-b border-gray-100" role="group" aria-label="Selezione lingua">
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="it" aria-label="Italiano" aria-pressed="false">
+                    <span aria-hidden="true">🇮🇹</span>
+                    <span class="sr-only">Italiano</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="en" aria-label="English" aria-pressed="false">
+                    <span aria-hidden="true">🇬🇧</span>
+                    <span class="sr-only">English</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="de" aria-label="Deutsch" aria-pressed="false">
+                    <span aria-hidden="true">🇩🇪</span>
+                    <span class="sr-only">Deutsch</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="es" aria-label="Español" aria-pressed="false">
+                    <span aria-hidden="true">🇪🇸</span>
+                    <span class="sr-only">Español</span>
+                </button>
+                <button class="language-option-mobile w-10 h-10 rounded-full flex items-center justify-center text-sm border hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors" data-lang="fr" aria-label="Français" aria-pressed="false">
+                    <span aria-hidden="true">🇫🇷</span>
+                    <span class="sr-only">Français</span>
+                </button>
             </div>
         </div>
     </header>
@@ -277,19 +293,20 @@
                         </span>
                     </div>
                     
-                    <!-- Barra di ricerca semplificata -->
+                    <!-- Barra di ricerca semplificata con miglior accessibilità -->
                     <div class="relative mb-4">
-                        <input type="text" id="stop-search" class="w-full rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none bg-gray-50" placeholder="Cerca tappa...">
+                        <label for="stop-search" class="sr-only">Cerca una tappa</label>
+                        <input type="text" id="stop-search" class="w-full rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none bg-gray-50" placeholder="Cerca tappa..." aria-label="Cerca una tappa per nome">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                            <i class="fas fa-search text-xs"></i>
+                            <i class="fas fa-search text-xs" aria-hidden="true"></i>
                         </div>
                     </div>
                     
                     <!-- Lista tappe scrollabile -->
                     <div class="stops-sidebar flex-grow overflow-y-auto pr-1">
-                        <ul class="space-y-2">
-                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="piazza">
-                                <div class="p-3 flex items-center">
+                        <ul class="space-y-2" role="list" aria-label="Lista delle tappe del tour">
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors focus-within:ring-2 focus-within:ring-primary focus-within:border-primary" data-stop-id="piazza" role="listitem">
+                                <div class="p-3 flex items-center" tabindex="0" role="button" aria-label="Tappa 1: Piazza della Repubblica, durata 2:38">
                                     <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
                                         <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
                                             1
@@ -299,15 +316,15 @@
                                         <h3 class="font-medium text-gray-800 truncate">Piazza della Repubblica</h3>
                                         <div class="flex items-center text-xs text-gray-500">
                                             <span class="inline-flex items-center">
-                                                <i class="fas fa-clock mr-1 opacity-60"></i> 2:38
+                                                <i class="fas fa-clock mr-1 opacity-60" aria-hidden="true"></i> 2:38
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             
-                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors" data-stop-id="comune">
-                                <div class="p-3 flex items-center">
+                            <li class="stop-item cursor-pointer rounded-lg border border-gray-200 hover:border-primary/30 transition-colors focus-within:ring-2 focus-within:ring-primary focus-within:border-primary" data-stop-id="comune" role="listitem">
+                                <div class="p-3 flex items-center" tabindex="0" role="button" aria-label="Tappa 2: Palazzo Comunale, durata 2:48">
                                     <div class="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center mr-3 shrink-0">
                                         <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-primary font-medium text-xs">
                                             2
@@ -317,7 +334,7 @@
                                         <h3 class="font-medium text-gray-800 truncate">Palazzo Comunale</h3>
                                         <div class="flex items-center text-xs text-gray-500">
                                             <span class="inline-flex items-center">
-                                                <i class="fas fa-clock mr-1 opacity-60"></i> 2:48
+                                                <i class="fas fa-clock mr-1 opacity-60" aria-hidden="true"></i> 2:48
                                             </span>
                                         </div>
                                     </div>
@@ -494,34 +511,34 @@
                     <!-- Barra strumenti mappa -->
                     <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-white">
                         <div class="flex items-center">
-                            <i class="fas fa-map-pin text-primary mr-2"></i>
+                            <i class="fas fa-map-pin text-primary mr-2" aria-hidden="true"></i>
                             <h2 class="font-medium text-gray-800 text-sm">Mappa interattiva</h2>
                         </div>
                         
                         <div class="flex gap-2">
-                            <button id="map-view-all" class="text-sm px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded transition-colors flex items-center">
-                                <i class="fas fa-expand-arrows-alt text-xs mr-1.5"></i>
+                            <button id="map-view-all" class="text-sm px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded transition-colors flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1" aria-label="Mostra tutte le tappe sulla mappa">
+                                <i class="fas fa-expand-arrows-alt text-xs mr-1.5" aria-hidden="true"></i>
                                 Mostra tutto
                             </button>
-                            <button id="map-toggle-fullscreen" class="text-sm px-3 py-1.5 bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 rounded transition-colors flex items-center">
-                                <i class="fas fa-expand text-xs mr-1.5"></i>
+                            <button id="map-toggle-fullscreen" class="text-sm px-3 py-1.5 bg-primary/10 hover:bg-primary/15 text-primary border border-primary/20 rounded transition-colors flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1" aria-label="Attiva/disattiva modalità schermo intero">
+                                <i class="fas fa-expand text-xs mr-1.5" aria-hidden="true"></i>
                                 Schermo intero
                             </button>
                         </div>
                     </div>
                     
                     <!-- Container mappa -->
-                    <div id="tour-map-container" class="map-container">
+                    <div id="tour-map-container" class="map-container" role="application" aria-label="Mappa interattiva delle tappe del tour di Regalbuto">
                         <!-- La mappa viene inserita qui da Leaflet -->
                     </div>
                     
                     <!-- Controlli mappa -->
                     <div class="map-controls">
-                        <button class="map-control-button" id="map-locate-me" aria-label="Localizza la mia posizione" title="Trova la mia posizione">
-                            <i class="fas fa-location-crosshairs"></i>
+                        <button class="map-control-button focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1" id="map-locate-me" aria-label="Localizza la mia posizione" title="Trova la mia posizione">
+                            <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
                         </button>
-                        <button class="map-control-button" id="map-reset" aria-label="Reimposta vista" title="Reimposta vista">
-                            <i class="fas fa-sync-alt"></i>
+                        <button class="map-control-button focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1" id="map-reset" aria-label="Reimposta vista" title="Reimposta vista">
+                            <i class="fas fa-sync-alt" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -659,27 +676,86 @@
                 }
             }
             
-            // Gestione selettore lingua mobile
+            // Gestione selettore lingua mobile con miglioramenti accessibilità
             if (mobileLanguageButton && mobileMenu) {
                 mobileLanguageButton.addEventListener('click', function() {
                     if (!mobileMenu.classList.contains('open')) {
-                        mobileMenuButton.click(); // Apri il menu mobile
+                        mobileMenuButton.click();
+                    }
+                    
+                    // Focus automatico sul primo pulsante di lingua per facilitare la navigazione da tastiera
+                    setTimeout(() => {
+                        const firstLangOption = document.querySelector('.language-option-mobile');
+                        if (firstLangOption) firstLangOption.focus();
+                    }, 150);
+                });
+                
+                // Supporto attivazione con tastiera
+                mobileLanguageButton.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
                     }
                 });
             }
             
-            // Gestione degli eventi di click sulle opzioni di lingua mobile
+            // Gestione degli eventi di click e navigazione da tastiera per le opzioni di lingua mobile
             if (mobileLanguageOptions) {
                 mobileLanguageOptions.forEach(option => {
+                    // Gestione click
                     option.addEventListener('click', function() {
                         const lang = this.getAttribute('data-lang');
                         console.log('Cambiata lingua a:', lang);
                         
-                        // Aggiorna stato visivo
+                        // In un'applicazione reale qui andrebbe chiamata la funzione per cambiare lingua
+                        // changeLanguage(lang);
+                        
+                        // Aggiorna stato visivo e aria-pressed per screen reader
                         mobileLanguageOptions.forEach(opt => {
+                            opt.setAttribute('aria-pressed', 'false');
                             opt.classList.remove('border-primary', 'bg-primary/10');
                         });
+                        this.setAttribute('aria-pressed', 'true');
                         this.classList.add('border-primary', 'bg-primary/10');
+                        
+                        // Annuncio per screen reader
+                        const langName = this.getAttribute('aria-label');
+                        const announcement = document.createElement('div');
+                        announcement.setAttribute('aria-live', 'assertive');
+                        announcement.classList.add('sr-only');
+                        announcement.textContent = `Lingua cambiata in ${langName}`;
+                        document.body.appendChild(announcement);
+                        setTimeout(() => document.body.removeChild(announcement), 1000);
+                        
+                        // Chiudi il menu mobile dopo un breve ritardo per permettere allo screen reader di annunciare il cambio
+                        setTimeout(() => {
+                            if (mobileMenu.classList.contains('open')) {
+                                mobileMenuButton.click();
+                            }
+                        }, 500);
+                    });
+                    
+                    // Gestione navigazione tastiera (frecce laterali)
+                    option.addEventListener('keydown', function(e) {
+                        const options = Array.from(document.querySelectorAll('.language-option-mobile'));
+                        const currentIndex = options.indexOf(this);
+                        
+                        if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            const nextIndex = (currentIndex + 1) % options.length;
+                            options[nextIndex].focus();
+                        } else if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            const prevIndex = (currentIndex - 1 + options.length) % options.length;
+                            options[prevIndex].focus();
+                        } else if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.click();
+                        } else if (e.key === 'Escape') {
+                            e.preventDefault();
+                            mobileMenuButton.click(); // Chiude il menu mobile
+                            mobileMenuButton.focus(); // Ripristina il focus al pulsante menu
+                        }
                     });
                 });
             }
@@ -742,67 +818,138 @@
                 });
             }
             
-            // 3. Gestione selezione tappe e visualizzazione dettagli
+            // 3. Gestione selezione tappe e visualizzazione dettagli con supporto accessibilità
             document.querySelectorAll('.stop-item').forEach(item => {
+                // Gestione click
                 item.addEventListener('click', function() {
-                    // Aggiorna stato visivo
-                    document.querySelectorAll('.stop-item').forEach(el => {
-                        el.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    
-                    // Mostra i dettagli
-                    const stopId = this.getAttribute('data-stop-id');
-                    const stopDetails = document.getElementById('stop-details');
-                    
-                    if (stopDetails) {
-                        stopDetails.classList.remove('hidden');
-                        
-                        // Qui simuliamo l'aggiornamento dei dettagli
-                        // In una versione reale questi dati verrebbero caricati dal JSON
-                        const stopInfo = {
-                            piazza: {
-                                title: "Piazza della Repubblica",
-                                description: "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
-                                duration: "2:38",
-                                number: "1"
-                            },
-                            comune: {
-                                title: "Palazzo Comunale",
-                                description: "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
-                                duration: "2:48",
-                                number: "2"
-                            },
-                            chiesa_madre: {
-                                title: "Chiesa Madre di San Basilio",
-                                description: "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
-                                duration: "11:19",
-                                number: "3"
-                            }
-                            // Altri elementi... Versione completa implementerebbe tutti gli elementi
-                        };
-                        
-                        // Aggiorna i dettagli sulla base dell'ID
-                        if (stopInfo[stopId]) {
-                            document.getElementById('stop-number').textContent = stopInfo[stopId].number;
-                            document.getElementById('stop-title').textContent = stopInfo[stopId].title;
-                            document.getElementById('stop-description').textContent = stopInfo[stopId].description;
-                            document.getElementById('stop-duration').textContent = stopInfo[stopId].duration;
-                            document.getElementById('stop-audio-link').href = `index.html#${stopId}`;
-                            
-                            // Implementazione completa aggiornerebbe anche il link a Google Maps
+                    selectStopItem(this);
+                });
+                
+                // Gestione eventi da tastiera per accessibilità
+                const buttonElement = item.querySelector('[role="button"]');
+                if (buttonElement) {
+                    buttonElement.addEventListener('keydown', function(e) {
+                        // Enter o Space attiva l'elemento
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            selectStopItem(item);
                         }
-                        
-                        // Aggiorna anche l'azione del pulsante per centrare sulla mappa
-                        document.getElementById('stop-highlight').setAttribute('data-stop-id', stopId);
+                    });
+                }
+            });
+            
+            // Funzione centralizzata per selezionare un elemento tappa
+            function selectStopItem(item) {
+                // Aggiorna stato visivo
+                document.querySelectorAll('.stop-item').forEach(el => {
+                    el.classList.remove('active');
+                    el.setAttribute('aria-selected', 'false');
+                });
+                item.classList.add('active');
+                item.setAttribute('aria-selected', 'true');
+                
+                // Annuncio per screen reader (opzionale)
+                const stopTitle = item.querySelector('h3').textContent;
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.classList.add('sr-only');
+                announcement.textContent = `Selezionata tappa: ${stopTitle}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+                
+                // Mostra i dettagli
+                const stopId = item.getAttribute('data-stop-id');
+                const stopDetails = document.getElementById('stop-details');
+                
+                if (stopDetails) {
+                    stopDetails.classList.remove('hidden');
+                    
+                    // Qui simuliamo l'aggiornamento dei dettagli
+                    // In una versione reale questi dati verrebbero caricati dal JSON
+                    const stopInfo = {
+                        piazza: {
+                            title: "Piazza della Repubblica",
+                            description: "Il cuore storico e sociale di Regalbuto, con la sua caratteristica pavimentazione.",
+                            duration: "2:38",
+                            number: "1"
+                        },
+                        comune: {
+                            title: "Palazzo Comunale",
+                            description: "La sede storica dell'amministrazione cittadina con la sua architettura caratteristica.",
+                            duration: "2:48",
+                            number: "2"
+                        },
+                        chiesa_madre: {
+                            title: "Chiesa Madre di San Basilio",
+                            description: "La chiesa principale di Regalbuto con la sua importante storia religiosa e artistica.",
+                            duration: "11:19",
+                            number: "3"
+                        },
+                        lombardi: {
+                            title: "Monumento R. Lombardi",
+                            description: "Monumento dedicato a Roberto Lombardi, figura importante nella storia di Regalbuto.",
+                            duration: "2:11",
+                            number: "4"
+                        },
+                        campione: {
+                            title: "Monumento G. Campione",
+                            description: "Monumento dedicato a Giuseppe Campione, personaggio storico locale.",
+                            duration: "2:12", 
+                            number: "5"
+                        },
+                        corso: {
+                            title: "Corso G.F. Ingrassia",
+                            description: "La principale via del centro storico dedicata a G.F. Ingrassia.",
+                            duration: "8:43",
+                            number: "6"
+                        },
+                        santa_maria: {
+                            title: "Chiesa Santa Maria La Croce",
+                            description: "Importante chiesa storica di Regalbuto con preziose opere d'arte.",
+                            duration: "6:36",
+                            number: "7"
+                        },
+                        piano: {
+                            title: "Piazza Vittorio Veneto",
+                            description: "Nota anche come 'U Chianu', è una delle piazze principali della città.",
+                            duration: "8:01",
+                            number: "8"
+                        },
+                        villa: {
+                            title: "Villa Comunale",
+                            description: "Polmone verde della città e luogo di incontro per la comunità locale.",
+                            duration: "6:10",
+                            number: "9"
+                        },
+                        lago: {
+                            title: "Lago Pozzillo",
+                            description: "Il bacino artificiale più grande della Sicilia, di grande importanza naturale.",
+                            duration: "3:04",
+                            number: "10"
+                        }
+                    };
+                    
+                    // Aggiorna i dettagli sulla base dell'ID
+                    if (stopInfo[stopId]) {
+                        document.getElementById('stop-number').textContent = stopInfo[stopId].number;
+                        document.getElementById('stop-title').textContent = stopInfo[stopId].title;
+                        document.getElementById('stop-description').textContent = stopInfo[stopId].description;
+                        document.getElementById('stop-duration').textContent = stopInfo[stopId].duration;
+                        document.getElementById('stop-audio-link').href = `index.html#${stopId}`;
+                        document.getElementById('stop-audio-link').setAttribute('aria-label', `Ascolta l'audio per ${stopInfo[stopId].title}`);
                     }
                     
-                    // Questo evento sarebbe catturato dal codice della mappa per centrare il marker
-                    document.dispatchEvent(new CustomEvent('highlightMarker', { 
-                        detail: { stopId: stopId }
-                    }));
-                });
-            });
+                    // Aggiorna anche l'azione del pulsante per centrare sulla mappa
+                    const highlightButton = document.getElementById('stop-highlight');
+                    highlightButton.setAttribute('data-stop-id', stopId);
+                    highlightButton.setAttribute('aria-label', `Centra sulla mappa ${stopInfo[stopId] ? stopInfo[stopId].title : 'la tappa selezionata'}`);
+                }
+                
+                // Questo evento sarebbe catturato dal codice della mappa per centrare il marker
+                document.dispatchEvent(new CustomEvent('highlightMarker', { 
+                    detail: { stopId: stopId }
+                }));
+            }
             
             // 4. Pulsante di centratura sulla mappa
             const highlightButton = document.getElementById('stop-highlight');
