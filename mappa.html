@@ -583,16 +583,88 @@
         </div>
     </main>
     
-    <footer class="border-t border-gray-100 py-6 bg-white">
+    <footer class="bg-gradient-to-r from-gray-50 to-purple-50 border-t border-gray-200 pt-12 pb-8 mt-16">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="flex flex-col md:flex-row md:justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <p class="text-sm text-gray-500">2025 Audio guida di Regalbuto. Un progetto di <a href="#" class="text-primary hover:text-primary-dark">Regalbuto Inside</a>.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- About section -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-5">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mr-3">
+                            <i class="fas fa-compass text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Audioguida di Regalbuto</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6 pr-0 md:pr-12 leading-relaxed">Esplora la storia, la cultura e le bellezze di Regalbuto attraverso un viaggio sonoro alla scoperta delle tradizioni locali e del patrimonio artistico della cittadina siciliana.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-colors duration-300 shadow-sm" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-colors duration-300 shadow-sm" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-colors duration-300 shadow-sm" aria-label="Spotify">
+                            <i class="fab fa-spotify"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="flex space-x-4">
-                    <a href="index.html" class="text-sm text-gray-500 hover:text-primary">Home</a>
-                    <a href="index.html#tour-timeline" class="text-sm text-gray-500 hover:text-primary">Tappe</a>
-                    <a href="mappa.html" class="text-sm text-primary">Mappa</a>
+                
+                <!-- Links section -->
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-800 mb-4">Esplora</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="index.html" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center group">
+                                <span class="w-8 h-8 bg-gray-100 group-hover:bg-primary/10 rounded-md flex items-center justify-center mr-3 transition-colors duration-300">
+                                    <i class="fas fa-home text-gray-500 group-hover:text-primary"></i>
+                                </span>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#tour-timeline" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center group">
+                                <span class="w-8 h-8 bg-gray-100 group-hover:bg-primary/10 rounded-md flex items-center justify-center mr-3 transition-colors duration-300">
+                                    <i class="fas fa-route text-gray-500 group-hover:text-primary"></i>
+                                </span>
+                                <span>Tappe</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mappa.html" class="text-primary font-medium transition-colors duration-300 flex items-center group">
+                                <span class="w-8 h-8 bg-primary/10 rounded-md flex items-center justify-center mr-3 transition-colors duration-300">
+                                    <i class="fas fa-map-marked-alt text-primary"></i>
+                                </span>
+                                <span>Mappa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Credits section -->
+            <div class="border-t border-gray-200 pt-8">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                    <div class="mb-6 md:mb-0">
+                        <p class="text-gray-800 text-sm mb-2">© 2025 <a href="#" class="text-primary hover:underline">Regalbuto Inside</a></p>
+                        <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="inline-flex items-center text-primary hover:underline text-sm mb-2" target="_blank" rel="noopener">
+                            <i class="far fa-copyright mr-1.5"></i>
+                            Licenza Creative Commons CC-BY-SA 4.0
+                        </a>
+                    </div>
+                    
+                    <div class="text-sm text-gray-600 bg-gray-50 px-4 py-3 rounded-lg border border-gray-100 shadow-sm">
+                        <p class="mb-1 flex items-center">
+                            <span class="w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center mr-2 text-primary">
+                                <i class="fas fa-pen-nib text-xs"></i>
+                            </span>
+                            <span><span class="font-medium">Contenuti:</span> Chiara Adornetto, Alice Pulvirenti, Pia Valentina Surbando Licari</span>
+                        </p>
+                        <p class="flex items-center">
+                            <span class="w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center mr-2 text-primary">
+                                <i class="fas fa-code text-xs"></i>
+                            </span>
+                            <span><span class="font-medium">Sviluppo:</span> Dennis Angemi</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
