@@ -35,4 +35,4 @@ Questa audioguida accompagna cittadine, cittadini, visitatrici e visitatori in u
 - `assets/css/`: stili e layout
 
 ## Credit
-È un progetto di Regalbuto Inside concesso in Licenza CC-BY 4.0. Hanno contribuito: Chiara Adornetto, Alice Pulvirenti, Pia Valentina Surbando Licari per i contenuti; Dennis Angemi per lo sviluppo web.
+È un progetto di Regalbuto Inside concesso in Licenza CC BY-SA 4.0. Hanno contribuito: Chiara Adornetto, Alice Pulvirenti, Pia Valentina Surbando Licari per i contenuti; Dennis Angemi per lo sviluppo web.
