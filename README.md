@@ -46,3 +46,11 @@ Le tracce audio della guida sono disponibili anche su Spotify:
 - [fr](https://open.spotify.com/show/5LCrysejeQWmzkwi2JuZ6g)
 - [en](https://open.spotify.com/show/3MVYR0pmy2oeYohJtW45VG)
 
+# Fonti
+- Regalbuto: strade, storie, leggende, uomini ed eroi / Francesco Miranda. - Roma : Ginevra Bentivoglio Editoria, c2011 (stampa 2012).
+
+- Regalbuto : frammenti di un paese : colligete fragmenta ne pareant [Gv,6,12] / Francesco Santangelo. - Enna : Il Lunario, 2011.
+
+- ["Chiesa Madre S. Basilio" da comune.regalbuto.en.it](https://www.comune.regalbuto.en.it/it/luoghi/chiesa-madre-s-basilio)
+
+- ["Municipio del Comune di Regalbuto"da comune.regalbuto.en.it](https://www.comune.regalbuto.en.it/it/luoghi/municipio-del-comune-di-regalbuto)
