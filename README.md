@@ -38,15 +38,11 @@ Questa audioguida accompagna cittadine, cittadini, visitatrici e visitatori in u
 È un progetto di Regalbuto Inside concesso in Licenza CC BY-SA 4.0. Hanno contribuito: Chiara Adornetto, Alice Pulvirenti, Pia Valentina Surbando Licari per i contenuti; Dennis Angemi per lo sviluppo web.
 
 ## Spotify
-profilo https://open.spotify.com/show/3MVYR0pmy2oeYohJtW45VG
+Le tracce audio della guida sono disponibili anche su Spotify:
 
-it: https://open.spotify.com/show/66SgYPSDmusImpk80QtIPJ
-
-es: https://open.spotify.com/show/4m32rx6vRFq0t1zbfYMYAF
-
-de: https://open.spotify.com/show/50u0bkLKGBKdOUtNv9ZLXL
-
-fr: https://open.spotify.com/show/5LCrysejeQWmzkwi2JuZ6g
-
-en: https://open.spotify.com/show/3MVYR0pmy2oeYohJtW45VG
+- [Italiano](https://open.spotify.com/show/66SgYPSDmusImpk80QtIPJ)
+- [es](https://open.spotify.com/show/4m32rx6vRFq0t1zbfYMYAF)
+- [de](https://open.spotify.com/show/50u0bkLKGBKdOUtNv9ZLXL)
+- [fr](https://open.spotify.com/show/5LCrysejeQWmzkwi2JuZ6g)
+- [en](https://open.spotify.com/show/3MVYR0pmy2oeYohJtW45VG)
 
