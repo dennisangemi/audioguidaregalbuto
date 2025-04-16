@@ -26,6 +26,35 @@ document.addEventListener('DOMContentLoaded', function() {
     let dataLoaded = false;
     const loadedIds = {};
     
+    // Nuova funzionalità: Inizia il tour con l'introduzione
+    document.querySelectorAll('.tour-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Pulsante "Inizia il tour" cliccato, avvio riproduzione introduzione');
+            
+            // Trova il pulsante principale del player dell'introduzione
+            const introPlayButton = document.querySelector('[data-amplitude-main-play-pause="true"]');
+            if (introPlayButton) {
+                // Simula un click sul pulsante dell'introduzione per avviare la riproduzione
+                introPlayButton.click();
+                
+                // Scorrimento opzionale fino all'intro player
+                const introPlayer = document.getElementById('intro-player');
+                if (introPlayer) {
+                    const headerHeight = document.getElementById('site-header').offsetHeight;
+                    const targetPosition = introPlayer.getBoundingClientRect().top + window.pageYOffset;
+                    
+                    window.scrollTo({
+                        top: targetPosition - headerHeight - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                console.error('Pulsante play dell\'introduzione non trovato');
+            }
+        });
+    });
+    
     // Precarica il file JSON con tutte le informazioni dell'audioguida
     fetch('assets/data/audioguide.json')
         .then(response => {
