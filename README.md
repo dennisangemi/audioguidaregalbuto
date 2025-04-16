@@ -1,4 +1,4 @@
-# Audio guida di Regalbuto
+# Audioguida di Regalbuto
 
 Un progetto digitale per scoprire la storia, l’arte e le tradizioni di Regalbuto (EN) attraverso un percorso audio interattivo.
 
