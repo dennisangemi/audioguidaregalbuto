@@ -5,7 +5,7 @@
         "languages": ["it", "en", "es", "de", "fr"],
         "content": {
         "it": {
-            "title": "Audio Guida di Regalbuto",
+            "title": "Audioguida di Regalbuto",
             "description": "Esplora la storia, l'arte e le tradizioni di Regalbuto attraverso questo percorso audio guidato. Un viaggio sonoro tra dieci luoghi emblematici raccontati con passione.",
             "introduction": {
             "audioPath": "assets/audio/it/0_intro.mp3",
