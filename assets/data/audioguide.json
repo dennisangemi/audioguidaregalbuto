@@ -1152,7 +1152,7 @@
                     "longitude": 14.6408261
                 },
                 "icon": "fa-church",
-                "imagePath": "assets/img/regetna.jpg"
+                "imagePath": "assets/img/santa_maria.jpg"
             },
             {
                 "id": "piano",
@@ -1163,7 +1163,7 @@
                     "longitude": 14.640728
                 },
                 "icon": "fa-square",
-                "imagePath": "assets/img/regetna.jpg"
+                "imagePath": "assets/img/piano.jpg"
             },
             {
                 "id": "villa",
