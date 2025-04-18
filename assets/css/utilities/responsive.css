@@ -1,5 +1,46 @@
 /* Responsive utilities */
 
+/* Fix per l'overflow orizzontale */
+*, *::before, *::after {
+    box-sizing: border-box;
+    max-width: 100%; 
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    max-width: 100%;
+}
+
+/* Assicura che tutti i contenitori principali rispettino la larghezza massima */
+.container, 
+.max-w-7xl, 
+.max-w-6xl, 
+.max-w-5xl, 
+.max-w-4xl, 
+.max-w-3xl, 
+.max-w-2xl, 
+.max-w-xl, 
+.max-w-lg, 
+.max-w-md, 
+.max-w-sm, 
+.max-w-xs {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Fix per gli elementi della timeline che potrebbero causare overflow */
+.timeline-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.timeline-track-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* Media queries for reduced motion */
 @media (prefers-reduced-motion: reduce) {
     * {
