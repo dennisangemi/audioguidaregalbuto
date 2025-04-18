@@ -9,60 +9,107 @@ const FooterManager = (function() {
     /**
      * Template HTML del footer con supporto multilingua
      * Utilizza attributi data-i18n-key per la traduzione automatica
+     * Design migliorato con Tailwind CSS
      */
     const footerTemplate = `
-        <footer class="mt-24 py-10 border-t border-gray-200 bg-white" role="contentinfo">
+        <footer class="mt-24 py-12 border-t border-gray-200 bg-white" role="contentinfo">
             <div class="container mx-auto px-4 md:px-6 lg:px-8 xl:px-12 max-w-7xl">
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
-                    <div class="flex flex-col items-center md:items-start">
-                        <div class="flex items-center mb-3 text-primary-dark">
-                            <i class="fas fa-compass text-xl mr-2" aria-hidden="true"></i>
-                            <span class="font-semibold text-lg">Audioguida di Regalbuto</span>
+                <!-- Sezione principale -->
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+                    <div class="flex flex-col items-center md:items-start md:max-w-lg">
+                        <div class="flex items-center mb-4 text-primary-dark">
+                            <i class="fas fa-compass text-2xl mr-3" aria-hidden="true"></i>
+                            <span class="font-semibold text-xl">Audioguida di Regalbuto</span>
                         </div>
                         <p id="copyright-text" class="text-sm font-medium text-gray-700 text-center md:text-left mb-4 max-w-md">
                             <span data-i18n-key="footer-prefix">Un progetto di </span>
-                            <span class="no-translate">Regalbuto Inside</span>
+                            <span class="no-translate font-medium text-primary-dark">Regalbuto Inside</span>
                             <span data-i18n-key="footer-suffix"> concesso in </span>
-                            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark underline" data-i18n-key="footer-license">Licenza CC BY-SA 4.0</a>
+                            <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark underline transition-colors" data-i18n-key="footer-license">Licenza CC BY-SA 4.0</a>
                         </p>
                     </div>
                     
                     <div class="flex flex-col items-center md:items-end">
-                        <div class="flex space-x-4 mb-3">
+                        <div class="flex space-x-5 mb-4">
                             <a href="https://www.instagram.com/regalbuto_inside" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-primary transition-colors" aria-label="Instagram">
-                                <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
+                                <i class="fab fa-instagram text-2xl" aria-hidden="true"></i>
                             </a>
                             <a href="https://www.tiktok.com/@regalbuto_inside" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-primary transition-colors" aria-label="TikTok">
-                                <i class="fab fa-tiktok text-xl" aria-hidden="true"></i>
+                                <i class="fab fa-tiktok text-2xl" aria-hidden="true"></i>
                             </a>
                             <a href="https://open.spotify.com/show/66SgYPSDmusImpk80QtIPJ" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-primary transition-colors" aria-label="Spotify">
-                                <i class="fab fa-spotify text-xl" aria-hidden="true"></i>
+                                <i class="fab fa-spotify text-2xl" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div class="flex items-center">
-                            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" aria-label="Licenza Creative Commons Attribution-ShareAlike 4.0">
+                            <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener noreferrer" aria-label="Licenza Creative Commons Attribution-ShareAlike 4.0" class="hover:opacity-90 transition-opacity">
                                 <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg" alt="Licenza Creative Commons Attribution-ShareAlike 4.0" width="88" height="31" class="mr-2">
                             </a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mt-6 pt-6 border-t border-gray-100 flex flex-col md:flex-row justify-between">
-                    <div class="mb-4 md:mb-0 text-center md:text-left text-sm text-gray-600">
-                        <span data-i18n-key="contributors-prefix">Hanno contribuito: </span>
-                        <span class="font-medium">Chiara Adornetto, Alice Pulvirenti, Pia Valentina Surbando Licari</span>
-                        <span data-i18n-key="contributors-content"> per i contenuti; </span>
-                        <span class="font-medium">Dennis Angemi</span>
-                        <span data-i18n-key="contributors-dev"> per lo sviluppo web.</span>
-                    </div>
-                    <div class="flex justify-center md:justify-end">
-                        <a href="fonti.html" class="text-gray-600 hover:text-primary transition-colors mr-4 text-sm" data-i18n-key="sources">Fonti</a>
-                        <a href="https://github.com/regalbutoinside/audioguida/issues" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-primary transition-colors text-sm" data-i18n-key="reports">Segnalazioni</a>
+                <!-- Sezione contributori - Design migliorato -->
+                <div class="mt-10 pt-8 border-t border-gray-100">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contenuti -->
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 transition-all hover:shadow-md">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                                    <i class="fas fa-edit text-primary"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800" data-i18n-key="content-creators">Contenuti</h4>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-sm text-gray-600">
+                                    <span class="text-gray-700">Chiara Adornetto</span>,
+                                    <span class="text-gray-700">Alice Pulvirenti</span>,
+                                    <span class="text-gray-700">Pia Valentina Surbando Licari</span>
+                                    <span class="block mt-2 text-xs text-gray-500">Regalbuto Inside</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Sviluppo web -->
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 transition-all hover:shadow-md">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center mr-3">
+                                    <i class="fas fa-code text-secondary"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800" data-i18n-key="development">Sviluppo Web</h4>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-sm text-gray-600">
+                                    <span class="text-gray-700">Dennis Angemi</span>
+                                    <span class="block mt-2 text-xs text-gray-500">
+                                        <a href="https://www.magnetico.cloud/" target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-secondary-dark transition-colors flex items-center">
+                                            <i class="fas fa-external-link-alt mr-1"></i>
+                                            <span data-i18n-key="visit-magnetico">Magnetico Associazione Culturale</span>
+                                        </a>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="mt-4 text-xs text-gray-500 max-w-3xl text-center mx-auto" data-i18n-key="license-explanation">
-                    Questa licenza richiede che i riutilizzatori 1. diano credito al creatore; 2. concedano in licenza il materiale modificato con termini identici. Consente ai riutilizzatori di distribuire, remixare, adattare e sviluppare il materiale in qualsiasi mezzo o formato.
+                <!-- Link e info licenza -->
+                <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col md:flex-row justify-between">
+                    <div class="flex justify-center md:justify-start space-x-6 mb-5 md:mb-0">
+                        <a href="fonti.html" class="text-gray-600 hover:text-primary transition-colors text-sm flex items-center" data-i18n-key="sources">
+                            <i class="fas fa-book mr-1.5"></i> Fonti
+                        </a>
+                        <a href="https://github.com/regalbutoinside/audioguida/issues" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-primary transition-colors text-sm flex items-center" data-i18n-key="reports">
+                            <i class="fas fa-bug mr-1.5"></i> Segnalazioni
+                        </a>
+                    </div>
+                    
+                    <div class="text-xs text-gray-500 md:text-right md:max-w-lg text-center">
+                        <span data-i18n-key="license-explanation" class="italic">
+                            Questa licenza richiede che i riutilizzatori diano credito al creatore e concedano in licenza il materiale modificato con termini identici.
+                        </span>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -72,23 +119,24 @@ const FooterManager = (function() {
      * Inizializza il footer manager e inserisce il footer nella pagina
      */
     function initialize() {
-        // Aggiungi il footer alla fine del corpo della pagina
-        if (!document.querySelector('footer[role="contentinfo"]')) {
-            // Crea un container temporaneo per convertire la stringa HTML in elementi DOM
-            const tempContainer = document.createElement('div');
-            tempContainer.innerHTML = footerTemplate.trim();
-            
-            // Estrai il footer dal container temporaneo
-            footerElement = tempContainer.firstChild;
-            
-            // Aggiungi il footer alla fine del body
-            document.body.appendChild(footerElement);
-            
-            console.log('Footer aggiunto dinamicamente');
+        // Crea un container temporaneo per convertire la stringa HTML in elementi DOM
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = footerTemplate.trim();
+        
+        // Estrai il footer dal container temporaneo
+        footerElement = tempContainer.firstChild;
+        
+        // Cerca un elemento placeholder per il footer
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+        
+        if (footerPlaceholder) {
+            // Se esiste un placeholder, inserisci il footer al suo posto
+            footerPlaceholder.parentNode.replaceChild(footerElement, footerPlaceholder);
+            console.log('Footer inserito nel placeholder');
         } else {
-            // Il footer è già presente nel DOM
-            footerElement = document.querySelector('footer[role="contentinfo"]');
-            console.log('Footer esistente trovato nel DOM');
+            // Se non esiste un placeholder, aggiungi il footer alla fine del body come fallback
+            document.body.appendChild(footerElement);
+            console.log('Footer aggiunto alla fine del body (nessun placeholder trovato)');
         }
 
         // Aggiungi listener per gli eventi di lingua
@@ -130,44 +178,64 @@ const FooterManager = (function() {
         // Traduzioni specifiche per il footer che non sono incluse nel language-manager
         const footerTranslations = {
             'it': {
-                'contributors-prefix': 'Hanno contribuito: ',
-                'contributors-content': ' per i contenuti; ',
-                'contributors-dev': ' per lo sviluppo web.',
+                'footer-prefix': 'Un progetto di ',
+                'footer-suffix': ' concesso in ',
+                'footer-license': 'Licenza CC BY-SA 4.0',
+                'contributors-heading': 'Contributori',
+                'content-creators': 'Contenuti',
+                'development': 'Sviluppo Web',
+                'visit-magnetico': 'Magnetico Associazione Culturale',
                 'sources': 'Fonti',
                 'reports': 'Segnalazioni',
-                'license-explanation': 'Questa licenza richiede che i riutilizzatori 1. diano credito al creatore; 2. concedano in licenza il materiale modificato con termini identici. Consente ai riutilizzatori di distribuire, remixare, adattare e sviluppare il materiale in qualsiasi mezzo o formato.'
+                'license-explanation': 'Questa licenza richiede che i riutilizzatori diano credito al creatore e concedano in licenza il materiale modificato con termini identici.'
             },
             'en': {
-                'contributors-prefix': 'Contributors: ',
-                'contributors-content': ' for contents; ',
-                'contributors-dev': ' for web development.',
+                'footer-prefix': 'A project by ',
+                'footer-suffix': ' released under ',
+                'footer-license': 'CC BY-SA 4.0 License',
+                'contributors-heading': 'Contributors',
+                'content-creators': 'Content',
+                'development': 'Web Development',
+                'visit-magnetico': 'Magnetico Cultural Association',
                 'sources': 'Sources',
                 'reports': 'Report Issues',
-                'license-explanation': 'This license requires reusers to 1. give credit to the creator; 2. license derivative materials under identical terms. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format.'
+                'license-explanation': 'This license requires reusers to give credit to the creator and license derivative materials under identical terms.'
             },
             'es': {
-                'contributors-prefix': 'Colaboradores: ',
-                'contributors-content': ' para los contenidos; ',
-                'contributors-dev': ' para el desarrollo web.',
+                'footer-prefix': 'Un proyecto de ',
+                'footer-suffix': ' bajo ',
+                'footer-license': 'Licencia CC BY-SA 4.0',
+                'contributors-heading': 'Colaboradores',
+                'content-creators': 'Contenidos',
+                'development': 'Desarrollo Web',
+                'visit-magnetico': 'Magnetico Asociación Cultural',
                 'sources': 'Fuentes',
                 'reports': 'Informar Problemas',
-                'license-explanation': 'Esta licencia requiere que los reutilizadores 1. den crédito al creador; 2. licencien el material modificado en términos idénticos. Permite a los reutilizadores distribuir, remezclar, adaptar y construir sobre el material en cualquier medio o formato.'
+                'license-explanation': 'Esta licencia requiere que los reutilizadores den crédito al creador y licencien el material modificado en términos idénticos.'
             },
             'de': {
-                'contributors-prefix': 'Mitwirkende: ',
-                'contributors-content': ' für Inhalte; ',
-                'contributors-dev': ' für Webentwicklung.',
+                'footer-prefix': 'Ein Projekt von ',
+                'footer-suffix': ' unter ',
+                'footer-license': 'CC BY-SA 4.0 Lizenz',
+                'contributors-heading': 'Mitwirkende',
+                'content-creators': 'Inhalt',
+                'development': 'Webentwicklung',
+                'visit-magnetico': 'Magnetico Kulturverein',
                 'sources': 'Quellen',
                 'reports': 'Probleme Melden',
-                'license-explanation': 'Diese Lizenz verlangt von den Wiederverwendern 1. Nennung des Urhebers; 2. Lizenzierung abgeleiteter Materialien unter identischen Bedingungen. Sie erlaubt die Verbreitung, Remixen, Anpassen und Aufbauen auf dem Material in jedem Medium oder Format.'
+                'license-explanation': 'Diese Lizenz verlangt von den Wiederverwendern, den Urheber zu nennen und abgeleitetes Material unter identischen Bedingungen zu lizenzieren.'
             },
             'fr': {
-                'contributors-prefix': 'Contributeurs: ',
-                'contributors-content': ' pour les contenus; ',
-                'contributors-dev': ' pour le développement web.',
+                'footer-prefix': 'Un projet par ',
+                'footer-suffix': ' sous ',
+                'footer-license': 'Licence CC BY-SA 4.0',
+                'contributors-heading': 'Contributeurs',
+                'content-creators': 'Contenu',
+                'development': 'Développement Web',
+                'visit-magnetico': 'Magnetico Association Culturelle',
                 'sources': 'Sources',
                 'reports': 'Signaler des Problèmes',
-                'license-explanation': 'Cette licence exige que les réutilisateurs 1. créditent le créateur; 2. licencent les dérivés dans des termes identiques. Elle permet aux réutilisateurs de distribuer, remixer, adapter et développer le contenu dans tout média ou format.'
+                'license-explanation': 'Cette licence exige que les réutilisateurs créditent le créateur et accordent une licence aux matériaux dérivés selon des termes identiques.'
             }
         };
 
@@ -179,15 +247,17 @@ const FooterManager = (function() {
             if (window.LanguageManager && window.LanguageManager.getUITranslation) {
                 const translation = window.LanguageManager.getUITranslation(key);
                 if (translation !== key) {
-                    element.textContent = translation;
+                    if (element.tagName === 'A' || element.tagName === 'SPAN') {
+                        element.textContent = translation;
+                    }
                     return; // Traduzione trovata in LanguageManager, salta il resto
                 }
             }
             
             // Altrimenti controlla nelle traduzioni specifiche del footer
             if (footerTranslations[currentLang] && footerTranslations[currentLang][key]) {
-                // Se è un elemento link, preserva gli attributi
-                if (element.tagName === 'A') {
+                // Se è un elemento link o span, preserva gli attributi e aggiorna solo il testo
+                if (element.tagName === 'A' || element.tagName === 'SPAN' || element.tagName === 'H4') {
                     element.textContent = footerTranslations[currentLang][key];
                 } else {
                     element.textContent = footerTranslations[currentLang][key];
