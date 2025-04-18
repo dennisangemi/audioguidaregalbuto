@@ -20,7 +20,9 @@ const LanguageManager = (function() {
             'locationNumber': 'Tappa',
             'locationOnMaps': 'Posizione su Maps',
             'skipToContent': 'Salta al contenuto principale',
-            'footer': '2025 Audio guida di Regalbuto. Un progetto di',
+            'footer-prefix': 'Un progetto di ',
+            'footer-suffix': ' concesso in ',
+            'footer-license': 'Licenza CC BY-SA 4.0',
             'findOutStops': 'Scopri le tappe',
             'discoverStops': 'Scopri tutte le tappe',
             'scrollToStops': 'Scorri verso le tappe del tour'
@@ -35,7 +37,9 @@ const LanguageManager = (function() {
             'locationNumber': 'Stop',
             'locationOnMaps': 'View on Maps',
             'skipToContent': 'Skip to main content',
-            'footer': '2025 Regalbuto Audio Guide. A project by',
+            'footer-prefix': 'A project by ',
+            'footer-suffix': ' licensed under ',
+            'footer-license': 'CC BY-SA 4.0 License',
             'findOutStops': 'Discover the stops',
             'discoverStops': 'Discover all stops',
             'scrollToStops': 'Scroll to tour stops'
@@ -50,7 +54,9 @@ const LanguageManager = (function() {
             'locationNumber': 'Parada',
             'locationOnMaps': 'Ver en Maps',
             'skipToContent': 'Saltar al contenido principal',
-            'footer': '2025 Guía de Audio de Regalbuto. Un proyecto de',
+            'footer-prefix': 'Un proyecto de ',
+            'footer-suffix': ' con licencia ',
+            'footer-license': 'Licencia CC BY-SA 4.0',
             'findOutStops': 'Descubre las paradas',
             'discoverStops': 'Descubre todas las paradas',
             'scrollToStops': 'Desplázate a las paradas del tour'
@@ -65,7 +71,9 @@ const LanguageManager = (function() {
             'locationNumber': 'Station',
             'locationOnMaps': 'Auf Maps anzeigen',
             'skipToContent': 'Zum Hauptinhalt springen',
-            'footer': '2025 Audioguide von Regalbuto. Ein Projekt von',
+            'footer-prefix': 'Ein Projekt von ',
+            'footer-suffix': ' lizenziert unter ',
+            'footer-license': 'CC BY-SA 4.0 Lizenz',
             'findOutStops': 'Entdecke die Stationen',
             'discoverStops': 'Entdecke alle Stationen',
             'scrollToStops': 'Zu den Tour-Stationen scrollen'
@@ -80,7 +88,9 @@ const LanguageManager = (function() {
             'locationNumber': 'Étape',
             'locationOnMaps': 'Voir sur Maps',
             'skipToContent': 'Passer au contenu principal',
-            'footer': '2025 Guide audio de Regalbuto. Un projet de',
+            'footer-prefix': 'Un projet de ',
+            'footer-suffix': ' sous licence ',
+            'footer-license': 'Licence CC BY-SA 4.0',
             'findOutStops': 'Découvrez les étapes',
             'discoverStops': 'Découvrez toutes les étapes',
             'scrollToStops': 'Défiler vers les étapes de la visite'
@@ -326,11 +336,26 @@ const LanguageManager = (function() {
         if (skipLink) skipLink.textContent = translations.skipToContent;
         
         // Footer
-        const footer = document.querySelector('footer p');
+        const footer = document.querySelector('#copyright-text');
         if (footer) {
-            const link = footer.querySelector('a');
-            const linkText = link ? link.textContent : 'Regalbuto Inside';
-            footer.innerHTML = `${translations.footer} <a href="#" class="footer-link">${linkText}</a>.`;
+            // Aggiorna ogni elemento con attributo data-i18n-key
+            footer.querySelectorAll('[data-i18n-key]').forEach(element => {
+                const key = element.getAttribute('data-i18n-key');
+                if (translations[key]) {
+                    // Se è un elemento di ancoraggio (link), preserva gli attributi href, target, ecc.
+                    if (element.tagName === 'A') {
+                        element.textContent = translations[key];
+                    } else {
+                        element.textContent = translations[key];
+                    }
+                }
+            });
+            
+            // Assicurati che "Regalbuto Inside" non venga tradotto
+            const noTranslate = footer.querySelector('.no-translate');
+            if (noTranslate) {
+                noTranslate.textContent = 'Regalbuto Inside';
+            }
         }
     }
     
