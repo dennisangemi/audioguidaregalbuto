@@ -58,3 +58,10 @@ Le tracce audio della guida sono disponibili anche su Spotify:
 - ["Chiesa Madre S. Basilio" da comune.regalbuto.en.it](https://www.comune.regalbuto.en.it/it/luoghi/chiesa-madre-s-basilio)
 
 - ["Municipio del Comune di Regalbuto"da comune.regalbuto.en.it](https://www.comune.regalbuto.en.it/it/luoghi/municipio-del-comune-di-regalbuto)
+
+
+    <!-- Il footer viene ora caricato dinamicamente tramite footer-manager.js -->
+        <div id="footer-placeholder"></div>
+    </div>
+
+    <script src="assets/js/footer-manager.js"></script>
